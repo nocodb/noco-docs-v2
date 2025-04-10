@@ -1,0 +1,74 @@
+---
+title: Moving to Playwright from Cypress - Part 1
+description: "From callbacks to page objects: transforming test architecture."
+date: 2022-11-29
+author: Muhammed Mustafa
+category: Engineering
+image: /img/blog/cypress/hero.png
+---
+![image](/img/blog/cypress/hero.png)
+
+
+The speed of software development lifecycle is closely tied with not just how efficiently we plan and build the software but also how efficiently they get tested too. We knew there was something off as we started to spend more time in debugging test code in Cypress rather than shipping releases.
+
+We were using Cypress for end to end testing and we found out it was considerably bogging down our productivity for the following reasons
+
+1. Cypress tests were quite flaky in CI/CD which meant we spent more time debugging the tests than shipping releases. As a fast-moving startup - we could not afford this.
+2. Developer experience of Cypress was not the best : Tests took a long time to write, debug and after everything, flakiness reduced their significance. We would often ended up merging PRs with failed tests which undermined the whole point of tests. So we started to look into issues surrounding cypress and our test setup which we knew needed improvement.
+3. Cypress is slow and parallelism is a premium feature. So with the problems above - even if somebody goes to the paid route with Cypress - they are paying for inefficiencies unfortunately.
+
+
+### Biggest pain points in writing tests with cypress setup :
+
+#### Our Problems
+- Tests were not independent & suites were getting bigger.
+- Executing a single test scenario wasn't straightforward.
+
+#### Cypress Problems
+- Developer Experience with Cypress is frustrating - Cypress doesn't support async/await hence it was plain old callback hell of nodejs.
+- There is a major [bug](https://github.com/cypress-io/cypress/issues/7306?ref=blog.nocodb.com) that causes Cypress to error out if a DOM element is re-rendered during any action (i.e click), a likely event in any modern day fronted framework like React / Vue / Svelete / Angular.
+- Cypress also does not promote page object models. Our tests had a lot of DOM selection code, retry logic, delays, etc which made the test code *really* noisy and not that easy to read.
+
+This resulted in us looking into alternatives.
+
+
+### Getting our feet wet with Playwright
+
+Playwright was refreshing coming from Cypress as it immediately appealed to developer experience. Also we had quite a bit of fun with Playwright's code auto-generation feature it wasn't as useful as we assumed it to be. It was a really good start nevertheless.
+
+While evaluating playwright, these were the pros we found
+
+- Support for async/await
+- Support for parallel execution: this is also actively promoted in their docs
+- Support for Debugging Built in extension supported with VSCode & WebStorm (one time manual integration might be required)
+- Playwright reports are a delight. We can visualise UI actions, network calls, console logs and page preview for each UI activity, even for CI.
+- Better execution efficiency (discussed in multitude of blogs), we did feel that in our pilot runs too.
+- Support for async/await made the page object model feasible. Unlike Cypress, this is actively promoted by the Playwright team.
+- Efficient handling of detached DOM element issue with smart retrying.
+- Support for multiple browsers
+- Supports multiple tab, iFrame.
+- APIs of playwright are intuitive, easier and more reliable to use, with support for built in re-try
+
+### Playwright results :
+
+- Tests were made independently.  Data required for each test is reset before execution (this was tricky and can be complex depending on the project/tech stack)
+- Tests can be run with a click of a button from IDE (really improved our DX)
+- Page Object model adopted religiously.  Most of our test code are Page object methods which improved readability by a lot.
+- Improved test stability: Flakiness is close to zero on CI. A total relief.
+- Parallelised test run - improves the speed drastically (2 workers in CI and 4 workers locally seems the sweet spot)
+
+This is the speedup we measured, granted this no way a fair comparison between Playwright and Cypress, since we have improved considerably in the way we approached tests mainly as we added parallelisation. A good portion of the difference is also due to Playwright speed as well.
+
+196 min total CI time (Cypress) - 52.5 min on setup = **143.5 mins** (spread across 15 CI instances)
+
+70 min total CI time(Playwright) - 33 min on setup = **37 mins** (spread across 6 CI instances)
+
+Total **3.87x** speedup 😳
+
+
+![image](https://media.tenor.com/WXUFUZ5g7uUAAAAC/speed.gif)
+
+And beyond speed, the ease to develop - debugging tests has improved drastically mainly due to really short feedback loop and really good APIs from the playwright. Also for the first time, many of the developers in the team feel it's a joy to write tests! In conclusion, we think Playwright was a big game changer for us on how fastly we can ship releases.
+
+In Part-2 we will look into Page Object Model which helped us to implement the tests in a seamless fashion.
+

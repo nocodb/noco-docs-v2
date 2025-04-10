@@ -1,0 +1,76 @@
+---
+title: Moving to Playwright from Cypress - Part 2
+description: "Moving from Cypress to Playwright: A Page Object Approach"
+date: 2022-11-30
+author: Muhammed Mustafa
+category: Engineering
+image: /img/blog/cypress/hero.png
+---
+![image](/img/blog/cypress/hero.png)
+
+In Part 1 we discussed an overview of our team looking for a better alternative to Cypress, finding Playwright, and the results. In this post, we will look into our existing Cypress setup, its issues, and Playwright's Page Object Model.
+
+In Cypress, we were relying on commands to abstract test logic & it had the following issues:
+
+- Commands weren’t native JS functions, and thus IDE support was limited.
+- It was harder to find necessary functions since all of the commands were stored in just few files.
+- Commands might be doing more business logic than we needed, so it was harder to use it.
+
+For test suite migration, we decided to take the Page object model as recommended by the playwright team
+
+### Page object model
+Page objects are classes that abstract over pages/components.
+
+- They contain methods required to interact with a component.
+- The class hierarchy of page objects follows the UI visual hierarchy of components.
+- Contains no state, hence it is an improved way of organising methods.
+- Object class hierarchy makes it easier to comprehend (self documenting) & find required methods.
+- Increases test readability by a good factor since complex DOM selection logic is replaced with self-describing methods.
+
+The code below is for creating a table and adding a row using Page objects -
+
+```ts
+    await dashboard.treeView.createTable({ title: 'sheet1' });
+
+    await grid.column.create({
+        title: 'SingleSelect',
+        type: 'SingleSelect'
+    });
+    await grid.addNewRow({ index: 0, value: 'Row 0' });
+```
+
+### Implementing Page Objects
+We decided to give a minimal structure to all the Page objects (too much structure would make it brittle). Added an abstract class, which is inherited by all Page objects, giving the following structure to the Page object models
+
+- Root [page](https://playwright.dev/docs/api/class-page?ref=blog.nocodb.com) object provided by Playwright is accessible in all classes
+- Each page object defines a 'get' method. This returns a [locator](https://playwright.dev/docs/locators?ref=blog.nocodb.com) based on DOM selection of page object's main container
+
+```ts
+// Example of using get method
+
+get() {
+  return this.rootPage.locator('[data-testid="nc-grid-wrapper"]');
+}
+
+async rowCount() {
+  return await this.get().locator('.nc-grid-row').count();
+}
+```
+- Houses all the general helper methods, i.e. methods related to the clipboard, file upload, etc.
+
+On the Page Object side
+
+- Thin & atomic (UI interaction wise) methods. Complex operations can be built further by reusing these simple atomic methods.
+- Methods causing a state change/API call are responsible for waiting until action is completed.
+- Methods verifying UI should always poll. Playwright assertions natively support polling mechanisms.
+- All the business logic of tests were done in the Page objects. This improved readability and helped in debugging/fixing tests (localised changes).
+
+### Few thumb rules while using Playwright :
+
+Playwright is really fast in headless mode however often leads to flakiness, especially in CI/CD pipeline.
+- ***New tests were stress tested mandatorily:*** to ensure they were not flaky before accepting into the main line system.
+- ***Enforced lint to await all promises:*** Most Playwright methods are async & it was easy to miss an await which was hard to figure. The problems introduced by such mistakes were really hard to debug. Forced linting helped clear such concerns in the pre-build stage itself
+- ***Await API response:*** If a UI action involves an API call, wait for the API to complete. When multiple API calls are involved for a specific action, await a response from the final API.
+
+
+In conclusion, the concept behind page objects is synonymous with how UI is structured too and helps to reason with it easily. The one issue we do see is how well we can maintain page objects since a lot of explicit structuring still needs to be enforced by the developer level - however we are getting ahead of ourselves :)

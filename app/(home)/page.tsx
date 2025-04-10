@@ -14,6 +14,17 @@ export default function HomePage() {
         </Link>{' '}
         and see the documentation.
       </p>
+
+        <p className="text-fd-muted-foreground">
+        You can open{' '}
+        <Link
+          href="/blog"
+          className="text-fd-foreground font-semibold underline"
+        >
+          /blog
+        </Link>{' '}
+        and see the blog.
+      </p>
     </main>
   );
 }
