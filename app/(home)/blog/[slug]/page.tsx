@@ -13,7 +13,7 @@ export default async function page(props: {
 
     return (
         <>
-            <div className="container md:px-8">
+            <div className="container py-8 md:px-8">
                 <div className="flex gap-4 items-center">
                     {
                         page.data?.category ? (

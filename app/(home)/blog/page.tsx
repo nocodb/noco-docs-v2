@@ -31,7 +31,7 @@ export default async function BlogPage({searchParams}: {
     const nextPage = currentPage + 1;
 
     return (
-        <main className="max-sm:px-4 md:py-12">
+        <main className="max-sm:px-4 py-8 md:py-12">
             <div className="container">
                 <div className="mb-8">
                     <h1 className="text-4xl font-medium mb-4">Blog</h1>
@@ -68,43 +68,47 @@ export default async function BlogPage({searchParams}: {
             </div>
 
 
-            <Separator className="mb-12"/>
-            <section className="mb-12 container bg-fd-background">
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {displayedPosts.map((post) => (
-                        <Link
-                            scroll={false}
-                            key={post.url}
-                            href={post.url}
-                            className="group rounded-xl border border-fd-border/50 shadow-sm  transition-all duration-300 hover:shadow-md hover:bg-fd-muted/10"
-                        >
-                            <div className="relative w-full h-52  rounded-t-xl bg-fd-muted/20 overflow-hidden mb-4">
-                                <Image src={post?.data?.image} fill alt={post.data.title}
-                                       className="object-cover group-hover:scale-105 rounded-t-xl rounded-b-none transition-transform duration-300"/>
-                            </div>
-
-                            <div className="flex flex-col px-5 pb-5 space-y-2">
-                                <h3 className="text-lg font-semibold text-fd-foreground line-clamp-2 leading-tight">
-                                    {post.data.title}
-                                </h3>
-
-                                <p className="text-sm text-fd-muted-foreground line-clamp-2">
-                                    {post.data.description}
-                                </p>
-
-                                <div className="flex items-center gap-2">
-            <span className="text-xs text-fd-muted-foreground">
-              {new Date(post.data.date).toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-              })}
-            </span>
+            <Separator/>
+            <section className="py-8 h-full bg-fd-background">
+                <div className="container h-full">
+                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                        {displayedPosts.map((post) => (
+                            <Link
+                                scroll={false}
+                                key={post.url}
+                                href={post.url}
+                                className="group rounded-xl border border-fd-border/50 shadow-sm  transition-all duration-300 hover:shadow-md hover:bg-fd-muted/10"
+                            >
+                                <div className="relative w-full h-52  rounded-t-xl bg-fd-muted/20 overflow-hidden mb-4">
+                                    <Image src={post?.data?.image} fill alt={post.data.title}
+                                           className="object-cover group-hover:scale-105 rounded-t-xl rounded-b-none transition-transform duration-300"/>
                                 </div>
-                            </div>
-                        </Link>
-                    ))}
+
+                                <div className="flex flex-col px-5 pb-5 space-y-2">
+                                    <h3 className="text-lg font-semibold text-fd-foreground line-clamp-2 leading-tight">
+                                        {post.data.title}
+                                    </h3>-
+
+                                    <p className="text-sm text-fd-muted-foreground line-clamp-2">
+                                        {post.data.description}
+                                    </p>
+
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-xs text-fd-muted-foreground">
+                                            {new Date(post.data.date).toLocaleDateString("en-US", {
+                                                month: "short",
+                                                day: "numeric",
+                                                year: "numeric",
+                                            })}
+                                        </span>
+                                    </div>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
                 </div>
+
+
             </section>
 
             {hasMorePosts && (

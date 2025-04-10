@@ -1,5 +1,5 @@
-import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
-import Image from "next/image";
+import type {BaseLayoutProps} from 'fumadocs-ui/layouts/shared';
+import {Navbar} from "@/components/Home/Navbar";
 
 /**
  * Shared layout configurations
@@ -9,12 +9,11 @@ import Image from "next/image";
  * Docs Layout: app/docs/layout.tsx
  */
 export const baseOptions: BaseLayoutProps = {
-  nav: {
-    title: (
-      <>
-        <Image src="/img/nocodb-full-color.png" alt="NocoDB" width={120} height={40} />
-      </>
-    ),
-  },
-  links: [],
+    nav: {
+        component: Navbar()
+    },
+    links: [],
+    themeSwitch: {
+        enabled: false
+    }
 };

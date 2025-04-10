@@ -220,3 +220,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+[id="nd-home-layout"] {
+    padding-top: 18px !important;
+}
