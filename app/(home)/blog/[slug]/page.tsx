@@ -2,6 +2,27 @@ import {blogSource} from "@/lib/source";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import Link from "next/link";
 import {notFound} from "next/navigation";
+import {metadataImage} from "@/lib/metadata";
+
+
+export async function generateMetadata(props: {
+    params: Promise<{ slug?: string }>;
+}) {
+    const params = await props.params;
+
+    if (!params.slug) {
+        return {};
+    }
+
+    const page = blogSource.getPage([params.slug]);
+    if (!page) notFound();
+
+
+    return metadataImage.withImage(page.slugs, {
+        title: page.data.title,
+        description: page.data.description,
+    });
+}
 
 export default async function page(props: {
     params: Promise<{ slug: string }>;

@@ -3,6 +3,11 @@ import Link from "next/link";
 import {Separator} from '@/components/ui/separator'
 import Image from "next/image";
 
+export const metadata = {
+    title: "Blog | NocoDB",
+    description: "Insights, tutorials, and updates from the team building the future of no-code databases.",
+}
+
 export default async function BlogPage({searchParams}: {
     searchParams?: Promise<{ category?: string; page?: string }>
 }) {
@@ -87,7 +92,7 @@ export default async function BlogPage({searchParams}: {
                                 <div className="flex flex-col px-5 pb-5 space-y-2">
                                     <h3 className="text-lg font-semibold text-fd-foreground line-clamp-2 leading-tight">
                                         {post.data.title}
-                                    </h3>-
+                                    </h3>
 
                                     <p className="text-sm text-fd-muted-foreground line-clamp-2">
                                         {post.data.description}
