@@ -2,7 +2,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 export function FeaturedPost({post}: { post: any }) {
-    console.log(post)
     return (
         <div className="relative w-full rounded-3xl">
             <Link href={post.url}>

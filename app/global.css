@@ -590,22 +590,22 @@
   --radius-xl: calc(var(--radius) + 4px);
 
   --color-background: var(--color-base-white);
-  --color-foreground: var(--color-gray-900);
+  --color-foreground: var(--color-grey-900);
   --color-card: var(--color-base-white);
-  --color-card-foreground: var(--color-gray-900);
+  --color-card-foreground: var(--color-grey-900);
   --color-popover: var(--color-base-white);
-  --color-popover-foreground: var(--color-gray-900);
+  --color-popover-foreground: var(--color-grey-900);
   --color-primary: var(--color-brand-500);
   --color-primary-foreground: var(--color-base-white);
-  --color-secondary: var(--color-gray-200);
-  --color-secondary-foreground: var(--color-gray-900);
-  --color-muted: var(--color-gray-100);
-  --color-muted-foreground: var(--color-gray-500);
-  --color-accent: var(--color-brand-200);
-  --color-accent-foreground: var(--color-gray-900);
+  --color-secondary: var(--color-grey-100);
+  --color-secondary-foreground: var(--color-grey-900);
+  --color-muted: var(--color-grey-100);
+  --color-muted-foreground: var(--color-grey-200);
+  --color-accent: var(--color-grey-100);
+  --color-accent-foreground: var(--color-grey-900);
   --color-destructive: var(--color-red-500);
-  --color-border: var(--color-gray-200);
-  --color-input: var(--color-gray-200);
+  --color-border: var(--color-grey-200);
+  --color-input: var(--color-grey-200);
   --color-ring: var(--color-brand-500);
 
   --chart-1: var(--color-orange-600);
@@ -615,12 +615,12 @@
   --chart-5: var(--color-purple-600);
 
   --sidebar: var(--color-base-white);
-  --sidebar-foreground: var(--color-gray-900);
+  --sidebar-foreground: var(--color-grey-900);
   --sidebar-primary: var(--color-brand-500);
   --sidebar-primary-foreground: var(--color-base-white);
-  --sidebar-accent: var(--color-gray-100);
-  --sidebar-accent-foreground: var(--color-gray-900);
-  --sidebar-border: var(--color-gray-200);
+  --sidebar-accent: var(--color-grey-100);
+  --sidebar-accent-foreground: var(--color-grey-900);
+  --sidebar-border: var(--color-grey-200);
   --sidebar-ring: var(--color-brand-500);
 }
 

@@ -25,12 +25,12 @@ export function Navbar() {
                         </div>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                        <DropdownMenuItem className="h-11 cursor-pointer hover:bg-[#f4f4f5]">
+                        <DropdownMenuItem className="h-[44px] cursor-pointer !hover:bg-nc-background-grey-extra-light">
                             <Link href="https://data-apis-v2.nocodb.com/">
                                 Data APIs <span className="text-fd-muted-foreground">(v2)</span>
                             </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="h-11 cursor-pointer hover:bg-[#f4f4f5]">
+                        <DropdownMenuItem className="h-[44px] cursor-pointer !hover:bg-nc-background-grey-extra-light">
                             <Link href="https://meta-apis-v2.nocodb.com/">
                                 Meta APIs <span className="text-fd-muted-foreground">(v2)</span>
                             </Link>
@@ -47,7 +47,7 @@ export function Navbar() {
                 </Link>
             </div>
 
-            <Link className="bg-[#36f] h-10 font-semibold  hidden lg:block text-white rounded-[12px] px-6 py-2"
+            <Link className="bg-nc-content-brand-default h-[40px] font-semibold  hidden lg:block text-white rounded-[12px] px-6 py-2"
                   href="https://app.nocodb.com">
                 Go to App
             </Link>
@@ -58,28 +58,28 @@ export function Navbar() {
                     <AlignJustify/>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-60">
-                    <DropdownMenuItem className="h-11 cursor-pointer hover:bg-[#f4f4f5]">
+                    <DropdownMenuItem className="h-[44px] cursor-pointer hover:bg-nc-background-grey-extra-light">
                         <Link href="https://nocodb.com/#How-it-works">
                             How it works?
 
                         </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="h-11 cursor-pointer hover:bg-[#f4f4f5]">
+                    <DropdownMenuItem className="h-[44px] cursor-pointer hover:bg-nc-background-grey-extra-light">
                         <Link href="https://nocodb.com/#Why-NocoDB">
                             Why NocoDB?
                         </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="h-11 cursor-pointer hover:bg-[#f4f4f5]">
+                    <DropdownMenuItem className="h-[44px] cursor-pointer hover:bg-nc-background-grey-extra-light">
                         <Link href="https://nocodb.com/thousands-of-airtable-bases-imported-to-nocodb-successfuly">
                             Import AirTable
                         </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="h-11 cursor-pointer hover:bg-[#f4f4f5]">
+                    <DropdownMenuItem className="h-[44px] cursor-pointer hover:bg-nc-background-grey-extra-light">
                         <Link href="https://docs.nocodb.com">
                             Docs
                         </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="h-11 cursor-pointer hover:bg-[#f4f4f5]">
+                    <DropdownMenuItem className="h-[44px] cursor-pointer hover:bg-nc-background-grey-extra-light">
                         <Link href="https://nocodb.com/pricing">
                             Pricing
                         </Link>

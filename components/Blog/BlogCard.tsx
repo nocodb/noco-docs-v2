@@ -6,9 +6,6 @@ import {calculateReadingTime} from "@/lib/timeToRead";
 export function BlogCard({post}: { post: any }) {
 
     const color = getCategoryColor(post.data?.category)
-
-    console.log(post)
-
     const readingTime = calculateReadingTime(post.structuredData || "")
 
     return (
