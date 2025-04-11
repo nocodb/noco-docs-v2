@@ -1,11 +1,20 @@
-import type { ReactNode } from 'react';
-import { HomeLayout } from 'fumadocs-ui/layouts/home';
-import { baseOptions } from '@/app/layout.config';
+import type {ReactNode} from 'react';
+import {HomeLayout} from 'fumadocs-ui/layouts/home';
+import {baseOptions} from '@/app/layout.config';
+import {Footer} from "@/components/Home/Footer";
+import {Navbar} from "@/components/Home/Navbar";
 
 export default function Layout({
-  children,
-}: {
-  children: ReactNode;
+                                   children,
+                               }: {
+    children: ReactNode;
 }): React.ReactElement {
-  return <HomeLayout {...baseOptions}>{children}</HomeLayout>;
+    return (
+        <HomeLayout {...baseOptions} nav={{
+            component: Navbar()
+        }}>
+            {children}
+            <Footer/>
+        </HomeLayout>
+    )
 }

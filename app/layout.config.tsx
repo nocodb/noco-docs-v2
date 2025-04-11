@@ -1,5 +1,4 @@
 import type {BaseLayoutProps} from 'fumadocs-ui/layouts/shared';
-import {Navbar} from "@/components/Home/Navbar";
 
 /**
  * Shared layout configurations
@@ -9,9 +8,6 @@ import {Navbar} from "@/components/Home/Navbar";
  * Docs Layout: app/docs/layout.tsx
  */
 export const baseOptions: BaseLayoutProps = {
-    nav: {
-        component: Navbar()
-    },
     links: [],
     themeSwitch: {
         enabled: false
