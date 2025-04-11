@@ -1,7 +1,9 @@
 import {blogSource} from "@/lib/source";
+import {FeaturedPost} from "@/components/Blog/FeaturedPost";
+import {BlogCard} from "@/components/Blog/BlogCard";
+import {Separator} from "@/components/ui/separator";
 import Link from "next/link";
-import {Separator} from '@/components/ui/separator'
-import Image from "next/image";
+import {CategoryTabs} from "@/components/Blog/Category";
 
 export const metadata = {
     title: "Blog | NocoDB",
@@ -15,8 +17,12 @@ export default async function BlogPage({searchParams}: {
         (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
     );
 
+    const featuredPost = posts?.length ? posts[0] : null; // Get first post
+
+    const latestPosts = posts.filter(post => post.data?.title !== featuredPost?.data?.title);
+
     const categories = new Set<string>();
-    posts.forEach((post) => {
+    latestPosts.forEach((post) => {
         categories.add(post.data.category ?? "Uncategorized");
     });
 
@@ -24,97 +30,42 @@ export default async function BlogPage({searchParams}: {
     const currentPage = parseInt((await searchParams)?.page || "1", 10);
     const postsPerPage = 15;
 
-    const latestPosts = selectedCategory
-        ? posts.filter((post) => (post.data.category ?? "Uncategorized") === selectedCategory)
-        : posts
+    const categoryFilteredPosts = selectedCategory
+        ? latestPosts.filter((post) => (post.data.category ?? "Uncategorized") === selectedCategory)
+        : latestPosts;
 
     const startIndex = (currentPage - 1) * postsPerPage;
     const endIndex = startIndex + postsPerPage;
-    const displayedPosts = latestPosts.slice(0, endIndex);
+    const displayedPosts = categoryFilteredPosts.slice(0, endIndex);
 
-    const hasMorePosts = endIndex < latestPosts.length;
+    const hasMorePosts = endIndex < categoryFilteredPosts.length;
     const nextPage = currentPage + 1;
-
     return (
-        <main className="max-sm:px-4 py-8 md:py-12">
-            <div className="container">
-                <div className="mb-8">
-                    <h1 className="text-4xl font-medium mb-4">Blog</h1>
-                    <p className="text-fd-muted-foreground">
-                        Insights, tutorials, and updates from the team building the future of no-code databases.
-                    </p>
-                </div>
-                <div className="flex flex-start gap-3 mb-12 flex-wrap">
-                    <Link scroll={false}
-                          href="/blog"
-                          className={`rounded-full px-4 py-2 text-sm font-medium transition-colors border border-fd-muted-foreground/20 ${
-                              !selectedCategory
-                                  ? "bg-fd-accent text-fd-accent-foreground"
-                                  : "bg-transparent text-fd-foreground hover:bg-fd-muted/20"
-                          }`}
-                    >
-                        All
-                    </Link>
-                    {Array.from(categories).map((category) => (
-                        <Link
-                            scroll={false}
-                            key={category}
-                            href={`/blog?category=${encodeURIComponent(category)}`}
-                            className={`rounded-full px-4 py-2 text-sm font-medium transition-colors border border-fd-muted-foreground/20 ${
-                                selectedCategory === category
-                                    ? "bg-fd-accent text-fd-accent-foreground"
-                                    : "bg-transparent text-fd-foreground hover:bg-fd-muted/20"
-                            }`}
-                        >
-                            {category}
-                        </Link>
-                    ))}
+        <main className="py-8 md:py-12">
+            <div className="container py-20 h-full w-full">
+                <h1 className="text-center text-nc-content-grey-emphasis leading-10 font-semibold text-4xl">
+                    Blog
+                </h1>
+                <div className="text-center font-semibold mt-[40px] text-base lg:text-xl">
+                    Insights, tutorials, and updates <br/> from the team building the future of no-code databases.
                 </div>
             </div>
+            <div className="container mx-auto">
+                {featuredPost && (
+                    <FeaturedPost post={featuredPost}/>
+                )}
+            </div>
 
+            <div className="container mt-10">
+                <CategoryTabs categories={Array.from(categories)} selectedCategory={selectedCategory}/>
+                <Separator className="border-nc-border-grey-medium"/>
+            </div>
 
-            <Separator/>
-            <section className="py-8 h-full bg-fd-background">
-                <div className="container h-full">
-                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                        {displayedPosts.map((post) => (
-                            <Link
-                                scroll={false}
-                                key={post.url}
-                                href={post.url}
-                                className="group rounded-xl border border-fd-border/50 shadow-sm  transition-all duration-300 hover:shadow-md hover:bg-fd-muted/10"
-                            >
-                                <div className="relative w-full h-52  rounded-t-xl bg-fd-muted/20 overflow-hidden mb-4">
-                                    <Image src={post?.data?.image} fill alt={post.data.title}
-                                           className="object-cover group-hover:scale-105 rounded-t-xl rounded-b-none transition-transform duration-300"/>
-                                </div>
-
-                                <div className="flex flex-col px-5 pb-5 space-y-2">
-                                    <h3 className="text-lg font-semibold text-fd-foreground line-clamp-2 leading-tight">
-                                        {post.data.title}
-                                    </h3>
-
-                                    <p className="text-sm text-fd-muted-foreground line-clamp-2">
-                                        {post.data.description}
-                                    </p>
-
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-xs text-fd-muted-foreground">
-                                            {new Date(post.data.date).toLocaleDateString("en-US", {
-                                                month: "short",
-                                                day: "numeric",
-                                                year: "numeric",
-                                            })}
-                                        </span>
-                                    </div>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-
-
-            </section>
+            <div className="container py-8 lg:py-20 gap-8 lg:gap-10 grid grid-cols-1 lg:grid-cols-2">
+                {displayedPosts.map((post) => (
+                    <BlogCard post={post} key={post.url}/>
+                ))}
+            </div>
 
             {hasMorePosts && (
                 <div className="text-center mb-12">
@@ -133,6 +84,8 @@ export default async function BlogPage({searchParams}: {
                     </Link>
                 </div>
             )}
+
+            <Separator/>
         </main>
     );
 }
