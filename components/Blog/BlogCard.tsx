@@ -2,11 +2,30 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {getCategoryColor} from "@/lib/categoryColor";
 import {calculateReadingTime} from "@/lib/timeToRead";
+import {StructuredData} from "fumadocs-core/mdx-plugins";
+import {blogSource} from "@/lib/source";
 
-export function BlogCard({post}: { post: any }) {
 
+interface BlogCardProps {
+    post: {
+        data: {
+            category: string
+            title: string
+            description: string
+            image: string
+            date: string | Date
+            author: string
+        },
+        slugs: string[],
+        structuredData?: StructuredData,
+        url: string
+    }
+}
+
+export function BlogCard({post}: BlogCardProps) {
     const color = getCategoryColor(post.data?.category)
-    const readingTime = calculateReadingTime(post.structuredData || "")
+    const t = blogSource.getPage(post.slugs)
+    const readingTime = calculateReadingTime(t?.data?.structuredData)
 
     return (
         <div className="relative w-full rounded-3xl">
@@ -16,7 +35,8 @@ export function BlogCard({post}: { post: any }) {
                 </div>
                 <div>
                     <div className="flex justify-between mt-5">
-                        <div style={{backgroundColor: color}} className="rounded-[6px] px-1 text-nc-content-grey-default ">
+                        <div style={{backgroundColor: color}}
+                             className="rounded-[6px] px-1 text-nc-content-grey-default ">
                             {post.data?.category}
                         </div>
                         <div className="text-nc-content-grey-muted text-[13px] leading-4.5">
@@ -28,7 +48,7 @@ export function BlogCard({post}: { post: any }) {
 
                     <div className="flex text-sm text-nc-content-grey-subtle-2 leading-3.5 justify-between mt-3">
                         <div className="text-left">
-                           By {post.data?.author}
+                            By {post.data?.author}
                         </div>
                         <div className="text-right">
                             {new Date(post.data.date).toLocaleDateString("en-US", {

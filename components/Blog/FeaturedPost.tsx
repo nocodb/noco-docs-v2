@@ -1,7 +1,23 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import {StructuredData} from "fumadocs-core/mdx-plugins";
 
-export function FeaturedPost({post}: { post: any }) {
+interface BlogCardProps {
+    post: {
+        data: {
+            category: string
+            title: string
+            description: string
+            image: string
+            date: string | Date
+            author: string
+        },
+        structuredData?: StructuredData,
+        url: string
+    }
+}
+
+export function FeaturedPost({post}: BlogCardProps) {
     return (
         <div className="relative w-full rounded-3xl">
             <Link href={post.url}>

@@ -4,7 +4,7 @@ import {useEffect} from 'react';
 
 export default function ClientAnalytics() {
     useEffect(() => {
-        // @ts-ignore
+        // @ts-expect-error no types for this package
         import('nc-analytics').then(({init, push}) => {
             init();
 
@@ -15,10 +15,14 @@ export default function ClientAnalytics() {
                 hash: window.location.hash
             });
 
-            const clickListener = (e: any) => {
+            const clickListener = (
+                e: MouseEvent & {
+                    nc_handled?: boolean;
+                }
+            ) => {
                 if (e.nc_handled) return;
                 e.nc_handled = true;
-                let target = e.target;
+                let target: HTMLElement | null = (e.target as HTMLElement);
 
                 while (target && target.tagName !== 'A') {
                     target = target.parentElement;
@@ -30,8 +34,8 @@ export default function ClientAnalytics() {
                         $current_url: window.location.href,
                         path: window.location.pathname,
                         hash: window.location.hash,
-                        link_url: target.href || "",
-                        link_text: (target.innerText || "").trim()
+                        link_url: (target as HTMLAnchorElement).href || "",
+                        link_text: (target.innerText || "").trim(),
                     });
                 }
             };
