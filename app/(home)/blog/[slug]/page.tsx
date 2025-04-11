@@ -1,9 +1,14 @@
 import {blogSource} from "@/lib/source";
-import defaultMdxComponents from "fumadocs-ui/mdx";
 import Link from "next/link";
 import {notFound} from "next/navigation";
 import {metadataImage} from "@/lib/metadata";
-
+import {Button} from "@/components/ui/button";
+import {ArrowLeft} from "lucide-react";
+import {calculateReadingTime} from "@/lib/timeToRead";
+import Image from "next/image";
+import defaultMdxComponents from "fumadocs-ui/mdx";
+import {CustomToc} from "@/components/Blog/TableOfContents";
+import {BlogCard} from "@/components/Blog/BlogCard";
 
 export async function generateMetadata(props: {
     params: Promise<{ slug?: string }>;
@@ -32,47 +37,81 @@ export default async function page(props: {
 
     if (!page) notFound();
 
+    const related = blogSource.getPages().filter((p) => {
+        return p.data.category === page.data.category && p.slugs !== page.slugs;
+    }).sort((a, b) => {
+        return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+    }).slice(0, 2);
+
     return (
         <>
-            <div className="container py-8 md:px-8">
-                <div className="flex gap-4 items-center">
-                    {
-                        page.data?.category ? (
-                            <Link scroll={false}
-                                  href={`/blog?category=${encodeURIComponent(page.data.category)}`}
-                                  className="rounded-md px-4 py-2 text-sm font-normal transition-colors border border-fd-muted-foreground/20 bg-transparent text-fd-foreground hover:bg-fd-muted/20">
-                                {page.data.category}
-                            </Link>
-                        ) : (<></>)
-                    }
-                    <div className="text-sm text-fd-muted-foreground">
-                        {new Date(page.data.date).toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                        })}
+            <div className="container pt-[40px] lg:px-10 pb-10">
+                <Link className="text-sm font-normal" href="/blog">
+                    <Button className="cursor-pointer hover:underline underline-red" variant="none">
+                        <div className="flex text-nc-content-grey-subtle items-center gap-2">
+                            <ArrowLeft/>
+                            Back
+                        </div>
+                    </Button>
+                </Link>
+                <div className="my-8 flex flex-col gap-3">
+                    <div
+                        className="text-nc-content-grey-emphasis text-2xl lg:text-[40px] font-bold leading-9 lg:leading-[64px]">
+                        {page.data?.title}
+                    </div>
+                    <div className="text-base lg:text-xl text-nc-content-grey-default font-bold leading-6 lg:leading-8">
+                        {page.data?.description}
                     </div>
                 </div>
-                <h1 className="mt-6 text-3xl font-normal">{page.data.title}</h1>
-                <p className="mt-2 text-fd-muted-foreground">{page.data.description}</p>
+                <div className="flex justify-center items-center leading-6 text-nc-content-grey-subtle-2">
+                    <div className="flex-1">
+                        <span className="mr-3">
+                            {page?.data?.author}
+                        </span>
+                        |
+                        <span className="mx-3">
+                            {new Date(page.data.date).toLocaleDateString("en-US", {})}
+                        </span>
+                    </div>
+
+                    <div>
+                        {calculateReadingTime(page?.data?.structuredData)}
+                    </div>
+                </div>
             </div>
-            <article className="container flex flex-col px-0 pb-8 lg:flex-row lg:px-4">
-                <div className="prose min-w-0 flex-1 p-4">
-                    <page.data.body components={defaultMdxComponents}/>
+
+            <div className="container mx-auto">
+                <div className="relative w-full aspect-video">
+                    <Image className="w-full object-cover" src={page.data.image} alt={page.data.title} fill/>
                 </div>
-                <div className="flex flex-col gap-4 border-l p-4 text-sm lg:w-[250px]">
-                    <div>
-                        <p className="mb-1 text-fd-muted-foreground">Written by</p>
-                        <p className="font-medium">{page.data.author}</p>
+            </div>
+
+            <article className="container py-10 mx-auto">
+                <div className="flex relative gap-8">
+                    <div className="sticky hidden lg:block h-48 top-8">
+                        <CustomToc toc={page.data.toc}/>
                     </div>
-                    <div>
-                        <p className="mb-1 text-sm text-fd-muted-foreground">At</p>
-                        <p className="font-medium">
-                            {new Date(page.data.date ?? page.file.name).toDateString()}
-                        </p>
+                    <div className="prose min-w-0 flex-1">
+                        <page.data.body components={defaultMdxComponents}/>
                     </div>
                 </div>
             </article>
+
+            {
+                related?.length === 2 ? (
+                    <div className="container mx-auto">
+                        <h1 className="text-nc-content-grey-emphasis leading-[62px] font-bold text-[40px]">
+                            Related
+                        </h1>
+                        <div className="pt-15 gap-8 lg:gap-10 grid grid-cols-1 lg:grid-cols-2 pb-20">
+                            {related.map((post) => (
+                                <BlogCard post={post} key={post.url}/>
+                            ))}
+                        </div>
+                    </div>
+                ) : (<></>)
+            }
+
         </>
     );
 }
