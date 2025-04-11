@@ -2,6 +2,7 @@ import './global.css';
 import {RootProvider} from 'fumadocs-ui/provider';
 import {Manrope} from 'next/font/google';
 import type {ReactNode} from 'react';
+import ClientAnalytics from "@/components/Analytics";
 
 const manrope = Manrope({
     subsets: ['latin'],
@@ -18,6 +19,7 @@ export default function Layout({children}: { children: ReactNode }) {
         }}>
             {children}
         </RootProvider>
+        <ClientAnalytics/>
         </body>
         </html>
     );
