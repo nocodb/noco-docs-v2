@@ -17,7 +17,7 @@ export default async function BlogPage({searchParams}: {
         (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
     );
 
-    const featuredPost = posts?.length ? posts[0] : null; // Get first post
+    const featuredPost = posts?.length ? posts[0] : null;
 
     const latestPosts = posts.filter(post => post.data?.title !== featuredPost?.data?.title);
 

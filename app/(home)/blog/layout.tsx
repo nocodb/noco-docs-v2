@@ -4,11 +4,7 @@ import {baseOptions} from '@/app/layout.config';
 import {Footer} from "@/components/Home/Footer";
 import {Navbar} from "@/components/Home/Navbar";
 
-export default function Layout({
-                                   children,
-                               }: {
-    children: ReactNode;
-}): React.ReactElement {
+export default function Layout({children,}: { children: ReactNode; }): React.ReactElement {
     return (
         <HomeLayout {...baseOptions} nav={{
             component: Navbar()

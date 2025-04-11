@@ -8,7 +8,7 @@ export function calculateReadingTime(mdxContent: any, wordsPerMinute = 200) {
     let allText = '';
 
     if (mdxContent.contents && Array.isArray(mdxContent.contents)) {
-        mdxContent.contents.forEach(item => {
+        mdxContent.contents.forEach((item: any) => {
             const skipPatterns = [
                 'img',
                 'alt:',
@@ -30,7 +30,7 @@ export function calculateReadingTime(mdxContent: any, wordsPerMinute = 200) {
     }
 
     if (mdxContent.headings && Array.isArray(mdxContent.headings)) {
-        mdxContent.headings.forEach(heading => {
+        mdxContent.headings.forEach((heading: any) => {
             if (heading.content) {
                 allText += ' ' + heading.content;
             }

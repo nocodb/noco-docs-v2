@@ -4,6 +4,7 @@ import {useEffect} from 'react';
 
 export default function ClientAnalytics() {
     useEffect(() => {
+        // @ts-ignore
         import('nc-analytics').then(({init, push}) => {
             init();
 
@@ -14,7 +15,7 @@ export default function ClientAnalytics() {
                 hash: window.location.hash
             });
 
-            const clickListener = (e) => {
+            const clickListener = (e: any) => {
                 if (e.nc_handled) return;
                 e.nc_handled = true;
                 let target = e.target;
