@@ -159,7 +159,7 @@ export function Footer() {
                     <Separator className="mt-8 border-[#e7e7e9]"/>
 
                     <div className="mt-4">
-                        <svg width="auto" height="48" viewBox="0 0 285 100" fill="none"
+                        <svg height="48" viewBox="0 0 285 100" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
                             <circle cx="50" cy="50" r="50" fill="url(#paint0_linear_4876_513328)"></circle>
                             <circle cx="50.5" cy="49.5" r="36.5" fill="url(#paint1_linear_4876_513328)"></circle>
