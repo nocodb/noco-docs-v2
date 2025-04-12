@@ -6,7 +6,7 @@ import {Navbar} from "@/components/Home/Navbar";
 
 export const metadata = {
     icons: {
-        icon: '/img/favicon.ico',
+        icon: '/img/favicon.png',
     }
 }
 

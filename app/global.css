@@ -624,6 +624,26 @@
   --sidebar-ring: var(--color-brand-500);
 }
 
+.prose {
+    h2 {
+        @apply text-nc-content-grey-emphasis text-2xl font-bold leading-9;
+    }
+    h3 {
+        @apply text-nc-content-grey-emphasis text-xl leading-7;
+    }
+    h4 {
+        @apply text-nc-content-grey-emphasis text-base leading-6;
+    }
+    h5 {
+        @apply text-nc-content-grey-emphasis text-[14px] leading-6;
+    }
+
+    p {
+        @apply text-nc-content-grey-emphasis text-[14px] leading-5;
+    }
+
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
