@@ -1,0 +1,10 @@
+{
+  "title": "View types",
+  "pages": [
+    "grid",
+    "gallery",
+    "form",
+    "kanban",
+    "calendar"
+  ]
+}

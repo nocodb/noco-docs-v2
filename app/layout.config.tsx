@@ -1,4 +1,5 @@
 import type {BaseLayoutProps} from 'fumadocs-ui/layouts/shared';
+import Image from 'next/image';
 
 /**
  * Shared layout configurations
@@ -11,5 +12,12 @@ export const baseOptions: BaseLayoutProps = {
     links: [],
     themeSwitch: {
         enabled: false
+    },
+    nav: {
+        title: (
+            <>
+                <Image src="/img/nocodb-full-color.png" alt="NocoDB" width={120} height={40}/>
+            </>
+        ),
     }
 };

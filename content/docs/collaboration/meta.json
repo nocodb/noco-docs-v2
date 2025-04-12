@@ -1,0 +1,13 @@
+{
+  "title": "Collaboration",
+  "pages": [
+    "collaboration-overview",
+    "workspace-collaboration",
+    "base-collaboration",
+    "share-base",
+    "share-view",
+    "notifications",
+    "oss-specific-details",
+    "automation"
+  ]
+}

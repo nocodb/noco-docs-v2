@@ -1,0 +1,9 @@
+{
+  "title": "Account settings",
+  "pages": [
+    "profile-page",
+    "api-tokens",
+    "authentication",
+    "oss-specific-details"
+  ]
+}

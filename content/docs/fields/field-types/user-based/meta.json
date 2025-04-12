@@ -1,0 +1,8 @@
+{
+  "title": "User based",
+  "pages": [
+    "user",
+    "created-by",
+    "last-modified-by"
+  ]
+}

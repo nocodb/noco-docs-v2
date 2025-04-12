@@ -1,0 +1,24 @@
+{
+  "pages": [
+    "index",
+    "getting-started",
+    "workspaces",
+    "bases",
+    "tables",
+    "table-operations",
+    "table-details",
+    "fields",
+    "records",
+    "views",
+    "integrations",
+    "data-sources",
+    "roles-and-permissions",
+    "collaboration",
+    "automation",
+    "account-settings",
+    "cloud-enterprise-edition",
+    "engineering",
+    "developer-resources",
+    "FAQs"
+  ]
+}

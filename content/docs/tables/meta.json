@@ -1,0 +1,10 @@
+{
+  "title": "Tables",
+  "pages": [
+    "table-overview",
+    "create-table",
+    "create-table-via-import",
+    "import-data-into-existing-table",
+    "actions-on-table"
+  ]
+}

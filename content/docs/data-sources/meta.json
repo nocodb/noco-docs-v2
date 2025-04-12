@@ -1,0 +1,10 @@
+{
+  "title": "Data sources",
+  "pages": [
+    "data-source-overview",
+    "connect-to-data-source",
+    "sync-with-data-source",
+    "actions-on-data-sources",
+    "updating-secret"
+  ]
+}

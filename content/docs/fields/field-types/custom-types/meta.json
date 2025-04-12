@@ -1,0 +1,12 @@
+{
+  "title": "Custom types",
+  "pages": [
+    "attachment",
+    "button",
+    "qr-code",
+    "barcode",
+    "geometry",
+    "specific-db-type",
+    "json"
+  ]
+}
