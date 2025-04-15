@@ -28,10 +28,10 @@ export function BlogCard({post}: BlogCardProps) {
     const readingTime = calculateReadingTime(t?.data?.structuredData)
 
     return (
-        <div className="relative w-full rounded-3xl">
+        <div className="relative group w-full rounded-3xl">
             <Link href={post.url}>
-                <div className="relative w-full aspect-video">
-                    <Image className="w-full object-cover" src={post.data.image} alt={post.data.title} fill/>
+                <div className="relative w-full overflow-hidden rounded-xl aspect-video">
+                    <Image className="h-full rounded-xl group-hover:scale-[1.05] transition-transform object-cover" src={post.data.image} alt={post.data.title} fill/>
                 </div>
                 <div>
                     <div className="flex justify-between mt-5">

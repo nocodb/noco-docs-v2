@@ -1,11 +1,11 @@
 export const getCategoryColor = (category: string): string => {
     switch (category) {
         case 'Engineering':
-            return '#E7E7E9';
+            return '#5eccff';
         case 'Guides':
-            return '#D4F7E0';
+            return '#fd61d1';
         case 'Company':
-            return '#FFF0D1';
+            return '#fcbe3a';
         default:
             return '#F0F3FF';
 
