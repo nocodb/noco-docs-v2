@@ -1,0 +1,9 @@
+{
+  "title": "Numerical",
+  "pages": [
+    "number",
+    "decimal",
+    "percent",
+    "currency"
+  ]
+}

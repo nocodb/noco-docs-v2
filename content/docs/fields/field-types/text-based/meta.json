@@ -1,0 +1,11 @@
+{
+  "title": "Text based",
+  "pages": [
+    "single-line-text",
+    "long-text",
+    "rich-text",
+    "email",
+    "phonenumber",
+    "url"
+  ]
+}

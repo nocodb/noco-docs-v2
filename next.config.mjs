@@ -29,6 +29,11 @@ const config = {
           hostname: 'media.tenor.com',
           port: '',
           pathname: '**',
+        },{
+          protocol: 'https',
+          hostname: 'github.com',
+          port: '',
+          pathname: '**',
         },
       ],
     }

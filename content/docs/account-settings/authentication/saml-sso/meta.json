@@ -1,0 +1,9 @@
+{
+  "title": "SAML",
+  "pages": [
+    "okta",
+    "auth0",
+    "ping-identity",
+    "azure-ad"
+  ]
+}

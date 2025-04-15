@@ -1,0 +1,13 @@
+{
+  "title": "Engineering",
+  "pages": [
+    "architecture",
+    "repository-structure",
+    "development-setup",
+    "unit-testing",
+    "playwright",
+    "build-and-releases",
+    "translations",
+    "writing-docs"
+  ]
+}

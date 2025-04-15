@@ -1,0 +1,4 @@
+{
+  "title": "Installation",
+  "pages": ["auto-upstall", "docker", "docker-compose", "home-brew", "aws-ecs", "gcp-cloud-run", "digital-ocean", "nix", "other-installations"]
+}

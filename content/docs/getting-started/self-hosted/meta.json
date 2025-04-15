@@ -1,0 +1,4 @@
+{
+  "title": "Self Hosting",
+  "pages": ["quick-start", "environment-variables", "installation", "upgrading"]
+}
