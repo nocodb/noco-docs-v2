@@ -1,7 +1,7 @@
 import {blog, docs,} from '@/.source';
 import {loader} from 'fumadocs-core/source';
 import {createMDXSource} from "fumadocs-mdx";
-import {iconMap, IconName} from "@/lib/iconMap";
+import {iconMap} from "@/lib/iconMap";
 import {createElement} from "react";
 
 // See https://fumadocs.vercel.app/docs/headless/source-api for more info
