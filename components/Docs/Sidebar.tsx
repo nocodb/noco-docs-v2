@@ -1,11 +1,11 @@
 "use client";
 import * as SidebarPrimitive from "fumadocs-core/sidebar";
-import {useSidebar, useTreeContext} from "fumadocs-ui/provider";
+import {useSearchContext, useSidebar, useTreeContext} from "fumadocs-ui/provider";
 import {createContext, ReactNode, useContext, useMemo, useState,} from "react";
 import {PageTree} from "fumadocs-core/server";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
-import {ChevronDown} from "lucide-react";
+import {ChevronDown, SearchIcon} from "lucide-react";
 import {cn} from "@/lib/utils";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger,} from "@/components/ui/collapsible";
 import {SidebarHeader} from "fumadocs-ui/components/layout/sidebar";
@@ -50,6 +50,9 @@ const Sidebar = (params: BaseLayoutProps) => {
     const {root} = useTreeContext();
     const pathname = usePathname();
 
+    const {setOpenSearch, enabled} = useSearchContext();
+
+
     const {open} = useSidebar()
     const context = useMemo<InternalContext>(() => ({level: 1}), []);
 
@@ -74,13 +77,26 @@ const Sidebar = (params: BaseLayoutProps) => {
         <InternalContext.Provider value={context}>
             <SidebarPrimitive.SidebarList
                 removeScrollOn="(width < 768px)"
-                className={cn("fixed flex flex-col shrink-0 top-14 md:top-0 z-20 border-r-1 text-sm md:sticky md:h-[calc(100dvh-64px)] md:w-[300px] max-md:inset-x-0 max-md:bottom-0 max-md:bg-fd-background",
+                className={cn("fixed flex flex-col shrink-0 top-14 md:top-0 z-20 border-r-1 text-sm md:sticky md:h-[calc(100dvh-128px)] md:w-[300px] max-md:inset-x-0 max-md:bottom-0 max-md:bg-fd-background",
                     open ? 'block' : 'hidden md:block')}
             >
                 <div className="hidden md:block pb-2 bg-nc-background-default">
                     {params?.nav?.title && (<SidebarHeader>
                         <div className="pt-4">
                             {params?.nav?.title}
+                        </div>
+
+                        <div onClick={() => setOpenSearch(true)}
+                                style={{boxShadow: "0px 0px 4px 0px rgba(0, 0, 0, 0.08)"}}
+                                className="rounded-[8px] flex gap-2 mt-4 mb-2 h-[32px] items-center cursor-pointer border-1 border-nc-border-grey-medium pl-3 pr-1.5 py-1">
+                            <SearchIcon className="w-4 h-4 text-nc-content-grey-muted"/>
+                            <div className="text-nc-content-grey-muted flex-1 leading-5 font-[500]">
+                                Search Docs...
+                            </div>
+                            <div
+                                className="text-nc-content-grey-subtle-2 rounded-[6px] font-[500] leading-5 bg-nc-background-grey-medium px-1">
+                                ⌘ K
+                            </div>
                         </div>
                     </SidebarHeader>)}
                 </div>
