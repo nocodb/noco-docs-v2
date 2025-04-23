@@ -11,6 +11,7 @@ import {Collapsible, CollapsibleContent, CollapsibleTrigger,} from "@/components
 import {SidebarHeader} from "fumadocs-ui/components/layout/sidebar";
 import {ScrollArea, ScrollViewport} from "@/components/ui/scroll-area";
 import {useOnChange} from "fumadocs-core/utils/use-on-change";
+import type {BaseLayoutProps} from "fumadocs-ui/layouts/shared";
 
 interface FolderContextType {
     open: boolean;
@@ -45,7 +46,7 @@ const isActive = (href: string, pathname: string) => {
     return pathname === href;
 };
 
-const Sidebar = (params) => {
+const Sidebar = (params: BaseLayoutProps) => {
     const {root} = useTreeContext();
     const pathname = usePathname();
 
@@ -77,7 +78,7 @@ const Sidebar = (params) => {
                 className="fixed flex flex-col shrink-0 top-14 md:top-0 z-20 border-r-1 text-sm md:sticky md:h-[calc(100dvh-56px)] md:w-[300px] max-md:inset-x-0 max-md:bottom-0 max-md:bg-fd-background"
             >
                 <ScrollArea className="h-full">
-                    <div className="hidden md:block">
+                    <div className="hidden md:block sticky pb-2 bg-nc-background-default top-0">
                         {params?.nav?.title && (<SidebarHeader>
                             <div className="pt-4">
                                 {params?.nav?.title}

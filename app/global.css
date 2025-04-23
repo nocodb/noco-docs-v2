@@ -681,6 +681,9 @@
 
 
 [id="nd-docs-layout"] {
+    aside {
+        @apply !h-[100dvh];
+    }
 
     .prose {
         h1 {

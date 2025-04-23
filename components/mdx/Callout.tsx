@@ -26,12 +26,11 @@ export function Callout(params: Props) {
     return (
         <div className="my-2 callout">
             <div className="p-4 rounded-xl  border-1 flex gap-4 border-nc-border-grey-medium">
-                <Icon width="30" className="text-transparent" name={iconMap[type] as IconNameType}/>
+                <Icon className="text-transparent" name={iconMap[type] as IconNameType}/>
                 <div className="callout-content">
                     {params?.children}
                 </div>
             </div>
         </div>
-    )
-        ;
+    );
 }
