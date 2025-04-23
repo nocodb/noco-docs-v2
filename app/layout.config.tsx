@@ -1,5 +1,6 @@
 import type {BaseLayoutProps} from 'fumadocs-ui/layouts/shared';
 import Image from 'next/image';
+import {ThemeToggle} from "fumadocs-ui/components/layout/theme-toggle";
 
 /**
  * Shared layout configurations
@@ -11,7 +12,7 @@ import Image from 'next/image';
 export const baseOptions: BaseLayoutProps = {
     links: [],
     themeSwitch: {
-        enabled: false
+        enabled: true
     },
     nav: {
         title: (
@@ -21,6 +22,8 @@ export const baseOptions: BaseLayoutProps = {
                 <div className="font-semibold text-nc-content-grey-subtle-2 text-[14px] leading-5">
                     Docs
                 </div>
+                <div className="md:flex-1" />
+                <ThemeToggle/>
             </div>
         ),
     }

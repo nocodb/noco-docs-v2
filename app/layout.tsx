@@ -12,9 +12,7 @@ export default function Layout({children}: { children: ReactNode }) {
     return (
         <html lang="en" className={manrope.className} suppressHydrationWarning>
         <body className="flex flex-col min-h-screen">
-        <RootProvider theme={{
-            enabled: false
-        }} search={{
+        <RootProvider search={{
             enabled: false
         }}>
             {children}
