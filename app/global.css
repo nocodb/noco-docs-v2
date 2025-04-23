@@ -396,8 +396,8 @@
     --font-sans: Vazirmatn, sans-serif;
     --font-serif: Vazirmatn, serif;
 
-    --breakpoint-xs: 480px;
-    --breakpoint-sm: 480px;
+    --breakpoint-xs: 40rem;
+    --breakpoint-sm: 40rem;
     --breakpoint-md: 820px;
     --breakpoint-2xl: 1780px;
 
