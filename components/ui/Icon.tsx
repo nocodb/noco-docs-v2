@@ -1,8 +1,8 @@
 import * as React from "react";
-import {iconMap, IconName} from "@/lib/iconMap";
+import {iconMap, IconNameType} from "@/lib/iconMap";
 
 interface IconProps {
-    name: IconName;
+    name: IconNameType;
     color?: string;
     ariaLabel?: string;
     className?: string;

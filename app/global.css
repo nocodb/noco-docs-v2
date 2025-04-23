@@ -681,10 +681,6 @@
 
 
 [id="nd-docs-layout"] {
-    aside {
-        @apply !h-[100dvh];
-    }
-
     .prose {
         h1 {
             @apply text-nc-content-grey-emphasis text-[40px] leading-16 font-bold;

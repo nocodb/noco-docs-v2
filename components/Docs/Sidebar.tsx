@@ -74,19 +74,18 @@ const Sidebar = (params: BaseLayoutProps) => {
         <InternalContext.Provider value={context}>
             <SidebarPrimitive.SidebarList
                 removeScrollOn="(width < 768px)"
-                hidden={!open && (document && document.body.clientWidth < 768)}
-                className="fixed flex flex-col shrink-0 top-14 md:top-0 z-20 border-r-1 text-sm md:sticky md:h-[calc(100dvh-56px)] md:w-[300px] max-md:inset-x-0 max-md:bottom-0 max-md:bg-fd-background"
+                className={cn("fixed flex flex-col shrink-0 top-14 md:top-0 z-20 border-r-1 text-sm md:sticky md:h-[calc(100dvh-64px)] md:w-[300px] max-md:inset-x-0 max-md:bottom-0 max-md:bg-fd-background",
+                    open ? 'block' : 'hidden md:block')}
             >
+                <div className="hidden md:block pb-2 bg-nc-background-default">
+                    {params?.nav?.title && (<SidebarHeader>
+                        <div className="pt-4">
+                            {params?.nav?.title}
+                        </div>
+                    </SidebarHeader>)}
+                </div>
                 <ScrollArea className="h-full">
-                    <div className="hidden md:block sticky pb-2 bg-nc-background-default top-0">
-                        {params?.nav?.title && (<SidebarHeader>
-                            <div className="pt-4">
-                                {params?.nav?.title}
-                            </div>
-                        </SidebarHeader>)}
-                    </div>
-
-                    <ScrollViewport className="p-4">
+                    <ScrollViewport className="px-4">
                         {children}
                     </ScrollViewport>
                 </ScrollArea>
