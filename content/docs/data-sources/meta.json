@@ -6,5 +6,6 @@
     "sync-with-data-source",
     "actions-on-data-sources",
     "updating-secret"
-  ]
+  ],
+  "icon": "database"
 }

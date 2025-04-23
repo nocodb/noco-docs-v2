@@ -9,5 +9,6 @@
     "notifications",
     "oss-specific-details",
     "automation"
-  ]
+  ],
+  "icon": "users"
 }

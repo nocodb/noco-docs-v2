@@ -1,3 +1,4 @@
 {
-  "pages": ["base-overview", "create-base", "import-base-from-airtable", "base-collaboration", "share-base", "snapshots", "actions-on-base"]
+  "pages": ["base-overview", "create-base", "import-base-from-airtable", "base-collaboration", "share-base", "snapshots", "actions-on-base"],
+  "icon": "baseOutlineLogo"
 }

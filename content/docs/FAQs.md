@@ -1,6 +1,7 @@
 ---
 title: 'FAQs'
 description: 'General FAQs'
+icon: "helpCircle"
 ---
 
 ## How to upgrade NocoDB ?

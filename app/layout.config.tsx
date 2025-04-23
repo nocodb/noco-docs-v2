@@ -15,9 +15,13 @@ export const baseOptions: BaseLayoutProps = {
     },
     nav: {
         title: (
-            <>
+            <div className="flex items-center gap-3">
                 <Image src="/img/nocodb-full-color.png" alt="NocoDB" width={120} height={40}/>
-            </>
+                <div className="w-[1px] py-2.5 border-1 border-r-0 border-nc-border-grey-medium"></div>
+                <div className="font-semibold text-nc-content-grey-subtle-2 text-[14px] leading-5">
+                    Docs
+                </div>
+            </div>
         ),
     }
 };

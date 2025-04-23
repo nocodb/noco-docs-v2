@@ -2,5 +2,6 @@
   "title": "Automation",
   "pages": [
     "webhook"
-  ]
+  ],
+  "icon": "play"
 }

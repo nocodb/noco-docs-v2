@@ -4,5 +4,6 @@
     "overview",
     "create-connection",
     "actions-on-connection"
-  ]
+  ],
+  "icon": "plug"
 }

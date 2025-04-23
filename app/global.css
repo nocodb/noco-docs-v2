@@ -125,7 +125,7 @@
     --color-yellow-900: #32260c;
 
     --color-base-none: #ffffff00;
-    --radius: 0.625rem;
+    --radius: 0.5rem;
     --background: oklch(1 0 0);
 
     --foreground: oklch(0.145 0 0);
@@ -585,24 +585,31 @@
     --radius-lg: var(--radius);
     --radius-xl: calc(var(--radius) + 4px);
 
-    --color-background: var(--color-base-white);
-    --color-foreground: var(--color-grey-900);
-    --color-card: var(--color-base-white);
-    --color-card-foreground: var(--color-grey-900);
-    --color-popover: var(--color-base-white);
-    --color-popover-foreground: var(--color-grey-900);
-    --color-primary: var(--color-brand-500);
-    --color-primary-foreground: var(--color-base-white);
-    --color-secondary: var(--color-grey-100);
-    --color-secondary-foreground: var(--color-grey-900);
-    --color-muted: var(--color-grey-100);
-    --color-muted-foreground: var(--color-grey-200);
-    --color-accent: var(--color-grey-100);
-    --color-accent-foreground: var(--color-grey-900);
-    --color-destructive: var(--color-red-500);
-    --color-border: var(--color-grey-200);
-    --color-input: var(--color-grey-200);
-    --color-ring: var(--color-brand-500);
+    --color-background: var(--color-nc-background-default);
+    --color-foreground: var(--color-nc-content-grey-default);
+    --color-card: var(--color-nc-background-default);
+    --color-card-foreground: var(--color-nc-content-grey-default);
+    --color-popover: var(--color-nc-background-default);
+    --color-popover-foreground: var(--color-nc-content-grey-default);
+    --color-primary: var(--color-nc-fill-primary-default);
+    --color-primary-foreground: var(--color-nc-fill-nc-component-button-text);
+    --color-secondary: var(--color-nc-background-default);
+    --color-secondary-foreground: var(--color-nc-content-grey-subtle);
+    --color-muted: var(--color-nc-background-grey-extra-light);
+    --color-muted-foreground: var(--color-nc-content-grey-subtle);
+    --color-accent: var(--color-nc-background-grey-light);
+    --color-accent-foreground: var(--color-nc-content-grey-subtle);
+    --color-destructive: var(--color-nc-background-coloured-red);
+    --color-border: var(--color-nc-border-grey-medium);
+    --color-input: var(--color-nc-content-grey-subtle);
+    --sidebar: var(--color-nc-background-grey-extra-light);
+    --sidebar-foreground: var(--color-nc-content-grey-subtle);
+    --sidebar-primary: var(--color-nc-content-brand-default);
+    --sidebar-primary-foreground: var(--color-nc-fill-nc-component-button-text);
+    --sidebar-accent: var(--color-nc-background-grey-light);
+    --sidebar-accent-foreground: var(--color-nc-content-grey-subtle);
+    --sidebar-border: var(--color-nc-border-grey-medium);
+    --sidebar-ring: oklch(0.623 0.214 259.815);
 
     --chart-1: var(--color-orange-600);
     --chart-2: var(--color-green-600);
@@ -610,14 +617,25 @@
     --chart-4: var(--color-yellow-600);
     --chart-5: var(--color-purple-600);
 
-    --sidebar: var(--color-base-white);
-    --sidebar-foreground: var(--color-grey-900);
-    --sidebar-primary: var(--color-brand-500);
-    --sidebar-primary-foreground: var(--color-base-white);
-    --sidebar-accent: var(--color-grey-100);
-    --sidebar-accent-foreground: var(--color-grey-900);
-    --sidebar-border: var(--color-grey-200);
-    --sidebar-ring: var(--color-brand-500);
+    /*Fuma Docs Color Override*/
+    --color-fd-card: var(--color-nc-background-grey-extra-light);
+    --color-fd-muted-foreground: var(--color-nc-content-grey-subtle);
+    --color-fd-primary: var(--color-nc-content-grey-emphasis);
+    --color-fd-accent: var(--color-nc-background-grey-medium);
+
+
+    --color-fd-background: var(--color-grey-50);
+    --color-fd-foreground: var(--color-grey-900);
+    --color-fd-muted: var(--color-grey-100);
+    --color-fd-popover: var(--color-grey-100);
+    --color-fd-popover-foreground: var(--color-grey-800);
+    --color-fd-card-foreground: var(--color-grey-900);
+    --color-fd-border: var(--color-grey-300);
+    --color-fd-primary-foreground: var(--color-base-black);
+    --color-fd-secondary: var(--color-grey-200);
+    --color-fd-secondary-foreground: var(--color-grey-900);
+    --color-fd-accent-foreground: var(--color-base-black);
+    --color-fd-ring: var(--color-brand-500);
 }
 
 .prose {
@@ -648,7 +666,7 @@
 
 @layer base {
     * {
-        @apply border-border outline-ring/50;
+        @apply border-border;
     }
 
     body {
@@ -659,4 +677,70 @@
 
 [id="nd-home-layout"] {
     padding-top: 18px !important;
+}
+
+
+[id="nd-docs-layout"] {
+
+    .prose {
+        h1 {
+            @apply text-nc-content-grey-emphasis text-[40px] leading-16 font-bold;
+        }
+
+        h2 {
+            @apply text-nc-content-grey-default text-2xl font-bold leading-9;
+        }
+
+        h3 {
+            @apply text-nc-content-grey-default text-[20px] font-bold leading-8;
+        }
+
+        h4 {
+            @apply text-nc-content-grey-default text-base font-bold leading-6;
+        }
+
+        p {
+            @apply text-nc-content-grey-default text-[15px] leading-6;
+        }
+
+        ul {
+            li {
+                @apply text-nc-content-grey-subtle font-[15px] leading-[30px] my-0;
+            }
+        }
+
+        table {
+            @apply bg-transparent border-b-nc-border-grey-medium;
+
+            thead {
+                tr {
+                    @apply border-b-nc-border-grey-medium;
+
+                    th {
+                        @apply text-nc-content-grey-muted !text-left text-sm leading-5 px-4 py-3 bg-nc-background-grey-extra-light border-b-nc-border-grey-medium;
+                    }
+                }
+            }
+
+            tbody {
+                tr {
+                    @apply border-b-nc-border-grey-medium;
+
+                    td {
+                        @apply text-nc-content-grey-subtle-2 !text-left text-[13px] leading-[18px] p-4 !bg-transparent border-b-nc-border-grey-medium;
+                    }
+                }
+            }
+        }
+
+        .callout {
+            p {
+                @apply my-0 text-nc-content-grey-muted text-[14px] leading-5;
+            }
+
+            ul {
+                @apply my-0;
+            }
+        }
+    }
 }

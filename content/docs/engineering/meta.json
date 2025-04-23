@@ -9,5 +9,6 @@
     "build-and-releases",
     "translations",
     "writing-docs"
-  ]
+  ],
+  "icon": "terminal"
 }

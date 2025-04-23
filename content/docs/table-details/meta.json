@@ -1,4 +1,5 @@
 {
   "label": "Table details",
-  "pages": ["table-details-overview"]
+  "pages": ["table-details-overview"],
+  "icon": "erd"
 }

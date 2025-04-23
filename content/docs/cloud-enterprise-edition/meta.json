@@ -3,5 +3,6 @@
   "pages": [
     "community-vs-paid-editions",
     "oss-to-enterprise-migration"
-  ]
+  ],
+  "icon": "cloud"
 }

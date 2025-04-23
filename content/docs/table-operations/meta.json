@@ -1,4 +1,5 @@
 {
   "title": "Table operations",
-  "pages": ["overview", "field-operations", "filter", "sort", "group-by", "row-height", "search", "download"]
+  "pages": ["overview", "field-operations", "filter", "sort", "group-by", "row-height", "search", "download"],
+  "icon": "sliders"
 }

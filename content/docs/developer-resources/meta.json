@@ -3,5 +3,6 @@
   "pages": [
     "rest-apis",
     "webhook"
-  ]
+  ],
+  "icon": "code"
 }
