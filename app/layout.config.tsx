@@ -1,7 +1,7 @@
 import type {BaseLayoutProps} from 'fumadocs-ui/layouts/shared';
 import Image from 'next/image';
-import {ThemeToggle} from "fumadocs-ui/components/layout/theme-toggle";
 import Link from 'next/link';
+import {ThemeSwitch} from "@/components/Docs/ThemeSwitch";
 
 /**
  * Shared layout configurations
@@ -12,9 +12,6 @@ import Link from 'next/link';
  */
 export const baseOptions: BaseLayoutProps = {
     links: [],
-    themeSwitch: {
-        enabled: true
-    },
     nav: {
         url: "https://www.nocodb.com",
         title: (
@@ -27,7 +24,7 @@ export const baseOptions: BaseLayoutProps = {
                     Docs
                 </div>
                 <div className="md:flex-1"/>
-                <ThemeToggle/>
+                <ThemeSwitch/>
             </div>
         ),
         children: (
@@ -40,7 +37,7 @@ export const baseOptions: BaseLayoutProps = {
                     Docs
                 </div>
                 <div className="md:flex-1"/>
-                <ThemeToggle/>
+                <ThemeSwitch/>
             </div>
         )
     }
