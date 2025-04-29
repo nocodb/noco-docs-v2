@@ -50,7 +50,7 @@ const Sidebar = (params: BaseLayoutProps) => {
     const {root} = useTreeContext();
     const pathname = usePathname();
 
-    const {setOpenSearch, enabled} = useSearchContext();
+    const {setOpenSearch} = useSearchContext();
 
 
     const {open} = useSidebar()
