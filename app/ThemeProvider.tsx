@@ -5,7 +5,7 @@ import {usePathname} from "next/navigation";
 export function CustomThemeProvider({children}: { children: React.ReactNode }) {
 
     const pathname = usePathname();
-    const forcedThemeFromPathname = pathname === "/blog" ? "light" : undefined;
+    const forcedThemeFromPathname = pathname.startsWith('/blog') ? "light" : undefined;
 
     return (
         <ThemeProvider disableTransitionOnChange attribute="class" forcedTheme={forcedThemeFromPathname}>
