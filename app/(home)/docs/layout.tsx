@@ -4,13 +4,20 @@ import type {ReactNode} from 'react';
 import {baseOptions} from '@/app/layout.config';
 import {source} from '@/lib/source';
 import Sidebar from "@/components/Docs/Sidebar";
+import {Inter} from 'next/font/google'
+
+const inter = Inter({})
 
 export default function Layout({children}: { children: ReactNode }) {
     return (
-        <DocsLayout tree={source.pageTree} {...baseOptions} sidebar={{
-            component: (<Sidebar {...baseOptions} />),
-        }}>
-            {children}
-        </DocsLayout>
+        <main className={inter.className}>
+            <DocsLayout tree={source.pageTree} {...baseOptions} sidebar={{
+                component: (<Sidebar {...baseOptions} />),
+            }}>
+                {children}
+            </DocsLayout>
+
+        </main>
+
     );
 }

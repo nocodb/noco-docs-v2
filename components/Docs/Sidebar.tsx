@@ -1,6 +1,6 @@
 "use client";
 import * as SidebarPrimitive from "fumadocs-core/sidebar";
-import {useSearchContext, useSidebar, useTreeContext} from "fumadocs-ui/provider";
+import {useSearchContext, useSidebar, useTreeContext, useTreePath} from "fumadocs-ui/provider";
 import {createContext, ReactNode, useContext, useMemo, useState,} from "react";
 import {PageTree} from "fumadocs-core/server";
 import Link from "next/link";
@@ -40,10 +40,6 @@ const useInternalContext = () => {
         throw new Error("useInternalContext must be used within an InternalContext Provider");
     }
     return context;
-};
-
-const isActive = (href: string, pathname: string) => {
-    return pathname === href;
 };
 
 const Sidebar = (params: BaseLayoutProps) => {
@@ -87,14 +83,14 @@ const Sidebar = (params: BaseLayoutProps) => {
                         </div>
 
                         <div onClick={() => setOpenSearch(true)}
-                                style={{boxShadow: "0px 0px 4px 0px rgba(0, 0, 0, 0.08)"}}
-                                className="rounded-[8px] flex gap-2 mt-4 mb-2 h-[32px] items-center cursor-pointer border-1 border-nc-border-grey-medium pl-3 pr-1.5 py-1">
+                             style={{boxShadow: "0px 0px 4px 0px rgba(0, 0, 0, 0.08)"}}
+                             className="rounded-[8px] flex gap-2 mt-4 mb-2 h-[32px] items-center cursor-pointer border-1 border-nc-border-grey-medium pl-3 pr-1.5 py-1">
                             <SearchIcon className="w-4 h-4 text-nc-content-grey-muted"/>
-                            <div className="text-nc-content-grey-muted flex-1 leading-5 font-[500]">
+                            <div className="text-nc-content-grey-muted flex-1 leading-5 font-[400]">
                                 Search Docs...
                             </div>
                             <div
-                                className="text-nc-content-grey-subtle-2 rounded-[6px] font-[500] leading-5 bg-nc-background-grey-medium px-1">
+                                className="text-nc-content-grey-subtle-2 rounded-[6px] font-[400] leading-5 bg-nc-background-grey-medium px-1">
                                 ⌘ K
                             </div>
                         </div>
@@ -110,13 +106,16 @@ const Sidebar = (params: BaseLayoutProps) => {
     );
 };
 
-function SidebarItem({item, children, pathname, level,}: {
+function SidebarItem({item, children, level,}: {
     item: PageTree.Node;
     children: ReactNode;
     pathname: string;
     level: number;
 }) {
-    const active = item.type === "page" && isActive(item.url, pathname);
+    const path = useTreePath();
+
+    const active = path.includes(item);
+
 
     if (item.type === "page") {
         return (
@@ -124,8 +123,8 @@ function SidebarItem({item, children, pathname, level,}: {
                 className={cn(
                     "px-3 flex items-center gap-3 leading-5 rounded-[8px] py-1.5",
                     active
-                        ? "text-nc-content-grey-emphasis font-[600] bg-nc-background-grey-light"
-                        : "text-nc-content-grey-subtle font-[500] hover:bg-nc-background-grey-light"
+                        ? "text-nc-content-grey-emphasis font-[500] bg-nc-background-grey-light"
+                        : "text-nc-content-grey-muted font-[400] hover:bg-nc-background-grey-light"
                 )}
                 href={item.url}
             >
@@ -146,15 +145,15 @@ function SidebarItem({item, children, pathname, level,}: {
 
     if (item.type === "folder") {
         return (
-            <SidebarFolder defaultOpen={item.defaultOpen ?? false}>
+            <SidebarFolder defaultOpen={active ?? item.defaultOpen ?? false}>
                 {item.index ? (
                     <div className="flex items-center">
                         <Link
                             className={cn(
-                                "flex-1 px-3 flex items-center gap-3 leading-5 font-[500] rounded-[8px] py-1.5",
-                                isActive(item.index.url, pathname)
+                                "flex-1 px-3 flex items-center gap-3 leading-5 font-[400] rounded-[8px] py-1.5",
+                                active
                                     ? "text-nc-content-grey-emphasis bg-nc-background-grey-light"
-                                    : "text-nc-content-grey-subtle hover:bg-nc-background-grey-light"
+                                    : "text-nc-content-grey-muted hover:bg-nc-background-grey-light"
                             )}
                             href={item.index.url}
                         >
@@ -175,7 +174,8 @@ function SidebarItem({item, children, pathname, level,}: {
                     <SidebarFolderTrigger>
                         <div
                             className={cn(
-                                "px-3 flex flex-1 items-center gap-3 text-nc-content-grey-subtle leading-5 font-[500] py-1.5"
+                                "px-3 flex flex-1 items-center cursor-pointer gap-3 text-nc-content-grey-muted leading-4.5 font-[400] py-1.5",
+                                active? "text-nc-content-grey-subtle font-[600]" : ""
                             )}
                         >
                             {item.icon}

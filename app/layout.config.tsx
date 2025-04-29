@@ -23,7 +23,7 @@ export const baseOptions: BaseLayoutProps = {
                     <Image src="/img/nocodb-full-color.png" alt="NocoDB" width={120} height={40}/>
                 </Link>
                 <div className="w-[1px] py-2.5 border-1 border-r-0 border-nc-border-grey-medium"></div>
-                <div className="font-semibold text-nc-content-grey-subtle-2 text-[14px] leading-5">
+                <div className="font-[600] text-nc-content-grey-muted text-[14px] leading-5">
                     Docs
                 </div>
                 <div className="md:flex-1"/>
@@ -36,7 +36,7 @@ export const baseOptions: BaseLayoutProps = {
                     <Image src="/img/nocodb-full-color.png" alt="NocoDB" width={120} height={40}/>
                 </Link>
                 <div className="w-[1px] py-2.5 border-1 border-r-0 border-nc-border-grey-medium"></div>
-                <div className="font-semibold text-nc-content-grey-subtle-2 text-[14px] leading-5">
+                <div className="text-nc-content-grey-muted font-[600] text-[14px] leading-5">
                     Docs
                 </div>
                 <div className="md:flex-1"/>
