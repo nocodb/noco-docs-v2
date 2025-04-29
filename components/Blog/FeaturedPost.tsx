@@ -20,13 +20,13 @@ interface BlogCardProps {
 export function FeaturedPost({post}: BlogCardProps) {
     return (
         <div className="relative w-full rounded-3xl">
-            <Link className="flex-col flex lg:flex-row gap-6 lg:gap-10 items-center" href={post.url}>
+            <Link className="flex-col flex lg:flex-row group gap-6 lg:gap-10 items-center" href={post.url}>
                 <div
                     style={{
                         boxShadow: "box-shadow: 0px 0px 0px 4px rgba(0, 0, 0, 0.04)"
                     }}
-                    className="relative w-full rounded-3xl border-1 border-nc-border-grey-dark lg:w-1/2 aspect-video">
-                    <Image className="w-full object-cover rounded-3xl" src={post.data.image} alt={post.data.title}
+                    className="relative w-full rounded-3xl border-1 overflow-hidden border-nc-border-grey-dark lg:w-1/2 aspect-video">
+                    <Image className="w-full object-cover transition group-hover:scale-115 rounded-3xl" src={post.data.image} alt={post.data.title}
                            fill/>
                 </div>
                 <div className="w-full lg:w-1/2">

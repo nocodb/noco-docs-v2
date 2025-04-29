@@ -102,7 +102,7 @@ export default async function page(props: {
             </div>
 
             <article className="container py-10 mx-auto">
-                <div className="flex relative gap-8">
+                <div className="flex nc-blog-layout relative gap-8">
                     <div className="sticky hidden lg:block h-48 top-8">
                         <CustomToc toc={page.data.toc}/>
                     </div>

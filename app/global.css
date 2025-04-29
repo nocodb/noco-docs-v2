@@ -653,30 +653,44 @@
     --color-fd-ring: var(--color-brand-500);
 }
 
-.prose {
-    h2 {
-        @apply text-nc-content-grey-emphasis text-2xl font-bold leading-9;
+.nc-blog-layout {
+    .prose {
+        h2 {
+            @apply text-nc-content-grey-emphasis text-2xl font-bold leading-9;
+        }
+
+        h3 {
+            @apply text-nc-content-grey-emphasis text-xl leading-7;
+        }
+
+        h4 {
+            @apply text-nc-content-grey-emphasis text-base leading-6;
+        }
+
+        h5 {
+            @apply text-nc-content-grey-emphasis text-[14px] leading-6;
+        }
+
+        p {
+            @apply text-nc-content-grey-emphasis font-[500] text-sm lg:text-base lg:leading-7 leading-6;
+        }
+
+        code {
+            @apply font-mono;
+        }
+
+        ol, ul {
+            @apply !my-0;
+            li {
+                @apply text-sm lg:text-base leading-6 lg:leading-7 my-1 text-nc-content-grey-emphasis font-[400];
+            }
+        }
+
+        a {
+            @apply text-nc-content-grey-emphasis decoration-nc-content-brand-default;
+        }
     }
 
-    h3 {
-        @apply text-nc-content-grey-emphasis text-xl leading-7;
-    }
-
-    h4 {
-        @apply text-nc-content-grey-emphasis text-base leading-6;
-    }
-
-    h5 {
-        @apply text-nc-content-grey-emphasis text-[14px] leading-6;
-    }
-
-    p {
-        @apply text-nc-content-grey-emphasis leading-6;
-    }
-
-    code {
-        @apply font-mono;
-    }
 }
 
 @layer base {

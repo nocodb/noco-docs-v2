@@ -31,7 +31,7 @@ export function BlogCard({post}: BlogCardProps) {
         <div className="relative group rounded-t-xl w-full rounded-3xl">
             <Link href={post.url}>
                 <div className="relative w-full overflow-hidden rounded-xl aspect-video">
-                    <Image className="h-full rounded-xl group-hover:scale-[1.05] transition-transform object-cover"
+                    <Image className="h-full rounded-xl group-hover:scale-[1.15] transition-transform object-cover"
                            src={post.data.image} alt={post.data.title} fill/>
                 </div>
                 <div>

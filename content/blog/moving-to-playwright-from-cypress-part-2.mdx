@@ -29,13 +29,13 @@ Page objects are classes that abstract over pages/components.
 The code below is for creating a table and adding a row using Page objects -
 
 ```ts
-    await dashboard.treeView.createTable({ title: 'sheet1' });
+await dashboard.treeView.createTable({ title: 'sheet1' });
 
-    await grid.column.create({
-        title: 'SingleSelect',
-        type: 'SingleSelect'
-    });
-    await grid.addNewRow({ index: 0, value: 'Row 0' });
+await grid.column.create({
+    title: 'SingleSelect',
+    type: 'SingleSelect'
+});
+await grid.addNewRow({ index: 0, value: 'Row 0' });
 ```
 
 ### Implementing Page Objects
