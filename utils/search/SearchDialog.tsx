@@ -1,12 +1,10 @@
 import {useState} from "react";
 import {useOnChange} from "fumadocs-core/utils/use-on-change";
 import {useTypesenseSearch} from "@/utils/search/useTypesenseSearch";
-import {
-    SearchDialog, SharedProps,
-} from "fumadocs-ui/components/dialog/search";
+import {SearchDialog, SharedProps,} from "fumadocs-ui/components/dialog/search";
 import {Client} from "typesense";
 
-interface TypesenseSearchDialogProps extends SharedProps{
+interface TypesenseSearchDialogProps extends SharedProps {
     typesenseClient: Client;
     typesenseCollection: string;
     locale?: string;
@@ -15,7 +13,14 @@ interface TypesenseSearchDialogProps extends SharedProps{
 }
 
 
-function TypesenseSearchDialog({typesenseClient, defaultTag, delayMs, locale, typesenseCollection, ...rest}: TypesenseSearchDialogProps) {
+function TypesenseSearchDialog({
+                                   typesenseClient,
+                                   defaultTag,
+                                   delayMs,
+                                   locale,
+                                   typesenseCollection,
+                                   ...rest
+                               }: TypesenseSearchDialogProps) {
     const [tag, setTag] = useState(defaultTag);
     const {search, setSearch, query} = useTypesenseSearch(
         typesenseClient,
@@ -24,14 +29,17 @@ function TypesenseSearchDialog({typesenseClient, defaultTag, delayMs, locale, ty
         true,
         locale,
         tag,
-
     );
     useOnChange(defaultTag, (v) => {
         setTag(v);
     });
 
     return (
-        <SearchDialog search={search} onSearchChange={setSearch} results={query?.data || []} isLoading={query.isLoading} {...rest} />
+        <div style={{fontFamily: 'Inter'}}>
+            <SearchDialog search={search} onSearchChange={setSearch} results={query?.data || []}
+                          isLoading={query.isLoading} {...rest} />
+
+        </div>
     )
 }
 
