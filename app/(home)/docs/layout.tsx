@@ -6,7 +6,9 @@ import {source} from '@/lib/source';
 import Sidebar from "@/components/Docs/Sidebar";
 import {Inter} from 'next/font/google'
 
-const inter = Inter({})
+const inter = Inter({
+    subsets: ['latin', "latin-ext"]
+})
 
 export default function Layout({children}: { children: ReactNode }) {
     return (
