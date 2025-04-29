@@ -708,6 +708,10 @@
     padding-top: 18px !important;
 }
 
+.grecaptcha-badge {
+    @apply hidden;
+}
+
 
 [id="nd-docs-layout"] {
     .prose {

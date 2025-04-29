@@ -1,8 +1,31 @@
+"use client"
+
 import Image from "next/image";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
+import React, {useCallback, useState} from "react";
+import {useReCaptcha} from "next-recaptcha-v3";
 
 const Subscribe = () => {
+
+    const [email, setEmail] = useState("");
+
+    const {executeRecaptcha} = useReCaptcha();
+    const handleSubmit = useCallback(
+        async (e: React.FormEvent) => {
+            e.preventDefault();
+            const token = await executeRecaptcha("form_submit");
+
+            await fetch("https://nocodb.com/api/v1/newsletter", {
+                method: "POST",
+                body: JSON.stringify({
+                    email,
+                    recaptchaToken: token,
+                }),
+            });
+        },
+        [email, executeRecaptcha],
+    );
 
     return (
         <div className="bg-nc-background-grey-extra-light mt-8 lg:mt-20">
@@ -16,12 +39,13 @@ const Subscribe = () => {
                     <h5 className="text-base mt-2 text-nc-content-grey-default leading-6 font-bold">
                         Keep up with our latest news and updates.
                     </h5>
-                    <div className="flex flex-col lg:flex-row w-full gap-3 mt-6 items-center">
-                        <Input className="flex-1 w-full" placeholder="Enter your email address..."/>
-                        <Button className="w-full lg:w-auto">
+                    <form className="flex flex-col lg:flex-row w-full gap-3 mt-6 items-center" onSubmit={handleSubmit}>
+                        <Input type="email" className="flex-1 w-full" placeholder="Enter your email address..."
+                               onChange={(e) => setEmail(e.target.value)}/>
+                        <Button type="submit" className="w-full lg:w-auto">
                             Submit
                         </Button>
-                    </div>
+                    </form>
 
                 </div>
             </div>
