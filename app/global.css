@@ -585,6 +585,16 @@
     --radius-lg: var(--radius);
     --radius-xl: calc(var(--radius) + 4px);
 
+
+    --shadow-sm: 0px 3px 1px -2px rgba(0, 0, 0, 0.06), 0px 5px 3px -2px rgba(0, 0, 0, 0.02);
+    --shadow-default: 0px 0px 4px 0px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0px 0px 4px 0px rgba(0, 0, 0, 0.24);
+    --shadow-selected: 0px 0px 0px 2px var(--color-ant-primary-color-outline);
+    --shadow-selected-ai: 0px 0px 0px 2px rgba(125, 38, 205, 0.24);
+    --shadow-error: 0px 0px 0px 2px var(--color-ant-error-color-outline);
+    --shadow-focus: 0px 0px 0px 2px #fff, 0px 0px 0px 4px #3069fe;
+    --shadow-nc-sm: 0px 3px 1px -2px rgba(0, 0, 0, 0.06), 0px 5px 3px -2px rgba(0, 0, 0, 0.02);
+
     --color-background: var(--color-nc-background-default);
     --color-foreground: var(--color-nc-content-grey-default);
     --color-card: var(--color-nc-background-default);
@@ -610,6 +620,11 @@
     --sidebar-accent-foreground: var(--color-nc-content-grey-subtle);
     --sidebar-border: var(--color-nc-border-grey-medium);
     --sidebar-ring: oklch(0.623 0.214 259.815);
+
+
+    --color-ant-primary-hover: #6e7ef5;
+    --color-ant-primary-active: #2f36c2;
+    --color-ant-primary-outline: #4351e833;
 
     --chart-1: var(--color-orange-600);
     --chart-2: var(--color-green-600);

@@ -4,6 +4,7 @@ import {BlogCard} from "@/components/Blog/BlogCard";
 import {Separator} from "@/components/ui/separator";
 import Link from "next/link";
 import {CategoryTabs} from "@/components/Blog/Category";
+import Subscribe from "@/components/Blog/Subscribe";
 
 export const metadata = {
     title: "Blog | NocoDB",
@@ -41,14 +42,15 @@ export default async function BlogPage({searchParams}: {
     const hasMorePosts = endIndex < categoryFilteredPosts.length;
     const nextPage = currentPage + 1;
     return (
-        <main className="py-8 md:py-12">
-            <div className="container py-20 h-full w-full">
-                <h1 className="text-center text-nc-content-grey-emphasis leading-10 font-semibold text-4xl">
+        <main className="py-8 w-full md:py-12">
+            <div className="container py-20 lg:py-16">
+                <h1 className="text-center text-nc-content-grey-emphasis text-[40px] font-[700] leading-15.5">
                     Blog
                 </h1>
-                <div className="text-center font-semibold mt-[40px] text-base lg:text-xl">
-                    Insights, tutorials, and updates <br/> from the team building the future of no-code databases.
-                </div>
+                <h5 className="text-nc-content-grey-subtle text-center mt-10 lg:mt-6 text-base leading-6 font-bold">
+                    Insights, tutorials, and updates <br/>
+                    from the team building the future of no-code databases.
+                </h5>
             </div>
             <div className="container mx-auto">
                 {featuredPost && (
@@ -56,12 +58,14 @@ export default async function BlogPage({searchParams}: {
                 )}
             </div>
 
-            <div className="container mt-10">
+            <Subscribe/>
+
+            <div className="container mt-5 lg:mt-20">
                 <CategoryTabs categories={Array.from(categories)} selectedCategory={selectedCategory}/>
                 <Separator className="border-nc-border-grey-medium"/>
             </div>
 
-            <div className="container py-8 lg:py-20 gap-8 lg:gap-10 grid grid-cols-1 lg:grid-cols-2">
+            <div className="container py-8 lg:pt-15 lg:pb-20 gap-8 lg:gap-16 grid grid-cols-1 lg:grid-cols-2">
                 {displayedPosts.map((post) => (
                     <BlogCard post={post} key={post.url}/>
                 ))}
