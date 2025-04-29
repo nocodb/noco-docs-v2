@@ -20,14 +20,19 @@ interface BlogCardProps {
 export function FeaturedPost({post}: BlogCardProps) {
     return (
         <div className="relative w-full rounded-3xl">
-            <Link href={post.url}>
-                <div className="relative w-full aspect-video">
-                    <Image className="w-full object-cover" src={post.data.image} alt={post.data.title} fill/>
+            <Link className="flex-col flex lg:flex-row gap-6 lg:gap-10 items-center" href={post.url}>
+                <div
+                    style={{
+                        boxShadow: "box-shadow: 0px 0px 0px 4px rgba(0, 0, 0, 0.04)"
+                    }}
+                    className="relative w-full rounded-3xl border-1 border-nc-border-grey-dark lg:w-1/2 aspect-video">
+                    <Image className="w-full object-cover rounded-3xl" src={post.data.image} alt={post.data.title}
+                           fill/>
                 </div>
-                <div>
-                    <h2 className="text-base lg:text-4xl leading-6 text-nc-content-grey-emphasis line-clamp-1 lg:leading-10 font-bold mt-6">{post.data.title}</h2>
-                    <p className="text-nc-content-grey-emphasis mt-4 leading-5 lg:leading-6 line-clamp-2">{post.data.description}</p>
-                    <div className="flex text-sm text-nc-content-grey-default justify-between mt-4">
+                <div className="w-full lg:w-1/2">
+                    <h3 className="text-nc-content-grey-emphasis line-clamp-1 leading-6 font-bold text-base lg:text-2xl lg:leading-9">{post.data.title}</h3>
+                    <p className="text-nc-content-grey-emphasis mt-4 text-sm leading-5 lg:text-base lg:leading-6 line-clamp-2">{post.data.description}</p>
+                    <div className="flex text-sm leading-5 text-nc-content-grey-default justify-between mt-4">
                         <div className="text-left">
                             {post.data?.author}
                         </div>

@@ -21,6 +21,11 @@ import User from '@/components/icons/User';
 import UserCreator from '@/components/icons/UserCreator';
 import Users from '@/components/icons/Users';
 import View from '@/components/icons/View';
+import Bluesky from '@/components/icons/Bluesky';
+import XTwitter from '@/components/icons/XTwitter';
+import Facebook from '@/components/icons/Facebook';
+import Linkedin from '@/components/icons/Linkedin';
+
 
 const iconMap = {
     alertCircle: AlertCircle,
@@ -46,6 +51,10 @@ const iconMap = {
     userCreator: UserCreator,
     users: Users,
     view: View,
+    bluesky: Bluesky,
+    xTwitter: XTwitter,
+    facebook: Facebook,
+    linkedin: Linkedin
 } as const;
 
 type IconNameType = keyof typeof iconMap;

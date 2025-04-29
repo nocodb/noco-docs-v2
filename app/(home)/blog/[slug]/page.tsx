@@ -9,6 +9,9 @@ import Image from "next/image";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import {CustomToc} from "@/components/Blog/TableOfContents";
 import {BlogCard} from "@/components/Blog/BlogCard";
+import {getCategoryColor} from "@/lib/categoryColor";
+import Subscribe from "@/components/Blog/Subscribe";
+import {ShareDropdown} from "@/components/Blog/ShareDropdown";
 
 export async function generateMetadata(props: {
     params: Promise<{ slug?: string }>;
@@ -16,7 +19,7 @@ export async function generateMetadata(props: {
     const params = await props.params;
 
     if (!params.slug) {
-        return {};
+        return notFound();
     }
 
     const page = blogSource.getPage([params.slug]);
@@ -49,22 +52,31 @@ export default async function page(props: {
     return (
         <>
             <div className="container pt-[40px] lg:px-10 pb-10">
-                <Link className="text-sm font-normal" href="/blog">
-                    <Button className="cursor-pointer hover:underline underline-red" variant="none">
-                        <div className="flex text-nc-content-grey-subtle items-center gap-2">
-                            <ArrowLeft/>
-                            Back
-                        </div>
-                    </Button>
-                </Link>
+                <div className="flex justify-between items-center">
+                    <Link className="text-sm font-normal" href="/blog">
+                        <Button className="cursor-pointer hover:underline underline-red" variant="none">
+                            <div className="flex text-nc-content-grey-subtle items-center gap-2">
+                                <ArrowLeft/>
+                                Back
+                            </div>
+                        </Button>
+                    </Link>
+                    <ShareDropdown
+                        url={`https://nocodb.com/blog/${params.slug}`}
+                        title={page.data.title}
+                    />
+                </div>
                 <div className="my-8 flex flex-col gap-3">
                     <div
                         className="text-nc-content-grey-emphasis text-2xl lg:text-[40px] font-bold leading-9 lg:leading-[64px]">
                         {page.data?.title}
                     </div>
-                    <div className="text-base lg:text-xl text-nc-content-grey-default font-bold leading-6 lg:leading-8">
-                        {page.data?.description}
-                    </div>
+                    <Link className="w-[fit-content]" href={`/blog?category=${page.data?.category}`}>
+                        <div style={{backgroundColor: getCategoryColor(page?.data?.category)}}
+                             className="rounded-[6px] px-2 text-nc-content-grey-default">
+                            {page.data?.category}
+                        </div>
+                    </Link>
                 </div>
                 <div className="flex justify-center items-center leading-6 text-nc-content-grey-subtle-2">
                     <div className="flex-1">
@@ -99,6 +111,7 @@ export default async function page(props: {
                     </div>
                 </div>
             </article>
+            <Subscribe/>
 
             {
                 related?.length === 2 ? (
@@ -112,7 +125,7 @@ export default async function page(props: {
                             ))}
                         </div>
                     </div>
-                ) : (<></>)
+                ) : (<div className="py-10"></div>)
             }
 
         </>
