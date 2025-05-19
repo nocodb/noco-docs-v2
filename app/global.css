@@ -408,14 +408,21 @@
     --text-small1: 13px;
     --text-small1--line-height: 18px;
 
-    --font-weight-thin: 150;
-    --font-weight-extralight: 250;
-    --font-weight-light: 350;
-    --font-weight-normal: 450;
+    --font-weight-thin: 200;
+    --font-weight-extralight: 300;
+    --font-weight-light: 400;
+    --font-weight-normal: 500;
     --font-weight-default: 500;
-    --font-weight-medium: 550;
-    --font-weight-bold: 650;
-    --font-weight-black: 750;
+    --font-weight-medium: 600;
+    --font-weight-semibold: 550;
+    --font-weight-bold: 700;
+    --font-weight-black: 800;
+    --font-weight-450: 400;
+    --font-weight-550: 450;
+    --font-weight-650: 550;
+    --font-weight-750: 650;
+    --font-weight-850: 750;
+    --font-weight-950: 850;
 
     --shadow-default: 0px 0px 4px 0px rgba(0, 0, 0, 0.08);
     --shadow-hover: 0px 0px 4px 0px rgba(0, 0, 0, 0.24);

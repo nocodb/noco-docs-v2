@@ -34,9 +34,17 @@ const config = {
           hostname: 'github.com',
           port: '',
           pathname: '**',
-        },
+        }
       ],
-    }
+    },
+  rewrites: () => {
+    return [
+      {
+        source: '/docs',
+        destination: '/docs/product-docs',
+      },
+    ]
+  },
 };
 
 export default withMDX(config);

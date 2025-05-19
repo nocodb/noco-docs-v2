@@ -7,7 +7,7 @@ import {createElement} from "react";
 // See https://fumadocs.vercel.app/docs/headless/source-api for more info
 export const source = loader({
     // it assigns a URL to your pages
-    baseUrl: '/docs',
+    baseUrl: '/docs/product-docs',
     source: docs.toFumadocsSource(),
     icon(icon?: string) {
 
@@ -27,6 +27,6 @@ export const source = loader({
 });
 
 export const blogSource = loader({
-    baseUrl: '/blog',
+    baseUrl: '/docs/blog',
     source: createMDXSource(blog, []),
 })

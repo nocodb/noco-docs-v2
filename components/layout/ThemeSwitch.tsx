@@ -6,12 +6,11 @@ import {type HTMLAttributes, useLayoutEffect, useState} from 'react';
 import {cn} from "@/lib/utils"
 
 const itemVariants = cva(
-    'size-6.5 rounded-full p-1.5 text-fd-muted-foreground',
+    'size-6.5 rounded-full p-1.5 text-nc-content-grey-muted',
     {
         variants: {
             active: {
-                true: 'bg-fd-accent text-fd-accent-foreground',
-                false: 'text-fd-muted-foreground',
+                true: 'bg-nc-content-inverted-primary-default',
             },
         },
     },
@@ -38,7 +37,7 @@ export function ThemeSwitch({
     }, []);
 
     const container = cn(
-        'inline-flex items-center rounded-full border p-1',
+        'inline-flex items-center bg-nc-background-grey-medium rounded-full border p-1',
         className,
     );
 

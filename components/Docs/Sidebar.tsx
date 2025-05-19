@@ -46,9 +46,6 @@ const Sidebar = (params: BaseLayoutProps) => {
     const {root} = useTreeContext();
     const pathname = usePathname();
 
-    const {setOpenSearch} = useSearchContext();
-
-
     const {open} = useSidebar()
     const context = useMemo<InternalContext>(() => ({level: 1}), []);
 
@@ -71,33 +68,9 @@ const Sidebar = (params: BaseLayoutProps) => {
 
     return (
         <InternalContext.Provider value={context}>
-            <SidebarPrimitive.SidebarList
-                removeScrollOn="(width < 768px)"
-                className={cn("fixed flex flex-col shrink-0 top-14 md:top-0 z-20 border-r-1 text-sm md:sticky md:h-[calc(100dvh-128px)] md:w-[300px] max-md:inset-x-0 max-md:bottom-0 max-md:bg-fd-background",
-                    open ? 'block' : 'hidden md:block')}
-            >
-                <div className="hidden md:block pb-2 bg-nc-background-default">
-                    {params?.nav?.title && (<SidebarHeader>
-                        <div className="pt-4">
-                            {params?.nav?.title}
-                        </div>
-
-                        <div onClick={() => setOpenSearch(true)}
-                             style={{boxShadow: "0px 0px 4px 0px rgba(0, 0, 0, 0.08)"}}
-                             className="rounded-[8px] flex gap-2 mt-4 mb-2 h-[32px] items-center cursor-pointer border-1 border-nc-border-grey-medium pl-3 pr-1.5 py-1">
-                            <SearchIcon className="w-4 h-4 text-nc-content-grey-muted"/>
-                            <div className="text-nc-content-grey-muted flex-1 leading-5 font-[400]">
-                                Search Docs...
-                            </div>
-                            <div
-                                className="text-nc-content-grey-subtle-2 rounded-[6px] font-[400] leading-5 bg-nc-background-grey-medium px-1">
-                                ⌘ K
-                            </div>
-                        </div>
-                    </SidebarHeader>)}
-                </div>
+            <SidebarPrimitive.SidebarList removeScrollOn="(width < 768px)" className={cn("flex top-32 h-[calc(100dvh-105px)] w-64 py-4 mr-3 flex-col shrink-0 ", open ? 'block' : 'hidden md:block')}>
                 <ScrollArea className="h-full">
-                    <ScrollViewport className="px-4">
+                    <ScrollViewport>
                         {children}
                     </ScrollViewport>
                 </ScrollArea>
@@ -121,10 +94,10 @@ function SidebarItem({item, children, level,}: {
         return (
             <Link
                 className={cn(
-                    "px-3 flex items-center gap-3 leading-5 rounded-[8px] py-1.5",
+                    "px-3 flex items-center text-[13px] gap-3 h-9 leading-4.5 rounded-[8px] py-1.5",
                     active
-                        ? "text-nc-content-grey-emphasis font-[500] bg-nc-background-grey-light"
-                        : "text-nc-content-grey-muted font-[400] hover:bg-nc-background-grey-light"
+                        ? "text-nc-content-grey-emphasis font-[600] bg-nc-background-grey-light"
+                        : "text-nc-content-grey-subtle-2 font-[500] hover:bg-nc-background-grey-light"
                 )}
                 href={item.url}
             >
@@ -142,7 +115,6 @@ function SidebarItem({item, children, level,}: {
             </p>
         );
     }
-
     if (item.type === "folder") {
         return (
             <SidebarFolder defaultOpen={active ?? item.defaultOpen ?? false}>
@@ -150,10 +122,10 @@ function SidebarItem({item, children, level,}: {
                     <div className="flex items-center">
                         <Link
                             className={cn(
-                                "flex-1 px-3 flex items-center gap-3 leading-5 font-[400] rounded-[8px] py-1.5",
+                                "flex-1 px-3 text-[13px] flex items-center gap-3 h-9 leading-4.5 font-[500] rounded-[8px] py-1.5",
                                 active
                                     ? "text-nc-content-grey-emphasis bg-nc-background-grey-light"
-                                    : "text-nc-content-grey-muted hover:bg-nc-background-grey-light"
+                                    : "text-nc-content-grey-subtle-2 hover:bg-nc-background-grey-light"
                             )}
                             href={item.index.url}
                         >
@@ -164,7 +136,7 @@ function SidebarItem({item, children, level,}: {
                             <button className="p-1 rounded">
                                 <ChevronDown
                                     className={cn(
-                                        "h-4 w-4 text-nc-content-grey-subtle transition-transform"
+                                        "h-4 w-4 text-nc-content-grey-subtle-2 transition-transform"
                                     )}
                                 />
                             </button>
@@ -174,8 +146,8 @@ function SidebarItem({item, children, level,}: {
                     <SidebarFolderTrigger>
                         <div
                             className={cn(
-                                "px-3 flex flex-1 items-center cursor-pointer gap-3 text-nc-content-grey-muted leading-4.5 font-[400] py-1.5",
-                                active? "text-nc-content-grey-subtle font-[600]" : ""
+                                "px-3 flex flex-1 items-center cursor-pointer gap-3 text-[13px] h-9 leading-4.5 font-[500] py-1.5",
+                                active? "text-nc-content-grey-subtle-2 font-[600]" : ""
                             )}
                         >
                             {item.icon}
@@ -223,13 +195,14 @@ function SidebarFolderTrigger({children}: { children: ReactNode }) {
         <CollapsibleTrigger asChild>
             <div
                 className={cn(
-                    "flex items-center hover:bg-nc-background-grey-light rounded-[8px]  justify-between",
+                    "flex items-center hover:bg-nc-background-grey-light rounded-[8px] justify-between",
+                    open ? "text" : "text-nc-content-grey-subtle-2"
                 )}
             >
                 {children}
                 <ChevronDown
                     className={cn(
-                        "h-4 w-4 mr-2 text-nc-content-grey-subtle transition-transform",
+                        "h-4 w-4 mr-2 text-nc-content-grey-subtle-2 transition-transform",
                         !open && "-rotate-90"
                     )}
                 />
