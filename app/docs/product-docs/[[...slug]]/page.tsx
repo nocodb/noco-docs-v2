@@ -18,22 +18,22 @@ export default async function Page(props: {
 
     return (
         <AnchorProvider toc={page.data.toc}>
-        <div className='flex lg:mx-auto container relative py-4 gap-4 flex-col'>
-            <DocsTitle>{page.data.title}</DocsTitle>
-            <DocsDescription className="mb-0">{page.data.description}</DocsDescription>
-            <DocsBody>
-                <MDXContent
+            <Toc className='sticky top-0 w-68 max-h-[calc(100vh-120px)] order-last shrink-0 overflow-auto'>
+                <TOCScrollArea className='w-64'>
+                    <ClerkTOCItems items={page.data.toc} />
+                </TOCScrollArea>
+            </Toc>
+            <div className='flex lg:mx-auto shrink-1 relative p-4 gap-4 flex-col'>
+                <DocsTitle>{page.data.title}</DocsTitle>
+                <DocsDescription className="mb-0">{page.data.description}</DocsDescription>
+                <DocsBody>
+                    <MDXContent
                     components={getMDXComponents({
                         a: MdxLink
                     })}
                 />
             </DocsBody>
         </div>
-        <Toc className='sticky top-28 w-68 max-h-[calc(100vh-120px)] overflow-auto'>
-            <TOCScrollArea className='w-64'>
-                <ClerkTOCItems items={page.data.toc} />
-            </TOCScrollArea>
-        </Toc>
         </AnchorProvider>
 
     );

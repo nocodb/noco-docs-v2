@@ -68,7 +68,7 @@ const Sidebar = (params: BaseLayoutProps) => {
 
     return (
         <InternalContext.Provider value={context}>
-            <SidebarPrimitive.SidebarList removeScrollOn="(width < 768px)" className={cn("flex top-32 h-[calc(100dvh-105px)] w-64 py-4 mr-3 flex-col shrink-0 ", open ? 'block' : 'hidden md:block')}>
+            <SidebarPrimitive.SidebarList removeScrollOn="(width < 768px)" className={cn("flex sticky top-0 h-[calc(100dvh-105px)] w-64 py-4 mr-3 flex-col shrink-0 ", open ? 'block' : 'hidden md:block')}>
                 <ScrollArea className="h-full">
                     <ScrollViewport>
                         {children}

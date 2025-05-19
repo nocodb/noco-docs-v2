@@ -7,11 +7,13 @@ import type {ReactNode} from 'react';
 export default function Layout({children}: { children: ReactNode }) {
     console.log(source.pageTree);
     return (
-        <TreeContextProvider tree={source.pageTree}>
-            <div className="max-w-screen-xl h-[calc(100dvh-120px)] relative flex mt-30 mx-auto">
-            <Sidebar />
-                {children}
-            </div>
-        </TreeContextProvider>
+        <div className='relative'>
+            <TreeContextProvider tree={source.pageTree}>
+                <div className="max-w-screen-xl h-[calc(100dvh-120px)] overflow-auto flex mt-30 mx-auto">
+                    <Sidebar />
+                    {children}
+                </div>
+            </TreeContextProvider>
+        </div>
     );
 }
