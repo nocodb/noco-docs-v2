@@ -1,5 +1,5 @@
 "use client";
-import Sidebar from '@/components/Docs/Sidebar';
+import Sidebar from '@/components/layout/Sidebar';
 import { source } from '@/lib/source';
 import { TreeContextProvider } from 'fumadocs-ui/provider';
 import type {ReactNode} from 'react';

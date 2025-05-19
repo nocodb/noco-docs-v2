@@ -1,4 +1,4 @@
-import {scriptsSource, source} from '@/lib/source';
+import {scriptsSource} from '@/lib/source';
 import {DocsBody, DocsDescription, DocsTitle,} from 'fumadocs-ui/page';
 import {notFound} from 'next/navigation';
 import {getMDXComponents} from '@/mdx-components';
@@ -6,6 +6,9 @@ import MdxLink from "@/components/mdx/MdxLink";
 import { AnchorProvider } from 'fumadocs-core/toc';
 import { Toc, TOCScrollArea, } from 'fumadocs-ui/components/layout/toc';
 import ClerkTOCItems from 'fumadocs-ui/components/layout/toc-clerk';
+import TOCMobile from '@/components/layout/TOCMobile';
+import { getPageTreePeers } from 'fumadocs-core/server';
+import { Cards, Card } from 'fumadocs-ui/components/card';
 
 export default async function Page(props: {
     params: Promise<{ slug?: string[] }>;
@@ -23,6 +26,7 @@ export default async function Page(props: {
                     <ClerkTOCItems items={page.data.toc} />
                 </TOCScrollArea>
             </Toc>
+            <TOCMobile toc={page.data.toc}/>
             <div className='flex lg:mx-auto shrink-1 max-w-179 relative p-4 gap-4 flex-col'>
                 <DocsTitle>{page.data.title}</DocsTitle>
                 <DocsDescription className="mb-0">{page.data.description}</DocsDescription>
@@ -33,6 +37,16 @@ export default async function Page(props: {
                     })}
                 />
             </DocsBody>
+            <Cards>
+                {getPageTreePeers(scriptsSource.pageTree, page.url).slice(0, 2).map((peer) => (
+                    <Card key={peer.url} title={peer.name} href={peer.url}>
+                        {peer.description}
+                    </Card>
+                ))}
+            </Cards>
+            <div className="py-8">
+
+            </div>
         </div>
         </AnchorProvider>
 

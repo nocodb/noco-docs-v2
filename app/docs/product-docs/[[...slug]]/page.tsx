@@ -6,6 +6,8 @@ import MdxLink from "@/components/mdx/MdxLink";
 import { AnchorProvider } from 'fumadocs-core/toc';
 import { Toc, TOCScrollArea, TOCItems, } from 'fumadocs-ui/components/layout/toc';
 import ClerkTOCItems from 'fumadocs-ui/components/layout/toc-clerk';
+import { getPageTreePeers } from 'fumadocs-core/server';
+import { Cards, Card } from 'fumadocs-ui/components/card';
 
 export default async function Page(props: {
     params: Promise<{ slug?: string[] }>;
@@ -33,6 +35,16 @@ export default async function Page(props: {
                     })}
                 />
             </DocsBody>
+            <Cards>
+                {getPageTreePeers(source.pageTree, page.url).slice(0, 2).map((peer) => (
+                    <Card key={peer.url} title={peer.name} href={peer.url}>
+                        {peer.description}
+                    </Card>
+                ))}
+            </Cards>
+            <div className="py-8">
+
+            </div>
         </div>
         </AnchorProvider>
 
