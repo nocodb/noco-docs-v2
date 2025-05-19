@@ -5,6 +5,9 @@ tags: ['Open Source']
 keywords : ['NocoDB installation', 'NocoDB one command installation', 'NocoDB prerequisites']
 ---
 
+> [!WARNING]
+>  The [NocoDB AIO](/getting-started/self-hosted/installation/docker-aio) docker image is prepreferred over the upstall script 
+
 # Auto-Upstall
 
 Auto-upstall is the fastest way to install NocoDB with SSL, auto-upgrades with every release, and auto-renews your SSL — all within just 2 minutes!
@@ -17,18 +20,18 @@ bash <(curl -sSL http://install.nocodb.com/noco.sh) <(mktemp)
 ## Notes on Auto-Upstall
 Auto-upstall is a single command that:
 - 🐳 First Automatically installs all pre-requisites on your linux based server (docker, docker-compose)
-- 🚀 Then automatically installs
+- 🚀 Then automatically installs 
   - 🇳 NocoDB,
   - 🐘 PostgreSQL,
-  - ⚡ Redis,
-  - 🗄 Minio,
+  - ⚡ Redis, 
+  - 🗄 Minio, 
   - 🌐 Traefik gateway.
 - 🔄 Also automatically upgrades NocoDB when new versions are available.
-- 🔒 And finally automatically sets up SSL that auto-renews!
+- 🔒 And finally automatically sets up SSL that auto-renews! 
 
 ## Installation Video
 <center>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/AkOWLk7e_hk?si=5A1BMLlQHBtj_pHH" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen ></iframe>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/AkOWLk7e_hk?si=5A1BMLlQHBtj_pHH" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen ></iframe>
 </center>
 
 ## Quick installation guide
@@ -46,10 +49,9 @@ This is quick walkthrough of how to install NocoDB using auto-upstall script.
 - **Step 4** :  🐦 Don't keep the command a secret. Tweet how easy it is. This step is a must!
 
 <br/>
-
-<Callout type="info">
-    You can find the install.nocodb.com/noco.sh script [on our GitHub here.](https://raw.githubusercontent.com/nocodb/nocodb/develop/docker-compose/1_Auto_Upstall/noco.sh)
-</Callout>
+:::info
+You can find the install.nocodb.com/noco.sh script [on our GitHub here.](https://raw.githubusercontent.com/nocodb/nocodb/develop/docker-compose/1_Auto_Upstall/noco.sh)
+:::
 
 ## Detailed installation guide
 
@@ -76,7 +78,7 @@ This is quick walkthrough of how to install NocoDB using auto-upstall script.
 5. Wait for installation to complete  - takes about 2-5 minutes.
    Once done, you'll see a success message with the URL to access your NocoDB instance.
 
-6. Access NocoDB
+6. Access NocoDB  
    Open the URL provided in your browser to access NocoDB.
 
 7. Congratulations! You should now have a working installation of NocoDB. Enjoy using your new no-code database platform!
