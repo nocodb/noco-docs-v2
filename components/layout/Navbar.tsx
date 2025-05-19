@@ -8,7 +8,7 @@ import Link from "next/link";
 
 export default function Navbar() {
     return (
-        <div className="container sticky top-0 z-50 relative flex items-center p-4">
+        <div className="max-w-screen-xl sticky top-0 z-50 mx-auto relative flex items-center p-4">
             <Link href="/docs">
                 <div className="flex gap-3 items-center">
                     <Image width={32} height={32} src={logoIcon} alt="NocoDB Logo" quality={100}/>

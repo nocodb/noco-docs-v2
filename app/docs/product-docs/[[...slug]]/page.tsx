@@ -18,8 +18,7 @@ export default async function Page(props: {
 
     return (
         <AnchorProvider toc={page.data.toc}>
-
-        <div className='flex lg:mx-auto relative py-4 gap-4 flex-col'>
+        <div className='flex lg:mx-auto container relative py-4 gap-4 flex-col'>
             <DocsTitle>{page.data.title}</DocsTitle>
             <DocsDescription className="mb-0">{page.data.description}</DocsDescription>
             <DocsBody>
@@ -30,11 +29,11 @@ export default async function Page(props: {
                 />
             </DocsBody>
         </div>
-        <Toc className='sticky w-64'>
-                    <TOCScrollArea className='w-64'>
-                        <ClerkTOCItems items={page.data.toc} />
-                    </TOCScrollArea>
-                </Toc>
+        <Toc className='sticky top-28 w-68 max-h-[calc(100vh-120px)] overflow-auto'>
+            <TOCScrollArea className='w-64'>
+                <ClerkTOCItems items={page.data.toc} />
+            </TOCScrollArea>
+        </Toc>
         </AnchorProvider>
 
     );

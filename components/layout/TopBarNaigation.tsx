@@ -60,7 +60,7 @@ export default function TopBarNaigation() {
     }, [])
 
     return (
-        <div className="flex w-full h-12 px-4 items-center container">
+        <div className="flex w-full h-12 px-4 items-center max-w-screen-xl mx-auto">
             <div className="relative">
                 <div
                     className="absolute h-[30px] transition-all duration-300 ease-out bg-nc-background-grey-extra-light rounded-[6px] flex items-center"
