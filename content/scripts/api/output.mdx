@@ -1,0 +1,725 @@
+---
+title: 'Output Methods'
+description: 'Documentation for the output object and its methods in NocoDB Scripts'
+icon: 'message-square-text'
+---
+
+The `output` object provides methods for displaying information to users during script execution. These methods allow you to create formatted output in various styles to communicate results, show progress, and present data in a readable format.
+
+## Overview
+
+The output methods enable you to:
+
+- Display plain text messages
+- Format content with Markdown for better readability
+- Present data in formatted tables
+- Inspect complex objects in an expandable format
+- Clear previous output content
+
+These methods help create a better user experience by providing clear, structured information about what your script is doing and what results it has produced.
+
+## Available Methods
+
+### output.text()
+
+Displays plain text in the output area.
+
+**Parameters:**
+- `message` (`string | number | boolean | null`): The message to display
+
+**Example:**
+```javascript
+// Basic usage
+output.text('Processing complete.');
+
+// Display in different scenarios
+output.text('Operation succeeded.');
+output.text('Warning: Some records were skipped.');
+output.text('Error: Could not connect to the database.');
+
+// Display numbers or other values
+output.text(`Records processed: ${recordCount}`);
+output.text(`Success: ${isSuccess}`);
+```
+
+### output.markdown()
+
+Renders text with Markdown formatting.
+
+**Parameters:**
+- `content` (`string`): The Markdown content to render
+
+**Example:**
+```javascript
+// Basic heading and text
+output.markdown('# Monthly Sales Report');
+output.markdown('Report generated on ' + new Date().toLocaleDateString());
+
+// Lists
+output.markdown('## Key Findings\n\n' +
+  '* Sales increased by 15% compared to last month\n' +
+  '* Top product: Widget X (1,245 units)\n' +
+  '* Top region: West (42% of total)');
+
+// Tables
+output.markdown('## Summary Table\n\n' +
+  '| Month | Revenue | Growth |\n' +
+  '|-------|---------|--------|\n' +
+  '| Jan   | $10,000 | -      |\n' +
+  '| Feb   | $12,500 | 25%    |\n' +
+  '| Mar   | $15,000 | 20%    |');
+  
+// Code blocks
+output.markdown('## Example Query\n\n' +
+  '```sql\n' +
+  'SELECT product_name, SUM(quantity) as total_sold\n' +
+  'FROM sales\n' +
+  'GROUP BY product_name\n' +
+  'ORDER BY total_sold DESC\n' +
+  'LIMIT 5;\n' +
+  '```');
+```
+
+### output.table()
+
+Displays data in a formatted table.
+
+**Parameters:**
+- `data` (`Array<object> | object`): Array of objects where each object represents a row, or a single object to display
+
+**Example:**
+```javascript
+// Display array of objects as table
+const salesData = [
+  { Product: 'Widget A', Units: 150, Revenue: 15000 },
+  { Product: 'Widget B', Units: 100, Revenue: 8500 },
+  { Product: 'Widget C', Units: 200, Revenue: 20000 }
+];
+
+output.table(salesData);
+
+// Display a single object as a table
+const summary = {
+  'Total Units': 450,
+  'Total Revenue': 43500,
+  'Average Price': 96.67,
+  'Best Seller': 'Widget C'
+};
+
+output.table(summary);
+```
+
+### output.inspect()
+
+Displays an object in an expandable, interactive format for inspection.
+
+**Parameters:**
+- `data` (`any`): The data to inspect
+
+**Example:**
+```javascript
+// Inspect a complex object
+const projectData = {
+  id: 'proj123',
+  name: 'Website Redesign',
+  status: 'In Progress',
+  startDate: '2023-06-01',
+  endDate: '2023-08-31',
+  team: [
+    { name: 'John Doe', role: 'Project Manager' },
+    { name: 'Jane Smith', role: 'Designer' },
+    { name: 'Bob Johnson', role: 'Developer' }
+  ],
+  tasks: [
+    { 
+      id: 'task1', 
+      name: 'Wireframes', 
+      status: 'Completed',
+      assignee: 'Jane Smith',
+      subtasks: [
+        { name: 'Homepage wireframe', completed: true },
+        { name: 'About page wireframe', completed: true },
+        { name: 'Contact page wireframe', completed: true }
+      ]
+    },
+    { 
+      id: 'task2', 
+      name: 'Design', 
+      status: 'In Progress',
+      assignee: 'Jane Smith',
+      subtasks: [
+        { name: 'Homepage design', completed: true },
+        { name: 'About page design', completed: false },
+        { name: 'Contact page design', completed: false }
+      ]
+    },
+    { 
+      id: 'task3', 
+      name: 'Development', 
+      status: 'Not Started',
+      assignee: 'Bob Johnson',
+      subtasks: [
+        { name: 'Frontend setup', completed: false },
+        { name: 'Homepage implementation', completed: false },
+        { name: 'Testing', completed: false }
+      ]
+    }
+  ]
+};
+
+output.inspect(projectData);
+```
+
+### output.clear()
+
+Clears all previous output content.
+
+**Example:**
+```javascript
+// Clear previous output before showing new results
+output.clear();
+output.markdown('# New Results');
+output.text('Previous output has been cleared.');
+```
+
+## Practical Examples
+
+### Creating a Structured Report
+
+```javascript
+// Structured report with sections and formatting
+async function generateSalesReport() {
+  // Get the Sales table
+  const salesTable = base.getTable('Sales');
+  
+  // Query sales data
+  const salesData = await salesTable.selectRecordsAsync({
+    fields: ['Date', 'Product', 'Quantity', 'Unit Price', 'Total', 'Customer', 'Region']
+  });
+  
+  // Clear any previous output
+  output.clear();
+  
+  // Report header
+  output.markdown('# Monthly Sales Report');
+  output.markdown(`Generated on: ${new Date().toLocaleDateString()}`);
+  output.markdown(`Data period: ${getLastMonthRange()}`);
+  
+  // Summary metrics
+  const totalSales = calculateTotalSales(salesData.records);
+  const totalUnits = calculateTotalUnits(salesData.records);
+  const averageOrderValue = totalSales / salesData.records.length;
+  
+  output.markdown('## Summary Metrics');
+  
+  const summaryData = {
+    'Total Sales': `$${totalSales.toLocaleString()}`,
+    'Total Units Sold': totalUnits.toLocaleString(),
+    'Number of Orders': salesData.records.length.toLocaleString(),
+    'Average Order Value': `$${averageOrderValue.toFixed(2)}`,
+    'Average Units per Order': (totalUnits / salesData.records.length).toFixed(1)
+  };
+  
+  output.table(summaryData);
+  
+  // Products breakdown
+  output.markdown('## Product Performance');
+  
+  const productData = getProductBreakdown(salesData.records);
+  output.table(productData);
+  
+  // Regional breakdown
+  output.markdown('## Regional Performance');
+  
+  const regionData = getRegionalBreakdown(salesData.records);
+  output.table(regionData);
+  
+  // Top customers
+  output.markdown('## Top Customers');
+  
+  const customerData = getTopCustomers(salesData.records, 5);
+  output.table(customerData);
+  
+  // Daily trend
+  output.markdown('## Daily Sales Trend');
+  output.text('Daily sales for the past month:');
+  
+  const dailyData = getDailySales(salesData.records);
+  output.table(dailyData);
+  
+  // Helper functions
+  function getLastMonthRange() {
+    const today = new Date();
+    const lastMonth = new Date(today);
+    lastMonth.setMonth(lastMonth.getMonth() - 1);
+    
+    return `${lastMonth.toLocaleDateString()} - ${today.toLocaleDateString()}`;
+  }
+  
+  function calculateTotalSales(records) {
+    return records.reduce((sum, record) => {
+      return sum + (record.getCellValue('Total') || 0);
+    }, 0);
+  }
+  
+  function calculateTotalUnits(records) {
+    return records.reduce((sum, record) => {
+      return sum + (record.getCellValue('Quantity') || 0);
+    }, 0);
+  }
+  
+  function getProductBreakdown(records) {
+    const productMap = {};
+    
+    for (const record of records) {
+      const product = record.getCellValue('Product');
+      const quantity = record.getCellValue('Quantity') || 0;
+      const total = record.getCellValue('Total') || 0;
+      
+      if (!product) continue;
+      
+      if (!productMap[product]) {
+        productMap[product] = {
+          units: 0,
+          sales: 0
+        };
+      }
+      
+      productMap[product].units += quantity;
+      productMap[product].sales += total;
+    }
+    
+    // Convert to array for table display
+    return Object.entries(productMap).map(([product, data]) => ({
+      'Product': product,
+      'Units Sold': data.units,
+      'Revenue': `$${data.sales.toLocaleString()}`,
+      'Average Price': `$${(data.sales / data.units).toFixed(2)}`
+    }));
+  }
+  
+  function getRegionalBreakdown(records) {
+    const regionMap = {};
+    
+    for (const record of records) {
+      const region = record.getCellValue('Region') || 'Unknown';
+      const total = record.getCellValue('Total') || 0;
+      
+      if (!regionMap[region]) {
+        regionMap[region] = 0;
+      }
+      
+      regionMap[region] += total;
+    }
+    
+    // Calculate total for percentages
+    const grandTotal = Object.values(regionMap).reduce((sum, val) => sum + val, 0);
+    
+    // Convert to array for table display
+    return Object.entries(regionMap).map(([region, sales]) => ({
+      'Region': region,
+      'Revenue': `$${sales.toLocaleString()}`,
+      'Percentage': `${((sales / grandTotal) * 100).toFixed(1)}%`
+    }));
+  }
+  
+  function getTopCustomers(records, limit) {
+    const customerMap = {};
+    
+    for (const record of records) {
+      const customer = record.getCellValue('Customer');
+      const total = record.getCellValue('Total') || 0;
+      
+      if (!customer) continue;
+      
+      const customerName = customer.name || customer;
+      
+      if (!customerMap[customerName]) {
+        customerMap[customerName] = 0;
+      }
+      
+      customerMap[customerName] += total;
+    }
+    
+    // Convert to array, sort, and limit
+    return Object.entries(customerMap)
+      .map(([customer, sales]) => ({
+        'Customer': customer,
+        'Total Purchases': `$${sales.toLocaleString()}`
+      }))
+      .sort((a, b) => {
+        const aValue = parseFloat(a['Total Purchases'].replace(/[$,]/g, ''));
+        const bValue = parseFloat(b['Total Purchases'].replace(/[$,]/g, ''));
+        return bValue - aValue;
+      })
+      .slice(0, limit);
+  }
+  
+  function getDailySales(records) {
+    const dailyMap = {};
+    
+    for (const record of records) {
+      const dateValue = record.getCellValue('Date');
+      if (!dateValue) continue;
+      
+      const date = new Date(dateValue);
+      const dateString = date.toISOString().split('T')[0]; // YYYY-MM-DD
+      const total = record.getCellValue('Total') || 0;
+      
+      if (!dailyMap[dateString]) {
+        dailyMap[dateString] = 0;
+      }
+      
+      dailyMap[dateString] += total;
+    }
+    
+    // Convert to array and sort by date
+    return Object.entries(dailyMap)
+      .map(([date, sales]) => ({
+        'Date': new Date(date).toLocaleDateString(),
+        'Sales': `$${sales.toLocaleString()}`
+      }))
+      .sort((a, b) => new Date(a.Date) - new Date(b.Date));
+  }
+}
+
+// Run the report
+await generateSalesReport();
+```
+
+### Progress Updates and Status Messages
+
+```javascript
+// Using output to show progress and status
+async function batchProcessRecords() {
+  // Get the Invoices table
+  const invoicesTable = base.getTable('Invoices');
+  
+  // Clear any previous output
+  output.clear();
+  output.markdown('# Batch Process Invoices');
+  
+  // Query unpaid invoices
+  output.text('Querying unpaid invoices...');
+  
+  const invoicesQuery = await invoicesTable.selectRecordsAsync({
+    fields: ['Invoice Number', 'Customer', 'Amount', 'Due Date', 'Status']
+  });
+  
+  const unpaidInvoices = invoicesQuery.records.filter(record => 
+    record.getCellValue('Status') === 'Unpaid'
+  );
+  
+  if (unpaidInvoices.length === 0) {
+    output.text('No unpaid invoices found.');
+    return;
+  }
+  
+  output.text(`Found ${unpaidInvoices.length} unpaid invoices.`);
+  
+  // Perform processing in batches
+  const batchSize = 10;
+  let processed = 0;
+  let successful = 0;
+  let failed = 0;
+  
+  // Create a summary table that will be updated
+  const summaryData = {
+    'Total Invoices': unpaidInvoices.length,
+    'Processed': '0',
+    'Successful': '0',
+    'Failed': '0',
+    'Remaining': unpaidInvoices.length.toString(),
+    'Progress': '0%'
+  };
+  
+  output.markdown('## Processing Status');
+  output.table(summaryData);
+  
+  // Process in batches
+  for (let i = 0; i < unpaidInvoices.length; i += batchSize) {
+    output.text(`Processing batch ${Math.floor(i / batchSize) + 1}...`);
+    
+    const batch = unpaidInvoices.slice(i, i + batchSize);
+    
+    // Process each invoice in the batch
+    for (const invoice of batch) {
+      try {
+        // Simulate processing time
+        await new Promise(resolve => setTimeout(resolve, 200));
+        
+        const invoiceNumber = invoice.getCellValue('Invoice Number');
+        const customer = invoice.getCellValue('Customer')?.name || 'Unknown';
+        const amount = invoice.getCellValue('Amount') || 0;
+        
+        // Simulate sending a reminder (in reality, would integrate with email service)
+        const result = await simulateSendReminder(invoice);
+        
+        if (result.success) {
+          output.text(`✓ Sent reminder for Invoice #${invoiceNumber} to ${customer} ($${amount})`);
+          successful++;
+        } else {
+          output.text(`✗ Failed to send reminder for Invoice #${invoiceNumber}: ${result.error}`);
+          failed++;
+        }
+        
+        // Update invoice status in the database
+        if (result.success) {
+          await invoicesTable.updateRecordAsync(invoice.id, {
+            'Status': 'Reminder Sent',
+            'Last Reminder': new Date().toISOString()
+          });
+        }
+      } catch (error) {
+        output.text(`Error processing invoice: ${error.message}`, 'error');
+        failed++;
+      }
+      
+      processed++;
+      
+      // Update summary table
+      const percentComplete = Math.round((processed / unpaidInvoices.length) * 100);
+      
+      // Clear and update the summary
+      output.markdown('## Processing Status');
+      output.table({
+        'Total Invoices': unpaidInvoices.length,
+        'Processed': processed.toString(),
+        'Successful': successful.toString(),
+        'Failed': failed.toString(),
+        'Remaining': (unpaidInvoices.length - processed).toString(),
+        'Progress': `${percentComplete}%`
+      });
+    }
+  }
+  
+  // Final summary
+  output.markdown('## Processing Complete');
+  output.text(`Processed ${unpaidInvoices.length} invoices.`);
+  output.text(`Successfully sent reminders: ${successful}`);
+  
+  if (failed > 0) {
+    output.text(`Failed to send reminders: ${failed}`);
+  } else {
+    output.text('All reminders sent successfully!');
+  }
+  
+  // Simulate sending an email reminder
+  // In a real scenario, this would connect to an email API
+  async function simulateSendReminder(invoice) {
+    // Simulate occasional failures
+    if (Math.random() < 0.1) {
+      return {
+        success: false,
+        error: 'Connection timeout'
+      };
+    }
+    
+    return {
+      success: true,
+      messageSent: true
+    };
+  }
+}
+
+// Run the batch process
+await batchProcessRecords();
+```
+
+### Error Reporting and Debugging
+
+```javascript
+// Error handling and debugging output
+async function processDataWithErrorHandling() {
+  output.markdown('# Data Processing Job');
+  
+  try {
+    // Get the Orders table
+    const ordersTable = base.getTable('Orders');
+    
+    if (!ordersTable) {
+      throw new Error('Orders table not found in the base.');
+    }
+    
+    output.text('Connected to Orders table.');
+    
+    // Query orders that need processing
+    output.text('Querying orders...');
+    
+    const ordersQuery = await ordersTable.selectRecordsAsync({
+      fields: ['Order ID', 'Customer', 'Items', 'Status', 'Total', 'Payment Method']
+    });
+    
+    // Filter for pending orders
+    const pendingOrders = ordersQuery.records.filter(record => 
+      record.getCellValue('Status') === 'Pending'
+    );
+    
+    output.text(`Found ${pendingOrders.length} pending orders to process.`);
+    
+    if (pendingOrders.length === 0) {
+      output.text('No pending orders to process.');
+      return;
+    }
+    
+    // Track processing stats
+    let processed = 0;
+    let successful = 0;
+    let failed = 0;
+    const errors = [];
+    
+    // Process each order
+    for (const order of pendingOrders) {
+      try {
+        output.text(`Processing order ${order.getCellValue('Order ID')}...`);
+        
+        // Validate order data
+        const validationErrors = validateOrder(order);
+        
+        if (validationErrors.length > 0) {
+          throw new Error(`Validation failed: ${validationErrors.join(', ')}`);
+        }
+        
+        // Process the order (simulated)
+        const processResult = await processOrder(order);
+        
+        if (processResult.success) {
+          // Update order status
+          await ordersTable.updateRecordAsync(order.id, {
+            'Status': 'Processed'
+          });
+          
+          output.text(`✓ Order ${order.getCellValue('Order ID')} processed successfully.`);
+          successful++;
+        } else {
+          throw new Error(processResult.error);
+        }
+      } catch (error) {
+        output.text(`✗ Failed to process order ${order.getCellValue('Order ID')}: ${error.message}`);
+        
+        // Track the error
+        errors.push({
+          orderId: order.getCellValue('Order ID'),
+          error: error.message,
+          record: order.id
+        });
+        
+        failed++;
+      }
+      
+      processed++;
+    }
+    
+    // Output summary
+    output.markdown('## Processing Summary');
+    output.text(`Total orders processed: ${processed}`);
+    output.text(`Successfully processed: ${successful}`);
+    
+    if (failed > 0) {
+      output.text(`Failed to process: ${failed}`);
+      
+      // Show detailed error information
+      output.markdown('## Error Details');
+      output.table(errors);
+      
+      // Offer to view first error in detail
+      if (errors.length > 0) {
+        const firstError = errors[0];
+        
+        output.markdown('### Detailed Debug Information');
+        output.text('First error details:');
+        
+        // Get the full record data for inspection
+        const errorRecord = await ordersTable.selectRecordAsync(firstError.record);
+        
+        if (errorRecord) {
+          output.inspect(errorRecord);
+        }
+      }
+    }
+  } catch (error) {
+    // Handle top-level errors
+    output.markdown('## Critical Error');
+    output.text(`The process encountered a critical error: ${error.message}`);
+    output.text('Stack trace:', 'error');
+    output.text(error.stack || 'No stack trace available');
+  }
+  
+  // Helper functions
+  function validateOrder(order) {
+    const errors = [];
+    
+    // Check required fields
+    if (!order.getCellValue('Order ID')) {
+      errors.push('Missing Order ID');
+    }
+    
+    if (!order.getCellValue('Customer')) {
+      errors.push('Missing Customer');
+    }
+    
+    if (!order.getCellValue('Items') || order.getCellValue('Items').length === 0) {
+      errors.push('No items in order');
+    }
+    
+    if (!order.getCellValue('Total') || order.getCellValue('Total') <= 0) {
+      errors.push('Invalid order total');
+    }
+    
+    if (!order.getCellValue('Payment Method')) {
+      errors.push('Missing payment method');
+    }
+    
+    return errors;
+  }
+  
+  async function processOrder(order) {
+    // Simulate processing with occasional failures
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
+    // Simulate a 10% failure rate
+    if (Math.random() < 0.1) {
+      return {
+        success: false,
+        error: 'Payment processing failed: Gateway timeout'
+      };
+    }
+    
+    return {
+      success: true,
+      transactionId: 'tx_' + Math.random().toString(36).substr(2, 9)
+    };
+  }
+}
+
+// Run the processing job
+await processDataWithErrorHandling();
+```
+
+## Best Practices
+
+1. **Use clear headings** - Organize your output with markdown headings to create a logical structure that's easy to scan.
+
+2. **Include timestamps** - Add timestamps to long-running processes so users know when actions occurred.
+
+3. **Use the right output type** - Choose the appropriate output method for your content:
+   - `text()` for simple messages
+   - `markdown()` for formatted content with headers and lists
+   - `table()` for tabular data
+   - `inspect()` for complex nested objects
+
+4. **Show progress updates** - For long-running operations, provide regular progress updates so users know the script is still working.
+
+5. **Provide summary information** - Include summary metrics and totals to give users a quick overview of results.
+
+6. **Format numbers and dates** - Use `toLocaleString()`, `toFixed()`, and other formatting methods to make numbers and dates more readable.
+
+7. **Use visual elements** - Employ markdown features like lists, tables, and code blocks to enhance readability.
+
+8. **Keep error messages informative** - Provide clear, actionable error messages that help users understand what went wrong and how to fix it.
+
+## Related Resources
+
+- [Input Methods](/docs/scripts/api/input)
+- [Table](/docs/scripts/api/table)
+- [Record](/docs/scripts/api/record)

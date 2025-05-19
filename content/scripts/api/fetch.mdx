@@ -1,0 +1,383 @@
+---
+title: 'Remote Fetch'
+description: 'Documentation for the remoteFetchAsync function in NocoDB Scripts'
+icon: 'globe'
+---
+
+The `remoteFetchAsync` function provides a way to make HTTP requests to external services from within NocoDB scripts. This enables you to integrate with third-party APIs, fetch external data, and connect your base to other systems.
+
+## Overview
+
+The `remoteFetchAsync` function is similar to the standard web Fetch API but runs in the secure context of NocoDB Scripts. It allows you to:
+
+- Make GET, POST, PUT, and DELETE requests to external APIs
+- Send and receive JSON data, text, and other formats
+- Set custom headers like authentication tokens
+- Integrate your base with external services
+
+This function is asynchronous and returns a Promise, so it must be used with `await` to get the result.
+
+## Basic Syntax
+
+```javascript
+const response = await remoteFetchAsync(url, options);
+```
+
+**Parameters:**
+- `url` (`string`): The URL to which the request should be sent
+- `options` (`object`, optional): Configuration options for the request:
+  - `method` (`'GET' | 'POST' | 'PUT' | 'DELETE'`, optional): The HTTP method to use (default: 'GET')
+  - `headers` (`object`, optional): Headers to include in the request
+  - `body` (`string | null`, optional): Body content to send with the request
+
+**Returns:** `Promise<any>` - A promise that resolves to the response data
+
+## Basic Examples
+
+### Making a GET Request
+
+```javascript
+// Simple GET request
+const response = await remoteFetchAsync('https://api.example.com/data');
+output.text(`Response status: ${response.status}`);
+output.inspect(response.data);
+```
+
+### Making a POST Request with JSON Data
+
+```javascript
+// POST request with JSON data
+const response = await remoteFetchAsync('https://api.example.com/items', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    name: 'New Item',
+    description: 'This is a new item',
+    quantity: 10
+  })
+});
+
+if (response.status === 201) {
+  output.text('Item created successfully!');
+  output.inspect(response.data);
+} else {
+  output.text(`Error creating item: ${response.status}`, 'error');
+}
+```
+
+### Making a Request with Authentication
+
+```javascript
+// GET request with authorization header
+const apiKey = 'your_api_key_here';
+
+const response = await remoteFetchAsync('https://api.example.com/secure-data', {
+  headers: {
+    'Authorization': `Bearer ${apiKey}`
+  }
+});
+
+if (response.status === 200) {
+  output.text('Successfully fetched secure data');
+  output.table(response.data);
+} else if (response.status === 401) {
+  output.text('Authentication failed: Invalid API key', 'error');
+} else {
+  output.text(`Request failed with status: ${response.status}`, 'error');
+}
+```
+
+## Common Use Cases
+
+### Fetching Data from a Public API
+
+```javascript
+// Fetch weather data from a public API
+async function getWeatherData(city) {
+  try {
+    const response = await remoteFetchAsync(
+      `https://api.weatherapi.com/v1/current.json?key=YOUR_API_KEY&q=${encodeURIComponent(city)}`
+    );
+    
+    if (response.status !== 200) {
+      throw new Error(`API returned status ${response.status}`);
+    }
+    
+    const weatherData = response.data;
+    
+    output.markdown(`# Weather for ${weatherData.location.name}, ${weatherData.location.country}`);
+    output.text(`Temperature: ${weatherData.current.temp_c}°C / ${weatherData.current.temp_f}°F`);
+    output.text(`Condition: ${weatherData.current.condition.text}`);
+    output.text(`Wind: ${weatherData.current.wind_kph} km/h, ${weatherData.current.wind_dir}`);
+    output.text(`Humidity: ${weatherData.current.humidity}%`);
+    output.text(`Last Updated: ${weatherData.current.last_updated}`);
+    
+    return weatherData;
+  } catch (error) {
+    output.text(`Error fetching weather data: ${error.message}`, 'error');
+    return null;
+  }
+}
+
+// Get weather for a city
+const city = await input.textAsync('Enter city name:');
+await getWeatherData(city);
+```
+
+### Sending Data to a Webhook
+
+```javascript
+// Send data to a webhook (e.g., Zapier, Make.com, etc.)
+async function sendToWebhook(data) {
+  try {
+    output.text('Sending data to webhook...');
+    
+    const response = await remoteFetchAsync('https://hooks.zapier.com/hooks/catch/123456/abcdef/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+    
+    if (response.status >= 200 && response.status < 300) {
+      output.text('Data sent successfully!', 'log');
+      return true;
+    } else {
+      throw new Error(`Webhook returned status ${response.status}`);
+    }
+  } catch (error) {
+    output.text(`Error sending to webhook: ${error.message}`, 'error');
+    return false;
+  }
+}
+
+// Example: Send new customer data to a webhook
+const customersTable = base.getTable('Customers');
+const newCustomersView = customersTable.getView('New Customers');
+
+const customers = await newCustomersView.selectRecordsAsync({
+  fields: ['Name', 'Email', 'Phone', 'Signup Date']
+});
+
+// Process each customer
+for (const customer of customers.records) {
+  const customerData = {
+    name: customer.getCellValue('Name'),
+    email: customer.getCellValue('Email'),
+    phone: customer.getCellValue('Phone'),
+    signupDate: customer.getCellValue('Signup Date'),
+    source: 'NocoDB'
+  };
+  
+  const success = await sendToWebhook(customerData);
+  
+  if (success) {
+    // Update the customer record to mark as processed
+    await customersTable.updateRecordAsync(customer.id, {
+      'Webhook Sent': true,
+      'Processing Date': new Date().toISOString()
+    });
+  }
+}
+```
+
+### Integrating with Google Sheets API
+
+```javascript
+// Import data from Google Sheets (simplified example)
+async function importFromGoogleSheets(spreadsheetId, range) {
+  const apiKey = 'YOUR_API_KEY';
+  
+  try {
+    output.text(`Fetching data from Google Sheets (${spreadsheetId})...`);
+    
+    const response = await remoteFetchAsync(
+      `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`
+    );
+    
+    if (response.status !== 200) {
+      throw new Error(`API returned status ${response.status}`);
+    }
+    
+    const sheetData = response.data;
+    
+    if (!sheetData.values || sheetData.values.length === 0) {
+      output.text('No data found in the specified range.', 'warning');
+      return null;
+    }
+    
+    // Extract headers from the first row
+    const headers = sheetData.values[0];
+    
+    // Convert the data to an array of objects
+    const records = sheetData.values.slice(1).map(row => {
+      const record = {};
+      headers.forEach((header, index) => {
+        record[header] = row[index] || null;
+      });
+      return record;
+    });
+    
+    output.text(`Fetched ${records.length} records from Google Sheets.`);
+    output.table(records.slice(0, 5)); // Show first 5 records as preview
+    
+    return records;
+  } catch (error) {
+    output.text(`Error fetching data from Google Sheets: ${error.message}`, 'error');
+    return null;
+  }
+}
+
+// Example usage
+const spreadsheetId = '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms'; // Example Spreadsheet ID
+const range = 'Sheet1!A1:F100'; // Range to fetch
+
+const sheetsData = await importFromGoogleSheets(spreadsheetId, range);
+
+if (sheetsData) {
+  // Import the data into a NocoDB table
+  const importTable = base.getTable('Imported Data');
+  
+  // Clear confirmation before proceeding
+  const confirm = await input.buttonsAsync(
+    `Import ${sheetsData.length} records into the "${importTable.name}" table?`,
+    [
+      { label: 'Import Data', value: true, variant: 'primary' },
+      { label: 'Cancel', value: false, variant: 'secondary' }
+    ]
+  );
+  
+  if (confirm) {
+    // Import data in batches
+    const batchSize = 50;
+    let imported = 0;
+    
+    for (let i = 0; i < sheetsData.length; i += batchSize) {
+      const batch = sheetsData.slice(i, i + batchSize);
+      await importTable.createRecordsAsync(batch);
+      imported += batch.length;
+      output.text(`Imported ${imported} of ${sheetsData.length} records...`);
+    }
+    
+    output.text(`Import complete! ${imported} records imported.`, 'log');
+  } else {
+    output.text('Import cancelled.');
+  }
+}
+```
+
+
+## Working with Different Data Formats
+
+### JSON Data
+
+```javascript
+// Working with JSON data
+async function fetchJsonData() {
+  try {
+    const response = await remoteFetchAsync('https://api.example.com/data', {
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+    
+    if (response.status !== 200) {
+      throw new Error(`API returned status ${response.status}`);
+    }
+    
+    // The response data is automatically parsed as JSON
+    const data = response.data;
+    
+    return data;
+  } catch (error) {
+    output.text(`Error fetching JSON data: ${error.message}`, 'error');
+    return null;
+  }
+}
+```
+
+### Form Data
+
+```javascript
+// Submitting form data
+async function submitFormData(formData) {
+  try {
+    // Convert the form data object to URL-encoded format
+    const formBody = Object.entries(formData)
+      .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+      .join('&');
+    
+    const response = await remoteFetchAsync('https://api.example.com/submit-form', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: formBody
+    });
+    
+    if (response.status === 200 || response.status === 201) {
+      output.text('Form submitted successfully!', 'log');
+      return true;
+    } else {
+      throw new Error(`Server returned status ${response.status}`);
+    }
+  } catch (error) {
+    output.text(`Error submitting form: ${error.message}`, 'error');
+    return false;
+  }
+}
+
+// Example usage
+const formData = {
+  name: 'John Doe',
+  email: 'john.doe@example.com',
+  message: 'This is a test message',
+  subscribe: 'true'
+};
+
+await submitFormData(formData);
+```
+
+## Best Practices
+
+1. **Use try/catch blocks** - Always wrap `remoteFetchAsync` calls in try/catch blocks to handle connection errors, timeouts, and other issues.
+
+2. **Check response status** - Validate the HTTP status code before attempting to use the response data.
+
+3. **Set appropriate headers** - Include the correct `Content-Type` and `Accept` headers for your request.
+
+4. **Handle authentication properly** - Use secure methods to store and transmit authentication credentials.
+
+5. **Implement rate limiting** - Be mindful of API rate limits and implement throttling or backoff strategies when needed.
+
+6. **Cache responses when appropriate** - For data that doesn't change frequently, consider storing the response and reusing it.
+
+7. **Log meaningful errors** - Provide clear error messages to help troubleshoot issues.
+
+8. **Validate input data** - Ensure data being sent to external APIs is valid and properly formatted.
+
+9. **Respect API terms of service** - Ensure your usage of external APIs complies with their terms of service and documentation.
+
+10. **Consider timeouts** - Be aware that remote requests may time out if they take too long to complete.
+
+## Security Considerations
+
+1. **Never expose API keys in output** - Be careful not to include sensitive information like API keys in your output.
+
+2. **Use secure endpoints** - Prefer HTTPS URLs over HTTP to ensure encrypted data transmission.
+
+3. **Validate and sanitize input** - Be cautious with user-provided data that will be sent to external APIs.
+
+4. **Be mindful of data privacy** - Consider the privacy implications of transmitting data to third-party services.
+
+5. **Implement proper error handling** - Don't expose detailed error messages from APIs that might reveal sensitive information.
+
+
+## Related Resources
+
+- [Input Methods](/docs/scripts/api/input)
+- [Output Methods](/docs/scripts/api/output)
+- [Table](/docs/scripts/api/table)

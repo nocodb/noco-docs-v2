@@ -1,14 +1,13 @@
 "use client";
 import * as SidebarPrimitive from "fumadocs-core/sidebar";
-import {useSearchContext, useSidebar, useTreeContext, useTreePath} from "fumadocs-ui/provider";
+import {useSidebar, useTreeContext, useTreePath} from "fumadocs-ui/provider";
 import {createContext, ReactNode, useContext, useMemo, useState,} from "react";
 import {PageTree} from "fumadocs-core/server";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
-import {ChevronDown, SearchIcon} from "lucide-react";
+import {ChevronDown} from "lucide-react";
 import {cn} from "@/lib/utils";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger,} from "@/components/ui/collapsible";
-import {SidebarHeader} from "fumadocs-ui/components/layout/sidebar";
 import {ScrollArea, ScrollViewport} from "@/components/ui/scroll-area";
 import {useOnChange} from "fumadocs-core/utils/use-on-change";
 import type {BaseLayoutProps} from "fumadocs-ui/layouts/shared";

@@ -1,4 +1,4 @@
-import {blog, docs,} from '@/.source';
+import {blog, docs, scripts} from '@/.source';
 import {loader} from 'fumadocs-core/source';
 import {createMDXSource} from "fumadocs-mdx";
 import {iconMap, IconNameType} from "@/lib/iconMap";
@@ -29,4 +29,9 @@ export const source = loader({
 export const blogSource = loader({
     baseUrl: '/docs/blog',
     source: createMDXSource(blog, []),
+})
+
+export const scriptsSource = loader({
+    baseUrl: '/docs/scripts',
+    source: scripts.toFumadocsSource(),
 })

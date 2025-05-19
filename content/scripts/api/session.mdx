@@ -1,0 +1,132 @@
+---
+title: 'Session'
+description: 'Documentation for the Session object in NocoDB Scripts'
+icon: 'user-circle'
+---
+
+The `session` object provides information about the current user who is executing the script. It allows you to access contextual information about the user's identity and permissions.
+
+## Overview
+
+The `session` object is available in every NocoDB script and provides a way to:
+
+- Access the current user's information (ID, name, email)
+
+## Properties
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `currentUser` | `Collaborator` | An object representing the current user running the script |
+
+## Usage Examples
+
+### Getting Current User Information
+
+```javascript
+// Access the current user information
+const currentUser = session.currentUser;
+
+output.markdown('# Current User Information');
+output.text(`ID: ${currentUser.id}`);
+output.text(`Name: ${currentUser.name || 'No name set'}`);
+output.text(`Email: ${currentUser.email}`);
+```
+
+### Using Session with Cursor
+
+The `session` object can be combined with the `cursor` object to create highly contextual scripts:
+
+```javascript
+// Get current user and context
+const currentUser = session.currentUser;
+const activeTableId = cursor.activeTableId;
+const activeViewId = cursor.activeViewId;
+const activeRowData = cursor.row;
+
+// Output the current context
+output.markdown('# Current Context');
+output.text(`User: ${currentUser.name || currentUser.email}`);
+
+if (activeTableId) {
+  const activeTable = base.getTable(activeTableId);
+  output.text(`Active Table: ${activeTable.name}`);
+  
+  if (activeViewId) {
+    // Find the active view
+    const activeView = activeTable.views.find(view => view.id === activeViewId);
+    if (activeView) {
+      output.text(`Active View: ${activeView.name}`);
+    }
+  }
+  
+  if (activeRowData) {
+    output.text('Active Record:');
+    output.table(activeRowData);
+    
+    // Example: Check if current user owns this record
+    const ownerField = activeTable.getField('Created By');
+    if (ownerField) {
+      const record = await activeTable.selectRecordAsync(activeRowData.id);
+      const recordOwner = record.getCellValue('Created By');
+      
+      if (recordOwner && recordOwner.id === currentUser.id) {
+        output.text('You are the owner of this record.');
+      } else {
+        output.text('You are not the owner of this record.');
+      }
+    }
+  }
+}
+```
+
+### Using Session with Input
+
+The `session` object can be used to customize input prompts and defaults:
+
+```javascript
+// Get the current user
+const currentUser = session.currentUser;
+
+// Get a department that defaults to the user's department
+const userDept = await getDepartmentForUser(currentUser.id);
+
+// Create an input with the user's department as the default
+const department = await input.textAsync(
+  'Enter department (or leave as is for your department):',
+  { defaultValue: userDept || '' }
+);
+
+// Helper function to get a user's department
+async function getDepartmentForUser(userId) {
+  const employeesTable = base.getTable('Employees');
+  const employees = await employeesTable.selectRecordsAsync({
+    fields: ['User', 'Department']
+  });
+  
+  const employeeRecord = employees.records.find(record => {
+    const user = record.getCellValue('User');
+    return user && user.id === userId;
+  });
+  
+  return employeeRecord ? employeeRecord.getCellValue('Department') : null;
+}
+```
+
+## Best Practices
+
+1. **Always check user properties** - Some users might not have their name set, so always check for null/undefined values when using `currentUser.name`.
+
+2. **Avoid hardcoding user IDs** - Instead of hardcoding user IDs, use email addresses when possible as they are more human-readable and less likely to change.
+
+3. **Consider privacy** - Be cautious about displaying user information, especially when creating scripts that might be shared with others.
+
+4. **Handle edge cases** - Consider what should happen if a script is run by a user who isn't properly set up in your base (e.g., missing from a Users table).
+
+5. **Test with different users** - When developing scripts that rely on user context, test with different user accounts to ensure they work correctly for all users.
+
+## Related Resources
+
+- [Base](/docs/scripts/api/base)
+- [Cursor](/docs/scripts/api/cursor)
+- [Table](/docs/scripts/api/table)
+- [Input](/docs/scripts/api/input)

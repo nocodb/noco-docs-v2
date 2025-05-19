@@ -18,6 +18,10 @@ export const blog = defineCollections({
     }),
 })
 
+export const scripts = defineDocs({
+    dir: 'content/scripts',
+})
+
 export default defineConfig({
   mdxOptions: {
       remarkPlugins: [remarkAdmonition],

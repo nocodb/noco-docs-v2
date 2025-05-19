@@ -1,0 +1,472 @@
+---
+title: 'RecordQueryResult'
+description: 'Documentation for the RecordQueryResult object in NocoDB Scripts'
+icon: 'table-rows'
+---
+
+The `RecordQueryResult` object represents the results of a record query operation in NocoDB Scripts. It provides access to the records returned by the query and supports pagination for working with large datasets.
+
+## Overview
+
+When you query records from a table or view using `selectRecordsAsync()`, the method returns a `RecordQueryResult` object. This object allows you to:
+
+- Access the array of returned records
+- Check if there are more records available beyond what was initially returned
+- Load additional pages of records when needed
+- Get record count and pagination information
+- Access specific records by ID
+
+The RecordQueryResult object is designed to help you work efficiently with query results, especially when dealing with large tables where loading all records at once might not be practical.
+
+## Properties
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `records` | `ReadonlyArray<Record>` | Array of Record objects returned by the query |
+| `recordIds` | `ReadonlyArray<string>` | Array of record IDs (strings) returned by the query |
+| `hasMoreRecords` | `boolean` | Whether there are more records available beyond what was returned |
+| `currentPage` | `number` | The current page number (0-based) |
+| `pageSize` | `number` | The number of records per page |
+| `table` | `Table` | Reference to the table from which records were queried |
+
+## Methods
+
+### getRecord(recordId)
+
+Retrieves a specific record from the query result by its ID.
+
+**Parameters:**
+- `recordId` (`string`): The ID of the record to retrieve
+
+**Returns:** `Record` object corresponding to the specified ID
+
+**Throws:** Error if the record with the specified ID is not found in the query result
+
+**Example:**
+```javascript
+// Get a table and query some records
+const projectsTable = base.getTable('Projects');
+const projectsResult = await projectsTable.selectRecordsAsync();
+
+// Get a specific record from the results
+try {
+  const projectId = projectsResult.recordIds[0];
+  const project = projectsResult.getRecord(projectId);
+  
+  output.text(`Project name: ${project.getCellValue('Name')}`);
+} catch (error) {
+  output.text(`Error retrieving record: ${error.message}`);
+}
+```
+
+### loadMoreRecords()
+
+Loads the next page of records when hasMoreRecords is true. This method appends the newly loaded records to the existing records array and returns the same RecordQueryResult instance with the updated data.
+
+**Returns:** `Promise<RecordQueryResult>` - A promise that resolves to the same RecordQueryResult instance with newly loaded records appended to the records array
+
+**Example:**
+```javascript
+// Get a table with many records
+const tasksTable = base.getTable('Tasks');
+
+// Initial query with a small page size
+const tasksResult = await tasksTable.selectRecordsAsync({
+  limit: 50 // Start with 50 records
+});
+
+output.text(`Loaded ${tasksResult.records.length} tasks initially.`);
+
+// Check if there are more records to load
+if (tasksResult.hasMoreRecords) {
+  // Load more records - this modifies the original tasksResult object
+  await tasksResult.loadMoreRecords();
+  
+  // The tasksResult now contains both the original and newly loaded records
+  output.text(`Loaded ${tasksResult.records.length} tasks in total.`);
+}
+```
+
+## Working with Query Results
+
+### Basic Usage
+
+```javascript
+// Query records from a table
+const projectsTable = base.getTable('Projects');
+const queryResult = await projectsTable.selectRecordsAsync({
+  fields: ['Name', 'Status', 'Due Date', 'Assigned To'],
+  sorts: [
+    { field: 'Due Date', direction: 'asc' }
+  ],
+  limit: 100
+});
+
+// Output basic information about the result
+output.text(`Query returned ${queryResult.records.length} records.`);
+output.text(`Has more records: ${queryResult.hasMoreRecords}`);
+
+// Process the records
+for (const record of queryResult.records) {
+  const projectName = record.getCellValue('Name');
+  const status = record.getCellValue('Status');
+  const dueDate = record.getCellValue('Due Date');
+  
+  output.text(`- ${projectName} (${status}), due on ${dueDate}`);
+}
+```
+
+### Accessing the Raw Data
+
+The records in a RecordQueryResult contain structured data. You can access this data directly:
+
+```javascript
+// Query records from a table
+const contactsTable = base.getTable('Contacts');
+const queryResult = await contactsTable.selectRecordsAsync({
+  fields: ['Name', 'Email', 'Phone', 'Company']
+});
+
+// Access the raw data for each record
+for (const record of queryResult.records) {
+  // Method 1: Using getCellValue
+  const name = record.getCellValue('Name');
+  const email = record.getCellValue('Email');
+  
+  // Output the data
+  output.text(`${name}: ${email}`);
+}
+
+// Create a simplified data structure for further processing
+const contactsList = queryResult.records.map(record => ({
+  id: record.id,
+  name: record.getCellValue('Name'),
+  email: record.getCellValue('Email'),
+  phone: record.getCellValue('Phone'),
+  company: record.getCellValue('Company')
+}));
+
+// Use the simplified data structure
+output.table(contactsList);
+```
+
+### Paginated Processing
+
+For tables with many records, use pagination to process records in batches:
+
+```javascript
+// Process all records in a large table using pagination
+async function processAllRecords() {
+  const customersTable = base.getTable('Customers');
+  
+  // Initial query with modest page size
+  let queryResult = await customersTable.selectRecordsAsync({
+    fields: ['Name', 'Email', 'Last Order Date', 'Total Spend'],
+    limit: 100
+  });
+  
+  let processedCount = 0;
+  let totalProcessed = 0;
+  
+  // Process first batch
+  for (const record of queryResult.records) {
+    // Perform processing on each record
+    await processCustomerRecord(record);
+    processedCount++;
+  }
+  
+  totalProcessed += processedCount;
+  output.text(`Processed batch of ${processedCount} records.`);
+  
+  // Continue loading and processing batches while there are more records
+  while (queryResult.hasMoreRecords) {
+    // Reset counter for this batch
+    processedCount = 0;
+    
+    // Load next batch - this appends to the existing records
+    await queryResult.loadMoreRecords();
+    
+    // Calculate how many new records were added
+    const newRecordsCount = queryResult.records.length - totalProcessed;
+    
+    // Process only the newly added records
+    for (let i = totalProcessed; i < queryResult.records.length; i++) {
+      await processCustomerRecord(queryResult.records[i]);
+      processedCount++;
+    }
+    
+    totalProcessed += processedCount;
+    output.text(`Processed batch of ${processedCount} records. Total so far: ${totalProcessed}`);
+  }
+  
+  output.text(`Completed processing all ${totalProcessed} records.`);
+}
+
+// Example of a record processing function
+async function processCustomerRecord(record) {
+  // Simulate processing time
+  await new Promise(resolve => setTimeout(resolve, 10));
+  
+  // Get the last order date
+  const lastOrderDate = record.getCellValue('Last Order Date');
+  
+  // Check if it's been more than 90 days since the last order
+  if (lastOrderDate) {
+    const daysSinceOrder = Math.floor((new Date() - new Date(lastOrderDate)) / (1000 * 60 * 60 * 24));
+    
+    if (daysSinceOrder > 90) {
+      // Would do something with inactive customers
+      return 'inactive';
+    } else {
+      return 'active';
+    }
+  } else {
+    return 'never-ordered';
+  }
+}
+
+// Run the process
+await processAllRecords();
+```
+
+### Finding Records in the Result
+
+```javascript
+// Query records and then find specific ones
+const employeesTable = base.getTable('Employees');
+const employeesResult = await employeesTable.selectRecordsAsync({
+  fields: ['Name', 'Department', 'Position', 'Hire Date', 'Salary']
+});
+
+// Find employees from a specific department
+const hrEmployees = employeesResult.records.filter(
+  record => record.getCellValue('Department') === 'Human Resources'
+);
+
+output.text(`Found ${hrEmployees.length} employees in HR department.`);
+
+// Find the employee with the highest salary
+let highestPaidEmployee = null;
+let highestSalary = 0;
+
+for (const record of employeesResult.records) {
+  const salary = record.getCellValue('Salary') || 0;
+  
+  if (salary > highestSalary) {
+    highestSalary = salary;
+    highestPaidEmployee = record;
+  }
+}
+
+if (highestPaidEmployee) {
+  output.text('Highest paid employee:');
+  output.text(`- Name: ${highestPaidEmployee.getCellValue('Name')}`);
+  output.text(`- Department: ${highestPaidEmployee.getCellValue('Department')}`);
+  output.text(`- Position: ${highestPaidEmployee.getCellValue('Position')}`);
+  output.text(`- Salary: $${highestPaidEmployee.getCellValue('Salary').toLocaleString()}`);
+}
+```
+
+### Grouping Records
+
+```javascript
+// Query and group records
+const tasksTable = base.getTable('Tasks');
+const tasksResult = await tasksTable.selectRecordsAsync({
+  fields: ['Task Name', 'Status', 'Priority', 'Assigned To', 'Due Date']
+});
+
+// Group tasks by status
+const tasksByStatus = {};
+
+for (const record of tasksResult.records) {
+  const status = record.getCellValue('Status') || 'No Status';
+  
+  if (!tasksByStatus[status]) {
+    tasksByStatus[status] = [];
+  }
+  
+  tasksByStatus[status].push({
+    id: record.id,
+    name: record.getCellValue('Task Name'),
+    priority: record.getCellValue('Priority'),
+    assignee: record.getCellValue('Assigned To')?.name || 'Unassigned',
+    dueDate: record.getCellValue('Due Date')
+  });
+}
+
+// Display grouped tasks
+output.markdown('# Tasks by Status');
+
+for (const [status, tasks] of Object.entries(tasksByStatus)) {
+  output.markdown(`## ${status} (${tasks.length})`);
+  
+  // Sort tasks by priority (if available)
+  tasks.sort((a, b) => (b.priority || 0) - (a.priority || 0));
+  
+  // Display tasks in this group
+  output.table(tasks);
+}
+```
+
+
+## Analytics on Query Results
+
+```javascript
+// Query sales data and perform analytics
+const salesTable = base.getTable('Sales');
+const salesResult = await salesTable.selectRecordsAsync({
+  fields: ['Date', 'Product', 'Quantity', 'Unit Price', 'Total', 'Sales Rep', 'Region']
+});
+
+// Calculate total sales
+let totalSales = 0;
+const salesByProduct = {};
+const salesByRep = {};
+const salesByRegion = {};
+const salesByMonth = {};
+
+for (const record of salesResult.records) {
+  const total = record.getCellValue('Total') || 0;
+  const product = record.getCellValue('Product') || 'Unknown';
+  const salesRep = record.getCellValue('Sales Rep')?.name || 'Unknown';
+  const region = record.getCellValue('Region') || 'Unknown';
+  const date = record.getCellValue('Date');
+  
+  // Add to total sales
+  totalSales += total;
+  
+  // Group by product
+  if (!salesByProduct[product]) {
+    salesByProduct[product] = 0;
+  }
+  salesByProduct[product] += total;
+  
+  // Group by sales rep
+  if (!salesByRep[salesRep]) {
+    salesByRep[salesRep] = 0;
+  }
+  salesByRep[salesRep] += total;
+  
+  // Group by region
+  if (!salesByRegion[region]) {
+    salesByRegion[region] = 0;
+  }
+  salesByRegion[region] += total;
+  
+  // Group by month
+  if (date) {
+    const month = new Date(date).toLocaleString('default', { month: 'long', year: 'numeric' });
+    if (!salesByMonth[month]) {
+      salesByMonth[month] = 0;
+    }
+    salesByMonth[month] += total;
+  }
+}
+
+// Prepare data for output
+output.markdown('# Sales Analysis');
+output.text(`Total Sales: $${totalSales.toLocaleString()}`);
+output.text(`Number of Transactions: ${salesResult.records.length}`);
+
+// Sales by product
+output.markdown('## Sales by Product');
+const productData = Object.entries(salesByProduct)
+  .map(([product, total]) => ({ Product: product, 'Total Sales': total }))
+  .sort((a, b) => b['Total Sales'] - a['Total Sales']);
+output.table(productData);
+
+// Sales by rep
+output.markdown('## Sales by Representative');
+const repData = Object.entries(salesByRep)
+  .map(([rep, total]) => ({ 'Sales Rep': rep, 'Total Sales': total }))
+  .sort((a, b) => b['Total Sales'] - a['Total Sales']);
+output.table(repData);
+
+// Sales by region
+output.markdown('## Sales by Region');
+const regionData = Object.entries(salesByRegion)
+  .map(([region, total]) => ({ Region: region, 'Total Sales': total }))
+  .sort((a, b) => b['Total Sales'] - a['Total Sales']);
+output.table(regionData);
+
+// Sales by month
+output.markdown('## Sales by Month');
+const monthData = Object.entries(salesByMonth)
+  .map(([month, total]) => ({ Month: month, 'Total Sales': total }))
+  .sort((a, b) => {
+    // Sort chronologically
+    const dateA = new Date(a.Month);
+    const dateB = new Date(b.Month);
+    return dateA - dateB;
+  });
+output.table(monthData);
+```
+
+## Error Handling with Query Results
+
+```javascript
+// Properly handle errors in record queries
+async function safelyQueryRecords(tableName, options = {}) {
+  try {
+    // Get the table
+    const table = base.getTable(tableName);
+    if (!table) {
+      throw new Error(`Table "${tableName}" not found in the base.`);
+    }
+    
+    // Attempt the query
+    const queryResult = await table.selectRecordsAsync(options);
+    return queryResult;
+  } catch (error) {
+    output.text(`Error querying records from ${tableName}: ${error.message}`);
+    return null;
+  }
+}
+
+// Use the safe query function
+const customersResult = await safelyQueryRecords('Customers', {
+  fields: ['Name', 'Email', 'Phone'],
+  limit: 50
+});
+
+if (customersResult) {
+  output.text(`Successfully retrieved ${customersResult.records.length} customers.`);
+  
+  // Process the records
+  // ...
+  
+  // Load more records if available
+  if (customersResult.hasMoreRecords) {
+    try {
+      await customersResult.loadMoreRecords();
+      output.text(`Now have ${customersResult.records.length} customers in total.`);
+    } catch (error) {
+      output.text(`Error loading more records: ${error.message}`);
+    }
+  }
+}
+```
+
+## Best Practices
+
+1. **Use appropriate page sizes** - Choose a limit that balances performance and memory usage. The default is often 100 records, but you may need larger or smaller limits based on your needs.
+
+2. **Check for more records** - Always check the `hasMoreRecords` property to determine if you need to load additional pages of records.
+
+3. **Process records in batches** - For large tables, process records in batches rather than loading all records at once.
+
+4. **Track record indices when paginating** - Since `loadMoreRecords()` appends to the existing records array, keep track of which records you've already processed to avoid duplicate processing.
+
+5. **Handle linked records carefully** - Remember that linked records might require additional queries to retrieve full details.
+
+6. **Use getRecord() for lookups** - When you need to find a specific record by ID, use the `getRecord()` method instead of searching through the records array.
+
+7. **Handle errors in loadMoreRecords()** - The `loadMoreRecords()` method can fail, especially if there are network issues, so wrap it in a try-catch block.
+
+## Related Resources
+
+- [Base](/docs/scripts/api/base)
+- [Table](/docs/scripts/api/table)
+- [Record](/docs/scripts/api/record)
+- [View](/docs/scripts/api/view)

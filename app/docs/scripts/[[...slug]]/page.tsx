@@ -1,17 +1,17 @@
-import {source} from '@/lib/source';
+import {scriptsSource, source} from '@/lib/source';
 import {DocsBody, DocsDescription, DocsTitle,} from 'fumadocs-ui/page';
 import {notFound} from 'next/navigation';
 import {getMDXComponents} from '@/mdx-components';
 import MdxLink from "@/components/mdx/MdxLink";
 import { AnchorProvider } from 'fumadocs-core/toc';
-import { Toc, TOCScrollArea, TOCItems, } from 'fumadocs-ui/components/layout/toc';
+import { Toc, TOCScrollArea, } from 'fumadocs-ui/components/layout/toc';
 import ClerkTOCItems from 'fumadocs-ui/components/layout/toc-clerk';
 
 export default async function Page(props: {
     params: Promise<{ slug?: string[] }>;
 }) {
     const params = await props.params;
-    const page = source.getPage(params.slug);
+    const page = scriptsSource.getPage(params.slug);
     if (!page) notFound();
 
     const MDXContent = page.data.body;
@@ -23,7 +23,7 @@ export default async function Page(props: {
                     <ClerkTOCItems items={page.data.toc} />
                 </TOCScrollArea>
             </Toc>
-            <div className='flex lg:mx-auto shrink-1 relative p-4 gap-4 flex-col'>
+            <div className='flex lg:mx-auto shrink-1 max-w-179 relative p-4 gap-4 flex-col'>
                 <DocsTitle>{page.data.title}</DocsTitle>
                 <DocsDescription className="mb-0">{page.data.description}</DocsDescription>
                 <DocsBody>
@@ -40,14 +40,14 @@ export default async function Page(props: {
 }
 
 export async function generateStaticParams() {
-    return source.generateParams();
+    return scriptsSource.generateParams();
 }
 
 export async function generateMetadata(props: {
     params: Promise<{ slug?: string[] }>;
 }) {
     const params = await props.params;
-    const page = source.getPage(params.slug);
+    const page = scriptsSource.getPage(params.slug);
     if (!page) notFound();
 
     return {
