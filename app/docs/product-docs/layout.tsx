@@ -3,6 +3,7 @@ import Sidebar from '@/components/layout/Sidebar';
 import { source } from '@/lib/source';
 import { TreeContextProvider } from 'fumadocs-ui/provider';
 import type {ReactNode} from 'react';
+import MobileSidebar from '@/app/docs/MobileSidebar';
 
 export default function Layout({children}: { children: ReactNode }) {
     return (
@@ -12,6 +13,7 @@ export default function Layout({children}: { children: ReactNode }) {
                     <Sidebar />
                     {children}
                 </div>
+                <MobileSidebar/>
             </TreeContextProvider>
         </div>
     );

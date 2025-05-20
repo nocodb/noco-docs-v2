@@ -2,6 +2,7 @@ import Sidebar from "@/components/layout/Sidebar";
 import { selfHostingSource } from "@/lib/source";
 import { TreeContextProvider } from "fumadocs-ui/provider";
 import { ReactNode } from "react";
+import MobileSidebar from "@/app/docs/MobileSidebar";
 
 export default function Page({children}: {children: ReactNode}) {
     return (
@@ -11,6 +12,7 @@ export default function Page({children}: {children: ReactNode}) {
                     <Sidebar />
                     {children}
                 </div>
+                <MobileSidebar/>
             </TreeContextProvider>
         </div>
     )

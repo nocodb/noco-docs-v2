@@ -40,7 +40,7 @@ const useInternalContext = () => {
     return context;
 };
 
-const Sidebar = () => {
+const Sidebar = ({isMobile}: {isMobile?: boolean}) => {
     const {root} = useTreeContext();
     const pathname = usePathname();
 
@@ -66,7 +66,7 @@ const Sidebar = () => {
 
     return (
         <InternalContext.Provider value={context}>
-            <SidebarPrimitive.SidebarList removeScrollOn="(width < 768px)" className={cn("hidden xl:flex sticky top-[120px] h-[calc(100dvh-120px)] w-64 py-4 mr-3 flex-col shrink-0 ", open ? 'block' : 'hidden xl:block')}>
+            <SidebarPrimitive.SidebarList removeScrollOn="(width < 768px)" className={cn("xl:flex sticky py-4 mr-3 flex-col shrink-0 ", open ? 'block' : 'hidden xl:block', isMobile ? 'block' : 'hidden top-[120px] h-[calc(100dvh-120px)]  w-64')}>
                 <ScrollArea className="h-full">
                     <ScrollViewport>
                         {children}
