@@ -9,7 +9,7 @@ export default function Layout({children}: { children: ReactNode }) {
     return (
         <div className='relative'>
             <TreeContextProvider tree={source.pageTree}>
-                <div className="max-w-screen-xl h-[calc(100dvh-120px)] overflow-auto flex mt-30 mx-auto">
+                <div className="max-w-screen-xl flex flex-col xl:flex-row mt-30 mx-auto">
                     <Sidebar />
                     {children}
                 </div>

@@ -21,35 +21,33 @@ export default async function Page(props: {
 
     return (
         <AnchorProvider toc={page.data.toc}>
-            <Toc className='sticky hidden lg:block top-0 w-68 max-h-[calc(100vh-120px)] order-last shrink-0 overflow-auto'>
+            <Toc className='hidden xl:sticky xl:block top-[120px] w-68 max-h-[calc(100vh-120px)] order-last shrink-0 overflow-auto'>
                 <TOCScrollArea className='w-64'>
                     <ClerkTOCItems items={page.data.toc} />
                 </TOCScrollArea>
             </Toc>
             <TOCMobile toc={page.data.toc}/>
-            <div className='flex lg:mx-auto shrink-1 max-w-179 relative p-4 gap-4 flex-col'>
+            <div className='flex flex-col flex-1 gap-4 mx-auto overflow-y-auto shrink-1 max-w-179 relative p-4'>
                 <DocsTitle>{page.data.title}</DocsTitle>
                 <DocsDescription className="mb-0">{page.data.description}</DocsDescription>
                 <DocsBody>
                     <MDXContent
-                    components={getMDXComponents({
-                        a: MdxLink
-                    })}
-                />
-            </DocsBody>
-            <Cards>
-                {getPageTreePeers(scriptsSource.pageTree, page.url).slice(0, 2).map((peer) => (
-                    <Card key={peer.url} title={peer.name} href={peer.url}>
-                        {peer.description}
-                    </Card>
-                ))}
-            </Cards>
-            <div className="py-8">
-
+                        components={getMDXComponents({
+                            a: MdxLink
+                        })}
+                        />
+                </DocsBody>
+                <Cards>
+                    {getPageTreePeers(scriptsSource.pageTree, page.url).slice(0, 2).map((peer) => (
+                        <Card key={peer.url} title={peer.name} href={peer.url}>
+                            {peer.description}
+                        </Card>
+                    ))}
+                </Cards>
+                <div className="py-8">
+                </div>
             </div>
-        </div>
         </AnchorProvider>
-
     );
 }
 

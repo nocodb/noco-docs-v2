@@ -9,7 +9,7 @@ const tabs = [{
     href: '/docs/product-docs',
 }, {
     title: 'Self Hosting',
-    href: '/docs/self-hosted',
+    href: '/docs/self-hosting',
 }, {
     title: 'Scripts',
     href: '/docs/scripts',

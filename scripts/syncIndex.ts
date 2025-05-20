@@ -4,7 +4,7 @@ import {DocumentRecord, sync} from "@/utils/search/typesense";
 
 const productContent = fs.readFileSync('.next/server/app/docs/product-docs/static.json.body');
 const scriptsContent = fs.readFileSync('.next/server/app/docs/scripts/static.json.body');
-const selfHostedContent = fs.readFileSync('.next/server/app/docs/self-hosted/static.json.body');
+const selfHostedContent = fs.readFileSync('.next/server/app/docs/self-hosting/static.json.body');
 
 const productRecords = JSON.parse(productContent.toString()) as DocumentRecord[];
 const scriptsRecords = JSON.parse(scriptsContent.toString()) as DocumentRecord[];
