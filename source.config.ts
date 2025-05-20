@@ -22,6 +22,10 @@ export const scripts = defineDocs({
     dir: 'content/scripts',
 })
 
+export const selfHosting = defineDocs({
+    dir: 'content/self-hosting',
+})
+
 export default defineConfig({
   mdxOptions: {
       remarkPlugins: [remarkAdmonition],
