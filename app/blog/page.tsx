@@ -44,10 +44,10 @@ export default async function BlogPage({searchParams}: {
     return (
         <main className="py-8 w-full md:py-12">
             <div className="container py-20 lg:py-16">
-                <h1 className="text-center text-nc-content-grey-emphasis text-[40px] font-bold leading-15.5">
+                <h1 className="text-center text-nc-content-grey-emphasis text-[40px] font-semibold leading-15.5">
                     Blog
                 </h1>
-                <h5 className="text-nc-content-grey-subtle text-center mt-10 lg:mt-6 text-base leading-6 font-semibold">
+                <h5 className="text-nc-content-grey-subtle text-center mt-10 lg:mt-6 text-base leading-6 font-medium">
                     Insights, tutorials, and updates <br/>
                     from the team building the future of no-code databases.
                 </h5>

@@ -40,7 +40,7 @@ export function BlogCard({post}: BlogCardProps) {
                              className="rounded-[6px] text-[14px] leading-5 px-1 text-nc-content-grey-default ">
                             {post.data?.category}
                         </div>
-                        <div className="text-nc-content-grey-muted text-[13px] leading-4.5">
+                        <div className="text-nc-content-grey-muted font-[500] text-[13px] leading-4.5">
                             {readingTime}
                         </div>
                     </div>
