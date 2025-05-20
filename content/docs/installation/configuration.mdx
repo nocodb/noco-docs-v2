@@ -1,9 +1,11 @@
 ---
-title: 'Environment variables'
-description: 'Environment Variables for NocoDB!'
+title: 'Configuring NocoDB'
+description: 'Configuration for NocoDB!'
 tags: [ 'Open Source' ]
 keywords: [ 'NocoDB Environment Variables', 'NocoDB env variables', 'NocoDB envs', 'NocoDB .env' ]
 ---
+
+# Environment Variables
 
 For production use cases, it is crucial to set all environment variables marked as **"Mandatory"** to ensure optimal
 performance, security, and functionality of NocoDB.
@@ -37,6 +39,8 @@ To update **either** `NC_ADMIN_EMAIL` or `NC_ADMIN_PASSWORD`, you must set **bot
 
 ## Storage
 
+Storage setup is optional, if not configured objects will be stored under ./nc directory
+
 | Variable                       | Mandatory | Description                                                                                                                                                                                                         | If Not Set                              |
 |--------------------------------|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------|
 | `NC_S3_BUCKET_NAME`            | No        | The name of the AWS S3 bucket used for the S3 storage plugin.                                                                                                                                                       |                                         |
@@ -47,6 +51,8 @@ To update **either** `NC_ADMIN_EMAIL` or `NC_ADMIN_PASSWORD`, you must set **bot
 | `NC_S3_FORCE_PATH_STYLE`       | No        | Whether to force [path-style requests](https://docs.aws.amazon.com/AmazonS3/latest/userguide/VirtualHosting.html#path-style-access) for the S3 storage plugin.                                                      |                                         |
 | `NC_S3_ACL`                    | No        | The [ACL](https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html) for the objects in S3                                                                                                            |                                         |
 | `NC_ATTACHMENT_FIELD_SIZE`     | No        | Maximum file size allowed for [attachments](/fields/field-types/custom-types/attachment/) in bytes.                                                                                                                 | Defaults to `20971520` (20 MiB).        |
+| `NC_NON_ATTACHMENT_FIELD_SIZE` | No        | Sets the maximum size in bytes for individual non-attachment form fields during multipart uploads. Useful for increasing limit for large text or JSON fields to prevent 'Field value too long' errors. | Defaults to `1MB` (based on `multer`'s default field size limit).
+ |
 | `NC_MAX_ATTACHMENTS_ALLOWED`   | No        | Maximum number of attachments allowed per cell.                                                                                                                                                                     | Defaults to `10`.                       |
 | `NC_ATTACHMENT_RETENTION_DAYS` | No        | Number of days to retain attachment on storage after all references deleted. (Set 0 to keep forever)                                                                                                                | Defaults to `10`.                       |
 | `NC_SECURE_ATTACHMENTS`        | No        | Enables access to attachments only through pre-signed URLs. Set to `true` to activate; all other values are treated as `false`. ⚠ Note: Enabling this will make existing links inaccessible.                        | Defaults to `false`.                    |
@@ -103,7 +109,7 @@ To update **either** `NC_ADMIN_EMAIL` or `NC_ADMIN_PASSWORD`, you must set **bot
 | `NC_ALLOW_LOCAL_HOOKS`               | No        | Allows webhooks to call local network links, posing potential security risks. Set to `true` to enable; all other values are considered `false`.                                                       | Defaults to `false`.                       |
 | `NC_SANITIZE_COLUMN_NAME`            | No        | Enables sanitization of column names during their creation to prevent SQL injection and other security issues.                                                                                        | Defaults to `true`.                        |
 | `NC_TOOL_DIR`                        | No        | Specifies the directory to store metadata and app-related files. In Docker setups, this maps to `/usr/app/data/` for mounting volumes.                                                                | Defaults to the current working directory. |
-| `NC_DISABLE_PG_DATA_REFLECTION`      | No        | Disables the creation of a schema for each base in PostgreSQL.  [Click here for more detail](#postgres-data-reflection)                                                                               |                                            |
+| `NC_DISABLE_PG_DATA_REFLECTION`      | No        | Disables the creation of a schema for each base in PostgreSQL.  [Click here for more detail](#postgres-data-reflection)                                                                               | Defaults to `false`.                                            |
 | `NC_MIGRATIONS_DISABLED`             | No        | Disables NocoDB migrations.                                                                                                                                                                           |                                            |
 | `NC_DISABLE_AUDIT`                   | No        | Disables the audit log feature.                                                                                                                                                                       | Defaults to `false`.                       |
 | `NC_AUTOMATION_LOG_LEVEL`            | No        | Configures logging levels for automation features. Possible values: `OFF`, `ERROR`, `ALL`. More details can be found under [Webhooks](/automation/webhook/create-webhook).                            | Defaults to `OFF`.                         |
@@ -112,7 +118,7 @@ To update **either** `NC_ADMIN_EMAIL` or `NC_ADMIN_PASSWORD`, you must set **bot
 
 NocoDB UI is exactly what's in your Postgres database schema. Same tables, same columns—everything is perfectly
 mirrored. This is done by creating a schema for each base in PostgreSQL. This feature is enabled by default if the user
-has the required permissions. To disable it, set the `NC_DISABLE_PG_DATA_REFLECTION` environment variable to `false`.
+has the required permissions. To disable it, set the `NC_DISABLE_PG_DATA_REFLECTION` environment variable to `true`.
 
 ## Logging & Monitoring
 

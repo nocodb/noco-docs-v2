@@ -1,0 +1,21 @@
+{
+  "title": "Installation",
+  "pages": [
+    "auto-upstall",
+    "aws-ecs",
+    "behind-apache",
+    "behind-nginx",
+    "configuration",
+    "digital-ocean",
+    "docker-aio",
+    "docker-compose",
+    "gcp-cloud-run",
+    "home-brew",
+    "k8s",
+    "nix",
+    "nixos",
+    "other-installations",
+    "ubuntu"
+  ],
+  "icon": "book"
+}
