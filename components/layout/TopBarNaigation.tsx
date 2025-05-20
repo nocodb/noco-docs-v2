@@ -92,7 +92,7 @@ export default function TopBarNaigation() {
                     {tabs.map((tab, index) => (
                         <div
                             key={index}
-                            ref={(el) => (tabRefs.current[index] = el)}
+                            ref={(el) => { tabRefs.current[index] = el; }}
                             className={`px-2 py-2 cursor-pointer transition-colors duration-300 h-[30px] ${
                                 index === activeIndex ? "text-nc-content-brand-default" : "text-nc-content-grey-subtle-2"
                             }`}

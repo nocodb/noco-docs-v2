@@ -5,7 +5,6 @@ import { TreeContextProvider } from 'fumadocs-ui/provider';
 import type {ReactNode} from 'react';
 
 export default function Layout({children}: { children: ReactNode }) {
-    console.log(source.pageTree);
     return (
         <div className='relative'>
             <TreeContextProvider tree={source.pageTree}>

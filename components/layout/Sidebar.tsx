@@ -10,7 +10,6 @@ import {cn} from "@/lib/utils";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger,} from "@/components/ui/collapsible";
 import {ScrollArea, ScrollViewport} from "@/components/ui/scroll-area";
 import {useOnChange} from "fumadocs-core/utils/use-on-change";
-import type {BaseLayoutProps} from "fumadocs-ui/layouts/shared";
 
 interface FolderContextType {
     open: boolean;
@@ -41,7 +40,7 @@ const useInternalContext = () => {
     return context;
 };
 
-const Sidebar = (params: BaseLayoutProps) => {
+const Sidebar = () => {
     const {root} = useTreeContext();
     const pathname = usePathname();
 
