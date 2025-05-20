@@ -1,9 +1,9 @@
 import type {ReactNode} from 'react';
 import {HomeLayout} from 'fumadocs-ui/layouts/home';
 import {baseOptions} from '@/app/layout.config';
-import {Footer} from "@/components/Home/Footer";
-import {Navbar} from "@/components/Home/Navbar";
-import {Manrope} from "next/font/google";
+import {Footer} from "@/components/blog/home/Footer";
+import {Navbar} from "@/components/blog/home/Navbar";
+import {Inter} from "next/font/google";
 import { ReCaptchaProvider } from "next-recaptcha-v3";
 
 export const metadata = {
@@ -12,7 +12,7 @@ export const metadata = {
     }
 }
 
-const inter = Manrope({
+const inter = Inter({
     subsets: ['latin']
 })
 

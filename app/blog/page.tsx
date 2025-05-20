@@ -1,10 +1,10 @@
 import {blogSource} from "@/lib/source";
-import {FeaturedPost} from "@/components/Blog/FeaturedPost";
-import {BlogCard} from "@/components/Blog/BlogCard";
+import {FeaturedPost} from "@/components/blog/FeaturedPost";
+import {BlogCard} from "@/components/blog/BlogCard";
 import {Separator} from "@/components/ui/separator";
 import Link from "next/link";
-import {CategoryTabs} from "@/components/Blog/Category";
-import Subscribe from "@/components/Blog/Subscribe";
+import {CategoryTabs} from "@/components/blog/Category";
+import Subscribe from "@/components/blog/Subscribe";
 
 export const metadata = {
     title: "Blog | NocoDB",

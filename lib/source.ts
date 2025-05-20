@@ -27,7 +27,7 @@ export const source = loader({
 });
 
 export const blogSource = loader({
-    baseUrl: '/docs/blog',
+    baseUrl: '/blog',
     source: createMDXSource(blog, []),
 })
 
