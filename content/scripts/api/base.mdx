@@ -1,0 +1,200 @@
+---
+title: 'Base'
+description: 'Documentation for the base object in NocoDB Scripts'
+icon: 'database'
+---
+
+The `base` object is the primary entry point to your database in NocoDB Scripts. It provides access to tables, views, records, and collaborators within your base.
+
+## Overview
+
+In every script, you have access to a global `base` object that represents the current NocoDB base where your script is running. This object lets you:
+
+- Access tables within your base
+- List collaborators
+- Create new tables (in supported environments)
+
+## Properties
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `id` | `string` | The unique identifier of the base |
+| `name` | `string` | The name of the base |
+| `tables` | `Table[]` | Array of all tables in the base |
+| `activeCollaborators` | `Collaborator[]` | Array of active collaborators |
+
+## Methods
+
+### getTable(idOrName)
+
+Retrieves a table from the base by its ID or name.
+
+**Parameters:**
+- `idOrName` (`string`): The ID or name of the table to retrieve
+
+**Returns:** `Table` object corresponding to the specified ID or name
+
+**Example:**
+```javascript
+// Get a table by name
+const projects = base.getTable('Projects');
+
+// Get a table by ID
+const tasks = base.getTable('tbl123456789');
+
+// Check if a table exists
+const tableName = 'Customers';
+const table = base.getTable(tableName);
+if (table) {
+  output.text(`Table ${tableName} found!`);
+} else {
+  output.text(`Table ${tableName} not found.`);
+}
+```
+
+### getCollaborator(idOrEmailOrName)
+
+Retrieves a collaborator by their ID, email, or name.
+
+**Parameters:**
+- `idOrEmailOrName` (`string`): The ID, email, or name of the collaborator
+
+**Returns:** `Collaborator` object or `null` if not found
+
+**Example:**
+```javascript
+// Get a collaborator by email
+const user = base.getCollaborator('user@example.com');
+
+// Check if a user has access to the base
+if (user) {
+  output.text(`User ${user.name} (${user.email}) has access to this base.`);
+} else {
+  output.text('User not found in collaborators.');
+}
+```
+
+### createTableAsync(name, fields)
+
+Creates a new table in the base with the specified name and fields. 
+
+> Note: This method is currently in beta and may have limitations.
+
+**Parameters:**
+- `name` (`string`): The name for the new table
+- `fields` (`Array`): Array of field configurations
+
+**Returns:** `Promise<Table>` - A promise that resolves to the newly created table
+
+**Example:**
+```javascript
+// Create a new table with fields
+try {
+  const newTable = await base.createTableAsync('Orders', [
+    {
+      name: 'Order ID',
+      type: UITypes.SingleLineText,
+      primary_key: true
+    },
+    {
+      name: 'Customer',
+      type: UITypes.SingleLineText
+    },
+    {
+      name: 'Order Date',
+      type: UITypes.Date,
+      options: {
+        date_format: 'YYYY-MM-DD'
+      }
+    },
+    {
+      name: 'Status',
+      type: UITypes.SingleSelect,
+      options: {
+        choices: [
+          { title: 'Pending', color: 'yellow' },
+          { title: 'Processing', color: 'blue' },
+          { title: 'Shipped', color: 'green' },
+          { title: 'Delivered', color: 'purple' },
+          { title: 'Cancelled', color: 'red' }
+        ]
+      }
+    }
+  ]);
+  
+  output.text(`Table ${newTable.name} created successfully!`);
+} catch (error) {
+  output.text(`Error creating table: ${error.message}`);
+}
+```
+
+## Examples
+
+### Getting All Tables
+
+```javascript
+// Print all tables in the base
+output.markdown('# Tables in this base:');
+
+for (const table of base.tables) {
+  output.text(`- ${table.name} (${table.id}): ${table.fields.length} fields, ${table.views.length} views`);
+}
+```
+
+### Checking for a Specific Table
+
+```javascript
+// Check if a specific table exists and create it if it doesn't
+const inventoryTableName = 'Inventory';
+let inventoryTable = base.getTable(inventoryTableName);
+
+if (!inventoryTable) {
+  output.text(`${inventoryTableName} table not found. Creating it now...`);
+  
+  try {
+    inventoryTable = await base.createTableAsync(inventoryTableName, [
+      { name: 'Item ID', type: UITypes.SingleLineText, primary_key: true },
+      { name: 'Item Name', type: UITypes.SingleLineText },
+      { name: 'Quantity', type: UITypes.Number },
+      { name: 'Category', type: UITypes.SingleSelect }
+    ]);
+    
+    output.text(`${inventoryTableName} table created successfully!`);
+  } catch (error) {
+    output.text(`Error creating table: ${error.message}`);
+  }
+} else {
+  output.text(`${inventoryTableName} table already exists.`);
+}
+```
+
+### Working with Collaborators
+
+```javascript
+// List all collaborators
+output.markdown('# Active Collaborators:');
+
+for (const collaborator of base.activeCollaborators) {
+  output.text(`- ${collaborator.name} (${collaborator.email})`);
+}
+
+// Find the current user
+const currentUser = session.currentUser;
+output.markdown(`## Current User: ${currentUser.name} (${currentUser.email})`);
+
+// Check if a specific user has access
+const userEmail = 'team@example.com';
+const teamMember = base.getCollaborator(userEmail);
+
+if (teamMember) {
+  output.text(`${teamMember.name} has access to this base.`);
+} else {
+  output.text(`No collaborator found with email ${userEmail}.`);
+}
+```
+
+## Related Resources
+
+- [Table](/docs/scripts/api/table)
+- [Field](/docs/scripts/api/field)
+- [Session](/docs/scripts/api/session)

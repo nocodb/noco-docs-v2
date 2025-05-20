@@ -1,0 +1,636 @@
+---
+title: 'Script Settings'
+description: 'Documentation for script settings and configuration using input.config()'
+icon: 'sliders'
+---
+
+The `input.config()` method allows you to define settings and inputs for your NocoDB script, creating a configuration form that appears when users run the script. This feature enables you to create reusable, configurable scripts with a friendly user interface.
+
+## Overview
+
+When you use `input.config()` at the beginning of your script, NocoDB generates a settings form based on your configuration. This form is displayed to users before the script runs, allowing them to:
+
+- Enter text values
+- Select options from dropdowns
+- Choose tables, views, and fields
+- Provide numeric inputs
+- Configure other script-specific settings
+
+The values entered by users are returned as an object that you can use throughout your script.
+
+## Basic Usage
+
+```javascript
+// Define script settings
+const config = input.config({
+  title: "My Script",
+  description: "This script processes data based on your configuration.",
+  items: [
+    input.config.table('sourceTable', {
+      label: 'Source Table',
+      description: 'Select the table containing your source data'
+    }),
+    input.config.text('prefix', {
+      label: 'Record Prefix',
+      description: 'Prefix to add to processed record names'
+    }),
+    input.config.number('limit', {
+      label: 'Processing Limit',
+      description: 'Maximum number of records to process'
+    })
+  ]
+});
+
+// Use the configured values
+const table = base.getTable(config.sourceTable);
+const prefix = config.prefix;
+const limit = config.limit;
+
+output.text(`Using table: ${table.name}`);
+output.text(`Using prefix: ${prefix}`);
+output.text(`Processing limit: ${limit}`);
+
+// Rest of your script...
+```
+
+## Configuration Options
+
+### Main Configuration Object
+
+The `input.config()` method accepts a configuration object with the following properties:
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `title` | `string` | Title of the script, displayed at the top of the settings form |
+| `description` | `string` | Description of what the script does (supports some markdown) |
+| `items` | `Array<ConfigItem>` | Array of configuration items for the settings form |
+
+### Configuration Item Types
+
+The `input.config` object provides several methods for creating different types of configuration items:
+
+#### input.config.table()
+
+Creates a table selector in the settings form.
+
+**Parameters:**
+- `key` (`string`): Unique identifier for this setting
+- `options` (optional): Object with additional options:
+  - `label` (`string`): Display label for the setting
+  - `description` (`string`): Description text explaining the setting
+
+**Example:**
+```javascript
+input.config.table('contactsTable', {
+  label: 'Contacts Table',
+  description: 'Select the table containing your contacts'
+})
+```
+
+#### input.config.view()
+
+Creates a view selector in the settings form (requires a parentTable to be defined first).
+
+**Parameters:**
+- `key` (`string`): Unique identifier for this setting
+- `options`: Object with the following properties:
+  - `label` (`string`): Display label for the setting
+  - `description` (`string`): Description text explaining the setting
+  - `parentTable` (`string`): The key of a previously defined table setting
+
+**Example:**
+```javascript
+input.config.view('activeContactsView', {
+  label: 'Active Contacts View',
+  description: 'Select the view containing active contacts only',
+  parentTable: 'contactsTable' // References a previously defined table setting
+})
+```
+
+#### input.config.field()
+
+Creates a field selector in the settings form (requires a parentTable to be defined first).
+
+**Parameters:**
+- `key` (`string`): Unique identifier for this setting
+- `options`: Object with the following properties:
+  - `label` (`string`): Display label for the setting
+  - `description` (`string`): Description text explaining the setting
+  - `parentTable` (`string`): The key of a previously defined table setting
+
+**Example:**
+```javascript
+input.config.field('emailField', {
+  label: 'Email Field',
+  description: 'Select the field containing email addresses',
+  parentTable: 'contactsTable' // References a previously defined table setting
+})
+```
+
+#### input.config.text()
+
+Creates a text input in the settings form.
+
+**Parameters:**
+- `key` (`string`): Unique identifier for this setting
+- `options` (optional): Object with additional options:
+  - `label` (`string`): Display label for the setting
+  - `description` (`string`): Description text explaining the setting
+
+**Example:**
+```javascript
+input.config.text('emailSubject', {
+  label: 'Email Subject',
+  description: 'Subject line for the email notification'
+})
+```
+
+#### input.config.select()
+
+Creates a dropdown select menu in the settings form.
+
+**Parameters:**
+- `key` (`string`): Unique identifier for this setting
+- `options`: Object with the following properties:
+  - `label` (`string`): Display label for the setting
+  - `description` (`string`): Description text explaining the setting
+  - `options` (`Array<{value: string, label?: string}>`): Array of options for the dropdown
+
+**Example:**
+```javascript
+input.config.select('priority', {
+  label: 'Task Priority',
+  description: 'Select the priority level for the tasks',
+  options: [
+    { value: 'high', label: 'High Priority' },
+    { value: 'medium', label: 'Medium Priority' },
+    { value: 'low', label: 'Low Priority' }
+  ]
+})
+```
+
+#### input.config.number()
+
+Creates a numeric input in the settings form.
+
+**Parameters:**
+- `key` (`string`): Unique identifier for this setting
+- `options` (optional): Object with additional options:
+  - `label` (`string`): Display label for the setting
+  - `description` (`string`): Description text explaining the setting
+
+**Example:**
+```javascript
+input.config.number('daysAhead', {
+  label: 'Days Ahead',
+  description: 'Number of days to look ahead in the schedule'
+})
+```
+
+## Practical Examples
+
+### Basic Contact Management Script
+
+```javascript
+// Define script configuration
+const config = input.config({
+  title: "Contact Management Helper",
+  description: "This script helps you manage contacts by automating common tasks.",
+  items: [
+    input.config.table('contactsTable', {
+      label: 'Contacts Table',
+      description: 'Select your contacts table'
+    }),
+    input.config.view('activeContactsView', {
+      label: 'Active Contacts View',
+      description: 'Select a view containing active contacts',
+      parentTable: 'contactsTable'
+    }),
+    input.config.field('emailField', {
+      label: 'Email Field',
+      description: 'Select the field containing email addresses',
+      parentTable: 'contactsTable'
+    }),
+    input.config.field('statusField', {
+      label: 'Status Field',
+      description: 'Select the field containing contact status',
+      parentTable: 'contactsTable'
+    }),
+    input.config.select('action', {
+      label: 'Action to Perform',
+      description: 'Select what you want to do with these contacts',
+      options: [
+        { value: 'update', label: 'Update Status' },
+        { value: 'count', label: 'Count by Status' }
+      ]
+    })
+  ]
+});
+
+// Access the configured table, view, and fields
+const contactsTable = base.getTable(config.contactsTable);
+const activeContactsView = contactsTable.getView(config.activeContactsView);
+const emailField = contactsTable.getField(config.emailField);
+const statusField = contactsTable.getField(config.statusField);
+
+// Query the contacts based on the selected view
+const contacts = await activeContactsView.selectRecordsAsync({
+  fields: [emailField.name, statusField.name]
+});
+
+// Perform the selected action
+switch (config.action) {
+  case 'update':
+    // Update status
+    const newStatus = await input.selectAsync('Select new status for contacts:', [
+      'Active', 'Inactive', 'Pending', 'Archived'
+    ]);
+    
+    // Confirm the update
+    const confirmation = await input.buttonsAsync(
+      `Are you sure you want to update ${contacts.records.length} contacts to status "${newStatus}"?`,
+      ['Yes, update contacts', 'Cancel']
+    );
+    
+    if (confirmation === 'Yes, update contacts') {
+      // Perform the update
+      for (const record of contacts.records) {
+        await contactsTable.updateRecordAsync(record.id, {
+          [statusField.name]: newStatus
+        });
+      }
+      output.text(`Updated ${contacts.records.length} contacts to status "${newStatus}".`);
+    } else {
+      output.text('Update cancelled.');
+    }
+    break;
+    
+  case 'count':
+    // Count by status
+    const countByStatus = {};
+    
+    for (const record of contacts.records) {
+      const status = record.getCellValue(statusField.name) || 'Unknown';
+      countByStatus[status] = (countByStatus[status] || 0) + 1;
+    }
+    
+    output.markdown('# Contact Status Summary');
+    for (const [status, count] of Object.entries(countByStatus)) {
+      output.text(`${status}: ${count} contacts`);
+    }
+    break;
+}
+```
+
+### Data Import Configuration
+
+```javascript
+// Define script configuration for data import
+const config = input.config({
+  title: "CSV Data Import Tool",
+  description: "Import data from a CSV file into a table with customizable field mapping.",
+  items: [
+    input.config.table('destinationTable', {
+      label: 'Destination Table',
+      description: 'Select the table where data will be imported'
+    }),
+    input.config.select('duplicateHandling', {
+      label: 'Duplicate Handling',
+      description: 'How to handle duplicate records',
+      options: [
+        { value: 'skip', label: 'Skip duplicates' },
+        { value: 'update', label: 'Update existing records' },
+        { value: 'allow', label: 'Allow duplicates' }
+      ]
+    }),
+    input.config.field('uniqueIdField', {
+      label: 'Unique ID Field',
+      description: 'Field to use for identifying duplicates (required for Skip/Update options)',
+      parentTable: 'destinationTable'
+    }),
+    input.config.number('batchSize', {
+      label: 'Import Batch Size',
+      description: 'Number of records to process in each batch (defaults to 50)'
+    }),
+    input.config.text('dateFormat', {
+      label: 'Date Format',
+      description: 'Format for date values (e.g., MM/DD/YYYY or YYYY-MM-DD)'
+    })
+  ]
+});
+
+// Access configuration values
+const destinationTable = base.getTable(config.destinationTable);
+const duplicateHandling = config.duplicateHandling;
+const uniqueIdField = destinationTable.getField(config.uniqueIdField);
+const batchSize = config.batchSize || 50;
+const dateFormat = config.dateFormat || 'YYYY-MM-DD';
+
+// Get CSV file from user
+const result = await input.fileAsync('Select a CSV file to import', {
+  allowedFileTypes: ['.csv'],
+  hasHeaderRow: true
+});
+
+if (!result || !result.parsedContents) {
+  output.text('No file selected or file could not be parsed.');
+  return;
+}
+
+const csvData = result.parsedContents;
+output.text(`File loaded with ${csvData.length} rows.`);
+
+// Display field mapping interface
+output.markdown('# Field Mapping');
+output.text('For each CSV column, select the corresponding field in the destination table:');
+
+const csvColumns = Object.keys(csvData[0] || {});
+const tableFields = destinationTable.fields
+  .filter(field => !field.isComputed)
+  .map(field => ({ label: field.name, value: field.name }));
+
+// Create mapping configuration dynamically
+const fieldMapping = {};
+for (const column of csvColumns) {
+  const matchingField = tableFields.find(field => 
+    field.label.toLowerCase() === column.toLowerCase()
+  );
+  
+  const selectedField = await input.selectAsync(
+    `Map CSV column "${column}" to:`,
+    [{ label: '-- Skip this column --', value: '' }, ...tableFields],
+    { defaultValue: matchingField?.value || '' }
+  );
+  
+  if (selectedField) {
+    fieldMapping[column] = selectedField;
+  }
+}
+
+// Confirm and execute import
+const confirmImport = await input.buttonsAsync(
+  `Ready to import ${csvData.length} records. Continue?`,
+  [
+    { label: 'Import Data', value: true, variant: 'primary' },
+    { label: 'Cancel', value: false, variant: 'secondary' }
+  ]
+);
+
+if (!confirmImport) {
+  output.text('Import cancelled.');
+  return;
+}
+
+// Import logic would go here...
+output.text('Starting import process...');
+
+// Process in batches
+let processed = 0;
+let created = 0;
+let updated = 0;
+let skipped = 0;
+let failed = 0;
+
+for (let i = 0; i < csvData.length; i += batchSize) {
+  const batch = csvData.slice(i, i + batchSize);
+  
+  output.text(`Processing batch ${Math.floor(i / batchSize) + 1} of ${Math.ceil(csvData.length / batchSize)}...`);
+  
+  // Process each record in the batch
+  for (const row of batch) {
+    processed++;
+    
+    try {
+      // Map CSV data to table fields
+      const recordData = {};
+      for (const [column, field] of Object.entries(fieldMapping)) {
+        if (field && row[column] !== undefined) {
+          recordData[field] = row[column];
+        }
+      }
+      
+      // Handle duplicates based on configuration
+      if (duplicateHandling !== 'allow' && uniqueIdField) {
+        const uniqueValue = row[csvColumns.find(col => fieldMapping[col] === uniqueIdField.name)];
+        
+        if (uniqueValue) {
+          // Check for existing record
+          const existingRecords = await destinationTable.selectRecordsAsync({
+            fields: [uniqueIdField.name],
+            filterByFormula: `{${uniqueIdField.name}} = "${uniqueValue}"`
+          });
+          
+          if (existingRecords.records.length > 0) {
+            if (duplicateHandling === 'update') {
+              // Update existing record
+              await destinationTable.updateRecordAsync(existingRecords.records[0].id, recordData);
+              updated++;
+              continue;
+            } else {
+              // Skip duplicate
+              skipped++;
+              continue;
+            }
+          }
+        }
+      }
+      
+      // Create new record
+      await destinationTable.createRecordAsync(recordData);
+      created++;
+    } catch (error) {
+      failed++;
+      console.error(`Error processing row ${processed}:`, error);
+    }
+  }
+}
+
+// Report results
+output.markdown('# Import Results');
+output.text(`Total records processed: ${processed}`);
+output.text(`Records created: ${created}`);
+output.text(`Records updated: ${updated}`);
+output.text(`Records skipped: ${skipped}`);
+output.text(`Failed imports: ${failed}`);
+```
+
+### Report Generator Configuration
+
+```javascript
+// Define script configuration for a report generator
+const config = input.config({
+  title: "Sales Report Generator",
+  description: "Generate customized sales reports based on your selection criteria.",
+  items: [
+    input.config.table('salesTable', {
+      label: 'Sales Table',
+      description: 'Table containing sales data'
+    }),
+    input.config.field('dateField', {
+      label: 'Date Field',
+      description: 'Field containing the sale date',
+      parentTable: 'salesTable'
+    }),
+    input.config.field('amountField', {
+      label: 'Amount Field',
+      description: 'Field containing the sale amount',
+      parentTable: 'salesTable'
+    }),
+    input.config.field('productField', {
+      label: 'Product Field',
+      description: 'Field containing the product information',
+      parentTable: 'salesTable'
+    }),
+    input.config.field('salesRepField', {
+      label: 'Sales Rep Field',
+      description: 'Field containing the sales representative',
+      parentTable: 'salesTable'
+    }),
+    input.config.select('reportType', {
+      label: 'Report Type',
+      description: 'Type of report to generate',
+      options: [
+        { value: 'daily', label: 'Daily Sales' },
+        { value: 'weekly', label: 'Weekly Sales' },
+        { value: 'monthly', label: 'Monthly Sales' },
+        { value: 'product', label: 'Sales by Product' },
+        { value: 'rep', label: 'Sales by Representative' }
+      ]
+    }),
+    input.config.select('timeframe', {
+      label: 'Timeframe',
+      description: 'Time period for the report',
+      options: [
+        { value: 'current_month', label: 'Current Month' },
+        { value: 'previous_month', label: 'Previous Month' },
+        { value: 'current_quarter', label: 'Current Quarter' },
+        { value: 'previous_quarter', label: 'Previous Quarter' },
+        { value: 'ytd', label: 'Year to Date' },
+        { value: 'last_30', label: 'Last 30 Days' },
+        { value: 'last_90', label: 'Last 90 Days' },
+        { value: 'custom', label: 'Custom Date Range' }
+      ]
+    }),
+    input.config.number('topCount', {
+      label: 'Top Results Count',
+      description: 'Number of top items to show in the report (leave empty for all)'
+    })
+  ]
+});
+
+// Access configuration values
+const salesTable = base.getTable(config.salesTable);
+const dateField = salesTable.getField(config.dateField);
+const amountField = salesTable.getField(config.amountField);
+const productField = salesTable.getField(config.productField);
+const salesRepField = salesTable.getField(config.salesRepField);
+const reportType = config.reportType;
+const timeframe = config.timeframe;
+const topCount = config.topCount || 0;
+
+// Handle custom date range if selected
+let startDate, endDate;
+
+if (timeframe === 'custom') {
+  // Prompt for custom date range
+  startDate = await input.textAsync('Enter start date (YYYY-MM-DD):');
+  endDate = await input.textAsync('Enter end date (YYYY-MM-DD):');
+} else {
+  // Calculate date range based on selected timeframe
+  const now = new Date();
+  endDate = now.toISOString().split('T')[0]; // Today in YYYY-MM-DD format
+  
+  switch (timeframe) {
+    case 'current_month':
+      startDate = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+      break;
+    case 'previous_month':
+      startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1).toISOString().split('T')[0];
+      endDate = new Date(now.getFullYear(), now.getMonth(), 0).toISOString().split('T')[0];
+      break;
+    case 'current_quarter':
+      const currentQuarter = Math.floor(now.getMonth() / 3);
+      startDate = new Date(now.getFullYear(), currentQuarter * 3, 1).toISOString().split('T')[0];
+      break;
+    case 'previous_quarter':
+      const prevQuarter = (Math.floor(now.getMonth() / 3) + 3) % 4;
+      const yearOffset = prevQuarter === 0 ? -1 : 0;
+      startDate = new Date(now.getFullYear() + yearOffset, prevQuarter * 3, 1).toISOString().split('T')[0];
+      endDate = new Date(now.getFullYear(), prevQuarter * 3 + 3, 0).toISOString().split('T')[0];
+      break;
+    case 'ytd':
+      startDate = new Date(now.getFullYear(), 0, 1).toISOString().split('T')[0];
+      break;
+    case 'last_30':
+      const thirtyDaysAgo = new Date(now);
+      thirtyDaysAgo.setDate(now.getDate() - 30);
+      startDate = thirtyDaysAgo.toISOString().split('T')[0];
+      break;
+    case 'last_90':
+      const ninetyDaysAgo = new Date(now);
+      ninetyDaysAgo.setDate(now.getDate() - 90);
+      startDate = ninetyDaysAgo.toISOString().split('T')[0];
+      break;
+  }
+}
+
+// Fetch sales data for the specified date range
+output.text(`Fetching sales data from ${startDate} to ${endDate}...`);
+
+const salesData = await salesTable.selectRecordsAsync({
+  fields: [dateField.name, amountField.name, productField.name, salesRepField.name]
+});
+
+// Filter the data based on date range
+const filteredSales = salesData.records.filter(record => {
+  const date = record.getCellValue(dateField.name);
+  if (!date) return false;
+  
+  const saleDate = date.split('T')[0]; // Get YYYY-MM-DD part only
+  return saleDate >= startDate && saleDate <= endDate;
+});
+
+output.text(`Found ${filteredSales.length} sales records in the specified date range.`);
+
+// Generate report based on selected type
+output.markdown(`# Sales Report: ${reportType.charAt(0).toUpperCase() + reportType.slice(1)}`);
+output.text(`Period: ${startDate} to ${endDate}`);
+
+// Report implementation would go here based on config.reportType...
+// This would aggregate and format the data according to the selected report type
+```
+
+## Best Practices
+
+1. **Order matters** - Place related items together, and make sure dependent fields (like views or fields that depend on a table selection) appear after their parent items.
+
+2. **Provide clear labels and descriptions** - Use descriptive labels and helpful descriptions to guide users in making the right choices.
+
+3. **Use select inputs for constrained choices** - When there's a fixed set of options, use `input.config.select()` rather than free-form text input.
+
+4. **Validate configuration** - Check that all required configuration values are present and valid before proceeding with your script.
+
+5. **Provide defaults where appropriate** - Use default values for optional settings to make your script easier to use.
+
+6. **Keep it simple** - Don't overwhelm users with too many options. Focus on the essential configuration needed for your script.
+
+7. **Test with different configurations** - Make sure your script works correctly with various combinations of settings.
+
+## Limitations
+
+1. **No conditional settings** - Currently, you can't show or hide configuration items based on other selections.
+
+2. **Limited input types** - Only the input types described above are supported. For more complex inputs, you may need to use the interactive `input` methods after the script starts.
+
+3. **No validation** - There's no built-in validation for configuration inputs. You need to implement validation in your script.
+
+4. **No groups or sections** - All configuration items are displayed in a single flat list.
+
+5. **Order dependency** - When using dependent fields (like a view that depends on a table), the parent must be defined first.
+
+## Related Resources
+
+- [Input](/docs/scripts/api/input)
+- [Base](/docs/scripts/api/base)
+- [Table](/docs/scripts/api/table)
+- [Field](/docs/scripts/api/field)

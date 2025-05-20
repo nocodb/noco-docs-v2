@@ -1,0 +1,567 @@
+---
+title: 'Table'
+description: 'Documentation for the Table object in NocoDB Scripts'
+icon: 'table'
+---
+
+The `Table` object represents a table in your NocoDB base and provides methods to access, query, and modify records within that table.
+
+## Overview
+
+Table objects are typically accessed through the `base` object and provide the primary way to:
+
+- Query records using various filters and conditions
+- Create, update, and delete records
+- Access and modify table fields and views
+- Perform bulk operations on table data
+
+## Properties
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `id` | `string` | The unique identifier of the table |
+| `name` | `string` | The name of the table |
+| `description` | `string \| null` | The description of the table (if any) |
+| `fields` | `Field[]` | Array of all user-defined fields in the table |
+| `views` | `View[]` | Array of all views defined for the table |
+
+## Methods
+
+### getField(idOrName)
+
+Retrieves a field from the table by its ID or name.
+
+**Parameters:**
+- `idOrName` (`string`): The ID or name of the field to retrieve
+
+**Returns:** `Field` object corresponding to the specified ID or name, or `undefined` if not found
+
+**Example:**
+```javascript
+// Get a field by name
+const titleField = projectsTable.getField('Title');
+
+// Get a field by ID
+const statusField = projectsTable.getField('fld12345');
+
+// Check if a field exists
+if (titleField) {
+  output.text(`Field "${titleField.name}" found with type: ${titleField.type}`);
+} else {
+  output.text('Field not found.');
+}
+```
+
+### getView(idOrName)
+
+Retrieves a view from the table by its ID or name.
+
+**Parameters:**
+- `idOrName` (`string`): The ID or name of the view to retrieve
+
+**Returns:** `View` object corresponding to the specified ID or name, or `undefined` if not found
+
+**Example:**
+```javascript
+// Get a view by name
+const activeProjectsView = projectsTable.getView('Active Projects');
+
+// Get a view by ID
+const completedTasksView = projectsTable.getView('viw12345');
+
+// Check if a view exists
+if (activeProjectsView) {
+  output.text(`View "${activeProjectsView.name}" found with type: ${activeProjectsView.type}`);
+} else {
+  output.text('View not found.');
+}
+```
+
+### selectRecordsAsync(options)
+
+Queries records from the table with optional filtering and sorting.
+
+**Parameters:**
+- `options` (optional): Object with the following properties:
+  - `fields` (`Array<Field | string>`): Specific fields to include in the result
+  - `sorts` (`Array<{field: Field | string, direction: 'asc' | 'desc'}>`): Sorting options
+  - `recordIds` (`Array<string>`): Specific record IDs to retrieve
+  - `limit` (`number`): Maximum number of records to return (default: 100)
+  - `offset` (`number`): Number of records to skip
+
+**Returns:** `Promise<RecordQueryResult>` - A promise that resolves to a RecordQueryResult object
+
+**Example:**
+```javascript
+// Query records with options
+const queryResult = await tasksTable.selectRecordsAsync({
+  fields: ['Task Name', 'Status', 'Due Date'],
+  sorts: [
+    {field: 'Due Date', direction: 'asc'},
+    {field: 'Status', direction: 'desc'}
+  ],
+  limit: 100
+});
+
+output.text(`Retrieved ${queryResult.records.length} records.`);
+
+// Process the records
+for (const record of queryResult.records) {
+  const taskName = record.getCellValue('Task Name');
+  const status = record.getCellValue('Status');
+  output.text(`- ${taskName}: ${status}`);
+}
+
+// Check if there are more records
+if (queryResult.hasMoreRecords) {
+  // Load the next page of records
+  const nextPage = await queryResult.loadMoreRecords();
+  output.text(`Loaded ${nextPage.records.length} more records.`);
+}
+```
+
+### selectRecordAsync(recordId, options)
+
+Retrieves a single record from the table by its ID.
+
+**Parameters:**
+- `recordId` (`string`): The ID of the record to retrieve
+- `options` (optional): Object with the following properties:
+  - `fields` (`Array<Field | string>`): Specific fields to include in the result
+
+**Returns:** `Promise<Record | null>` - A promise that resolves to the Record object or null if not found
+
+**Example:**
+```javascript
+// Get a specific record by ID
+const recordId = 'rec12345';
+const record = await contactsTable.selectRecordAsync(recordId, {
+  fields: ['Name', 'Email', 'Phone']
+});
+
+if (record) {
+  output.text(`Contact: ${record.getCellValue('Name')}`);
+  output.text(`Email: ${record.getCellValue('Email')}`);
+  output.text(`Phone: ${record.getCellValue('Phone')}`);
+} else {
+  output.text(`Record with ID ${recordId} not found.`);
+}
+```
+
+### createRecordAsync(data)
+
+Creates a new record in the table with the specified field values.
+
+**Parameters:**
+- `data` (`Object`): Object mapping field names or IDs to their values
+
+**Returns:** `Promise<string>` - A promise that resolves to the ID of the created record
+
+**Example:**
+```javascript
+// Create a new record
+const newRecordId = await contactsTable.createRecordAsync({
+  'Name': 'John Doe',
+  'Email': 'john.doe@example.com',
+  'Phone': '(555) 123-4567',
+  'Status': 'Active'
+});
+
+output.text(`New record created with ID: ${newRecordId}`);
+
+// Create a record with field IDs
+const newRecordId2 = await contactsTable.createRecordAsync({
+  'fld123': 'Jane Smith',  // Name field
+  'fld456': 'jane@example.com'  // Email field
+});
+```
+
+### createRecordsAsync(dataArray)
+
+Creates multiple records in the table.
+
+**Parameters:**
+- `dataArray` (`Array<Object>`): Array of objects mapping field names or IDs to their values
+
+**Returns:** `Promise<Array<string>>` - A promise that resolves to an array of IDs of the created records
+
+**Example:**
+```javascript
+// Create multiple records at once
+const newRecordIds = await contactsTable.createRecordsAsync([
+  {
+    'Name': 'John Doe',
+    'Email': 'john.doe@example.com',
+    'Status': 'Active'
+  },
+  {
+    'Name': 'Jane Smith',
+    'Email': 'jane.smith@example.com',
+    'Status': 'Pending'
+  },
+  {
+    'Name': 'Bob Johnson',
+    'Email': 'bob.johnson@example.com',
+    'Status': 'Active'
+  }
+]);
+
+output.text(`Created ${newRecordIds.length} new records.`);
+```
+
+### updateRecordAsync(recordId, data)
+
+Updates a record with the specified field values.
+
+**Parameters:**
+- `recordId` (`string | Record`): The ID of the record to update or a Record object
+- `data` (`Object`): Object mapping field names or IDs to their new values
+
+**Returns:** `Promise<void>` - A promise that resolves when the update is complete
+
+**Example:**
+```javascript
+// Update a record by ID
+await contactsTable.updateRecordAsync('rec12345', {
+  'Status': 'Inactive',
+  'Last Contact Date': new Date().toISOString()
+});
+
+// Update a record using a Record object
+const record = await contactsTable.selectRecordAsync('rec12345');
+if (record) {
+  await contactsTable.updateRecordAsync(record, {
+    'Notes': 'Customer requested follow-up next quarter.'
+  });
+  output.text('Record updated successfully.');
+}
+```
+
+### updateRecordsAsync(records)
+
+Updates multiple records with the specified field values.
+
+**Parameters:**
+- `records` (`Array<{id: string, fields: Object}>`): Array of objects with record IDs and field values to update
+
+**Returns:** `Promise<void>` - A promise that resolves when all updates are complete
+
+**Example:**
+```javascript
+// Update multiple records at once
+await contactsTable.updateRecordsAsync([
+  {
+    id: 'rec12345',
+    fields: {
+      'Status': 'Active',
+      'Last Contact Date': new Date().toISOString()
+    }
+  },
+  {
+    id: 'rec67890',
+    fields: {
+      'Status': 'Inactive',
+      'Notes': 'Customer no longer interested.'
+    }
+  }
+]);
+
+output.text('Records updated successfully.');
+```
+
+### deleteRecordAsync(recordIdOrRecord)
+
+Deletes a record from the table.
+
+**Parameters:**
+- `recordIdOrRecord` (`string | Record`): The ID of the record to delete or a Record object
+
+**Returns:** `Promise<void>` - A promise that resolves when the deletion is complete
+
+**Example:**
+```javascript
+// Delete a record by ID
+await tasksTable.deleteRecordAsync('rec12345');
+output.text('Record deleted successfully.');
+
+// Delete a record using a Record object
+const record = await tasksTable.selectRecordAsync('rec67890');
+if (record) {
+  await tasksTable.deleteRecordAsync(record);
+  output.text(`Record "${record.name}" deleted successfully.`);
+}
+```
+
+### deleteRecordsAsync(recordIds)
+
+Deletes multiple records from the table.
+
+**Parameters:**
+- `recordIds` (`Array<string | Record>`): Array of record IDs or Record objects to delete
+
+**Returns:** `Promise<void>` - A promise that resolves when all deletions are complete
+
+**Example:**
+```javascript
+// Delete multiple records by ID
+await tasksTable.deleteRecordsAsync(['rec12345', 'rec67890', 'rec24680']);
+output.text('Records deleted successfully.');
+
+// Delete records using a query result
+const completedTasks = await tasksTable.selectRecordsAsync({
+  fields: ['Status'],
+  // Filter is typically applied through a view, as the API doesn't directly support filtering
+});
+
+const recordsToDelete = completedTasks.records
+  .filter(record => record.getCellValue('Status') === 'Completed')
+  .map(record => record.id);
+
+if (recordsToDelete.length > 0) {
+  await tasksTable.deleteRecordsAsync(recordsToDelete);
+  output.text(`Deleted ${recordsToDelete.length} completed tasks.`);
+}
+```
+
+### createFieldAsync(options)
+
+Creates a new field in the table with the specified configuration.
+
+**Parameters:**
+- `options` (`Object`): Field configuration object with:
+  - `name` (`string`): Name for the new field
+  - `type` (`UITypes`): Type of field to create
+  - `description` (`string`, optional): Description for the field
+  - `default_value` (optional): Default value for the field
+  - `options` (`Object`, optional): Type-specific options for the field
+
+**Returns:** `Promise<Field>` - A promise that resolves to the created Field object
+
+**Example:**
+```javascript
+// Create a new field
+const ratingField = await projectsTable.createFieldAsync({
+  name: 'Priority',
+  type: UITypes.Rating,
+  description: 'Project priority from 1-5',
+  options: {
+    icon: 'star',
+    max_value: 5,
+    color: 'yellow'
+  }
+});
+
+output.text(`Created new field: ${ratingField.name}`);
+
+// Create a select field
+const statusField = await tasksTable.createFieldAsync({
+  name: 'Status',
+  type: UITypes.SingleSelect,
+  options: {
+    choices: [
+      { title: 'Not Started', color: 'gray' },
+      { title: 'In Progress', color: 'blue' },
+      { title: 'Review', color: 'orange' },
+      { title: 'Completed', color: 'green' }
+    ]
+  }
+});
+```
+
+## Examples
+
+### Querying and Filtering Records
+
+```javascript
+// Get the "Tasks" table
+const tasksTable = base.getTable('Tasks');
+
+// Get all tasks
+const allTasks = await tasksTable.selectRecordsAsync();
+output.text(`Total tasks: ${allTasks.records.length}`);
+
+// Use a view to get filtered records
+const inProgressView = tasksTable.getView('In Progress Tasks');
+if (inProgressView) {
+  const inProgressTasks = await inProgressView.selectRecordsAsync();
+  output.text(`In-progress tasks: ${inProgressTasks.records.length}`);
+}
+
+// Get specific fields and sort by due date
+const upcomingTasks = await tasksTable.selectRecordsAsync({
+  fields: ['Task Name', 'Due Date', 'Status', 'Assigned To'],
+  sorts: [
+    { field: 'Due Date', direction: 'asc' }
+  ],
+  limit: 10
+});
+
+// Display the upcoming tasks
+output.markdown('# Upcoming Tasks');
+for (const task of upcomingTasks.records) {
+  const name = task.getCellValue('Task Name');
+  const dueDate = task.getCellValue('Due Date');
+  const status = task.getCellValue('Status');
+  const assignee = task.getCellValue('Assigned To');
+  
+  const assigneeName = assignee ? assignee.name : 'Unassigned';
+  
+  output.text(`- ${name} (${status}) due on ${dueDate} - Assigned to: ${assigneeName}`);
+}
+```
+
+### Creating and Updating Records
+
+```javascript
+// Get the "Projects" table
+const projectsTable = base.getTable('Projects');
+
+// Create a new project
+const newProjectId = await projectsTable.createRecordAsync({
+  'Project Name': 'Website Redesign',
+  'Start Date': new Date().toISOString(),
+  'Status': 'Planning',
+  'Budget': 15000,
+  'Description': 'Complete overhaul of company website.'
+});
+
+output.text(`Created new project with ID: ${newProjectId}`);
+
+// Retrieve the created project
+const newProject = await projectsTable.selectRecordAsync(newProjectId);
+if (newProject) {
+  output.text(`New project: ${newProject.getCellValue('Project Name')}`);
+  
+  // Update the project after creation
+  await projectsTable.updateRecordAsync(newProjectId, {
+    'Project Lead': session.currentUser.id,
+    'Team Size': 5
+  });
+  
+  output.text('Project updated with lead and team size.');
+}
+
+// Create multiple tasks for the project
+const tasksTable = base.getTable('Tasks');
+const tasks = [
+  {
+    'Task Name': 'Requirements Gathering',
+    'Project': newProjectId,
+    'Status': 'Not Started',
+    'Due Date': new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
+  },
+  {
+    'Task Name': 'Wireframes',
+    'Project': newProjectId,
+    'Status': 'Not Started',
+    'Due Date': new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString()
+  },
+  {
+    'Task Name': 'Design Mockups',
+    'Project': newProjectId,
+    'Status': 'Not Started',
+    'Due Date': new Date(Date.now() + 21 * 24 * 60 * 60 * 1000).toISOString()
+  }
+];
+
+const taskIds = await tasksTable.createRecordsAsync(tasks);
+output.text(`Created ${taskIds.length} tasks for the project.`);
+```
+
+### Bulk Processing with Pagination
+
+```javascript
+// Get the "Contacts" table
+const contactsTable = base.getTable('Contacts');
+
+// Function to process all records with pagination
+async function processAllRecords() {
+  let queryResult = await contactsTable.selectRecordsAsync({
+    fields: ['Name', 'Email', 'Last Contact Date'],
+    limit: 100 // Process in batches of 100
+  });
+  
+  let processedCount = 0;
+  let updatedCount = 0;
+  
+  // Process first batch
+  let recordsToUpdate = [];
+  for (const record of queryResult.records) {
+    processedCount++;
+    
+    const lastContactDate = record.getCellValue('Last Contact Date');
+    // If no contact in the last 90 days, mark for update
+    if (!lastContactDate || new Date(lastContactDate) < new Date(Date.now() - 90 * 24 * 60 * 60 * 1000)) {
+      recordsToUpdate.push({
+        id: record.id,
+        fields: {
+          'Status': 'Needs Follow-up',
+          'Notes': 'No contact in the last 90 days.'
+        }
+      });
+    }
+  }
+  
+  // Continue processing while there are more records
+  while (queryResult.hasMoreRecords) {
+    // Get next batch
+    queryResult = await queryResult.loadMoreRecords();
+    
+    // Process this batch
+    for (const record of queryResult.records) {
+      processedCount++;
+      
+      const lastContactDate = record.getCellValue('Last Contact Date');
+      if (!lastContactDate || new Date(lastContactDate) < new Date(Date.now() - 90 * 24 * 60 * 60 * 1000)) {
+        recordsToUpdate.push({
+          id: record.id,
+          fields: {
+            'Status': 'Needs Follow-up',
+            'Notes': 'No contact in the last 90 days.'
+          }
+        });
+      }
+      
+      // Update in batches of 50 to avoid memory issues
+      if (recordsToUpdate.length >= 50) {
+        await contactsTable.updateRecordsAsync(recordsToUpdate);
+        updatedCount += recordsToUpdate.length;
+        recordsToUpdate = [];
+        
+        // Show progress
+        output.text(`Processed ${processedCount} records, updated ${updatedCount}...`);
+      }
+    }
+  }
+  
+  // Update any remaining records
+  if (recordsToUpdate.length > 0) {
+    await contactsTable.updateRecordsAsync(recordsToUpdate);
+    updatedCount += recordsToUpdate.length;
+  }
+  
+  output.text(`Processing complete! Processed ${processedCount} total records, updated ${updatedCount}.`);
+}
+
+// Run the process
+await processAllRecords();
+```
+
+## Best Practices
+
+1. **Use views for filtering** - NocoDB Scripts doesn't have a direct filtering API. Use views with filters instead.
+
+2. **Batch operations** - When creating or updating many records, use the bulk methods (`createRecordsAsync`, `updateRecordsAsync`) instead of individual calls for better performance.
+
+3. **Paginate large queries** - When working with large tables, use pagination via the `limit` option and `loadMoreRecords()` method to avoid memory issues.
+
+4. **Error handling** - Always wrap async operations in try/catch blocks to handle errors gracefully.
+
+5. **Optimize field selection** - Only request the fields you need by using the `fields` option in queries to improve performance.
+
+## Related Resources
+
+- [Base](/docs/scripts/api/base)
+- [Record](/docs/scripts/api/record)
+- [Field](/docs/scripts/api/field)
+- [View](/docs/scripts/api/view)

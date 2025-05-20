@@ -1,0 +1,257 @@
+---
+title: 'View'
+description: 'Documentation for the View object in NocoDB Scripts'
+icon: 'eye'
+---
+
+The `View` object represents a specific view of a table in your NocoDB base. Views provide filtered, sorted, and customized perspectives of your table data.
+
+## Overview
+
+Views in NocoDB allow you to:
+
+- Apply filters to show only specific records from a table
+- Define custom sorting for records
+- Show or hide specific fields
+
+In NocoDB Scripts, View objects provide a convenient way to work with these filtered subsets of data without having to manually implement filtering logic in your script.
+
+## Properties
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `id` | `string` | The unique identifier of the view |
+| `name` | `string` | The name of the view |
+| `description` | `string \| null` | The description of the view (if any) |
+| `type` | `string` | The type of view (e.g., 'grid', 'form', 'gallery', 'kanban', 'calendar') |
+| `table` | `Table` | Reference to the parent table that this view belongs to |
+
+## Methods
+
+### selectRecordsAsync(options)
+
+Queries records from the view with optional parameters for field selection, sorting, and pagination.
+
+**Parameters:**
+- `options` (optional): Object with the following properties:
+  - `fields` (`Array<Field | string>`): Specific fields to include in the result
+  - `sorts` (`Array<{field: Field | string, direction: 'asc' | 'desc'}>`): Sorting options
+  - `recordIds` (`Array<string>`): Specific record IDs to retrieve
+  - `limit` (`number`): Maximum number of records to return (default: 500)
+  - `offset` (`number`): Number of records to skip
+
+**Returns:** `Promise<RecordQueryResult>` - A promise that resolves to a RecordQueryResult object
+
+**Example:**
+```javascript
+// Get the Projects table and Active Projects view
+const projectsTable = base.getTable('Projects');
+const activeProjectsView = projectsTable.getView('Active Projects');
+
+// Query records from the view
+const queryResult = await activeProjectsView.selectRecordsAsync({
+  fields: ['Project Name', 'Status', 'Deadline', 'Assigned To'],
+  sorts: [
+    { field: 'Deadline', direction: 'asc' }
+  ],
+  limit: 50
+});
+
+output.text(`Found ${queryResult.records.length} active projects.`);
+
+// Process the records
+for (const record of queryResult.records) {
+  const projectName = record.getCellValue('Project Name');
+  const deadline = record.getCellValue('Deadline');
+  const assignedTo = record.getCellValue('Assigned To');
+  
+  const assigneeName = assignedTo ? assignedTo.name : 'Unassigned';
+  
+  output.text(`- ${projectName} due on ${deadline} - Assigned to: ${assigneeName}`);
+}
+```
+
+### selectRecordAsync(recordId, options)
+
+Retrieves a single record from the view by its ID, applying the view's filters and permissions.
+
+**Parameters:**
+- `recordId` (`string`): The ID of the record to retrieve
+- `options` (optional): Object with the following properties:
+  - `fields` (`Array<Field | string>`): Specific fields to include in the result
+
+**Returns:** `Promise<Record | null>` - A promise that resolves to the Record object or null if not found or filtered out by the view
+
+**Example:**
+```javascript
+// Get a specific record through a view
+const tasksTable = base.getTable('Tasks');
+const myTasksView = tasksTable.getView('My Tasks');
+
+const recordId = 'rec12345';
+const task = await myTasksView.selectRecordAsync(recordId, {
+  fields: ['Task Name', 'Status', 'Due Date', 'Notes']
+});
+
+if (task) {
+  output.text(`Task: ${task.getCellValue('Task Name')}`);
+  output.text(`Status: ${task.getCellValue('Status')}`);
+  output.text(`Due Date: ${task.getCellValue('Due Date')}`);
+  output.text(`Notes: ${task.getCellValue('Notes')}`);
+} else {
+  output.text(`Record with ID ${recordId} not found in this view.`);
+  // Note: The record might exist in the table but be filtered out by the view
+}
+```
+
+## Using Views for Filtering
+
+One of the primary benefits of views is using them for filtering data instead of implementing complex filtering logic in your scripts.
+
+```javascript
+// Example: Processing overdue tasks
+const tasksTable = base.getTable('Tasks');
+const overdueTasksView = tasksTable.getView('Overdue Tasks');
+
+// This view already has filters for tasks where Due Date < Today and Status != Completed
+const overdueTasks = await overdueTasksView.selectRecordsAsync({
+  fields: ['Task Name', 'Due Date', 'Assigned To', 'Status']
+});
+
+// Create a notification summary
+output.markdown('# Overdue Tasks Summary');
+output.text(`There are ${overdueTasks.records.length} overdue tasks.`);
+
+// Group tasks by assignee
+const tasksByAssignee = {};
+for (const task of overdueTasks.records) {
+  const assignee = task.getCellValue('Assigned To');
+  const assigneeId = assignee ? assignee.id : 'unassigned';
+  const assigneeName = assignee ? assignee.name : 'Unassigned';
+  
+  if (!tasksByAssignee[assigneeId]) {
+    tasksByAssignee[assigneeId] = {
+      name: assigneeName,
+      tasks: []
+    };
+  }
+  
+  tasksByAssignee[assigneeId].tasks.push({
+    name: task.getCellValue('Task Name'),
+    dueDate: task.getCellValue('Due Date')
+  });
+}
+
+// Output summary by assignee
+for (const [assigneeId, assigneeData] of Object.entries(tasksByAssignee)) {
+  output.markdown(`## ${assigneeData.name}`);
+  for (const task of assigneeData.tasks) {
+    const daysOverdue = Math.floor((new Date() - new Date(task.dueDate)) / (1000 * 60 * 60 * 24));
+    output.text(`- ${task.name} (${daysOverdue} days overdue)`);
+  }
+}
+```
+
+## Creating Interactive Reports Using Views
+
+Views can be used to create interactive reports based on different data segments.
+
+```javascript
+// Let the user choose a view from the Sales table
+const salesTable = base.getTable('Sales');
+const viewOptions = salesTable.views.map(view => view.name);
+
+const selectedViewName = await input.selectAsync(
+  'Select a sales report view to analyze:',
+  viewOptions
+);
+
+const selectedView = salesTable.getView(selectedViewName);
+const sales = await selectedView.selectRecordsAsync({
+  fields: ['Date', 'Amount', 'Product', 'Sales Rep', 'Region']
+});
+
+// Calculate summary statistics
+let totalSales = 0;
+const salesByRep = {};
+const salesByProduct = {};
+const salesByRegion = {};
+
+for (const record of sales.records) {
+  const amount = record.getCellValue('Amount') || 0;
+  const rep = record.getCellValue('Sales Rep');
+  const product = record.getCellValue('Product');
+  const region = record.getCellValue('Region');
+  
+  totalSales += amount;
+  
+  // Sales by rep
+  if (rep) {
+    const repName = rep.name;
+    if (!salesByRep[repName]) {
+      salesByRep[repName] = 0;
+    }
+    salesByRep[repName] += amount;
+  }
+  
+  // Sales by product
+  if (product) {
+    if (!salesByProduct[product]) {
+      salesByProduct[product] = 0;
+    }
+    salesByProduct[product] += amount;
+  }
+  
+  // Sales by region
+  if (region) {
+    if (!salesByRegion[region]) {
+      salesByRegion[region] = 0;
+    }
+    salesByRegion[region] += amount;
+  }
+}
+
+// Output the report
+output.markdown(`# Sales Report: ${selectedViewName}`);
+output.text(`Total Sales: $${totalSales.toFixed(2)}`);
+output.text(`Number of Transactions: ${sales.records.length}`);
+output.text(`Average Transaction: $${(totalSales / sales.records.length).toFixed(2)}`);
+
+// Display sales by rep
+output.markdown('## Sales by Representative');
+const salesByRepData = Object.entries(salesByRep)
+  .map(([rep, amount]) => ({ Rep: rep, Amount: amount }))
+  .sort((a, b) => b.Amount - a.Amount);
+output.table(salesByRepData);
+
+// Display sales by product
+output.markdown('## Sales by Product');
+const salesByProductData = Object.entries(salesByProduct)
+  .map(([product, amount]) => ({ Product: product, Amount: amount }))
+  .sort((a, b) => b.Amount - a.Amount);
+output.table(salesByProductData);
+
+// Display sales by region
+output.markdown('## Sales by Region');
+const salesByRegionData = Object.entries(salesByRegion)
+  .map(([region, amount]) => ({ Region: region, Amount: amount }))
+  .sort((a, b) => b.Amount - a.Amount);
+output.table(salesByRegionData);
+```
+
+
+## Best Practices
+
+1. **Use views for filtering** - Take advantage of views to apply complex filters rather than implementing filtering logic in your script.
+
+2. **Remember views are read-only** - View objects provide query capabilities but any record creation or updates happen at the table level.
+
+3. **Combine with Table operations** - Use views for reading/filtering and table methods for writing data.
+
+## Related Resources
+
+- [Base](/docs/scripts/api/base)
+- [Table](/docs/scripts/api/table)
+- [Record](/docs/scripts/api/record)
+- [RecordQueryResult](/docs/scripts/api/record-query-result)
+- [ViewActions](/docs/scripts/api/view-actions)

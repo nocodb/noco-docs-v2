@@ -2,9 +2,13 @@ import * as fs from 'node:fs';
 import {Client} from "typesense";
 import {DocumentRecord, sync} from "@/utils/search/typesense";
 
-const content = fs.readFileSync('.next/server/app/docs/static.json.body');
+const productContent = fs.readFileSync('.next/server/app/docs/product-docs/static.json.body');
+const scriptsContent = fs.readFileSync('.next/server/app/docs/scripts/static.json.body');
+const selfHostedContent = fs.readFileSync('.next/server/app/docs/self-hosting/static.json.body');
 
-const records = JSON.parse(content.toString()) as DocumentRecord[];
+const productRecords = JSON.parse(productContent.toString()) as DocumentRecord[];
+const scriptsRecords = JSON.parse(scriptsContent.toString()) as DocumentRecord[];
+const selfHostedRecords = JSON.parse(selfHostedContent.toString()) as DocumentRecord[];
 
 if (!process.env?.TYPE_SENSE_ADMIN_API) {
     console.error('No Typesense API key found. Please set the TYPE_SENSE_ADMIN_API environment variable.');
@@ -24,5 +28,5 @@ const collectionName = 'noco-docs-v2';
 
 sync(client, {
     collection: collectionName,
-    documents: records
+    documents: [...productRecords, ...scriptsRecords, ...selfHostedRecords]
 })

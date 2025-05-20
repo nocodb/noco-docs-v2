@@ -1,0 +1,659 @@
+---
+title: 'Record'
+description: 'Documentation for the Record object in NocoDB Scripts'
+icon: 'database-rows'
+---
+
+The `Record` object represents a single row of data in a NocoDB table and provides methods to access and work with the cell values within that record.
+
+## Overview
+
+Records are typically retrieved from tables or views using query methods like `selectRecordsAsync()` or `selectRecordAsync()`. Each Record object provides access to:
+
+- The record's unique identifier
+- The record's primary display value (name)
+- All cell values in the record
+- String representations of cell values
+
+Working with Record objects is central to most NocoDB scripts, as they allow you to read, manipulate, and interpret the data in your base.
+
+## Properties
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `id` | `string` | The unique identifier for this record |
+| `name` | `string` | The primary display value for this record |
+| `table` | `Table` | Reference to the table that this record belongs to |
+
+## Methods
+
+### getCellValue(fieldOrFieldIdOrName)
+
+Retrieves the value of a specific cell in the record.
+
+**Parameters:**
+- `fieldOrFieldIdOrName` (`Field | string`): The field, field ID, or field name to get the value for
+
+**Returns:** The value of the cell in a format determined by the field type (see Cell Value Types section)
+
+**Throws:** Error if the field is not found or not included in the query
+
+**Example:**
+```javascript
+// Get the Projects table
+const projectsTable = base.getTable('Projects');
+
+// Query a specific record
+const projectRecord = await projectsTable.selectRecordAsync('rec123456');
+
+if (projectRecord) {
+  // Get cell values using field names
+  const projectName = projectRecord.getCellValue('Project Name');
+  const dueDate = projectRecord.getCellValue('Due Date');
+  const status = projectRecord.getCellValue('Status');
+  
+  output.text(`Project: ${projectName}`);
+  output.text(`Due Date: ${dueDate}`);
+  output.text(`Status: ${status}`);
+  
+  // Get a cell value using a field object
+  const assignedToField = projectsTable.getField('Assigned To');
+  const assignedTo = projectRecord.getCellValue(assignedToField);
+  
+  if (assignedTo) {
+    output.text(`Assigned To: ${assignedTo.name}`);
+  } else {
+    output.text('This project is unassigned.');
+  }
+}
+```
+
+### getCellValueAsString(fieldOrFieldIdOrName)
+
+Gets a cell value formatted as a string, applying appropriate formatting based on the field type.
+
+**Parameters:**
+- `fieldOrFieldIdOrName` (`Field | string`): The field, field ID, or field name to get the value for
+
+**Returns:** `string` - A string representation of the cell value
+
+**Throws:** Error if the field is not found or not included in the query
+
+**Example:**
+```javascript
+// Get the Invoices table
+const invoicesTable = base.getTable('Invoices');
+
+// Query a specific record
+const invoiceRecord = await invoicesTable.selectRecordAsync('rec123456');
+
+if (invoiceRecord) {
+  // Get formatted string values
+  const invoiceNumber = invoiceRecord.getCellValueAsString('Invoice Number');
+  const amount = invoiceRecord.getCellValueAsString('Amount'); // Formatted as currency
+  const date = invoiceRecord.getCellValueAsString('Date'); // Formatted as date
+  const isPaid = invoiceRecord.getCellValueAsString('Paid'); // "Checked" or "Unchecked"
+  const attachments = invoiceRecord.getCellValueAsString('Attachments'); // Comma-separated file names
+  
+  // Output the formatted values
+  output.text(`Invoice: ${invoiceNumber}`);
+  output.text(`Amount: ${amount}`);
+  output.text(`Date: ${date}`);
+  output.text(`Paid: ${isPaid}`);
+  output.text(`Attachments: ${attachments}`);
+}
+```
+
+## Cell Value Types
+
+Different field types return values in specific formats when using `getCellValue()`. Here's a reference for the most common field types:
+
+### Text Fields
+
+```javascript
+// Single Line Text & Long Text
+const title = record.getCellValue('Title'); // string or null
+```
+
+### Number Fields
+
+```javascript
+// Number, Decimal, Currency, Percent
+const amount = record.getCellValue('Amount'); // number or null
+const quantity = record.getCellValue('Quantity'); // number or null
+const price = record.getCellValue('Price'); // number or null
+const discount = record.getCellValue('Discount'); // number or null (without % sign)
+```
+
+### Boolean Fields
+
+```javascript
+// Checkbox
+const isCompleted = record.getCellValue('Completed'); // boolean or null
+```
+
+### Date and Time Fields
+
+```javascript
+// Date
+const dueDate = record.getCellValue('Due Date'); // string in ISO format or null
+// e.g., "2023-08-15"
+
+// DateTime
+const createdAt = record.getCellValue('Created At'); // string in ISO format or null
+// e.g., "2023-08-15T14:30:00.000Z"
+
+// Time
+const startTime = record.getCellValue('Start Time'); // string in ISO format or null
+// e.g., "14:30:00.000"
+```
+
+### Selection Fields
+
+```javascript
+// Single Select
+const status = record.getCellValue('Status'); // string or null
+// e.g., "In Progress"
+
+// Multi Select
+const tags = record.getCellValue('Tags'); // array of strings or empty array
+// e.g., ["Urgent", "Bug"]
+```
+
+### Relationship Fields
+
+```javascript
+// Link to Another Record (many-to-one relationship)
+const project = record.getCellValue('Project'); // Record object or null
+if (project) {
+  console.log(`Project ID: ${project.id}`);
+  console.log(`Project Name: ${project.name}`);
+}
+
+// Link to Another Record (many-to-many relationship)
+const team = record.getCellValue('Team Members'); // Array of Record objects or empty array
+if (team && team.length > 0) {
+  for (const member of team) {
+    console.log(`Member ID: ${member.id}`);
+    console.log(`Member Name: ${member.name}`);
+  }
+}
+```
+
+### Attachment Field
+
+```javascript
+// Attachment
+const documents = record.getCellValue('Documents'); // Array of attachment objects or empty array
+
+/*
+Each attachment object has:
+{
+  url: string,
+  path?: string,
+  title: string,
+  mimetype: string,
+  size: number,
+  signedPath?: string,
+  signedUrl?: string,
+  thumbnails?: {
+    tiny: { signedPath: string, signedUrl: string },
+    small: { signedPath: string, signedUrl: string },
+    card_cover: { signedPath: string, signedUrl: string }
+  }
+}
+*/
+
+if (documents && documents.length > 0) {
+  for (const doc of documents) {
+    console.log(`File: ${doc.title}`);
+    console.log(`Type: ${doc.mimetype}`);
+    console.log(`Size: ${doc.size} bytes`);
+    console.log(`URL: ${doc.url}`);
+  }
+}
+```
+
+### User Field
+
+```javascript
+// User (single)
+const assignee = record.getCellValue('Assigned To'); // Collaborator object or null
+
+if (assignee) {
+  console.log(`Assignee ID: ${assignee.id}`);
+  console.log(`Assignee Name: ${assignee.name}`);
+  console.log(`Assignee Email: ${assignee.email}`);
+}
+
+// User (multiple)
+const reviewers = record.getCellValue('Reviewers'); // Array of Collaborator objects or empty array
+
+if (reviewers && reviewers.length > 0) {
+  for (const reviewer of reviewers) {
+    console.log(`Reviewer ID: ${reviewer.id}`);
+    console.log(`Reviewer Name: ${reviewer.name}`);
+    console.log(`Reviewer Email: ${reviewer.email}`);
+  }
+}
+```
+
+### Formula Field
+
+```javascript
+// Formula fields return a value of the appropriate type based on the formula's output type
+const fullName = record.getCellValue('Full Name'); // string or null
+const age = record.getCellValue('Age'); // number or null
+const isAdult = record.getCellValue('Is Adult'); // boolean or null
+```
+
+### Lookup Field
+
+```javascript
+// Lookup fields return values of the type that is being looked up
+const managerName = record.getCellValue('Manager Name'); // string or null
+const departmentSize = record.getCellValue('Department Size'); // number or null
+
+// Lookup to multiple values
+const teamEmails = record.getCellValue('Team Emails'); // Array of values or empty array
+```
+
+### Rollup Field
+
+```javascript
+// Rollup fields return values based on the rollup function and field type
+const totalHours = record.getCellValue('Total Hours'); // number or null
+const averageScore = record.getCellValue('Average Score'); // number or null
+const taskCount = record.getCellValue('Task Count'); // number or null
+```
+
+### Button Field
+
+```javascript
+// Button fields return button configuration information
+const emailButton = record.getCellValue('Send Email');
+/*
+{
+  label: string,
+  icon: string | never,
+  type: 'url' | 'script' | 'webhook',
+  url?: string,
+  fk_script_id?: string,
+  fk_webhook_id?: string
+}
+*/
+```
+
+## Working with Records
+
+### Reading Record Data
+
+```javascript
+// Get the Tasks table
+const tasksTable = base.getTable('Tasks');
+
+// Get a specific record
+const taskRecord = await tasksTable.selectRecordAsync('rec123456', {
+  fields: ['Task Name', 'Description', 'Status', 'Due Date', 'Assigned To', 'Priority']
+});
+
+if (taskRecord) {
+  // Read basic properties
+  output.text(`Record ID: ${taskRecord.id}`);
+  output.text(`Primary Value: ${taskRecord.name}`);
+  
+  // Read values using getCellValue
+  const taskName = taskRecord.getCellValue('Task Name');
+  const description = taskRecord.getCellValue('Description');
+  const status = taskRecord.getCellValue('Status');
+  const dueDate = taskRecord.getCellValue('Due Date');
+  const assignedTo = taskRecord.getCellValue('Assigned To');
+  const priority = taskRecord.getCellValue('Priority');
+  
+  // Display the task information
+  output.markdown(`# Task: ${taskName}`);
+  output.text(`Description: ${description || 'No description provided'}`);
+  output.text(`Status: ${status || 'Not set'}`);
+  output.text(`Due Date: ${dueDate ? new Date(dueDate).toLocaleDateString() : 'No due date'}`);
+  
+  if (assignedTo) {
+    output.text(`Assigned To: ${assignedTo.name} (${assignedTo.email})`);
+  } else {
+    output.text('This task is unassigned.');
+  }
+  
+  output.text(`Priority: ${priority || 'Not set'}`);
+}
+```
+
+### Comparing Records
+
+```javascript
+// Get the Employees table
+const employeesTable = base.getTable('Employees');
+
+// Get two employee records
+const employee1 = await employeesTable.selectRecordAsync('rec123456');
+const employee2 = await employeesTable.selectRecordAsync('rec789012');
+
+if (employee1 && employee2) {
+  // Compare salary values
+  const salary1 = employee1.getCellValue('Salary') || 0;
+  const salary2 = employee2.getCellValue('Salary') || 0;
+  
+  // Compare departments
+  const dept1 = employee1.getCellValue('Department');
+  const dept2 = employee2.getCellValue('Department');
+  
+  // Compare hire dates
+  const hireDate1 = employee1.getCellValue('Hire Date');
+  const hireDate2 = employee2.getCellValue('Hire Date');
+  
+  // Output comparison
+  output.markdown(`# Employee Comparison`);
+  output.markdown(`## ${employee1.getCellValue('Name')} vs. ${employee2.getCellValue('Name')}`);
+  
+  output.text(`Salary: $${salary1.toLocaleString()} vs. $${salary2.toLocaleString()}`);
+  output.text(`Department: ${dept1} vs. ${dept2}`);
+  
+  if (hireDate1 && hireDate2) {
+    const date1 = new Date(hireDate1);
+    const date2 = new Date(hireDate2);
+    const seniorityDiff = Math.floor((date2 - date1) / (1000 * 60 * 60 * 24));
+    
+    if (seniorityDiff > 0) {
+      output.text(`${employee1.getCellValue('Name')} has been with the company ${seniorityDiff} days longer.`);
+    } else if (seniorityDiff < 0) {
+      output.text(`${employee2.getCellValue('Name')} has been with the company ${Math.abs(seniorityDiff)} days longer.`);
+    } else {
+      output.text('Both employees were hired on the same day.');
+    }
+  }
+}
+```
+
+### Creating a Record Copy
+
+```javascript
+// Get the Products table
+const productsTable = base.getTable('Products');
+
+// Get a product record
+const productRecord = await productsTable.selectRecordAsync('rec123456');
+
+if (productRecord) {
+  // Create a new record with modified values from the original
+  const newProductData = {};
+  
+  // Iterate through all fields in the table
+  for (const field of productsTable.fields) {
+    // Skip system fields and computed fields
+    if (field.isComputed) {
+      continue;
+    }
+    
+    // Get the original value
+    const originalValue = productRecord.getCellValue(field.name);
+    
+    // Handle special fields
+    if (field.name === 'Product Name' && originalValue) {
+      // Append "- Copy" to the name
+      newProductData[field.name] = `${originalValue} - Copy`;
+    } else if (field.name === 'SKU' && originalValue) {
+      // Generate a new SKU
+      newProductData[field.name] = `${originalValue}-COPY`;
+    } else if (field.name === 'In Stock') {
+      // Set initial stock to 0
+      newProductData[field.name] = 0;
+    } else {
+      // Copy the original value for all other fields
+      newProductData[field.name] = originalValue;
+    }
+  }
+  
+  // Create the new record
+  try {
+    const newProductId = await productsTable.createRecordAsync(newProductData);
+    output.text(`Created copy of product with ID: ${newProductId}`);
+    
+    // Get the new record
+    const newProduct = await productsTable.selectRecordAsync(newProductId);
+    
+    // Display the new product information
+    if (newProduct) {
+      output.markdown(`# New Product: ${newProduct.getCellValue('Product Name')}`);
+      output.text(`SKU: ${newProduct.getCellValue('SKU')}`);
+      output.text(`Price: ${newProduct.getCellValueAsString('Price')}`);
+      output.text(`In Stock: ${newProduct.getCellValue('In Stock')}`);
+      output.text(`Category: ${newProduct.getCellValue('Category')}`);
+    }
+  } catch (error) {
+    output.text(`Error creating product copy: ${error.message}`);
+  }
+}
+```
+
+### Working with Linked Records
+
+```javascript
+// Get the Projects and Tasks tables
+const projectsTable = base.getTable('Projects');
+const tasksTable = base.getTable('Tasks');
+
+// Get a project record with its linked tasks
+const projectRecord = await projectsTable.selectRecordAsync('rec123456', {
+  fields: ['Project Name', 'Description', 'Status', 'Tasks']
+});
+
+if (projectRecord) {
+  const projectName = projectRecord.getCellValue('Project Name');
+  const tasks = projectRecord.getCellValue('Tasks') || [];
+  
+  output.markdown(`# Project: ${projectName}`);
+  output.text(`Status: ${projectRecord.getCellValue('Status')}`);
+  output.text(`Number of Tasks: ${tasks.length}`);
+  
+  if (tasks.length > 0) {
+    // Direct access to linked record information
+    output.markdown('## Task Summary');
+    
+    for (const task of tasks) {
+      output.text(`- ${task.name}`);
+    }
+    
+    // For detailed task information, we need to query each task
+    output.markdown('## Detailed Task Information');
+    
+    // Get all task IDs
+    const taskIds = tasks.map(task => task.id);
+    
+    // Query the tasks with additional fields
+    const taskRecords = await tasksTable.selectRecordsAsync({
+      fields: ['Task Name', 'Status', 'Due Date', 'Assigned To'],
+      recordIds: taskIds
+    });
+    
+    // Process each task with full details
+    for (const taskRecord of taskRecords.records) {
+      const taskName = taskRecord.getCellValue('Task Name');
+      const status = taskRecord.getCellValue('Status');
+      const dueDate = taskRecord.getCellValue('Due Date');
+      const assignedTo = taskRecord.getCellValue('Assigned To');
+      
+      output.markdown(`### ${taskName}`);
+      output.text(`Status: ${status || 'Not set'}`);
+      output.text(`Due Date: ${dueDate ? new Date(dueDate).toLocaleDateString() : 'No due date'}`);
+      output.text(`Assigned To: ${assignedTo ? assignedTo.name : 'Unassigned'}`);
+    }
+  }
+}
+```
+
+### Using Record Values in Calculations
+
+```javascript
+// Get the Sales table
+const salesTable = base.getTable('Sales');
+
+// Query sales records for a specific period
+const salesRecords = await salesTable.selectRecordsAsync({
+  fields: ['Date', 'Product', 'Quantity', 'Unit Price', 'Total']
+});
+
+// Perform calculations with record values
+let totalSales = 0;
+let totalQuantity = 0;
+let highestSale = { amount: 0, product: null, date: null };
+
+for (const record of salesRecords.records) {
+  const quantity = record.getCellValue('Quantity') || 0;
+  const total = record.getCellValue('Total') || 0;
+  
+  // Update totals
+  totalSales += total;
+  totalQuantity += quantity;
+  
+  // Check if this is the highest sale
+  if (total > highestSale.amount) {
+    highestSale = {
+      amount: total,
+      product: record.getCellValue('Product'),
+      date: record.getCellValue('Date')
+    };
+  }
+}
+
+// Calculate average sale value
+const averageSale = salesRecords.records.length > 0 
+  ? totalSales / salesRecords.records.length 
+  : 0;
+
+// Output the results
+output.markdown('# Sales Analysis');
+output.text(`Total Sales: $${totalSales.toLocaleString()}`);
+output.text(`Total Quantity: ${totalQuantity.toLocaleString()} units`);
+output.text(`Average Sale: $${averageSale.toFixed(2)}`);
+
+if (highestSale.product) {
+  output.markdown('## Highest Sale');
+  output.text(`Product: ${highestSale.product}`);
+  output.text(`Amount: $${highestSale.amount.toLocaleString()}`);
+  output.text(`Date: ${highestSale.date ? new Date(highestSale.date).toLocaleDateString() : 'Unknown'}`);
+}
+```
+
+### Complex Record Processing
+
+```javascript
+// Get the Inventory table
+const inventoryTable = base.getTable('Inventory');
+
+// Get all inventory records
+const inventoryRecords = await inventoryTable.selectRecordsAsync({
+  fields: ['Item Name', 'Category', 'Quantity', 'Reorder Level', 'Supplier', 'Price']
+});
+
+// Identify items that need to be reordered
+const reorderItems = [];
+const lowStockItems = [];
+const outOfStockItems = [];
+
+for (const record of inventoryRecords.records) {
+  const itemName = record.getCellValue('Item Name');
+  const quantity = record.getCellValue('Quantity') || 0;
+  const reorderLevel = record.getCellValue('Reorder Level') || 0;
+  
+  // Add to appropriate lists
+  if (quantity === 0) {
+    outOfStockItems.push({
+      id: record.id,
+      name: itemName,
+      category: record.getCellValue('Category'),
+      supplier: record.getCellValue('Supplier'),
+      price: record.getCellValue('Price')
+    });
+  } else if (quantity <= reorderLevel) {
+    reorderItems.push({
+      id: record.id,
+      name: itemName,
+      category: record.getCellValue('Category'),
+      currentQuantity: quantity,
+      reorderLevel: reorderLevel,
+      supplier: record.getCellValue('Supplier'),
+      price: record.getCellValue('Price')
+    });
+  } else if (quantity <= reorderLevel * 1.2) {
+    // Items at 120% or less of reorder level are considered low stock
+    lowStockItems.push({
+      id: record.id,
+      name: itemName,
+      category: record.getCellValue('Category'),
+      currentQuantity: quantity,
+      reorderLevel: reorderLevel
+    });
+  }
+}
+
+// Group reorder items by supplier
+const itemsBySupplier = {};
+
+for (const item of reorderItems) {
+  const supplier = item.supplier || 'Unknown Supplier';
+  
+  if (!itemsBySupplier[supplier]) {
+    itemsBySupplier[supplier] = [];
+  }
+  
+  itemsBySupplier[supplier].push(item);
+}
+
+// Output the inventory report
+output.markdown('# Inventory Report');
+
+if (outOfStockItems.length > 0) {
+  output.markdown('## Out of Stock Items');
+  output.table(outOfStockItems);
+}
+
+if (reorderItems.length > 0) {
+  output.markdown('## Items to Reorder');
+  output.table(reorderItems);
+  
+  output.markdown('## Reorder by Supplier');
+  for (const [supplier, items] of Object.entries(itemsBySupplier)) {
+    output.markdown(`### ${supplier}`);
+    
+    // Calculate order totals
+    const orderTotal = items.reduce((sum, item) => sum + (item.price || 0), 0);
+    
+    output.table(items);
+    output.text(`Order Total: $${orderTotal.toLocaleString()}`);
+  }
+}
+
+if (lowStockItems.length > 0) {
+  output.markdown('## Low Stock Items');
+  output.table(lowStockItems);
+}
+```
+
+## Best Practices
+
+1. **Check for null values** - Always handle the possibility of null or undefined field values with default values or conditional logic.
+
+2. **Use appropriate methods** - Use `getCellValue()` when you need the actual value for calculations or logic, and `getCellValueAsString()` for display purposes.
+
+3. **Handle linked records properly** - Remember that linked records from `getCellValue()` only contain minimal information (id and name). For detailed information, query the linked records from their table.
+
+4. **Field parameter consistency** - Prefer using field names (strings) for consistency unless you need special field object functionality.
+
+5. **Error handling** - Wrap record operations in try-catch blocks to handle possible errors gracefully.
+
+6. **Update records with care** - When updating records, preserve existing values for fields you don't intend to change.
+
+## Related Resources
+
+- [Base](/docs/scripts/api/base)
+- [Table](/docs/scripts/api/table)
+- [Field](/docs/scripts/api/field)
+- [RecordQueryResult](/docs/scripts/api/record-query-result)

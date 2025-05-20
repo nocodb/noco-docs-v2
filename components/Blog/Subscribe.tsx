@@ -33,16 +33,16 @@ const Subscribe = () => {
                 <Image src="/img/blog/illustrations/subscribe.png" alt="Subscribe" width={420} height={400}
                        className="w-full lg:w-3/8"/>
                 <div className="flex flex-col w-full lg:w-5/8 items-start justify-center">
-                    <h3 className="text-nc-content-grey-emphasis leading-9 font-bold text-2xl">
+                    <h3 className="text-nc-content-grey-emphasis leading-9 font-medium text-2xl">
                         Subscribe to our Newsletter
                     </h3>
-                    <h5 className="text-base mt-2 text-nc-content-grey-default leading-6 font-bold">
+                    <h5 className="text-base mt-2 text-nc-content-grey-default font-light leading-6">
                         Keep up with our latest news and updates.
                     </h5>
                     <form className="flex flex-col lg:flex-row w-full gap-3 mt-6 items-center" onSubmit={handleSubmit}>
                         <Input type="email" className="flex-1 w-full" placeholder="Enter your email address..."
                                onChange={(e) => setEmail(e.target.value)}/>
-                        <Button type="submit" className="w-full lg:w-auto">
+                        <Button type="submit" className="w-full lg:w-auto font-medium">
                             Submit
                         </Button>
                     </form>

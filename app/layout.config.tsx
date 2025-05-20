@@ -1,7 +1,6 @@
 import type {BaseLayoutProps} from 'fumadocs-ui/layouts/shared';
 import Image from 'next/image';
 import Link from 'next/link';
-import {ThemeSwitch} from "@/components/Docs/ThemeSwitch";
 
 /**
  * Shared layout configurations
@@ -24,7 +23,6 @@ export const baseOptions: BaseLayoutProps = {
                     Docs
                 </div>
                 <div className="md:flex-1"/>
-                <ThemeSwitch/>
             </div>
         ),
         children: (
@@ -37,7 +35,6 @@ export const baseOptions: BaseLayoutProps = {
                     Docs
                 </div>
                 <div className="md:flex-1"/>
-                <ThemeSwitch/>
             </div>
         )
     }

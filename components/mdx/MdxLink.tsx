@@ -7,11 +7,11 @@ const transformHref = (href: string) => {
     }
 
     if (href.startsWith('/docs')) {
-        return href;
+        return `/docs/product-docs/${href}`;
     }
 
     if (href.startsWith('/')) {
-        return `/docs${href}`;
+        return `/docs/product-docs${href}`;
     }
 
     return href;

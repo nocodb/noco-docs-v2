@@ -1,0 +1,899 @@
+---
+title: 'Input'
+description: 'Documentation for the input object and its methods in NocoDB Scripts'
+icon: 'input-cursor'
+---
+
+The `input` object provides methods for collecting user input during script execution. These methods allow you to create interactive scripts that can prompt users for information, choices, and file uploads.
+
+## Overview
+
+Input methods are asynchronous and pause script execution until the user provides a response. This enables you to:
+
+- Collect text input from users
+- Present users with choices using buttons or dropdown menus
+- Allow users to select tables, views, fields, or records
+- Collect file uploads for data processing
+
+All input methods return a Promise that resolves to the value provided by the user, so they must be used with `await` to get the result.
+
+## Available Methods
+
+### input.textAsync()
+
+Prompts the user to enter text.
+
+**Parameters:**
+- `label` (`string`): The prompt text to display to the user
+
+**Returns:** `Promise<string>` - A promise that resolves to the text entered by the user
+
+**Example:**
+```javascript
+// Ask for user's name
+const name = await input.textAsync('What is your name?');
+output.text(`Hello, ${name}!`);
+
+// Ask for an email subject
+const subject = await input.textAsync('Enter email subject:');
+output.text(`Email subject: ${subject}`);
+```
+
+### input.buttonsAsync()
+
+Presents the user with buttons to choose from.
+
+**Parameters:**
+- `label` (`string`): The prompt text to display to the user
+- `options` (`Array<string | ButtonOption>`): An array of options, either as strings or button option objects
+
+**Button Option Properties:**
+- `label` (`string`): Text to display on the button
+- `value` (any): Value to return when the button is clicked (defaults to the label if using strings)
+- `variant` (`'default' | 'primary' | 'secondary' | 'danger'`, optional): Visual style of the button
+
+**Returns:** `Promise<any>` - A promise that resolves to the value of the selected option
+
+**Example with simple strings:**
+```javascript
+// Ask user to choose a status
+const status = await input.buttonsAsync(
+  'Select a status for this record:',
+  ['Active', 'Pending', 'Completed', 'Cancelled']
+);
+output.text(`Selected status: ${status}`);
+```
+
+**Example with button options:**
+```javascript
+// Ask for confirmation with styled buttons
+const confirmation = await input.buttonsAsync(
+  'Are you sure you want to delete these records?',
+  [
+    { label: 'Yes, delete them', value: true, variant: 'danger' },
+    { label: 'Cancel', value: false, variant: 'secondary' }
+  ]
+);
+
+if (confirmation) {
+  output.text('Deleting records...');
+  // Delete operation would go here
+} else {
+  output.text('Operation cancelled.');
+}
+```
+
+### input.selectAsync()
+
+Presents a dropdown menu of options for the user to choose from.
+
+**Parameters:**
+- `label` (`string`): The prompt text to display to the user
+- `options` (`Array<string | { label: string, value: any }>`): An array of options, either as strings or objects with label and value properties
+
+**Returns:** `Promise<any>` - A promise that resolves to the value of the selected option
+
+**Example with simple strings:**
+```javascript
+// Ask user to select a department
+const department = await input.selectAsync(
+  'Select a department:',
+  ['Marketing', 'Sales', 'Engineering', 'Customer Support', 'Finance', 'HR']
+);
+output.text(`Selected department: ${department}`);
+```
+
+**Example with label/value objects:**
+```javascript
+// Ask user to select a priority level
+const priority = await input.selectAsync(
+  'Select priority level:',
+  [
+    { label: 'High (Urgent)', value: 3 },
+    { label: 'Medium (Normal)', value: 2 },
+    { label: 'Low (When time permits)', value: 1 }
+  ]
+);
+output.text(`Selected priority level: ${priority}`);
+```
+
+### input.fileAsync()
+
+Prompts the user to upload a file.
+
+**Parameters:**
+- `label` (`string`, optional): The prompt text to display to the user
+- `options` (`object`, optional): Additional options for file upload:
+  - `allowedFileTypes` (`Array<string>`): File extensions or MIME types to accept (e.g., '.csv', '.xlsx', 'application/json')
+  - `hasHeaderRow` (`boolean`): For spreadsheets, whether to treat the first row as headers
+  - `useRawValues` (`boolean`): For spreadsheets, whether to return raw string values vs. parsed types
+
+**Returns:** `Promise<{ file: NcFile, parsedContents: any }>` - A promise that resolves to an object containing the uploaded file and its parsed contents (if applicable)
+
+**Example:**
+```javascript
+// Ask user to upload a CSV file
+const result = await input.fileAsync('Please upload a CSV file of contacts', {
+  allowedFileTypes: ['.csv'],
+  hasHeaderRow: true
+});
+
+if (result && result.parsedContents) {
+  const contacts = result.parsedContents;
+  output.text(`Uploaded ${contacts.length} contacts.`);
+  
+  // Display the first contact as an example
+  if (contacts.length > 0) {
+    output.text('First contact:');
+    output.table([contacts[0]]);
+  }
+}
+```
+
+### input.tableAsync()
+
+Prompts the user to select a table from the base.
+
+**Parameters:**
+- `label` (`string`): The prompt text to display to the user
+
+**Returns:** `Promise<Table>` - A promise that resolves to the selected Table object
+
+**Example:**
+```javascript
+// Ask user to select a table
+const table = await input.tableAsync('Select a table to process:');
+output.text(`Selected table: ${table.name}`);
+
+// Get the table's fields
+output.text(`Fields in ${table.name}:`);
+for (const field of table.fields) {
+  output.text(`- ${field.name} (${field.type})`);
+}
+```
+
+### input.viewAsync()
+
+Prompts the user to select a view from a specified table.
+
+**Parameters:**
+- `label` (`string`): The prompt text to display to the user
+- `tableOrTableNameOrTableId` (`Table | string`): The table, table name, or table ID to select from
+
+**Returns:** `Promise<View>` - A promise that resolves to the selected View object
+
+**Example:**
+```javascript
+// First select a table
+const table = await input.tableAsync('Select a table:');
+
+// Then select a view from that table
+const view = await input.viewAsync('Select a view from this table:', table);
+output.text(`Selected view: ${view.name} (type: ${view.type})`);
+
+// Query records from the view
+const records = await view.selectRecordsAsync();
+output.text(`This view contains ${records.records.length} records.`);
+```
+
+### input.fieldAsync()
+
+Prompts the user to select a field from a specified table.
+
+**Parameters:**
+- `label` (`string`): The prompt text to display to the user
+- `tableOrTableNameOrTableId` (`Table | string`): The table, table name, or table ID to select from
+
+**Returns:** `Promise<Field>` - A promise that resolves to the selected Field object
+
+**Example:**
+```javascript
+// First select a table
+const table = await input.tableAsync('Select a table:');
+
+// Then select a field from that table
+const field = await input.fieldAsync('Select a field to analyze:', table);
+output.text(`Selected field: ${field.name} (${field.type})`);
+
+// Now use the field for something
+const records = await table.selectRecordsAsync({
+  fields: [field.name]
+});
+
+// Count non-empty values in the field
+let nonEmptyCount = 0;
+for (const record of records.records) {
+  if (record.getCellValue(field.name) !== null) {
+    nonEmptyCount++;
+  }
+}
+
+output.text(`The field "${field.name}" has values in ${nonEmptyCount} out of ${records.records.length} records.`);
+```
+
+### input.recordAsync()
+
+Prompts the user to select a record from a table, view, or set of records.
+
+**Parameters:**
+- `label` (`string`): The prompt text to display to the user
+- `source` (`Table | View | RecordQueryResult | Array<Record>`): The source to select from
+- `options` (`object`, optional): Additional options:
+  - `fields` (`Array<Field | string>`): Specific fields to display
+
+**Returns:** `Promise<Record | null>` - A promise that resolves to the selected Record object, or null if no record is selected
+
+**Example:**
+```javascript
+// First select a table
+const table = await input.tableAsync('Select a table:');
+
+// Then select a record from that table
+const record = await input.recordAsync('Select a record to update:', table);
+
+if (record) {
+  output.text(`Selected record: ${record.name}`);
+  
+  // Ask for a new value
+  const newValue = await input.textAsync('Enter a new value:');
+  
+  // Update the record
+  const fieldToUpdate = await input.fieldAsync('Select a field to update:', table);
+  
+  await table.updateRecordAsync(record.id, {
+    [fieldToUpdate.name]: newValue
+  });
+  
+  output.text(`Updated "${fieldToUpdate.name}" to "${newValue}".`);
+} else {
+  output.text('No record selected.');
+}
+```
+
+## Practical Examples
+
+### Form-Based Data Entry
+
+```javascript
+// Interactive form for creating a new project
+async function createNewProject() {
+  // Get the Projects table
+  const projectsTable = base.getTable('Projects');
+  const tasksTable = base.getTable('Tasks');
+  
+  // Collect project information
+  output.markdown('# New Project Form');
+  
+  const projectName = await input.textAsync('Project Name:');
+  
+  const projectDescription = await input.textAsync('Project Description:');
+  
+  const startDate = await input.textAsync('Start Date (YYYY-MM-DD):');
+  
+  const projectType = await input.selectAsync('Project Type:', [
+    'Software Development',
+    'Marketing Campaign',
+    'Product Launch',
+    'Research',
+    'Infrastructure',
+    'Other'
+  ]);
+  
+  const priority = await input.selectAsync('Priority:', [
+    { label: 'Low', value: 1 },
+    { label: 'Medium', value: 2 },
+    { label: 'High', value: 3 },
+    { label: 'Critical', value: 4 }
+  ]);
+  
+  // Get team members
+  const teamTable = base.getTable('Team Members');
+  const teamQuery = await teamTable.selectRecordsAsync({
+    fields: ['Name', 'Role', 'Department']
+  });
+  
+  // Create options for team lead selection
+  const teamOptions = teamQuery.records.map(record => ({
+    label: `${record.getCellValue('Name')} (${record.getCellValue('Role')})`,
+    value: record.id
+  }));
+  
+  const teamLead = await input.selectAsync('Team Lead:', teamOptions);
+  
+  // Ask for milestone tasks
+  output.markdown('## Initial Tasks');
+  output.text('Add some initial tasks for this project:');
+  
+  const tasks = [];
+  let addingTasks = true;
+  
+  while (addingTasks) {
+    const taskName = await input.textAsync('Task Name:');
+    
+    const taskDueDate = await input.textAsync('Due Date (YYYY-MM-DD):');
+    
+    // Add the task to our list
+    tasks.push({
+      name: taskName,
+      dueDate: taskDueDate
+    });
+    
+    // Ask if user wants to add another task
+    const addAnother = await input.buttonsAsync(
+      'Add another task?',
+      ['Yes', 'No, I\'m done']
+    );
+    
+    addingTasks = (addAnother === 'Yes');
+  }
+  
+  // Confirm creation
+  output.markdown('## Summary');
+  output.text(`Project Name: ${projectName}`);
+  output.text(`Description: ${projectDescription}`);
+  output.text(`Start Date: ${startDate}`);
+  output.text(`Type: ${projectType}`);
+  output.text(`Priority: ${priority}`);
+  output.text(`Number of Initial Tasks: ${tasks.length}`);
+  
+  const confirmation = await input.buttonsAsync(
+    'Create this project?',
+    [
+      { label: 'Create Project', value: true, variant: 'primary' },
+      { label: 'Cancel', value: false, variant: 'secondary' }
+    ]
+  );
+  
+  if (!confirmation) {
+    output.text('Project creation cancelled.');
+    return;
+  }
+  
+  // Create the project record
+  output.text('Creating project...');
+  
+  try {
+    // Create the project
+    const projectId = await projectsTable.createRecordAsync({
+      'Project Name': projectName,
+      'Description': projectDescription,
+      'Start Date': startDate,
+      'Type': projectType,
+      'Priority': priority,
+      'Team Lead': teamLead
+    });
+    
+    output.text(`Project created with ID: ${projectId}`);
+    
+    // Create the tasks
+    output.text('Creating tasks...');
+    
+    for (const task of tasks) {
+      await tasksTable.createRecordAsync({
+        'Task Name': task.name,
+        'Due Date': task.dueDate,
+        'Project': projectId,
+        'Status': 'Not Started'
+      });
+    }
+    
+    output.text(`Created ${tasks.length} tasks for this project.`);
+    output.markdown('# Project Created Successfully');
+  } catch (error) {
+    output.text(`Error creating project: ${error.message}`);
+  }
+}
+
+// Run the function
+await createNewProject();
+```
+
+### File Upload and Processing
+
+```javascript
+// Example of using file upload to import data
+async function importCSVData() {
+  // First, select destination table
+  const table = await input.tableAsync('Select a table to import data into:');
+  
+  // Now, ask for CSV file
+  const result = await input.fileAsync('Upload CSV file:', {
+    allowedFileTypes: ['.csv'],
+    hasHeaderRow: true
+  });
+  
+  if (!result || !result.parsedContents) {
+    output.text('No file uploaded or file could not be parsed.');
+    return;
+  }
+  
+  const csvData = result.parsedContents;
+  
+  // Show file preview
+  output.markdown('# CSV Import Preview');
+  output.text(`File contains ${csvData.length} rows and ${Object.keys(csvData[0] || {}).length} columns.`);
+  
+  if (csvData.length > 0) {
+    output.text('Sample data (first 3 rows):');
+    output.table(csvData.slice(0, 3));
+  }
+  
+  // Ask how to handle duplicates
+  const duplicateHandling = await input.selectAsync(
+    'How should duplicate records be handled?',
+    [
+      { label: 'Skip duplicates', value: 'skip' },
+      { label: 'Update existing records', value: 'update' },
+      { label: 'Allow duplicates', value: 'allow' }
+    ]
+  );
+  
+  // If not allowing duplicates, we need a unique ID field
+  let uniqueField = null;
+  if (duplicateHandling !== 'allow') {
+    uniqueField = await input.fieldAsync('Select a field to use for identifying duplicates:', table);
+    
+    // Find matching CSV column
+    const csvColumns = Object.keys(csvData[0] || {});
+    const matchingColumn = csvColumns.find(col => 
+      col.toLowerCase() === uniqueField.name.toLowerCase()
+    );
+    
+    if (!matchingColumn) {
+      const confirmation = await input.buttonsAsync(
+        `Warning: No CSV column matches the unique field "${uniqueField.name}". Continue anyway?`,
+        [
+          { label: 'Continue', value: true, variant: 'primary' },
+          { label: 'Cancel', value: false, variant: 'secondary' }
+        ]
+      );
+      
+      if (!confirmation) {
+        output.text('Import cancelled.');
+        return;
+      }
+    }
+  }
+  
+  // Map CSV columns to table fields
+  output.markdown('## Field Mapping');
+  output.text('Map each CSV column to a field in the table:');
+  
+  const csvColumns = Object.keys(csvData[0] || {});
+  const fieldMap = {};
+  
+  for (const column of csvColumns) {
+    // Find best match for autosuggestion
+    const bestMatchField = table.fields.find(field => 
+      field.name.toLowerCase() === column.toLowerCase()
+    );
+    
+    const fieldOptions = [
+      { label: '-- Skip this column --', value: null },
+      ...table.fields
+        .filter(field => !field.isComputed) // Filter out computed fields
+        .map(field => ({
+          label: field.name,
+          value: field.name
+        }))
+    ];
+    
+    // Default to best match if found
+    const defaultOption = bestMatchField ? bestMatchField.name : null;
+    
+    const fieldName = await input.selectAsync(
+      `Map CSV column "${column}" to:`,
+      fieldOptions,
+      // Note: defaultOption would work if supported
+    );
+    
+    if (fieldName) {
+      fieldMap[column] = fieldName;
+    }
+  }
+  
+  // Confirm mapping
+  output.markdown('## Import Preview');
+  output.text('The following columns will be imported:');
+  
+  const mappingTable = Object.entries(fieldMap).map(([csvCol, fieldName]) => ({
+    'CSV Column': csvCol,
+    'Table Field': fieldName
+  }));
+  
+  output.table(mappingTable);
+  
+  // Ask for confirmation
+  const confirmation = await input.buttonsAsync(
+    `Ready to import ${csvData.length} records. Continue?`,
+    [
+      { label: 'Import Data', value: true, variant: 'primary' },
+      { label: 'Cancel', value: false, variant: 'secondary' }
+    ]
+  );
+  
+  if (!confirmation) {
+    output.text('Import cancelled.');
+    return;
+  }
+  
+  // Begin import
+  output.markdown('# Importing Data');
+  output.text(`Starting import of ${csvData.length} records...`);
+  
+  // Set up counters
+  let created = 0;
+  let updated = 0;
+  let skipped = 0;
+  let failed = 0;
+  let processed = 0;
+  
+  const batchSize = 25; // Process in batches
+  
+  for (let i = 0; i < csvData.length; i += batchSize) {
+    const batch = csvData.slice(i, i + batchSize);
+    
+    // Process each row in parallel
+    const promises = batch.map(async (row) => {
+      try {
+        // Map data according to field mapping
+        const recordData = {};
+        
+        for (const [csvColumn, fieldName] of Object.entries(fieldMap)) {
+          if (row[csvColumn] !== undefined && row[csvColumn] !== null) {
+            recordData[fieldName] = row[csvColumn];
+          }
+        }
+        
+        // Check for duplicates if needed
+        if (duplicateHandling !== 'allow' && uniqueField) {
+          const uniqueValue = recordData[uniqueField.name];
+          
+          if (uniqueValue) {
+            // Search for existing record
+            const existingRecords = await table.selectRecordsAsync({
+              fields: [uniqueField.name],
+              // This is a simplified approach - in reality you might need a more complex query
+              // Note that NocoDB doesn't have direct filterByFormula
+            });
+            
+            const existingRecord = existingRecords.records.find(record => 
+              record.getCellValue(uniqueField.name)?.toString() === uniqueValue.toString()
+            );
+            
+            if (existingRecord) {
+              if (duplicateHandling === 'update') {
+                // Update the existing record
+                await table.updateRecordAsync(existingRecord.id, recordData);
+                updated++;
+                return;
+              } else if (duplicateHandling === 'skip') {
+                // Skip this record
+                skipped++;
+                return;
+              }
+            }
+          }
+        }
+        
+        // Create new record
+        await table.createRecordAsync(recordData);
+        created++;
+      } catch (error) {
+        console.error(`Error processing row:`, error);
+        failed++;
+      }
+    });
+    
+    // Wait for batch to complete
+    await Promise.all(promises);
+    
+    // Update progress
+    processed += batch.length;
+    output.text(`Processed ${processed} of ${csvData.length} records...`);
+  }
+  
+  // Show final results
+  output.markdown('# Import Complete');
+  output.text(`Total records processed: ${csvData.length}`);
+  output.text(`Records created: ${created}`);
+  output.text(`Records updated: ${updated}`);
+  output.text(`Records skipped: ${skipped}`);
+  output.text(`Failed records: ${failed}`);
+}
+
+// Run the import function
+await importCSVData();
+```
+
+### Interactive Record Selection and Update
+
+```javascript
+// Example of selecting and updating records
+async function updateRecords() {
+  // Select a table
+  const table = await input.tableAsync('Select a table:');
+  
+  // Select a view (optional)
+  const useView = await input.buttonsAsync(
+    'Do you want to select a specific view?',
+    ['Yes', 'No, use all records']
+  );
+  
+  let records;
+  
+  if (useView === 'Yes') {
+    const view = await input.viewAsync('Select a view:', table);
+    records = await view.selectRecordsAsync();
+    output.text(`Selected view "${view.name}" with ${records.records.length} records.`);
+  } else {
+    records = await table.selectRecordsAsync();
+    output.text(`Selected table "${table.name}" with ${records.records.length} records.`);
+  }
+  
+  // No records found
+  if (records.records.length === 0) {
+    output.text('No records found. Nothing to update.');
+    return;
+  }
+  
+  // Ask which field to update
+  const field = await input.fieldAsync('Select a field to update:', table);
+  
+  // Check if field is computed
+  if (field.isComputed) {
+    output.text(`Cannot update computed field "${field.name}". Please select a different field.`);
+    return;
+  }
+  
+  // Different update strategies based on field type
+  let newValue;
+  
+  switch (field.type) {
+    case 'SingleSelect':
+      // Get options from field
+      const options = field.options?.choices?.map(choice => choice.title) || [];
+      newValue = await input.selectAsync(`Select new value for "${field.name}":`, options);
+      break;
+      
+    case 'MultiSelect':
+      // Get options from field
+      const multiOptions = field.options?.choices?.map(choice => choice.title) || [];
+      
+      // Let user select multiple options (workaround since there's no direct multi-select)
+      const selectedOptions = [];
+      let selecting = true;
+      
+      while (selecting) {
+        const option = await input.selectAsync(
+          `Select an option to add (${selectedOptions.length} selected so far):`,
+          [
+            ...multiOptions.filter(opt => !selectedOptions.includes(opt)),
+            '-- Done selecting --'
+          ]
+        );
+        
+        if (option === '-- Done selecting --') {
+          selecting = false;
+        } else {
+          selectedOptions.push(option);
+          output.text(`Added "${option}". Selected: ${selectedOptions.join(', ')}`);
+        }
+      }
+      
+      newValue = selectedOptions;
+      break;
+      
+    case 'Checkbox':
+      newValue = await input.buttonsAsync(
+        `Set "${field.name}" to:`,
+        [
+          { label: 'Checked', value: true },
+          { label: 'Unchecked', value: false }
+        ]
+      );
+      break;
+      
+    case 'Date':
+    case 'DateTime':
+      newValue = await input.textAsync(
+        `Enter new date for "${field.name}" (YYYY-MM-DD or YYYY-MM-DD HH:MM:SS):`
+      );
+      break;
+      
+    case 'Number':
+    case 'Currency':
+    case 'Percent':
+    case 'Rating':
+      const numValue = await input.textAsync(`Enter new value for "${field.name}":`);
+      // Convert to number
+      newValue = numValue ? parseFloat(numValue) : null;
+      break;
+      
+    default:
+      // Default to text input for most field types
+      newValue = await input.textAsync(`Enter new value for "${field.name}":`);
+  }
+  
+  // Ask which records to update
+  const updateTarget = await input.selectAsync(
+    'Which records do you want to update?',
+    [
+      { label: 'All records in the current view/table', value: 'all' },
+      { label: 'Select specific records', value: 'select' },
+      { label: 'Records matching certain criteria', value: 'filter' }
+    ]
+  );
+  
+  let recordsToUpdate = [];
+  
+  if (updateTarget === 'all') {
+    // Update all records
+    recordsToUpdate = records.records;
+  } else if (updateTarget === 'select') {
+    // Let user select records one by one
+    const selectedIds = [];
+    let selecting = true;
+    
+    // Show a simplified list of records for selection
+    const recordOptions = records.records.map(record => ({
+      label: record.name,
+      value: record.id
+    }));
+    
+    while (selecting && recordOptions.length > 0) {
+      const record = await input.selectAsync(
+        `Select a record to update (${selectedIds.length} selected so far):`,
+        [
+          ...recordOptions.filter(opt => !selectedIds.includes(opt.value)),
+          { label: '-- Done selecting --', value: 'done' }
+        ]
+      );
+      
+      if (record === 'done') {
+        selecting = false;
+      } else {
+        selectedIds.push(record);
+        output.text(`Added record "${recordOptions.find(opt => opt.value === record)?.label}"`);
+      }
+    }
+    
+    // Get the full records for the selected IDs
+    recordsToUpdate = records.records.filter(record => selectedIds.includes(record.id));
+  } else if (updateTarget === 'filter') {
+    // Let user select a field to filter on
+    const filterField = await input.fieldAsync('Select a field to filter on:', table);
+    
+    // Get filter value
+    const filterValue = await input.textAsync(`Enter value to match in "${filterField.name}":`);
+    
+    // Filter records (case-insensitive for strings)
+    recordsToUpdate = records.records.filter(record => {
+      const value = record.getCellValue(filterField.name);
+      
+      if (typeof value === 'string' && typeof filterValue === 'string') {
+        return value.toLowerCase().includes(filterValue.toLowerCase());
+      } else {
+        return value == filterValue; // Use loose equality for other types
+      }
+    });
+  }
+  
+  // Confirm the update
+  output.markdown('# Update Preview');
+  output.text(`You are about to update the field "${field.name}" to "${newValue}" for ${recordsToUpdate.length} records.`);
+  
+  if (recordsToUpdate.length > 0) {
+    output.text('Records to be updated:');
+    // Show first few records
+    const previewRecords = recordsToUpdate.slice(0, 5).map(record => ({
+      'Name': record.name,
+      'Current Value': record.getCellValueAsString(field.name)
+    }));
+    
+    output.table(previewRecords);
+    
+    if (recordsToUpdate.length > 5) {
+      output.text(`...and ${recordsToUpdate.length - 5} more records.`);
+    }
+  }
+  
+  const confirmation = await input.buttonsAsync(
+    'Proceed with the update?',
+    [
+      { label: 'Update Records', value: true, variant: 'primary' },
+      { label: 'Cancel', value: false, variant: 'secondary' }
+    ]
+  );
+  
+  if (!confirmation) {
+    output.text('Update cancelled.');
+    return;
+  }
+  
+  // Perform the update
+  output.text(`Updating ${recordsToUpdate.length} records...`);
+  
+  let successCount = 0;
+  let failCount = 0;
+  
+  for (const record of recordsToUpdate) {
+    try {
+      await table.updateRecordAsync(record.id, {
+        [field.name]: newValue
+      });
+      successCount++;
+    } catch (error) {
+      console.error(`Error updating record ${record.id}:`, error);
+      failCount++;
+    }
+  }
+  
+  // Report results
+  output.markdown('# Update Complete');
+  output.text(`Successfully updated ${successCount} records.`);
+  
+  if (failCount > 0) {
+    output.text(`Failed to update ${failCount} records. Check the console for details.`);
+  }
+}
+
+// Run the update function
+await updateRecords();
+```
+
+## Best Practices
+
+1. **Use descriptive prompts** - Provide clear instructions in prompt labels so users know what input is expected.
+
+2. **Handle null/cancelled responses** - Always check if the user provided a value, especially for optional inputs.
+
+3. **Validate user input** - Validate text inputs to ensure they meet your requirements before using them.
+
+4. **Show confirmation for destructive actions** - Use buttons with confirmation prompts before performing actions that modify data.
+
+5. **Provide progress updates** - Show progress information between input prompts, especially for multi-step processes.
+
+6. **Use appropriate input methods** - Choose the right input method for the data type (e.g., buttons for boolean choices, select for enumerated values).
+
+7. **Limit choices when possible** - Use select or buttons instead of free-form text when the valid inputs are known.
+
+8. **Handle errors gracefully** - Catch and handle errors that might occur when processing user input.
+
+9. **Provide default values** - When possible, suggest sensible defaults to make the script easier to use.
+
+10. **Break complex workflows into steps** - For scripts with many inputs, organize them into logical sections with appropriate headings.
+
+## Limitations
+
+1. **Synchronous nature** - Each input blocks the script until the user responds, which can make complex forms feel sequential.
+
+2. **No persistent state between runs** - Input values aren't saved between script executions unless you explicitly store them.
+
+## Related Resources
+
+- [Output Methods](/docs/scripts/api/output)
+- [Table Object](/docs/scripts/api/table)
+- [View Object](/docs/scripts/api/view)
+- [Field Object](/docs/scripts/api/field)
+- [Record Object](/docs/scripts/api/record)

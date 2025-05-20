@@ -1,0 +1,711 @@
+---
+title: 'Field'
+description: 'Documentation for the Field object and Field Types in NocoDB Scripts'
+icon: 'table-columns'
+---
+
+The `Field` object represents a column in a NocoDB table and provides access to its configuration and metadata. Fields define the structure of tables and determine how data is stored, validated, and displayed.
+
+## Overview
+
+NocoDB supports a wide variety of field types to accommodate different kinds of data, from simple text and numbers to more complex types like attachments, links to other tables, formulas, and more. The Field object enables you to:
+
+- Access field properties such as name, type, and description
+- Check if a field is computed or a system field
+- Update field configuration and options
+- Work with field-specific options and behaviors
+
+## Common Properties
+
+All Field objects share these common properties:
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `id` | `string` | The unique identifier of the field |
+| `name` | `string` | The display name of the field |
+| `type` | `UITypes` | The type of the field (e.g., SingleLineText, Number, Date) |
+| `description` | `string \| null` | The description of the field (if any) |
+| `isComputed` | `boolean` | Whether the field value is computed rather than directly editable |
+| `options` | `object \| null` | Type-specific options for the field |
+
+## Common Methods
+
+All Field objects provide these methods:
+
+### updateOptionsAsync(options)
+
+Updates the field's options configuration.
+
+**Parameters:**
+- `options` (`object`): New options configuration. Structure depends on field type.
+
+**Returns:** `Promise<void>` - A promise that resolves when the update is complete
+
+**Example:**
+```javascript
+// Get a SingleSelect field
+const statusField = projectsTable.getField('Status');
+
+// Update its choices
+await statusField.updateOptionsAsync({
+  choices: [
+    { title: 'Not Started', color: 'gray' },
+    { title: 'In Progress', color: 'blue' },
+    { title: 'Under Review', color: 'orange' },
+    { title: 'Completed', color: 'green' },
+    { title: 'Cancelled', color: 'red' }
+  ]
+});
+
+output.text('Field options updated successfully.');
+```
+
+### updateDescriptionAsync(description)
+
+Updates the description of the field.
+
+**Parameters:**
+- `description` (`string | null`): New description text, or null to remove description
+
+**Returns:** `Promise<Field>` - A promise that resolves to the updated Field
+
+**Example:**
+```javascript
+// Get a field
+const budgetField = projectsTable.getField('Budget');
+
+// Update its description
+await budgetField.updateDescriptionAsync('Budget in USD. Must be approved for amounts over $10,000.');
+
+output.text('Field description updated successfully.');
+```
+
+### updateNameAsync(name)
+
+Updates the display name of the field.
+
+**Parameters:**
+- `name` (`string`): New field name
+
+**Returns:** `Promise<Field>` - A promise that resolves to the updated Field
+
+**Example:**
+```javascript
+// Get a field
+const oldField = projectsTable.getField('Project Lead');
+
+// Update its name
+await oldField.updateNameAsync('Project Manager');
+
+output.text('Field name updated successfully.');
+```
+
+## Field Types
+
+NocoDB supports a wide range of field types, each with its own specific properties and behaviors. Here's an overview of the most common field types:
+
+### Text Fields
+
+#### Single Line Text
+
+Basic text field for short content.
+
+```javascript
+// Create a Single Line Text field
+await projectsTable.createFieldAsync({
+  name: 'Project Code',
+  type: UITypes.SingleLineText,
+  description: 'Unique project identifier code'
+});
+```
+
+#### Long Text
+
+Multi-line text field that can optionally support rich text formatting.
+
+```javascript
+// Create a Long Text field with rich text enabled
+await projectsTable.createFieldAsync({
+  name: 'Description',
+  type: UITypes.LongText,
+  description: 'Detailed project description',
+  options: {
+    rich_text: true,
+    generate_text_using_ai: false
+  }
+});
+```
+
+### Number Fields
+
+#### Number
+
+Whole number field.
+
+```javascript
+// Create a Number field
+await projectsTable.createFieldAsync({
+  name: 'Sequence',
+  type: UITypes.Number,
+  options: {
+    thousands_separator: true
+  }
+});
+```
+
+#### Decimal
+
+Number with decimal places.
+
+```javascript
+// Create a Decimal field
+await projectsTable.createFieldAsync({
+  name: 'Score',
+  type: UITypes.Decimal,
+  options: {
+    thousands_separator: true,
+    precision: 2
+  }
+});
+```
+
+#### Currency
+
+Monetary values with currency symbol.
+
+```javascript
+// Create a Currency field
+await projectsTable.createFieldAsync({
+  name: 'Budget',
+  type: UITypes.Currency,
+  options: {
+    locale: 'en-US',
+    code: 'USD'
+  }
+});
+```
+
+#### Percent
+
+Percentage values.
+
+```javascript
+// Create a Percent field
+await projectsTable.createFieldAsync({
+  name: 'Completion',
+  type: UITypes.Percent,
+  options: {
+    show_as_progress: true
+  }
+});
+```
+
+#### Rating
+
+Visual rating representation.
+
+```javascript
+// Create a Rating field
+await projectsTable.createFieldAsync({
+  name: 'Priority',
+  type: UITypes.Rating,
+  options: {
+    icon: 'star',
+    max_value: 5,
+    color: 'yellow'
+  }
+});
+```
+
+### Date and Time Fields
+
+#### Date
+
+Date values without time.
+
+```javascript
+// Create a Date field
+await projectsTable.createFieldAsync({
+  name: 'Due Date',
+  type: UITypes.Date,
+  options: {
+    date_format: 'YYYY-MM-DD'
+  }
+});
+```
+
+#### DateTime
+
+Date and time values.
+
+```javascript
+// Create a DateTime field
+await projectsTable.createFieldAsync({
+  name: 'Last Updated',
+  type: UITypes.DateTime,
+  options: {
+    date_format: 'YYYY-MM-DD',
+    time_format: 'HH:mm',
+    '12hr_format': false,
+    timezone: 'UTC',
+    display_timezone: true,
+    use_same_timezone_for_all: true
+  }
+});
+```
+
+#### Time
+
+Time values without date.
+
+```javascript
+// Create a Time field
+await projectsTable.createFieldAsync({
+  name: 'Start Time',
+  type: UITypes.Time,
+  options: {
+    time_format: 'HH:mm:ss',
+    '12hr_format': false
+  }
+});
+```
+
+#### Duration
+
+Time duration values.
+
+```javascript
+// Create a Duration field
+await projectsTable.createFieldAsync({
+  name: 'Estimated Hours',
+  type: UITypes.Duration,
+  options: {
+    duration_format: 'h:mm:ss'
+  }
+});
+```
+
+### Boolean Fields
+
+#### Checkbox
+
+True/false values represented as checkboxes.
+
+```javascript
+// Create a Checkbox field
+await projectsTable.createFieldAsync({
+  name: 'Approved',
+  type: UITypes.Checkbox,
+  options: {
+    icon: 'square',
+    color: 'green'
+  }
+});
+```
+
+### Selection Fields
+
+#### Single Select
+
+Selection from a predefined list of options (only one can be selected).
+
+```javascript
+// Create a Single Select field
+await projectsTable.createFieldAsync({
+  name: 'Status',
+  type: UITypes.SingleSelect,
+  options: {
+    choices: [
+      { title: 'Not Started', color: 'gray' },
+      { title: 'In Progress', color: 'blue' },
+      { title: 'Under Review', color: 'orange' },
+      { title: 'Completed', color: 'green' },
+      { title: 'Cancelled', color: 'red' }
+    ]
+  }
+});
+```
+
+#### Multi Select
+
+Selection from a predefined list of options (multiple can be selected).
+
+```javascript
+// Create a Multi Select field
+await projectsTable.createFieldAsync({
+  name: 'Tags',
+  type: UITypes.MultiSelect,
+  options: {
+    choices: [
+      { title: 'Urgent', color: 'red' },
+      { title: 'Bug', color: 'orange' },
+      { title: 'Feature', color: 'blue' },
+      { title: 'Documentation', color: 'green' },
+      { title: 'Enhancement', color: 'purple' }
+    ]
+  }
+});
+```
+
+### Relationship Fields
+
+#### Link to Another Record
+
+Creates relationships between tables.
+
+```javascript
+// Create a Link to Another Record field
+await tasksTable.createFieldAsync({
+  name: 'Project',
+  type: UITypes.LinkToAnotherRecord,
+  options: {
+    relation_type: 'bt', // bt = Belongs To (many-to-one)
+    related_table_id: projectsTable.id,
+    limit_record_selection_view_id: null
+  }
+});
+```
+
+#### Lookup
+
+Looks up values from linked records.
+
+```javascript
+// First, ensure we have a link field to the Projects table
+const projectField = tasksTable.getField('Project');
+
+// Create a Lookup field to get the Project's manager
+await tasksTable.createFieldAsync({
+  name: 'Project Manager',
+  type: UITypes.Lookup,
+  options: {
+    relation_field_id: projectField.id, // The link field
+    lookup_field_id: projectsTable.getField('Project Manager').id // The field to look up
+  }
+});
+```
+
+#### Rollup
+
+Performs calculations on linked records.
+
+```javascript
+// Assuming we have a link from Projects to Tasks (one-to-many)
+const tasksField = projectsTable.getField('Tasks');
+const estimatedHoursField = tasksTable.getField('Estimated Hours');
+
+// Create a Rollup field to sum the estimated hours of all tasks
+await projectsTable.createFieldAsync({
+  name: 'Total Estimated Hours',
+  type: UITypes.Rollup,
+  options: {
+    relation_field_id: tasksField.id, // The link field
+    rollup_field_id: estimatedHoursField.id, // The field to roll up
+    rollup_function: 'sum' // The function to apply
+  }
+});
+```
+
+### Computed Fields
+
+#### Formula
+
+Calculated value based on a formula.
+
+```javascript
+// Create a Formula field
+await projectsTable.createFieldAsync({
+  name: 'Days Until Due',
+  type: UITypes.Formula,
+  options: {
+    formula: 'DATETIME_DIFF(TODAY(), {Due Date}, "days")',
+    result: {
+      type: UITypes.Number,
+      format: {
+        thousands_separator: false
+      }
+    }
+  }
+});
+```
+
+#### Created Time
+
+Automatically stores the record creation time.
+
+```javascript
+// Create a Created Time field
+await projectsTable.createFieldAsync({
+  name: 'Created At',
+  type: UITypes.CreatedTime,
+  options: {
+    date_format: 'YYYY-MM-DD',
+    time_format: 'HH:mm:ss',
+    '12hr_format': false,
+    timezone: 'UTC',
+    display_timezone: true,
+    use_same_timezone_for_all: true
+  }
+});
+```
+
+#### Last Modified Time
+
+Automatically updates with the last record modification time.
+
+```javascript
+// Create a Last Modified Time field
+await projectsTable.createFieldAsync({
+  name: 'Updated At',
+  type: UITypes.LastModifiedTime,
+  options: {
+    date_format: 'YYYY-MM-DD',
+    time_format: 'HH:mm:ss',
+    '12hr_format': false,
+    timezone: 'UTC',
+    display_timezone: true,
+    use_same_timezone_for_all: true
+  }
+});
+```
+
+### Special Fields
+
+#### Attachment
+
+Stores file attachments.
+
+```javascript
+// Create an Attachment field
+await projectsTable.createFieldAsync({
+  name: 'Documents',
+  type: UITypes.Attachment
+});
+```
+
+#### User
+
+References users/collaborators of the base.
+
+```javascript
+// Create a User field
+await projectsTable.createFieldAsync({
+  name: 'Assigned To',
+  type: UITypes.User,
+  options: {
+    allow_multiple_users: false,
+    notify_user_when_added: true
+  }
+});
+```
+
+#### Button
+
+Creates interactive buttons that can trigger actions.
+
+```javascript
+// Create a Button field
+await projectsTable.createFieldAsync({
+  name: 'Send Reminder',
+  type: UITypes.Button,
+  options: {
+    type: 'url',
+    label: 'Send Reminder Email',
+    icon: 'mail',
+    color: 'blue',
+    theme: 'solid',
+    formula: 'mailto:{Assigned To.email}?subject=Reminder: {Task Name}&body=This is a reminder that the task "{Task Name}" is due on {Due Date}.'
+  }
+});
+```
+
+## Cell Values for Different Field Types
+
+Different field types store and return values in specific formats. Understanding these formats is crucial when working with field values:
+
+### Text Fields
+
+```javascript
+// Single Line Text & Long Text
+const title = record.getCellValue('Title'); // string or null
+```
+
+### Number Fields
+
+```javascript
+// Number, Decimal, Currency, Percent
+const amount = record.getCellValue('Amount'); // number or null
+```
+
+### Boolean Fields
+
+```javascript
+// Checkbox
+const isCompleted = record.getCellValue('Completed'); // boolean or null
+```
+
+### Date and Time Fields
+
+```javascript
+// Date, DateTime, Time
+const dueDate = record.getCellValue('Due Date'); // string in ISO format or null
+// e.g., "2023-08-15" for Date, "2023-08-15T14:30:00.000Z" for DateTime
+```
+
+### Selection Fields
+
+```javascript
+// Single Select
+const status = record.getCellValue('Status'); // string or null
+
+// Multi Select
+const tags = record.getCellValue('Tags'); // array of strings or empty array
+// e.g., ["Urgent", "Bug"]
+```
+
+### Relationship Fields
+
+```javascript
+// Link to Another Record (single)
+const project = record.getCellValue('Project'); // Record object or null
+
+// Link to Another Record (multiple)
+const team = record.getCellValue('Team Members'); // Array of Record objects or empty array
+
+// Lookup (single value)
+const manager = record.getCellValue('Project Manager'); // value or null
+
+// Lookup (multiple values)
+const skills = record.getCellValue('Skills'); // Array of values or empty array
+```
+
+### Attachment Field
+
+```javascript
+// Attachment
+const documents = record.getCellValue('Documents');
+// Array of attachment objects or empty array
+// Each attachment has: { title, url, mimetype, size, ... }
+
+// Example: List all attachments
+if (documents && documents.length > 0) {
+  for (const doc of documents) {
+    output.text(`- ${doc.title} (${doc.mimetype}, ${doc.size} bytes)`);
+  }
+}
+```
+
+### User Field
+
+```javascript
+// User (single)
+const assignee = record.getCellValue('Assigned To');
+// Collaborator object or null with { id, name, email }
+
+// User (multiple)
+const reviewers = record.getCellValue('Reviewers');
+// Array of Collaborator objects or empty array
+```
+
+## Working with Fields
+
+### Getting a Field from a Table
+
+```javascript
+// Get a field by name
+const statusField = projectsTable.getField('Status');
+
+// Get a field by ID
+const titleField = projectsTable.getField('fld123456');
+
+// Check field properties
+if (statusField) {
+  output.text(`Field: ${statusField.name}`);
+  output.text(`Type: ${statusField.type}`);
+  output.text(`Description: ${statusField.description || 'No description'}`);
+  output.text(`Is computed: ${statusField.isComputed}`);
+} else {
+  output.text('Field not found');
+}
+```
+
+### Creating a New Field
+
+```javascript
+// Create a new field
+const newField = await projectsTable.createFieldAsync({
+  name: 'Risk Level',
+  type: UITypes.SingleSelect,
+  description: 'Assessed risk level of the project',
+  options: {
+    choices: [
+      { title: 'Low', color: 'green' },
+      { title: 'Medium', color: 'yellow' },
+      { title: 'High', color: 'red' }
+    ]
+  }
+});
+
+output.text(`Created new field: ${newField.name} (${newField.id})`);
+```
+
+### Updating Field Options
+
+```javascript
+// Get a Rating field
+const priorityField = projectsTable.getField('Priority');
+
+// Update its options
+await priorityField.updateOptionsAsync({
+  icon: 'star',
+  max_value: 10, // Change from 5 to 10
+  color: 'orange' // Change color
+});
+
+output.text('Field options updated successfully');
+```
+
+### Working with Select Field Choices
+
+```javascript
+// Get a Select field and its current choices
+const categoryField = projectsTable.getField('Category');
+const currentChoices = categoryField.options?.choices || [];
+
+// Add a new choice
+const updatedChoices = [
+  ...currentChoices,
+  { title: 'New Category', color: 'purple' }
+];
+
+// Update the field
+await categoryField.updateOptionsAsync({
+  choices: updatedChoices
+});
+
+output.text(`Added new category option. Now ${updatedChoices.length} categories available.`);
+```
+
+
+## Best Practices
+
+1. **Check field type** - Always verify a field's type before trying to work with type-specific options.
+
+2. **Handle null values** - Remember that almost any field can have a null/empty value, so include null checks in your code.
+
+3. **Use appropriate update methods** - Use `updateOptionsAsync()` for field options, `updateNameAsync()` for field names, and `updateDescriptionAsync()` for descriptions.
+
+4. **Be cautious with system fields** - Some fields are system-controlled and have limitations on what you can modify.
+
+5. **Consider field dependencies** - Remember that some fields (like Lookup and Rollup) depend on other fields, so consider the impact of changes.
+
+6. **Check field existence** - Always verify a field exists before trying to access it.
+
+7. **Use field IDs for stability** - When possible, reference fields by ID rather than name for scripts that need to be robust against field name changes.
+
+## Related Resources
+
+- [Base](/docs/scripts/api/base)
+- [Table](/docs/scripts/api/table)
+- [Record](/docs/scripts/api/record)
+- [UITypes](/docs/scripts/api/ui-types)

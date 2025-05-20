@@ -1,0 +1,157 @@
+---
+title: 'Cursor'
+description: 'Documentation for the Cursor object in NocoDB Scripts'
+icon: 'cursor-text'
+---
+
+The `cursor` object provides contextual information about the current script execution environment, including which base, table, view, and row is active when the script runs.
+
+## Overview
+
+The `cursor` object is particularly useful for scripts that are triggered from specific contexts, such as button scripts that run within a record view. It allows you to access:
+
+- The currently active base
+- The currently active table (if applicable)
+- The currently active view (if applicable)
+- The currently selected row's data (if applicable)
+
+This contextual awareness helps you create scripts that respond intelligently to where and how they are executed.
+
+## Properties
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `activeBaseId` | `string` | The ID of the currently active base |
+| `activeTableId` | `string \| null` | The ID of the currently active table, or `null` if no table is active |
+| `activeViewId` | `string \| null` | The ID of the currently active view, or `null` if no view is active |
+| `row` | `Record<string, unknown> \| null` | The data of the currently selected row, or `null` if no row is selected |
+
+## Usage Examples
+
+### Checking the Context
+
+```javascript
+// Check where the script is running
+output.markdown('# Script Context');
+
+// Base context is always available
+output.text(`Active Base ID: ${cursor.activeBaseId}`);
+
+// Table context may not be available
+if (cursor.activeTableId) {
+  const activeTable = base.getTable(cursor.activeTableId);
+  output.text(`Active Table: ${activeTable.name}`);
+} else {
+  output.text('No active table context.');
+}
+
+// View context may not be available
+if (cursor.activeViewId) {
+  // Find the active view
+  for (const table of base.tables) {
+    const view = table.views.find(v => v.id === cursor.activeViewId);
+    if (view) {
+      output.text(`Active View: ${view.name} in ${table.name}`);
+      break;
+    }
+  }
+} else {
+  output.text('No active view context.');
+}
+
+// Row context may not be available
+if (cursor.row) {
+  output.text('Active row data:');
+  output.table(cursor.row);
+} else {
+  output.text('No active row context.');
+}
+```
+
+
+### Bulk Update Script
+
+This example shows how to create a script that operates on multiple selected records in a table:
+
+```javascript
+// First, prompt the user to select a table
+const table = await input.tableAsync('Select a table to update records');
+
+// Then prompt for a view within that table
+const view = await input.viewAsync('Select a view with the records to update', table);
+
+// Get the records from the view
+const records = await view.selectRecordsAsync();
+
+// Let the user choose a field to update
+const field = await input.fieldAsync('Select a field to update', table);
+
+// Get the new value for the field
+let newValue;
+switch (field.type) {
+  case UITypes.SingleLineText:
+  case UITypes.LongText:
+    newValue = await input.textAsync(`Enter new value for ${field.name}`);
+    break;
+  case UITypes.Checkbox:
+    newValue = await input.buttonsAsync(`Set ${field.name} to:`, [
+      { label: 'Checked', value: true },
+      { label: 'Unchecked', value: false }
+    ]);
+    break;
+  case UITypes.SingleSelect:
+    const choices = field.options.choices.map(c => ({ label: c.title, value: c.title }));
+    newValue = await input.selectAsync(`Select new value for ${field.name}`, choices);
+    break;
+  // Add cases for other field types as needed
+  default:
+    output.text(`Update for field type ${field.type} is not implemented in this script.`);
+    return;
+}
+
+// Confirm the update
+const confirmation = await input.buttonsAsync(
+  `Are you sure you want to update ${field.name} to "${newValue}" for ${records.records.length} records?`,
+  [
+    { label: 'Yes, update records', value: true, variant: 'primary' },
+    { label: 'Cancel', value: false, variant: 'secondary' }
+  ]
+);
+
+if (!confirmation) {
+  output.text('Update cancelled.');
+  return;
+}
+
+// Perform the update
+output.text(`Updating ${records.records.length} records...`);
+
+const recordUpdates = records.records.map(record => ({
+  id: record.id,
+  fields: {
+    [field.name]: newValue
+  }
+}));
+
+await table.updateRecordsAsync(recordUpdates);
+output.text(`Update complete! Updated ${recordUpdates.length} records.`);
+
+// If we're in an active table context, reload the view
+if (cursor.activeTableId === table.id && cursor.activeViewId) {
+  await viewActions.reloadView();
+}
+```
+
+## Best Practices
+
+1. **Always check context availability** - Use conditional checks on cursor properties since they may be null depending on where the script runs.
+
+2. **Enhance user experience** - Provide meaningful errors when a script requires a specific context to run.
+
+## Related Resources
+
+- [Base](/docs/scripts/api/base)
+- [Table](/docs/scripts/api/table)
+- [View](/docs/scripts/api/view)
+- [Session](/docs/scripts/api/session)
+- [ViewActions](/docs/scripts/api/view-actions)
