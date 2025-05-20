@@ -17,7 +17,7 @@ const tabs = [{
 
 export default function TopBarNaigation() {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
-    const [activeIndex, setActiveIndex] = useState(0)
+    const [activeIndex, setActiveIndex] = useState(-1)
     const [hoverStyle, setHoverStyle] = useState({})
     const [activeStyle, setActiveStyle] = useState({left: "0px", width: "0px"})
     const tabRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -46,18 +46,30 @@ export default function TopBarNaigation() {
         }
     }, [activeIndex])
 
+    // Determine which tab should be active based on the current path when component mounts
     useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const path = window.location.pathname;
+            const activeTabIndex = tabs.findIndex(tab => path.startsWith(tab.href));
+            setActiveIndex(activeTabIndex !== -1 ? activeTabIndex : 0);
+        }
+    }, []);
+    
+    // Apply active style whenever activeIndex changes or after the component has mounted
+    useEffect(() => {
+        if (activeIndex === -1) return;
+        
         requestAnimationFrame(() => {
-            const overviewElement = tabRefs.current[0]
-            if (overviewElement) {
-                const {offsetLeft, offsetWidth} = overviewElement
+            const activeElement = tabRefs.current[activeIndex];
+            if (activeElement) {
+                const {offsetLeft, offsetWidth} = activeElement;
                 setActiveStyle({
                     left: `${offsetLeft}px`,
                     width: `${offsetWidth}px`,
-                })
+                });
             }
-        })
-    }, [])
+        });
+    }, [activeIndex])
 
     return (
         <div className="flex w-full h-12 px-4 items-center max-w-screen-xl mx-auto">
