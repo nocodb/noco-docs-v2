@@ -1,7 +1,6 @@
 {
-    "title": "Self-hosting",
-    "description": "Self-hosting NocoDB",
     "pages": [
-        "index"
+        "index",
+        "installation"
     ]
 }

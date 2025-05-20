@@ -16,6 +16,5 @@
     "nixos",
     "other-installations",
     "ubuntu"
-  ],
-  "icon": "book"
+  ]
 }
