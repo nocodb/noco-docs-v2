@@ -30,7 +30,7 @@ export function FeaturedPost({post}: BlogCardProps) {
                            fill/>
                 </div>
                 <div className="w-full lg:w-1/2">
-                    <h3 className="text-nc-content-grey-emphasis line-clamp-1 leading-6 font-bold text-base lg:text-2xl lg:leading-9">{post.data.title}</h3>
+                    <h3 className="text-nc-content-grey-emphasis line-clamp-1 leading-6 font-semibold text-base lg:text-2xl lg:leading-9">{post.data.title}</h3>
                     <p className="text-nc-content-grey-emphasis mt-4 text-sm leading-5 lg:text-base lg:leading-6 line-clamp-2">{post.data.description}</p>
                     <div className="flex text-sm leading-5 text-nc-content-grey-default justify-between mt-4">
                         <div className="text-left">

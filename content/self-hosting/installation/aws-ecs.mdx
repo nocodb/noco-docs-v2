@@ -1,20 +1,18 @@
 ---
 title: 'AWS ECS (Fargate)'
-description: 'AWS ECS (Fargate) Installation'
 tags: ['Open Source']
+description: 'Deploy NocoDB on AWS ECS using Fargate'
 keywords : ['NocoDB installation', 'NocoDB AWS Fargate installation', 'NocoDB prerequisites']
 ---
 
-# Deploying NocoDB on AWS ECS (Fargate)
-
 This guide will walk you through deploying NocoDB on Amazon ECS using Fargate.
 
-## Prerequisites
+### Prerequisites
 
 - AWS CLI configured with appropriate permissions
 - Basic understanding of AWS ECS and Fargate
 
-## Deployment Steps
+### Deployment Steps
 
 1. Create ECS Cluster
 
@@ -103,9 +101,9 @@ This guide will walk you through deploying NocoDB on Amazon ECS using Fargate.
             --load-balancer targetGroupArn=<TARGET_GROUP_ARN>,containerName=<CONTAINER_NAME>,containerPort=<YOUR_CONTAINER_PORT>
         ```
 
-:::tip
-If your service fails to start, you may check the logs in ECS console or in Cloudwatch. Generally it fails due to the connection between ECS container and NC_DB. Make sure the security groups have the correct inbound and outbound rules.
-:::
+<Callout type="info">
+    If your service fails to start, you may check the logs in ECS console or in Cloudwatch. Generally it fails due to the connection between ECS container and NC_DB. Make sure the security groups have the correct inbound and outbound rules.
+</Callout>
 
 
 ### Important Notes

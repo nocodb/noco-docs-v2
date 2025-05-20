@@ -1,20 +1,4 @@
 {
   "title": "Installation",
-  "pages": [
-    "auto-upstall",
-    "aws-ecs",
-    "behind-apache",
-    "behind-nginx",
-    "configuration",
-    "digital-ocean",
-    "docker-aio",
-    "docker-compose",
-    "gcp-cloud-run",
-    "home-brew",
-    "k8s",
-    "nix",
-    "nixos",
-    "other-installations",
-    "ubuntu"
-  ]
+  "pages": ["auto-upstall", "docker", "docker-compose", "home-brew", "aws-ecs", "gcp-cloud-run", "digital-ocean", "nix", "other-installations"]
 }

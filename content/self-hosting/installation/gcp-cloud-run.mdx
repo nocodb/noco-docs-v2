@@ -5,16 +5,14 @@ tags: ['Open Source']
 keywords : ['NocoDB installation', 'NocoDB Google Cloud run installation', 'NocoDB prerequisites']
 ---
 
-# Deploying NocoDB on GCP Cloud Run
-
 This guide will help you deploy NocoDB on Google Cloud Platform using Cloud Run.
 
-## Prerequisites
+### Prerequisites
 
 - Google Cloud SDK installed and configured
 - [Docker](https://docs.docker.com/get-docker/)
 
-## Deployment Steps
+### Deployment Steps
 
 1. Pull the NocoDB Docker image:
     
@@ -40,7 +38,7 @@ This guide will help you deploy NocoDB on Google Cloud Platform using Cloud Run.
                   --platform=managed 
         ```
 
-## Important Notes
+### Important Notes
 
 - Cloud Run only supports images from Google Container Registry (GCR) or Artifact registry. Hence we pull the image from Docker Hub and push it to GCR.
 - Ensure that your GCP project has the necessary APIs enabled (Cloud Run, Container Registry).
