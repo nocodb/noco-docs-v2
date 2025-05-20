@@ -1,7 +1,8 @@
 "use client";
 import * as SidebarPrimitive from "fumadocs-core/sidebar";
 import {useSidebar, useTreeContext, useTreePath} from "fumadocs-ui/provider";
-import {createContext, ReactNode, useContext, useMemo, useState,} from "react";
+import {createContext, ReactNode, useContext, useMemo, useState, useCallback} from "react";
+import {useDocsNavigation} from "@/app/docs/DocsNavigationProvider";
 import {PageTree} from "fumadocs-core/server";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
@@ -28,6 +29,8 @@ const useFolderContext = () => {
 
 interface InternalContext {
     level: number;
+    isMobile?: boolean;
+    closeSidebar?: () => void;
 }
 
 const InternalContext = createContext<InternalContext | null>(null);
@@ -43,9 +46,21 @@ const useInternalContext = () => {
 const Sidebar = ({isMobile}: {isMobile?: boolean}) => {
     const {root} = useTreeContext();
     const pathname = usePathname();
+    const { setIsOpen } = useDocsNavigation();
 
     const {open} = useSidebar()
-    const context = useMemo<InternalContext>(() => ({level: 1}), []);
+    
+    const closeSidebar = useCallback(() => {
+        if (isMobile) {
+            setIsOpen(false);
+        }
+    }, [isMobile, setIsOpen]);
+    
+    const context = useMemo<InternalContext>(() => ({
+        level: 1, 
+        isMobile,
+        closeSidebar
+    }), [isMobile, closeSidebar]);
 
     const children = useMemo(() => {
         function renderItems(items: PageTree.Node[], level: number) {
@@ -83,9 +98,16 @@ function SidebarItem({item, children, level,}: {
     pathname: string;
     level: number;
 }) {
+    const context = useInternalContext();
     const path = useTreePath();
 
     const active = path.includes(item);
+    
+    const handleLinkClick = () => {
+        if (context.closeSidebar) {
+            context.closeSidebar();
+        }
+    };
 
 
     if (item.type === "page") {
@@ -98,6 +120,7 @@ function SidebarItem({item, children, level,}: {
                         : "text-nc-content-grey-subtle-2 font-[500] hover:bg-nc-background-grey-light"
                 )}
                 href={item.url}
+                onClick={handleLinkClick}
             >
                 {item.icon}
                 {item.name}
@@ -126,6 +149,7 @@ function SidebarItem({item, children, level,}: {
                                     : "text-nc-content-grey-subtle-2 hover:bg-nc-background-grey-light"
                             )}
                             href={item.index.url}
+                            onClick={handleLinkClick}
                         >
                             {item.index.icon}
                             {item.index.name}
@@ -215,7 +239,11 @@ function SidebarFolderContent({children}: { children: ReactNode }) {
     return (
         <CollapsibleContent>
             <InternalContext.Provider
-                value={useMemo(() => ({level: ctx.level + 1}), [ctx.level])}
+                value={useMemo(() => ({
+                    level: ctx.level + 1,
+                    isMobile: ctx.isMobile,
+                    closeSidebar: ctx.closeSidebar
+                }), [ctx.level, ctx.isMobile, ctx.closeSidebar])}
             >
                 {children}
             </InternalContext.Provider>
