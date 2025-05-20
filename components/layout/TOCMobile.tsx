@@ -8,9 +8,9 @@ export default function TOCMobile({toc}: {toc: TableOfContents}) {
     const [open, setOpen] = useState(false);
 
     return (
-        <TocPopover className="h-10 sticky xl:hidden top-28 z-8 bg-nc-background-default" open={open} onOpenChange={setOpen}>
+        <TocPopover className="h-10 sticky xl:hidden top-28 z-8 bg-nc-background-default/80 backdrop-blur-md" open={open} onOpenChange={setOpen}>
             <TocPopoverTrigger className="w-full" items={toc} />
-            <TocPopoverContent className="backdrop-blur-sm opacity-90 bg-nc-background-default py-4">
+            <TocPopoverContent className="backdrop-blur-md bg-nc-background-default/98 py-4">
                 <TOCScrollArea className="px-4 xl:px-6">
                     <ClerkTOCItems items={toc} />
                 </TOCScrollArea>
