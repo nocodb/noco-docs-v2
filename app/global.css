@@ -721,7 +721,7 @@
 }
 
 
-[id="nd-docs-layout"] {
+.nc-docs-layout {
     .prose {
         h1 {
             @apply text-nc-content-grey-emphasis text-[40px] leading-16 font-bold;

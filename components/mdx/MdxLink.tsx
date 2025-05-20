@@ -3,15 +3,15 @@ import Link from 'next/link';
 
 const transformHref = (href: string) => {
     if (!href || href.startsWith('http://') || href.startsWith('https://') || href.startsWith('#')) {
-        // return href;
+        return href;
     }
 
     if (href.startsWith('/docs')) {
-        //return href;
+        return `/docs/product-docs/${href}`;
     }
 
     if (href.startsWith('/')) {
-        //return `/docs${href}`;
+        return `/docs/product-docs${href}`;
     }
 
     return href;
