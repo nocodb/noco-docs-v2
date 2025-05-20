@@ -289,16 +289,11 @@
     --font-weight-light: 400;
     --font-weight-normal: 500;
     --font-weight-default: 500;
-    --font-weight-medium: 600;
-    --font-weight-semibold: 550;
+    --font-weight-medium: 550;
+    --font-weight-semibold: 600;
     --font-weight-bold: 700;
     --font-weight-black: 800;
-    --font-weight-450: 400;
-    --font-weight-550: 450;
-    --font-weight-650: 550;
-    --font-weight-750: 650;
-    --font-weight-850: 750;
-    --font-weight-950: 850;
+
 
     --shadow-default: 0px 0px 4px 0px rgba(0, 0, 0, 0.08);
     --shadow-hover: 0px 0px 4px 0px rgba(0, 0, 0, 0.24);
@@ -592,30 +587,30 @@
 .nc-docs-layout {
     .prose {
         h1 {
-            @apply text-nc-content-grey-emphasis text-[40px] leading-16 font-bold;
+            @apply text-nc-content-grey-emphasis text-[40px] leading-16 font-semibold;
         }
 
         h2 {
-            @apply text-nc-content-grey-default text-2xl font-bold leading-9;
+            @apply text-nc-content-grey-default text-2xl font-semibold leading-9;
         }
 
         h3 {
-            @apply text-nc-content-grey-emphasis text-xl leading-7;
+            @apply text-nc-content-grey-emphasis text-xl leading-7 font-semibold;
         }
 
         h4 {
-            @apply text-nc-content-grey-emphasis text-base leading-6;
+            @apply text-nc-content-grey-emphasis text-base leading-6 font-semibold;
         }
 
         p {
-            @apply text-nc-content-grey-subtle text-sm font-[400] lg:text-base lg:leading-7 leading-6;;
+            @apply  text-nc-content-grey-subtle font-light text-[15px] leading-7;
         }
 
         ol, ul {
             @apply !my-0;
 
             li {
-                @apply text-nc-content-grey-subtle text-sm font-[400] lg:text-base lg:leading-7 leading-6 my-1;
+                @apply text-nc-content-grey-subtle font-light text-[15px] leading-7 my-1;
             }
         }
 
@@ -627,7 +622,7 @@
                     @apply border-b-nc-border-grey-medium;
 
                     th {
-                        @apply text-nc-content-grey-default !text-left text-sm leading-5 px-4 py-3 bg-nc-background-grey-extra-light border-b-nc-border-grey-medium;
+                        @apply text-nc-content-grey-default !text-left text-[15px] leading-7 font-light px-4 py-3 bg-nc-background-grey-extra-light border-b-nc-border-grey-medium;
                     }
                 }
             }
@@ -637,7 +632,7 @@
                     @apply border-b-nc-border-grey-medium;
 
                     td {
-                        @apply text-nc-content-grey-subtle-2 !text-left text-[13px] leading-[18px] p-4 !bg-transparent border-b-nc-border-grey-medium;
+                        @apply text-nc-content-grey-subtle-2 !text-left font-light text-[13px] leading-[18px] p-4 !bg-transparent border-b-nc-border-grey-medium;
                     }
                 }
             }
@@ -645,7 +640,7 @@
 
         .callout {
             p {
-                @apply my-0 text-nc-content-grey-muted text-[14px] leading-5;
+                @apply my-0 text-nc-content-grey-muted text-[15px] leading-7 font-light;
             }
 
             ul {
