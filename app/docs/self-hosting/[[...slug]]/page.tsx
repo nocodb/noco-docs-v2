@@ -27,7 +27,7 @@ export default async function Page(props: {
                 </TOCScrollArea>
             </Toc>
             <TOCMobile toc={page.data.toc}/>
-            <div className='flex flex-col flex-1 gap-4 mx-auto overflow-y-auto shrink-1 max-w-179 relative p-4'>
+            <div className='flex flex-col flex-1 gap-4 mx-auto container overflow-y-auto shrink-1 max-w-179 relative p-4'>
                 <DocsTitle>{page.data.title}</DocsTitle>
                 <DocsDescription className="mb-0">{page.data.description}</DocsDescription>
                 <DocsBody>
