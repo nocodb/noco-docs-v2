@@ -7,11 +7,11 @@ import {ArrowLeft} from "lucide-react";
 import {calculateReadingTime} from "@/lib/timeToRead";
 import Image from "next/image";
 import defaultMdxComponents from "fumadocs-ui/mdx";
-import {CustomToc} from "@/components/blog/TableOfContents";
+import {CustomToc} from "@/components/blog/CustomToc";
 import {BlogCard} from "@/components/blog/BlogCard";
 import {getCategoryColor} from "@/lib/categoryColor";
 import Subscribe from "@/components/blog/Subscribe";
-import {ShareDropdown} from "@/components/blog/ShareDropdown";
+import ShareDropdown from "@/components/blog/ShareDropdown";
 
 export async function generateMetadata(props: {
     params: Promise<{ slug?: string }>;

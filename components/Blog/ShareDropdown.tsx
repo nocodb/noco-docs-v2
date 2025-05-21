@@ -12,7 +12,7 @@ interface ShareDropdownProps {
     label?: string;
 }
 
-export function ShareDropdown({url, title, label = "Share this article on social media"}: ShareDropdownProps) {
+export default function ShareDropdown({url, title, label = "Share this article on social media"}: ShareDropdownProps) {
     const shareLinks = [
         {
             name: "X",
