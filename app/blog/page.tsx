@@ -1,6 +1,6 @@
 import {blogSource} from "@/lib/source";
 import {FeaturedPost} from "@/components/blog/FeaturedPost";
-import {BlogCard} from "@/components/blog/BlogCard";
+import BlogCard from "@/components/blog/BlogCard";
 import {Separator} from "@/components/ui/separator";
 import Link from "next/link";
 import {CategoryTabs} from "@/components/blog/Category";

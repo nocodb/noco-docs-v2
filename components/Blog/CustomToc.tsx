@@ -3,7 +3,7 @@ import {useRef} from "react";
 import * as Base from 'fumadocs-core/toc';
 import {TableOfContents} from "fumadocs-core/server";
 
-export function CustomToc({toc}: { toc: TableOfContents }) {
+export default function CustomToc({toc}: { toc: TableOfContents }) {
     const containerRef = useRef<HTMLDivElement>(null);
     const minDepth = Math.min(...toc.map((item) => item.depth));
     return (

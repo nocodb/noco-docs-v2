@@ -22,7 +22,7 @@ interface BlogCardProps {
     }
 }
 
-export function BlogCard({post}: BlogCardProps) {
+export default function BlogCard({post}: BlogCardProps) {
     const color = getCategoryColor(post.data?.category)
     const t = blogSource.getPage(post.slugs)
     const readingTime = calculateReadingTime(t?.data?.structuredData)
