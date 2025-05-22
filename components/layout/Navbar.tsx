@@ -24,13 +24,19 @@ export default function Navbar() {
     
     const logoIcon = mounted && resolvedTheme === "dark" ? logoIconDark : logoIconLight
     const logoText = mounted && resolvedTheme === "dark" ? logoTextDark : logoTextLight
+    
+    const logoContainerStyle = {
+        opacity: mounted ? 1 : 0,
+        transition: "opacity 0.2s ease-in-out",
+    }
+    
     return (
         <div className="max-w-screen-xl sticky top-0 z-50 mx-auto relative flex items-center p-4">
             <Button className="lg:hidden mr-3" variant="ghost" onClick={toggle}>
                 {isOpen ? <X className="text-nc-content-grey-subtle" /> : <Menu className="text-nc-content-grey-subtle" />}
             </Button>
             <Link href="/docs">
-                <div className="flex gap-3 items-center">
+                <div className="flex gap-3 items-center" style={logoContainerStyle}>
                     <Image width={32} height={32} src={logoIcon} alt="NocoDB Logo" quality={100} suppressHydrationWarning/>
                     <Image width={101} height={16} src={logoText} alt="NocoDB Logo" quality={100} suppressHydrationWarning/>
                 </div>
