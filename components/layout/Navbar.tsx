@@ -11,12 +11,19 @@ import Link from "next/link";
 import { useTheme } from "next-themes";
 import { Menu, X } from "lucide-react"
 import { useDocsNavigation } from "@/app/docs/DocsNavigationProvider";
+import { useState, useLayoutEffect } from "react";
 
 export default function Navbar() {
-    const { theme } = useTheme()
+    const { theme, resolvedTheme } = useTheme()
+    const [mounted, setMounted] = useState(false)
     const { isOpen, toggle } = useDocsNavigation()
-    const logoIcon = theme === "dark" ? logoIconDark : logoIconLight
-    const logoText = theme === "dark" ? logoTextDark : logoTextLight
+    
+    useLayoutEffect(() => {
+        setMounted(true)
+    }, [])
+    
+    const logoIcon = mounted && resolvedTheme === "dark" ? logoIconDark : logoIconLight
+    const logoText = mounted && resolvedTheme === "dark" ? logoTextDark : logoTextLight
     return (
         <div className="max-w-screen-xl sticky top-0 z-50 mx-auto relative flex items-center p-4">
             <Button className="lg:hidden mr-3" variant="ghost" onClick={toggle}>
