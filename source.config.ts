@@ -26,6 +26,10 @@ export const selfHosting = defineDocs({
     dir: 'content/self-hosting',
 })
 
+export const changelog = defineDocs({
+    dir: 'content/changelog',
+})
+
 export default defineConfig({
   mdxOptions: {
       remarkPlugins: [remarkAdmonition],

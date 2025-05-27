@@ -1,0 +1,20 @@
+name: Trigger Deploy AWS Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Deploy AWS Workflow
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_PAT }}
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            https://api.github.com/repos/nocodb/xc-app-2/dispatches \
+            -d '{"event_type":"trigger-aws-workflow"}'
