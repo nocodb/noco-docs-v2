@@ -13,6 +13,9 @@ const tabs = [{
 }, {
     title: 'Scripts',
     href: '/docs/scripts',
+}, {
+    title: 'Changelog',
+    href: '/docs/changelog',
 }]
 
 export default function TopBarNaigation() {
