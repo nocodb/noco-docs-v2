@@ -10,10 +10,12 @@ const tabs = [{
 }, {
     title: 'Self Hosting',
     href: '/docs/self-hosting',
-}, {
-    title: 'Changelog (EE)',
-    href: '/docs/changelog',
-}]
+},
+// {
+//     title: 'Changelog (EE)',
+//     href: '/docs/changelog',
+// }
+]
 
 export default function TopBarNaigation() {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
