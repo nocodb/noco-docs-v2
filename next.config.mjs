@@ -37,14 +37,6 @@ const config = {
         }
       ],
     },
-  rewrites: () => {
-    return [
-      {
-        source: '/docs',
-        destination: '/docs/product-docs',
-      },
-    ]
-  },
 };
 
 export default withMDX(config);
