@@ -93,26 +93,24 @@ export default function TopBarNaigation() {
                 {/* Tabs */}
                 <div className="relative flex gap-3 items-center">
                     {tabs.map((tab, index) => (
-                        <div
-                            key={index}
-                            ref={(el) => { tabRefs.current[index] = el; }}
-                            className={`px-2 py-2 cursor-pointer transition-colors duration-300 h-[30px] ${
-                                index === activeIndex ? "text-nc-content-brand-default" : "text-nc-content-grey-subtle-2"
-                            }`}
-                            onMouseEnter={() => setHoveredIndex(index)}
-                            onMouseLeave={() => setHoveredIndex(null)}
-                            onClick={() => {
-                                setActiveIndex(index)
-                            }}
-                        >
-                            <Link href={tab.href}>
+                        <Link key={index} href={tab.href}>
+                            <div
+                                ref={(el) => { tabRefs.current[index] = el; }}
+                                className={`px-2 py-2 cursor-pointer transition-colors duration-300 h-[30px] ${
+                                    index === activeIndex ? "text-nc-content-brand-default" : "text-nc-content-grey-subtle-2"
+                                }`}
+                                onMouseEnter={() => setHoveredIndex(index)}
+                                onMouseLeave={() => setHoveredIndex(null)}
+                                onClick={() => {
+                                    setActiveIndex(index)
+                                }}
+                            >
                                 <div
                                     className={clsx("text-sm leading-5 whitespace-nowrap flex items-center justify-center h-full", index === activeIndex && "font-semibold")}>
                                     {tab.title}
                                 </div>
-                            </Link>
-
-                        </div>
+                            </div>
+                        </Link>
                     ))}
                 </div>
             </div>
