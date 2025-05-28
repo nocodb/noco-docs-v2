@@ -3,4 +3,3 @@
   to = "https://nocodb.com/blog/:splat"
   status = 301
   force = true
-  conditions = {Origin = ["https://blog.nocodb.com"]}
