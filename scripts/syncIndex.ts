@@ -1,6 +1,7 @@
 import * as fs from 'node:fs';
 import {Client} from "typesense";
 import {DocumentRecord, sync} from "@/utils/search/typesense";
+import 'dotenv/config'
 
 const productContent = fs.readFileSync('.next/server/app/docs/product-docs/static.json.body');
 const scriptsContent = fs.readFileSync('.next/server/app/docs/scripts/static.json.body');
@@ -28,5 +29,5 @@ const collectionName = 'noco-docs-v2';
 
 sync(client, {
     collection: collectionName,
-    documents: [...productRecords, ...scriptsRecords, ...selfHostedRecords]
+    documents: [...productRecords, ...selfHostedRecords]
 })
