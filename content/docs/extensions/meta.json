@@ -1,0 +1,12 @@
+{
+  "pages": [
+    "overview",
+    "data-exporter",
+    "upload-data-from-csv",
+    "url-preview",
+    "world-clock",
+    "org-chart"
+  ],
+  "title": "Extensions",
+  "icon": "extension"
+}
