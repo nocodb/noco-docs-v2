@@ -3,31 +3,46 @@ title: 'v2025.05.0'
 description: 'NocoDB feature release : Introducing filter by current logged in user, NocoDB extensions and two new expanded record modes'
 ---
 
+![Image](https://github.com/user-attachments/assets/7389e89e-00d2-422d-ab80-d52de7f0b8dc)
+
 ## New Features
 
 ### Filter by Current User
 
 We’ve introduced a new filter for the field ‘User’ type that allows you to filter by the ‘Current user’ who is currently viewing the table/view. This eliminates the need to manually update filters when different users access the same view. Perfect for creating personalised views, task management systems, and collaborative workspaces where users need to see only their own records.
 
+![Image](https://github.com/user-attachments/assets/ef3b83e8-1483-491a-80cd-3e811c92c149)
+
 ### Two New Expanded Record Modes
 
 Introducing two specialised record view modes designed for modern data collaboration. **File Preview Mode** displays attachments front and centre, with support for PDFs, images, audio, and video files—perfect for managing visual content and documents. **Discussion Mode** centralises all comments and threads related to a record, enabling seamless team collaboration and context-rich conversations. Both modes complement the existing **Field Mode**, allowing users to switch between structured data entry, visual file inspection, and collaborative discussions based on their specific workflow needs.
+
+![Image](https://github.com/user-attachments/assets/84c1c185-310b-4ac3-bc68-b8de5b6e3d43)
+
+![Image](https://github.com/user-attachments/assets/3e3e584a-d8ac-4025-8031-82b83b88771d)
+
 
 ### NocoDB Extensions 
 
 Introducing the Extensions framework for NocoDB on-premise deployments, enabling users to enhance and customise their application experience with modular plugins. The Extensions Marketplace provides a centralised hub for discovering and installing pre-built extensions that expand NocoDB's core capabilities. Perfect for teams requiring custom functionalities and tailored data management solutions. Enable custom features in your applications without cluttering the core application interface.
 
+![Image](https://github.com/user-attachments/assets/9fa11ce2-1512-4f1f-82fe-9167b4b9003b)
+
 ### New side navigation drawer (minibar)
 
 Located to the **left of the Sidebar**, the Minibar is your go-to menu for fast, efficient navigation across your NocoDB workspace. The Minibar stays pinned for effortless switching between bases, settings, notifications, and more.
+
+![Image](https://github.com/user-attachments/assets/1c8d151b-e504-4365-aab6-2b90cc9c794c)
 
 ### New Documentation
 
 We've revamped our documentation to make it **cleaner, faster, and easier to navigate**. Whether you're just getting started or diving into advanced features, get more done with less friction!
 
+![Image](https://github.com/user-attachments/assets/8d349674-3575-46f2-af18-05a49643d050)
+
 ## Release Summary 
 
-## 🚀 Features
+### 🚀 Features
 
 * **Current User Filter:** Added support for filtering records based on the currently logged-in user, making it easier to personalize views.
 * **Two New Expanded Record Modes**: New discussion and file modes for expanded records. [#5407](https://github.com/nocodb/nocodb-ee/issues/5407), [#5406](https://github.com/nocodb/nocodb-ee/issues/5406)
@@ -37,7 +52,7 @@ We've revamped our documentation to make it **cleaner, faster, and easier to nav
 
 ---
 
-## 🎨 Enhancements
+### 🎨 Enhancements
 
 * **Always-visible Horizontal Scrollbar**: No more disappearing scrollbars. [#11441](https://github.com/nocodb/nocodb/issues/11441)
 * **Calendar Tab Alignment Fix**: Better visual alignment in calendar view. [#10838](https://github.com/nocodb/nocodb/issues/10838)
@@ -45,7 +60,7 @@ We've revamped our documentation to make it **cleaner, faster, and easier to nav
 
 ---
 
-## 🐞 Fixes
+### 🐞 Fixes
 
 * **Frontend Docker Changes Not Reflected**: Resolved issues with frontend updates not applying in Docker. [#11487](https://github.com/nocodb/nocodb/issues/11487)
 * **Audit Logs on Null Updates**: Batch updates now log changes when fields are set to null. [#11415](https://github.com/nocodb/nocodb/issues/11415)
