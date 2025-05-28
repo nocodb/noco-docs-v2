@@ -14,7 +14,7 @@ const tabs = [{
     title: 'Scripts',
     href: '/docs/scripts',
 }, {
-    title: 'Changelog',
+    title: 'Changelog (EE)',
     href: '/docs/changelog',
 }]
 
