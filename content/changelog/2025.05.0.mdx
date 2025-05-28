@@ -5,24 +5,59 @@ description: 'NocoDB feature release : Introducing filter by current logged in u
 
 ## New Features
 
-- ⚡ 
+### Filter by Current User
 
-## Improvements
+We’ve introduced a new filter for the field ‘User’ type that allows you to filter by the ‘Current user’ who is currently viewing the table/view. This eliminates the need to manually update filters when different users access the same view. Perfect for creating personalised views, task management systems, and collaborative workspaces where users need to see only their own records.
 
-- ⚡ 
+### Two New Expanded Record Modes
 
-## Fixes
+Introducing two specialised record view modes designed for modern data collaboration. **File Preview Mode** displays attachments front and centre, with support for PDFs, images, audio, and video files—perfect for managing visual content and documents. **Discussion Mode** centralises all comments and threads related to a record, enabling seamless team collaboration and context-rich conversations. Both modes complement the existing **Field Mode**, allowing users to switch between structured data entry, visual file inspection, and collaborative discussions based on their specific workflow needs.
 
-- ⚡ 
+### NocoDB Extensions 
 
-## Breaking Changes
+Introducing the Extensions framework for NocoDB on-premise deployments, enabling users to enhance and customise their application experience with modular plugins. The Extensions Marketplace provides a centralised hub for discovering and installing pre-built extensions that expand NocoDB's core capabilities. Perfect for teams requiring custom functionalities and tailored data management solutions. Enable custom features in your applications without cluttering the core application interface.
 
-- ⚡ 
+### New side navigation drawer (minibar)
 
-## Security
+Located to the **left of the Sidebar**, the Minibar is your go-to menu for fast, efficient navigation across your NocoDB workspace. The Minibar stays pinned for effortless switching between bases, settings, notifications, and more.
 
-- ⚡ 
+### New Documentation
 
-## Other
+We've revamped our documentation to make it **cleaner, faster, and easier to navigate**. Whether you're just getting started or diving into advanced features, get more done with less friction!
+
+## Release Summary 
+
+## 🚀 Features
+
+* **Current User Filter:** Added support for filtering records based on the currently logged-in user, making it easier to personalize views.
+* **Two New Expanded Record Modes**: New discussion and file modes for expanded records. [#5407](https://github.com/nocodb/nocodb-ee/issues/5407), [#5406](https://github.com/nocodb/nocodb-ee/issues/5406)
+* **UI Extensions:** Introduced new extensions for a more intuitive experience when visualizing, importing or exporting records.
+* **Sort by Count after Group By**: You can now sort grouped data by count for better analysis. [#11477](https://github.com/nocodb/nocodb/issues/11477)
+* **Calendar View - Range Field**: Introduced support for range-based datetime fields in calendar view. [#2429](https://github.com/nocodb/nocodb-ee/issues/2429)
+
+---
+
+## 🎨 Enhancements
+
+* **Always-visible Horizontal Scrollbar**: No more disappearing scrollbars. [#11441](https://github.com/nocodb/nocodb/issues/11441)
+* **Calendar Tab Alignment Fix**: Better visual alignment in calendar view. [#10838](https://github.com/nocodb/nocodb/issues/10838)
+* **Improved Error Handling for APIs**: Enhanced error messages for create/update APIs. [#5195](https://github.com/nocodb/nocodb-ee/issues/5195)
+
+---
+
+## 🐞 Fixes
+
+* **Frontend Docker Changes Not Reflected**: Resolved issues with frontend updates not applying in Docker. [#11487](https://github.com/nocodb/nocodb/issues/11487)
+* **Audit Logs on Null Updates**: Batch updates now log changes when fields are set to null. [#11415](https://github.com/nocodb/nocodb/issues/11415)
+* **SQLite** `**ILIKE**` **Clause Error**: SQL syntax for SQLite is now properly handled. [#11423](https://github.com/nocodb/nocodb/issues/11423)
+* **Broken Thumbnails in Lookup Fields**: Lookup fields now correctly show attachment previews. [#11406](https://github.com/nocodb/nocodb/issues/11406)
+* **Empty Tables on Duplication**: Duplicate table now carries over structure and data. [#11404](https://github.com/nocodb/nocodb/issues/11404)
+* **Copying Date/Time Produces Wrong Value**: Fixed inaccuracies when copying date/time fields. [#11323](https://github.com/nocodb/nocodb/issues/11323)
+* **Group By Bugs**: Various fixes including missing group titles and incorrect labels. [#11289](https://github.com/nocodb/nocodb/issues/11289), [#11263](https://github.com/nocodb/nocodb/issues/11263), [#5559](https://github.com/nocodb/nocodb-ee/issues/5559)
+* **Formula Field Issues**: Fixed bugs in formula evaluation and editor glitches. [#11326](https://github.com/nocodb/nocodb/issues/11326), [#5561](https://github.com/nocodb/nocodb-ee/issues/5561)
+* **Gallery View Search Broken**: Search functionality in gallery view restored. [#11306](https://github.com/nocodb/nocodb/issues/11306)
+* **Attachment Upload Failures**: Large file uploads are now more stable. [#11301](https://github.com/nocodb/nocodb/issues/11301)
+* **URL Field Issues in Expanded View**: Display issues for URL-based formulas fixed. [#5587](https://github.com/nocodb/nocodb-ee/issues/5587), [#5446](https://github.com/nocodb/nocodb-ee/issues/5446)
+* **UI Issues**: Addressed recurring component load failures and several UI state inconsistencies. [#11414](https://github.com/nocodb/nocodb/issues/11414), [#5404](https://github.com/nocodb/nocodb-ee/issues/5404), [#5451](https://github.com/nocodb/nocodb-ee/issues/5451)
 
 - ⚡ 
