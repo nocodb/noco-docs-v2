@@ -11,9 +11,6 @@ const tabs = [{
     title: 'Self Hosting',
     href: '/docs/self-hosting',
 }, {
-    title: 'Scripts',
-    href: '/docs/scripts',
-}, {
     title: 'Changelog (EE)',
     href: '/docs/changelog',
 }]
