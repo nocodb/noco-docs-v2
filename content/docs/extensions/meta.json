@@ -4,8 +4,7 @@
     "data-exporter",
     "upload-data-from-csv",
     "url-preview",
-    "world-clock",
-    "org-chart"
+    "world-clock"
   ],
   "title": "Extensions",
   "icon": "extension"
