@@ -25,6 +25,7 @@ import Bluesky from '@/components/icons/Bluesky';
 import XTwitter from '@/components/icons/XTwitter';
 import Facebook from '@/components/icons/Facebook';
 import Linkedin from '@/components/icons/Linkedin';
+import Extension from '@/components/icons/Extension';
 
 
 const iconMap = {
@@ -54,7 +55,8 @@ const iconMap = {
     bluesky: Bluesky,
     xTwitter: XTwitter,
     facebook: Facebook,
-    linkedin: Linkedin
+    linkedin: Linkedin,
+    extension: Extension
 } as const;
 
 type IconNameType = keyof typeof iconMap;

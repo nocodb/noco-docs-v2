@@ -30,7 +30,7 @@ Expanded form displays all the fields of a record enabled for display in a form 
 3. Click on `Save` button to save the changes. Close the expanded form by clicking on `X` button in the top right corner of the form to discard the changes.
 4. Navigate to next/previous record using `Next`/`Previous` button in the top left corner of the form.
 
-<Callout type="tip">
+<Callout type="info">
 Any changes made to the links field (link/unlink) will be saved automatically.
 </Callout>
 
@@ -43,11 +43,10 @@ In an expanded form,
 1. Click on `Audit` tab 
 2. A list of all the changes made to the record will be displayed
 
-<Callout type="tip">
+<Callout type="info">
 - You can only view the audit log. You cannot edit or delete the audit log.
-- Audit log is only available in Self-hosted version currently
+- Audit log is only available in Self-hosted version currently 
 </Callout>
-
 
 ![expand record activity feed](/img/v2/records/expand-record-audits.png)
 
@@ -56,7 +55,7 @@ In an expanded form,
 The Comments feature allows you to collaborate directly within records by leaving comments, making it easier to discuss and track changes. You can also receive [notifications](../120.collaboration/050.notifications.md) for updates, ensuring everyone stays informed in real time.
 
 <center>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/U5ZYVlpOGN8?start=12" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen ></iframe>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/U5ZYVlpOGN8?start=12" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen ></iframe>
 </center>
 
 <Callout type="info">
@@ -85,7 +84,7 @@ In comments list of an expanded form,
 
 ![expand record comment](/img/v2/records/expand-record-comments-edit-3.png)
 
-<Callout type="info">
+<Callout type="note">
 You can only edit your own comments. Changes to comments are also recorded in the audit log.
 </Callout>
 
@@ -111,3 +110,78 @@ On the confirmation dialog, click on `Delete` button to delete the record.
 
 ![delete record](/img/v2/records/expand-record-delete-confirmation.png)
 
+## Record view modes
+
+Modern data collaboration requires more than just viewing and editing records—it demands flexible interfaces tailored to specific tasks. Whether you're entering structured data, reviewing files, or engaging in team discussions, having the right record view enhances both productivity and clarity.
+
+This article introduces three powerful modes for interacting with individual records:
+
+* **Field Mode** for structured data entry and editing
+* **File Preview Mode** for visually inspecting attachments
+* **Discussion Mode** for seamless collaboration and context-rich conversations
+
+Each mode is purpose-built to help you focus on what matters most, ensuring your workflows remain efficient, intuitive, and collaborative.
+
+### Field Mode
+Field Mode is designed for editing and viewing all field values of a record. It provides a structured, form-like layout where each field is displayed clearly with its label and value.
+
+![Field Mode](/img/v2/records/expand-record-field-mode.png)
+
+### File Preview Mode  ☁
+
+<Callout type="info">
+File Preview Mode is only available in cloud hosted / self-hosted enterprise plans
+</Callout>
+
+File Preview Mode prioritizes visual file content by displaying attachments front and center. It’s perfect for image-heavy or document-centric records.
+
+![File Preview Mode](/img/v2/records/expand-record-file-preview-mode.png)
+
+1. **Configure attachment field** : File preview mode by default uses first attachment field in the table to display the file. If there are multiple attachment fields, you can choose which one to display by selecting the desired field from the dropdown in the top left corner of the record viewer panel.
+
+2. **Navigate through files** : File preview mode picks up the first file attachment in the record and displays it prominently. If there are multiple attachments, you can hover over left side panel to see a list of all files. Clicking on any file will open it.
+
+3. **Add more files** : You can also add new files directly from this view. Just click on the `+ Add file` icon in the bottom left corner of the file preview panel to upload a new file.
+
+![File Preview Mode](/img/v2/records/expand-record-file-preview-mode-2.png)
+
+#### Supported files
+
+File Preview Mode supports a wide range of media types:
+
+##### 📄 Pdf
+
+##### 🖼️ Image Files
+
+```
+.jpeg, .jpg, .png, .gif, .svg, .bmp, .ico, .webp, .avif, .heif, .heifs, .heic, .heic-sequence
+```
+
+##### 🔊 Audio Files
+
+```
+.mp3, .flac, .wav, .m4a
+```
+
+##### 🎞️ Video Files
+
+```
+.webm, .mpg, .mp2, .mpeg, .ogg, .mp4, .m4v, .avi, .wmv, .mov, .qt, .flv, .mkv, .3gp, .3g2, .vob, .ts, .mp4a
+```
+
+
+### Discussion mode  ☁
+
+<Callout type="info">
+Discussion Mode is only available in cloud hosted / self-hosted enterprise plans
+</Callout>
+
+
+Discussion Mode brings conversations into context. It shows all comments and threads related to a specific record, fostering collaboration and communication.
+
+![Discussion Mode](/img/v2/records/expand-record-discussion-mode.png)
+
+### Switching between modes
+To switch between modes, select a record and look for the mode switcher in the top-right corner of the record viewer panel. Click the icons to toggle between views.
+
+![Switching modes](/img/v2/records/expand-record-switching-modes.png)

@@ -1,6 +1,8 @@
 {
     "pages": [
         "index",
-        "installation"
+        "installation",
+        "environment-variables",
+        "upgrading"
     ]
 }
