@@ -84,3 +84,8 @@ But before we react, let’s reflect: NocoDB community edition is empowering ove
 In the sector of software that often takes, we choose to give. Yet, to continue serving with integrity,
 some capabilities are part of our paid plans — not as a barrier, but as a way to sustain the service for all.
 Should you need these features, you’re welcome to support us through the cloud or a self-hosted license.
+
+## Scrollbar disappears, how should I make it visible always?
+NocoDB follows the system settings for scrollbars. If you have configured your system to always show scrollbars, NocoDB will respect that setting. If you want to change this behavior, you can adjust your system settings accordingly.
+
+![image](/img/v2/faq/system-settings-scrollbar.png)
