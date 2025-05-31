@@ -2,7 +2,6 @@ import {scriptsSource} from '@/lib/source';
 import {DocsBody, DocsDescription, DocsTitle,} from 'fumadocs-ui/page';
 import {notFound} from 'next/navigation';
 import {getMDXComponents} from '@/mdx-components';
-import MdxLink from "@/components/mdx/MdxLink";
 import { AnchorProvider } from 'fumadocs-core/toc';
 import { Toc, TOCScrollArea, } from 'fumadocs-ui/components/layout/toc';
 import ClerkTOCItems from 'fumadocs-ui/components/layout/toc-clerk';
@@ -32,9 +31,7 @@ export default async function Page(props: {
                 <DocsDescription className="mb-0">{page.data.description}</DocsDescription>
                 <DocsBody>
                     <MDXContent
-                        components={getMDXComponents({
-                            a: MdxLink
-                        })}
+                        components={getMDXComponents()}
                         />
                 </DocsBody>
                 <Cards>

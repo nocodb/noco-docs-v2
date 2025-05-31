@@ -32,9 +32,7 @@ export default async function Page(props: {
                 <DocsDescription className="mb-0">{page.data.description}</DocsDescription>
                 <DocsBody>
                     <MDXContent
-                        components={getMDXComponents({
-                            a: MdxLink
-                        })}
+                        components={getMDXComponents()}
                         />
                 </DocsBody>
                 <Cards>

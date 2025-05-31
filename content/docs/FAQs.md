@@ -6,7 +6,7 @@ icon: "helpCircle"
 
 ## How to upgrade NocoDB ?
 
-- Please see [here](https://docs.nocodb.com/getting-started/upgrading) 
+- Please see [here](/docs/self-hosting/upgrading) 
 
 ## How to export CSV from the grid view ?
 
