@@ -6,6 +6,14 @@ const transformHref = (href: string) => {
         return href;
     }
 
+    if (href.startsWith('/docs/product-docs')) {
+        return href;
+    }
+
+    if(href.startsWith('/docs/self-hosting')) {
+        return href
+    }
+
     if (href.startsWith('/docs')) {
         return `/docs/product-docs/${href}`;
     }
