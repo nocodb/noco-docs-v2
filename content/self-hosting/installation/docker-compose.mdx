@@ -1,9 +1,9 @@
 ---
-title: 'Docker Compose'
-description: 'Install NocoDB using Docker Compose'
+title: 'Install with Docker Compose'
 tags: ['Open Source']
 keywords : ['NocoDB installation', 'NocoDB docker installation', 'NocoDB prerequisites']
 ---
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 
 Docker Compose allows you to define and run multi-container Docker applications. It's a great way to set up NocoDB along with its database in a single configuration file.
 
@@ -12,50 +12,75 @@ Docker Compose allows you to define and run multi-container Docker applications.
 - [Docker](https://www.docker.com/get-started)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
-### Installation Steps
+### docker-compose.yml
 
-1. Clone the NocoDB repository from GitHub.
+<Tabs items={['http', 'https']}>
 
-    ```bash
-    git clone https://github.com/nocodb/nocodb
-    ```
-2. Navigate to the docker-compose directory
+<Tab value="http">
+```
+version: "3.9"
+services:
+  nocodb:
+    container_name: nocodb
+    image: nocodb/nocodb:latest
+    environment:
+      NC_AUTH_JWT_SECRET: 'your-super-secret-passs'
+      NC_PUBLIC_URL: '__your_nocodb_domain__.com'
+    ports:
+      - "80:8080"
+    volumes:
+      - nocodb_data:/usr/app/data
+	tmpfs:
+      - /run:nodev,nosuid,exec,mode=0755
+volumes:
+  nocodb_data:
+```
+</Tab>
 
-    ```bash
-    cd nocodb/docker-compose/2_pg
-    ```
-3. Start the services using Docker Compose:
-    
-    ```bash
-    docker-compose up -d
-    ```
-    This will start NocoDB along with a PostgreSQL database.
+<Tab value="https">
+```
+version: "3.9"
+services:
+  nocodb:
+    container_name: nocodb
+    image: nocodb/nocodb:latest
+    environment:
+      NC_AUTH_JWT_SECRET: 'your-super-secret-passs'
+      aio_ssl_email: 'you@example.com'
+      aio_ssl_domain: 'example.com'
+      aio_ssl_enable: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - nocodb_data:/usr/app/data
+	tmpfs:
+      - /run:nodev,nosuid,exec,mode=0755
+volumes:
+  nocodb_data:
+```
+</Tab>
 
-4. Access NocoDB in your browser by visiting `http://localhost:8080`.
+</Tabs>
 
-### Important Notes
+## Start nocodb
 
-- The provided `docker-compose.yml` files are configured to persist data. Make sure the volumes are properly mounted.
-- You can customize the `docker-compose.yml` file to change ports, environment variables, or add additional services.
+```bash
+docker-compose up -d
 
-### Troubleshooting
+```
+> Once the container is running, you can access NocoDB by opening http://localhost in your web browser.
 
-- If you encounter any issues, check the logs using the following command:
+## Stop nocodb
 
-    ```bash
-    docker-compose logs
-    ```
-  
-- If you need to stop the services, use the following command:
+```bash
+docker-compose down
 
-    ```bash
-    docker-compose down
-    ```
-  
-- Ensure all required ports are available on your host machine.
+```
 
-- For database connection issues, verify the database service is running:
-    
-        ```bash
-        docker-compose ps
-        ```
+## Upgrading from a previous version
+
+```bash
+docker compose pull
+docker-compose up -d
+```

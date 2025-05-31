@@ -1,0 +1,46 @@
+---
+title: 'Install on Railway'
+tags: ['railway', 'docker']
+keywords: ['NocoDB Railway', 'Install NocoDB', 'NocoDB Docker']
+---
+
+[Railway](https://railway.app) is a developer-friendly platform that lets you launch full-stack applications with minimal configuration. NocoDB can be deployed on Railway using a prebuilt template, making it easy to get started.
+
+## Step 1: Sign Up for Railway
+
+If you’re new to Railway, head over to [railway.app](https://railway.app) and create an account. You can sign in using GitHub, GitLab, or an email address.
+
+## Step 2: Start a New Project
+
+1. Once logged in, click **“New Project.”**
+2. In the template search bar, type **“NocoDB”**.
+3. Select the **NocoDB** template.
+4. Review the configuration, then click **Deploy Project**.
+
+Railway will automatically provision and start the necessary services (like the container and database).
+
+## Step 3: Access Your NocoDB Instance
+
+After deployment:
+
+* Go to your Railway dashboard.
+* Click on the NocoDB service.
+* Open the generated URL (usually something like `your-project-name.up.railway.app`) to start using NocoDB.
+
+## ⚠️ Memory Requirement Notice
+
+The Railway **Trial plan** includes only 512 MB of RAM, which is not sufficient to run NocoDB even in minimal mode.
+
+To run NocoDB reliably:
+
+* Upgrade to the **Hobby plan** or higher.
+* Plans with at least **1 GB RAM** are recommended for stable performance.
+
+## Important Notes
+- Make sure to configure environment variables for database connections if needed.
+- Set up persistent storage or S3 for your NocoDB data.
+- Regularly update your NocoDB instance for the latest features and security patches.
+
+## You're Live 🎉
+
+That’s it! NocoDB should now be running on Railway. You can begin creating APIs from your database, importing spreadsheets, or managing data collaboratively.

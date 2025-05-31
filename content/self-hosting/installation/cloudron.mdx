@@ -1,0 +1,45 @@
+---
+title: 'Install on Cloudron'
+tags: ['cloudron', 'docker']
+keywords: ['NocoDB Railway', 'Install NocoDB', 'NocoDB Docker']
+---
+
+[Cloudron](https://www.cloudron.io/) is a self-hosted platform that simplifies deploying and managing web applications. If you're using your own server and want to host **NocoDB** with auto-updates and domain management, Cloudron is a solid choice.
+
+## Prerequisites
+
+Before proceeding, ensure:
+
+* You have a working Cloudron instance set up on your server.
+* You’ve signed into the Cloudron App Store.
+* You’re comfortable using the command line and basic Cloudron CLI commands.
+
+## Deploying NocoDB on Cloudron
+
+1. Log into your Cloudron admin panel.
+
+2. Open the **App Store** from the main dashboard.
+
+   ![Cloudron App Store](/img/v2/installations/cloudron-app-store.png)
+
+3. In the search bar, type **NocoDB**.
+
+   ![Cloudron Search NocoDB](/img/v2/installations/cloudron-search-nocodb.png)
+
+4. Select the **NocoDB** app and click **Install**.
+
+   ![Cloudron Install](/img/v2/installations/cloudron-install.png)
+
+5. Configure the app’s domain, access settings, and environment variables as needed.
+
+   ![Cloudron Configure](/img/v2/installations/cloudron-configure.png)
+
+6. After installation, go to the **My Apps** section and launch your new NocoDB instance.
+
+   ![Cloudron My Apps](/img/v2/installations/cloudron-my-apps.png)
+
+## Things to Keep in Mind
+
+* **System Requirements**: Make sure your Cloudron server has enough resources (at least 1 vCPU and 1 GB RAM for testing, 2 GB+ recommended for production).
+* **Backups**: Take advantage of Cloudron’s built-in backup options to safeguard your NocoDB data.
+* **Maintenance**: Regularly update both NocoDB and Cloudron to stay current with security patches and new features.

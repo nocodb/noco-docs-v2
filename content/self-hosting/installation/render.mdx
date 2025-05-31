@@ -1,0 +1,59 @@
+---
+title: 'Install on Render'
+tags: ['render', 'docker']
+keywords: ['NocoDB Render', 'Install NocoDB', 'NocoDB Docker']
+---
+
+Render offers a simple way to host containerized applications with automatic HTTPS, scaling, and persistent storage. You can deploy **NocoDB** as a Web Service using Docker with just a few steps.
+
+## Deploying NocoDB on Render
+
+> ⚠️ For optimal performance, we recommend using the \$25/month "Standard" service on Render.
+
+1. Log into your [Render dashboard](https://dashboard.render.com).
+2. Click **New → Web Service** to begin creating a new app.
+3. Choose **Existing Image**.
+4. Use the official NocoDB image:
+
+   ```
+   Image URL: nocodb/nocodb
+   ```
+4. Click Connect
+
+## Configure Persistent Storage
+
+To ensure that your data survives service restarts or deployments, you must add a **volume mount**.
+
+1. Under the **Advanced -> Disks** section of the service configuration:
+
+   * Click **Add Disk**.
+   * Name the disk (e.g., `nocodb-data`).
+   * Set the **mount path** to:
+
+     ```
+     /usr/app/data
+     ```
+   * Choose an appropriate disk size (e.g., 1–5 GB for smaller projects, or more for production).
+
+> 💡 NocoDB image stores its Postgres database, and data in this path by default, so mounting a volume here is essential for data persistence.
+
+
+## Set Environment Variables
+
+You may add any custom configuration through environment variables in the **Environment** tab (e.g., SMTP settings or external storage). the following env variables should be configured in production.
+
+- NC_AUTH_JWT_SECRET
+- NC_PUBLIC_URL
+
+## Final Steps
+
+1. Click **Create Web Service** to deploy.
+2. Once the build finishes, your NocoDB instance will be live at the Render-generated URL.
+
+You can now access the web UI, import your data, and start building APIs.
+
+## Notes & Best Practices
+
+* ✅ Mounting a volume at `/usr/app/data` is required to prevent data loss across restarts.
+* 🔐 Enable HTTPS by default with Render’s built-in certificate support.
+

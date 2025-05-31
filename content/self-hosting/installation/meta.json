@@ -1,4 +1,27 @@
 {
   "title": "Installation",
-  "pages": ["auto-upstall", "docker", "docker-compose", "home-brew", "aws-ecs", "gcp-cloud-run", "digital-ocean", "nix", "other-installations"]
+  "pages": [
+    "upstall",
+    "docker",
+    "docker-compose",
+    "nix",
+    "home-brew",
+
+    "nixos",
+    "ubuntu",
+    "k8s",
+
+    "render",
+    "digital-ocean",
+    "aws-ecs",
+    "gcp-cloud-run",
+    "railway",
+    "cloudron",
+
+    "nginx",
+    "apache",
+    "traefik",
+
+    "other-installations"
+  ]
 }

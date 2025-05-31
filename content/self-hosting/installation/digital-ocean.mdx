@@ -1,42 +1,81 @@
 ---
-title: 'DigitalOcean'
+title: 'Install on DigitalOcean'
 tags: ['Open Source']
 keywords : ['NocoDB installation', 'NocoDB Digital Ocean installation', 'NocoDB prerequisites']
 ---
 
-Follow these steps to deploy NocoDB on DigitalOcean using their App Platform.
+This guide outlines how to deploy **NocoDB** on [DigitalOcean App Platform](https://www.digitalocean.com/products/app-platform), a fully managed solution for container-based applications. It covers provisioning databases, object storage, and setting environment variables for a reliable, scalable setup.
 
-### Deployment Steps
+## Step 1: Set Up Required Services
 
-1. On the DigitalOcean homepage, click on the Create icon and select "Apps (Deploy your code)".
+Since DigitalOcean App Platform doesn't support persistent volumes, NocoDB's data must be stored using **managed services**. You’ll need:
 
-    ![DigitalOcean Create App](/img/v2/installations/digitalocean-create-app.png)
-2. Choose "Docker Hub" as the source.
+* **PostgreSQL database**
+* **Redis instance**
+* **Spaces bucket (S3-compatible storage)**
 
-    ![DigitalOcean Docker Hub](/img/v2/installations/digitalocean-docker-hub.png)
+### PostgreSQL
 
-3. Set the source repository as nocodb/nocodb. You can optionally specify a release tag if you want a specific NocoDB version.
+1. Go to **Databases → Create Database**.
+2. Choose **PostgreSQL v15** and a region.
+3. Use at least 1 vCPU / 1GB RAM for smaller workloads.
+4. Once created, go to the connection info and switch to the **Connection String** view—copy this for later.
 
-   ![DigitalOcean Set Repository](/img/v2/installations/digitalocean-set-repository.png)
+### Redis
 
-4. Configure any additional settings as needed.
+1. Go to **Databases → Create Database** again.
+2. Select **Redis v7**, same region.
+3. Minimum specs: 1 vCPU / 1GB RAM.
+4. Copy the Redis connection string from the details page.
 
-   ![DigitalOcean Configure Settings](/img/v2/installations/digitalocean-configure-settings.png)
+### Spaces (Object Storage)
 
-5. Name your web service and select the nearest region for cloud hosting.
+1. Go to **Spaces Object Storage → Create Spaces Bucket**.
+2. Choose the same region used for your DB/Redis.
+3. Then go to **API → Generate New Key** to get your `Access Key` and `Secret Key`.
 
-   ![DigitalOcean Name Service](/img/v2/installations/digitalocean-name-service.png)
+## Step 2: Deploy the NocoDB App
 
-6. Choose your preferred hosting plan and click on "Launch Basic App".
+1. Navigate to **Apps → Create App**.
 
-   ![DigitalOcean Hosting Plan](/img/v2/installations/digitalocean-hosting-plan.png)
+2. Choose **Docker Hub** as the source.
 
-    Your application will be built, and the URL will be live shortly. The URL will look something like https://your-app-name.ondigitalocean.app/.
+3. Enter:
 
+* `Repository: nocodb/nocodb`
+* `Tag: latest`
 
-### Important Notes
+4. Proceed and edit the **HTTP Port** to `8080`.
 
-- Ensure you configure environment variables for database connections if needed.
-- Set up persistent storage for your NocoDB data.
-- You can scale your app as needed using DigitalOcean's App Platform.
-- Consider enabling automatic deployments for easier updates.
+5. In the environment variables section, add the following:
+
+* `NC_AUTH_JWT_SECRET`
+* `NC_PUBLIC_URL`
+* `NC_DB`
+* `NC_REDIS_URL`
+* `NC_S3_ACCESS_KEY`
+* `NC_S3_ACCESS_SECRET`
+* `NC_S3_BUCKET_NAME`
+* `NC_S3_REGION`
+* `NC_S3_ENDPOINT`
+
+> ⚠️ Ensure the `NC_PUBLIC_URL` matches your actual app domain without a trailing slash.
+
+6. Set resources to **1 container with 2GB RAM / 1 vCPU** at a minimum.
+7. Complete deployment by clicking **Create Resources**.
+
+## Step 3: Secure the Setup
+
+For PostgreSQL and Redis, add your NocoDB app as a **trusted source**:
+
+* Navigate to your database → **Settings → Trusted Sources** → Add the app.
+
+## Updating NocoDB
+
+To upgrade to a new NocoDB version:
+
+1. Go to **App Settings → Source → Edit Component**.
+2. Change the image tag (e.g., `latest`, or a specific version).
+3. Save to trigger a redeploy.
+
+You're all set! Visit your app URL to access your NocoDB workspace.

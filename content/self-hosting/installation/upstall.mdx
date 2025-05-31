@@ -1,0 +1,87 @@
+---
+title: 'Install with Upstall'
+description: 'Automatically install NocoDB with SSL'
+tags: ['Open Source']
+keywords : ['NocoDB installation', 'NocoDB one command installation', 'NocoDB prerequisites']
+---
+
+Upstall is the easiest way to install NocoDB with SSL in under 2 minutes.
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf -L 'https://raw.githubusercontent.com/nocodb/nocodb/refs/heads/develop/docker-compose/1_Auto_Upstall/noco.sh' | bash -s
+```
+
+This script automatically installs:
+
+- 📦 Docker
+* 🚀 NocoDB
+* 🐘 PostgreSQL
+* ⚡ Redis
+* 🗄 Minio (S3-compatible)
+* 🌐 nginx (reverse proxy)
+* 🔒 SSL certificates (auto-renewed)
+
+You can then visit your server at:
+
+* `https://your-domain.com` (preferred)
+* or `http://your-domain.com` if SSL setup is incomplete
+
+> **Note**: Make sure your domain’s DNS points to the server where you are running Upstall.
+
+
+## Prerequisites
+
+* A Linux server (Ubuntu, Debian, CentOS, etc.)
+* A domain pointing to your server
+* Port 80 and 443 open
+
+## Video Walkthrough
+
+Want to see it in action? Watch this 2-minute video guide:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/AkOWLk7e_hk?si=5A1BMLlQHBtj_pHH" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## Step-by-Step Installation
+
+1. **Update DNS settings**
+   Point your domain (e.g. `nocodb.yourdomain.com`) to your server's public IP.
+
+
+2. **SSH into your server**
+
+   ```bash
+   ssh user@your-server-ip
+   ```
+
+3. **Run the Upstall install script**
+
+   ```bash
+   curl --proto '=https' --tlsv1.2 -sSf -L 'https://raw.githubusercontent.com/nocodb/nocodb/refs/heads/develop/docker-compose/1_Auto_Upstall/noco.sh' | bash -s
+   ```
+
+4. **Access NocoDB**
+   Open your browser at `http://your-domain.com`.
+
+> if your NocoDB instance is not immediately accessible wait few minutes for DNS propagation
+
+## Service Management Menu
+
+After installation, a menu is provided to manage your NocoDB instance:
+
+* Start NocoDB
+* Stop NocoDB
+* View logs
+* Restart NocoDB
+* Monitor NocoDB
+* Update NocoDB
+* Delete NocoDB
+
+<img src="/img/v2/engineering/service-mgmt-menu.png" alt="Service Management Menu" width="600"/>
+
+> Backups are not automated. Make sure to manually back up your PostgreSQL or file data if needed.
+
+## Troubleshooting
+
+* **Ports not accessible?** Check firewall settings and make sure port 80 and 443 are open.
+* **SSL not working?** Double-check DNS and ensure the domain resolves correctly.
+* **Re-run script?** It's idempotent and safe to re-run if needed.
