@@ -20,10 +20,10 @@ Below is an overview of how to make these builds and what happens behind the sce
 - Click [NocoDB release action](https://github.com/nocodb/nocodb/actions/workflows/release-nocodb.yml)
 - You should see the below screen
 
-  ![image](https://user-images.githubusercontent.com/35857179/167240353-a02f690f-c865-4ade-8645-64382405c9ea.png)
+  ![NocoDB Release Workflow](/img/v2/engineering/release-workflow.png)
 - Change `Use workflow from` to `Branch: master`. If you choose the wrong branch, the workflow will be ended.
 
-  ![image](https://user-images.githubusercontent.com/35857179/167240383-dda05f76-8323-4f4a-b3e7-9db886dbd68d.png)
+  ![Release Branch Selection](/img/v2/engineering/release-branch-selection.png)
 - Then there would be two cases - you can either leave target tag and pervious tag blank or manually input some values
 
 - Target Tag means the target deployment version, while Previous Tag means the latest version as of now. Previous Tag is used for Release Note only - showing the file / commit differences between two tags.
@@ -90,7 +90,7 @@ Open issues marked with label `Status: Fixed` and `Status: Resolved` will be clo
 
 Example:
 
-![image](https://user-images.githubusercontent.com/35857179/167241574-f8f7061f-c689-444a-b761-0a727974c53f.png)
+![Close Issues Example](/img/v2/engineering/close-issues-example.png)
 
 #### publish-docs
 
@@ -120,10 +120,10 @@ NocoDB has github actions which creates docker and binaries for each PR! And the
 
 Example shown below
 - Go to a PR and click on the comment.
-<img width="1111" alt="Screenshot 2023-01-23 at 15 46 36" src="https://user-images.githubusercontent.com/5435402/214083736-80062398-3712-430f-9865-86b110090c91.png" />
+![PR Comment Timely Build](/img/v2/engineering/pr-comment-timely-build.png)
 
 - Click on the link to copy the docker image and run it locally.
-<img width="1231" alt="Screenshot 2023-01-23 at 15 46 55" src="https://user-images.githubusercontent.com/5435402/214083755-945d9485-2b9e-4739-8408-068bdf4a84b7.png" />
+![Docker Copy Command](/img/v2/engineering/docker-copy-command.png)
 
 
 This is to
@@ -138,7 +138,7 @@ When a non-draft Pull Request is created, reopened or synchronized, a timely bui
 
 The docker images will be built and pushed to Docker Hub (See [nocodb/nocodb-timely](https://hub.docker.com/r/nocodb/nocodb-timely/tags) for the full list). Once the image is ready, GitHub bot will add a comment with the command in the pull request. The tag would be `<NOCODB_CURRENT_VERSION>-pr-<PR_NUMBER>-<YYYYMMDD>-<HHMM>`.
 
-![image](https://user-images.githubusercontent.com/35857179/175012097-240dab05-da93-4c4e-87c1-1c36fb1350bd.png)
+![Timely Build Comment](/img/v2/engineering/timely-build-comment.png)
 
 ## Executables or Binaries
 
@@ -155,7 +155,7 @@ Currently, we only support the following targets:
 
 Once the executables are ready, GitHub bot will add a comment with the commands in the pull request.
 
-![image](https://user-images.githubusercontent.com/35857179/175012070-f5f3e7b8-6dc5-4d1c-9f7e-654bc5039521.png)
+![Executables Comment](/img/v2/engineering/executables-comment.png)
 
 NocoDB creates Docker and Binaries for each PR.
 
