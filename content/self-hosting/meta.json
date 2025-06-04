@@ -5,8 +5,8 @@
 
     "upstall",
     "docker",
-    "docker-compose",
     "nix",
+    "docker-compose",
 
     "nixos",
     "ubuntu",

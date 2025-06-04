@@ -26,6 +26,8 @@ import XTwitter from '@/components/icons/XTwitter';
 import Facebook from '@/components/icons/Facebook';
 import Linkedin from '@/components/icons/Linkedin';
 import Extension from '@/components/icons/Extension';
+import { Cog, BookHeart, Server } from 'lucide-react'
+import { SiNginx, SiApache, SiTraefikproxy, SiCloudron, SiRailway, SiDigitalocean, SiRender, SiKubernetes, SiUbuntu, SiNixos, SiDocker, SiShell, SiCloudways } from '@icons-pack/react-simple-icons';
 
 
 const iconMap = {
@@ -56,7 +58,22 @@ const iconMap = {
     xTwitter: XTwitter,
     facebook: Facebook,
     linkedin: Linkedin,
-    extension: Extension
+    extension: Extension,
+    docker: SiDocker,
+    nix: SiNixos,
+    ubuntu: SiUbuntu,
+    k8s: SiKubernetes,
+    render: SiRender,
+    digitalocean: SiDigitalocean,
+    aws: SiCloudways,
+    railway: SiRailway,
+    cloudron: SiCloudron,
+    nginx: SiNginx,
+    apache: SiApache,
+    traefik: SiTraefikproxy,
+    cog: Cog,
+    bookheart: BookHeart,
+    server: Server,
 } as const;
 
 type IconNameType = keyof typeof iconMap;
