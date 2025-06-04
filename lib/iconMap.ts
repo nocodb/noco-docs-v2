@@ -27,7 +27,7 @@ import Facebook from '@/components/icons/Facebook';
 import Linkedin from '@/components/icons/Linkedin';
 import Extension from '@/components/icons/Extension';
 import { Cog, BookHeart, Server } from 'lucide-react'
-import { SiNginx, SiApache, SiTraefikproxy, SiCloudron, SiRailway, SiDigitalocean, SiRender, SiKubernetes, SiUbuntu, SiNixos, SiDocker, SiShell, SiCloudways } from '@icons-pack/react-simple-icons';
+import { SiNginx, SiApache, SiTraefikproxy, SiCloudron, SiRailway, SiDigitalocean, SiRender, SiKubernetes, SiUbuntu, SiNixos, SiDocker, SiCloudways } from '@icons-pack/react-simple-icons';
 
 
 const iconMap = {
