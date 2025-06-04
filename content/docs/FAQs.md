@@ -8,31 +8,6 @@ icon: "helpCircle"
 
 - Please see [here](/docs/self-hosting/upgrading) 
 
-## How to export CSV from the grid view ?
-
-- Available since [0.81.1](https://github.com/nocodb/nocodb/releases/tag/0.81.1)
-
-## How to share the base with read only access ?
-
-- Either you can invite by email with 'viewer' access control
-- Share the base with publicly accessible link. Available since [0.82.0](https://github.com/nocodb/nocodb/releases/tag/0.82.0) 
-
-## How to check my Base info ?
-
-- You can open `Base context menu` and click ``Copy Base Info``.
-
-![image](/img/content/copy-proj-info.png)
-
-You should see the similar result as below.
-```
-Node: **v20.15.1**
-Arch: **x64**
-Platform: **linux**
-Docker: **true**
-RootDB: **pg**
-PackageVersion: **0.258.2**
-```
-
 ## What is available in free version ?
 - [Detailed comparison of NocoDB's generous CE compared to others is here](https://github.com/orgs/nocodb/projects/13).
 - NocoDB has just one version that is free & open source.
@@ -48,28 +23,7 @@ PackageVersion: **0.258.2**
 - And we would never move these features from free to an enterprise version of NocoDB.
 - There is no limitations to number of bases, records or fields either.
 
-## Do we plan to have an Enterprise Edition?
-For features that make sense for enterprises like below - yes 
-- SSO, SLA, Organisation wide reports and analytics, 
-- Advanced Audit or ACL,  
-- Bespoke implementations & integrations,
-- A hosted solution.
-   
-And increasing number of our customers are requesting it.  
-
-## How do we decide if a feature is Enterprise or not ?
-
-- Depends on the effort and whether the intended users are enterprises.
  
-## What are the official socials for NocoDB?
-
-- Youtube: https://www.youtube.com/@nocodb
-- Twitter: https://twitter.com/nocodb
-- Discord: http://discord.nocodb.com/
-- GitHub: https://github.com/nocodb/nocodb
-- Community Forums: https://community.nocodb.com/
-- LinkedIn: https://www.linkedin.com/company/nocodb
-- Reddit: https://www.reddit.com/r/NocoDB/
 
 ## Is NocoDB available on the cloud?
 
@@ -86,6 +40,33 @@ some capabilities are part of our paid plans — not as a barrier, but as a way 
 Should you need these features, you’re welcome to support us through the cloud or a self-hosted license.
 
 ## Scrollbar disappears, how should I make it visible always?
-NocoDB follows the system settings for scrollbars. If you have configured your system to always show scrollbars, NocoDB will respect that setting. If you want to change this behavior, you can adjust your system settings accordingly.
+NocoDB follows the system settings for scrollbars. If you have configured your system to always show scrollbars, 
+NocoDB will respect that setting. If you want to change this behavior, you can adjust your system settings accordingly.
 
 ![image](/img/v2/faq/system-settings-scrollbar.png)
+
+## How to check my Base info in open source ?
+
+- You can open `Base context menu` and click ``Copy Base Info``.
+
+![image](/img/content/copy-proj-info.png)
+
+You should see the similar result as below.
+```
+Node: **v20.15.1**
+Arch: **x64**
+Platform: **linux**
+Docker: **true**
+RootDB: **pg**
+PackageVersion: **0.258.2**
+```
+
+## What are the official socials for NocoDB?
+
+- Youtube: https://www.youtube.com/@nocodb
+- Twitter: https://twitter.com/nocodb
+- Discord: http://discord.nocodb.com/
+- GitHub: https://github.com/nocodb/nocodb
+- Community Forums: https://community.nocodb.com/
+- LinkedIn: https://www.linkedin.com/company/nocodb
+- Reddit: https://www.reddit.com/r/NocoDB/

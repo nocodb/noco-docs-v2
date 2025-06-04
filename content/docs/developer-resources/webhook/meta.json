@@ -1,8 +1,0 @@
-{
-  "title": "Webhook",
-  "pages": [
-    "webhook-overview",
-    "create-webhook",
-    "actions-on-webhook"
-  ]
-}
