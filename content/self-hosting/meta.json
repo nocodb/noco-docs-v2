@@ -7,7 +7,6 @@
     "docker",
     "docker-compose",
     "nix",
-    "home-brew",
 
     "nixos",
     "ubuntu",
@@ -16,7 +15,6 @@
     "render",
     "digital-ocean",
     "aws-ecs",
-    "gcp-cloud-run",
     "railway",
     "cloudron",
 
