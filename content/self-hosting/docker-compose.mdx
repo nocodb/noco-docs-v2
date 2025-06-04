@@ -8,11 +8,10 @@ import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 Docker Compose allows you to define and run multi-container Docker applications. It's a great way to set up NocoDB along with its database in a single configuration file.
 
 
-### Prerequisites
-- [Docker](https://www.docker.com/get-started)
+## Prerequisites
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
-### docker-compose.yml
+## docker-compose.yml
 
 <Tabs items={['http', 'https']}>
 
@@ -63,24 +62,21 @@ volumes:
 
 </Tabs>
 
-## Start nocodb
+> If you have other services running on the same server using up port 80,
+> see [Behind Traefik section](./traefik) to use HTTPS with NocoDB
+
+## Start NocoDB
 
 ```bash
-docker-compose up -d
+docker compose up -d
 
 ```
 > Once the container is running, you can access NocoDB by opening http://localhost in your web browser.
 
-## Stop nocodb
-
-```bash
-docker-compose down
-
-```
-
-## Upgrading from a previous version
+## Update NocoDB
 
 ```bash
 docker compose pull
-docker-compose up -d
+docker compose down
+docker compose up -d
 ```

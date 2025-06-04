@@ -1,0 +1,79 @@
+---
+title: 'Install with Docker'
+tags: ['Open Source']
+keywords : ['NocoDB installation', 'NocoDB docker installation', 'NocoDB prerequisites']
+---
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+Docker provides an easy way to install and run NocoDB. Follow these steps to get NocoDB up and running using Docker.
+NocoDB provides A single image that contains 
+
+- 🇳  NocoDB,
+- 🐘 PostgreSQL,
+- ⚡ Valkey(Redis), 
+- 🗄 Minio, 
+- 🌐 nginx gateway.
+- 🔒 automated SSL certs and auto renew
+
+## Prerequisites
+- [Docker](https://www.docker.com/get-started)
+
+## Normal Installation
+> Only use this in production if you have a reverse proxy for TLS encryption
+
+```bash
+docker run \
+	-d \
+	--name nocodb \
+	--tmpfs /run:nodev,nosuid,exec,mode=0755 \
+	-v ./nocodb:/usr/app/data \
+	-e NC_AUTH_JWT_SECRET="your-super-secret-string" \
+	-e NC_PUBLIC_URL="__your_nocodb_domain__.com" \
+	-p 80:8080 \
+	--restart unless-stopped \
+	-it nocodb/nocodb:latest
+```
+
+## with HTTPS Support
+
+```bash
+docker run \
+	-d \
+	--name nocodb \
+	--tmpfs /run:nodev,nosuid,exec,mode=0755 \
+	-v ./nocodb:/usr/app/data \
+	-e nc_aio_ssl_domain=example.com \
+	-e nc_aio_ssl_enable=true \
+	-e nc_aio_ssl_email=your@mail.com \
+	-e NC_AUTH_JWT_SECRET="your-super-secret-string" \
+	-p 80:80 \
+	-p 443:443 \
+	--restart unless-stopped \
+	-it nocodb/nocodb:latest
+```
+
+> Read the [Configuring NocoDB section](./configuring-nocodb#docker-image-configuration) to review all supported options
+
+> Once the container is running, you can access NocoDB by opening http://localhost in your web browser.
+
+## Update NocoDB
+
+```bash
+docker pull nocodb/nocodb:latest
+docker stop nocodb
+docker rm nocodb
+
+```
+> use the the docker run command to start nocodb again
+
+## Exposed ports on the AIO Image
+
+- 80: https redirect & ssl acme challenge
+- 443: https
+- 8080: http & ssl acme challenge
+- 9000: minio
+
+## Additional Notes
+
+- variables set by aio can be overridden by the end user by using `docker run -e var_name=var_value`
+- the code used to build the aio image is publicly available at [github.com/nocodb/nocodb/tree/develop/nix/docker/all_in_one](https://github.com/nocodb/nocodb/tree/develop/nix/docker/all_in_one)

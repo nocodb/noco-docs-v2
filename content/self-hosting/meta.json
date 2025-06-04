@@ -1,8 +1,29 @@
 {
-    "pages": [
-        "index",
-        "installation",
-        "environment-variables",
-        "upgrading"
-    ]
+  "pages": [
+    "index",
+    "configuring-nocodb",
+
+    "upstall",
+    "docker",
+    "docker-compose",
+    "nix",
+    "home-brew",
+
+    "nixos",
+    "ubuntu",
+    "k8s",
+
+    "render",
+    "digital-ocean",
+    "aws-ecs",
+    "gcp-cloud-run",
+    "railway",
+    "cloudron",
+
+    "nginx",
+    "apache",
+    "traefik",
+
+    "other-installations"
+  ]
 }

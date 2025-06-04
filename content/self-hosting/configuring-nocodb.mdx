@@ -1,6 +1,5 @@
 ---
-title: 'Environment variables'
-description: 'Environment Variables for NocoDB!'
+title: 'Configuring NocoDB'
 tags: [ 'Open Source' ]
 keywords: [ 'NocoDB Environment Variables', 'NocoDB env variables', 'NocoDB envs', 'NocoDB .env' ]
 ---
@@ -18,6 +17,54 @@ performance, security, and functionality of NocoDB.
 | `DATABASE_URL`              | No        | A [JDBC URL string](https://jdbc.postgresql.org/documentation/use/#connecting-to-the-database) can be used for the database connection instead of `NC_DB`.                                                                                                   |                                                                                         |
 | `DATABASE_URL_FILE`         | No        | A path to a file containing a JDBC URL can be specified for the database connection as an alternative to `NC_DB`.                                                                                                                                            |                                                                                         |
 | `NC_CONNECTION_ENCRYPT_KEY` | No        | The key used to encrypt the credentials of external databases. <br/> **Warning:** Changing this variable may break the application. If you must change it, use the CLI as described in the [NocoDB Secret CLI documentation](/docs/product-docs/data-sources/updating-secret). | Keep connection credentials as plain text in the database if not set.                   |
+
+## Docker Image Configuration
+
+The NocoDB docker image supports flexible environment variable management across its internal services.
+All environment variables that begin with `nc_aio_` are processed by the AIO Docker image itself to control the internal setup and orchestration.
+
+| Variable                 | Mandatory | Description                           | Default   |
+|--------------------------|-----------|---------------------------------------|-----------|
+| `nc_aio_minio_enable`    | No        | enable aio minio for s3 storage       | false     |
+| `nc_aio_redis_enable`    | No        | enable aio redis for caching          | true      |
+| `nc_aio_postgres_enable` | No        | enable aio PostgreSQL                 | true      |
+| `nc_aio_ssl_enable`      | No        | enable ssl                            | false     |
+| `nc_aio_ssl_email`       | No        | email used for ssl                    | null      |
+| `nc_aio_ssl_domain`      | No        | domain to fetch ssl certs for         | localhost |
+| `nc_aio_worker_enable`   | No        | enable worker instance                | false     |
+
+### Shared Variables
+
+* All environment variables except those prefixed with `nc_aio_` are passed **to both the main NocoDB instance and the worker**.
+
+> Example:
+>
+> ```bash
+> -e NC_PUBLIC_URL="https://example.com"
+> ```
+>
+> This will be available in **both** main and worker containers.
+
+### Targeted Variable Injection
+
+The NocoDB docker image supports passing environment variables to individual services using the following prefixes
+
+| Prefix                | Targets Service |
+| --------------------- | --------------- |
+| `nc_aio_pass_main_`   | NocoDB (main)   |
+| `nc_aio_pass_worker_` | Worker process  |
+| `nc_aio_pass_minio_`  | Minio           |
+| `nc_aio_pass_acme_`   | Lego (ACME/SSL) |
+
+These allow fine-grained control over configuration by scoping variables to specific containers managed by the AIO image.
+
+> 🔧 Example:
+> To pass `NC_AUTH_JWT_SECRET` only to the main NocoDB instance:
+>
+> ```bash
+> -e nc_aio_pass_main_NC_AUTH_JWT_SECRET="your-secret"
+> ```
+
 
 ## Authentication
 
