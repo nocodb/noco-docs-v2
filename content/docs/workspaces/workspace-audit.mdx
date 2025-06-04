@@ -11,6 +11,8 @@ Workspace audit logs are available only in **Enterprise Edition** in both self-h
 
 The **Audit Logs** feature in NocoDB provides a detailed, time-stamped record of user activity across your workspace. It helps workspace admins track who did what, when, and where — promoting transparency and accountability.
 
+⚠️ Note: This section **excludes** record-level audit logs (such as changes made to individual records). To view those, open a record in expanded view and navigate to the Audit tab. Refer [here](/records/expand-record#record-audit) for more details.
+
 ### Accessing Audit Logs
 
 Only workspace owners can access audit logs. To view the audit logs:
@@ -46,8 +48,6 @@ The audit logs capture a wide range of events, including:
   - **User** : Invite, Update, Delete
 - **Table** : Create, Update, Delete, Rename, Duplicate
 - **Field** : Create, Update, Rename, Delete
-- **Data** : Create, Update, Delete, Link, Unlink, Import, Export
-- **Bulk Data** : Insert, Update, Delete
 - **View** : Create, Update, Delete, Rename, Duplicate
   - **Filter** : Create, Update, Delete
   - **Sort** : Create, Update, Delete
@@ -70,9 +70,8 @@ Use the filter toolbar to narrow down logs by:
 * **Event Type**
 * **Time Range**
 
-This allows you to quickly find specific actions or investigate incidents.
-
 ![image](/img/v2/workspace/workspace-audit-filter.png)
 
+This allows you to quickly find specific actions or investigate incidents.
 
 
