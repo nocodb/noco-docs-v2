@@ -37,30 +37,10 @@ Since DigitalOcean App Platform doesn't support persistent volumes, NocoDB's dat
 ## Step 2: Deploy the NocoDB App
 
 1. Navigate to **Apps → Create App**.
-
 2. Choose **Docker Hub** as the source.
-
-3. Enter:
-
-* `Repository: nocodb/nocodb`
-* `Tag: latest`
-
+3. Use `Repository: nocodb/nocodb` & `Tag: latest`
 4. Proceed and edit the **HTTP Port** to `8080`.
-
-5. In the environment variables section, add the following:
-
-* `NC_AUTH_JWT_SECRET`
-* `NC_PUBLIC_URL`
-* `NC_DB`
-* `NC_REDIS_URL`
-* `NC_S3_ACCESS_KEY`
-* `NC_S3_ACCESS_SECRET`
-* `NC_S3_BUCKET_NAME`
-* `NC_S3_REGION`
-* `NC_S3_ENDPOINT`
-
-> ⚠️ Ensure the `NC_PUBLIC_URL` matches your actual app domain without a trailing slash.
-
+5. Refer [Configuring NocoDB section](./configuring-nocodb#docker-image-configuration) to set environment variables
 6. Set resources to **1 container with 2GB RAM / 1 vCPU** at a minimum.
 7. Complete deployment by clicking **Create Resources**.
 
