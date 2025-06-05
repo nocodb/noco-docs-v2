@@ -1,8 +1,27 @@
 {
-    "pages": [
-        "index",
-        "installation",
-        "environment-variables",
-        "upgrading"
-    ]
+  "pages": [
+    "index",
+    "environment-variables",
+
+    "upstall",
+    "docker",
+    "nix",
+    "docker-compose",
+
+    "nixos",
+    "ubuntu",
+    "k8s",
+
+    "render",
+    "digital-ocean",
+    "aws-ecs",
+    "railway",
+    "cloudron",
+
+    "nginx",
+    "apache",
+    "traefik",
+
+    "other-installations"
+  ]
 }
