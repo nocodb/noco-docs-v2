@@ -53,6 +53,22 @@ docker run \
 	-it nocodb/nocodb:latest
 ```
 
+## with SQLite
+
+```bash
+docker run \
+	-d \
+	--name nocodb \
+	--tmpfs /run:nodev,nosuid,exec,mode=0755 \
+	-v ./nocodb:/usr/app/data \
+	-e nc_aio_postgres_enable=false \
+	-e NC_AUTH_JWT_SECRET="your-super-secret-string" \
+	-e NC_PUBLIC_URL="__your_nocodb_domain__.com" \
+	-p 80:8080 \
+	--restart unless-stopped \
+	-it nocodb/nocodb:latest
+```
+
 > Read the [Configuring NocoDB section](./configuring-nocodb#docker-image-configuration) to review all supported options
 
 > Once the container is running, you can access NocoDB by opening http://localhost in your web browser.
