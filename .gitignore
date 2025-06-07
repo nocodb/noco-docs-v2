@@ -32,4 +32,4 @@ next-env.d.ts
 /public/robots.txt
 /public/sitemap.xml
 /public/sitemap-*.xml
-/llms.txt
+/public/llms.txt

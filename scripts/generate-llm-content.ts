@@ -481,7 +481,7 @@ class LLMContentGenerator {
 // Main execution
 async function main() {
   const siteUrl = process.env.SITE_URL || 'https://nocodb.com';
-  const outputFile = process.argv[2] || 'llms.txt';
+  const outputFile = process.argv[2] || 'public/llms.txt';
   
   const generator = new LLMContentGenerator(siteUrl, outputFile);
   
