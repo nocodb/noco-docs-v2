@@ -8,7 +8,8 @@
     "start": "next start",
     "postinstall": "fumadocs-mdx",
     "syncIndex": "tsx scripts/syncIndex.ts",
-    "postbuild": "next-sitemap"
+    "generate-blog-sitemap": "tsx scripts/generate-blog-sitemap.ts",
+    "postbuild": "next-sitemap && npm run generate-blog-sitemap"
   },
   "dependencies": {
     "@radix-ui/react-collapsible": "^1.1.8",
