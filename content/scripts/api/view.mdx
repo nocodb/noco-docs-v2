@@ -34,13 +34,13 @@ Queries records from the view with optional parameters for field selection, sort
 
 **Parameters:**
 - `options` (optional): Object with the following properties:
-  - `fields` (`Array<Field | string>`): Specific fields to include in the result
+  - `fields` (`Array<Field | string>`): Specific fields to include in the result. If not specified, all fields are included.
   - `sorts` (`Array<{field: Field | string, direction: 'asc' | 'desc'}>`): Sorting options
   - `recordIds` (`Array<string>`): Specific record IDs to retrieve
-  - `limit` (`number`): Maximum number of records to return (default: 500)
-  - `offset` (`number`): Number of records to skip
+  - `pageSize` (`number`): Maximum number of records to return per page (default: 50)
+  - `page` (`number`): Page number for pagination (default: 1)
 
-**Returns:** `Promise<RecordQueryResult>` - A promise that resolves to a RecordQueryResult object
+**Returns:** `Promise<RecordQueryResult>` - A promise that resolves to a RecordQueryResult object with pagination support
 
 **Example:**
 ```javascript
@@ -54,7 +54,7 @@ const queryResult = await activeProjectsView.selectRecordsAsync({
   sorts: [
     { field: 'Deadline', direction: 'asc' }
   ],
-  limit: 50
+  pageSize: 50
 });
 
 output.text(`Found ${queryResult.records.length} active projects.`);
@@ -78,9 +78,11 @@ Retrieves a single record from the view by its ID, applying the view's filters a
 **Parameters:**
 - `recordId` (`string`): The ID of the record to retrieve
 - `options` (optional): Object with the following properties:
-  - `fields` (`Array<Field | string>`): Specific fields to include in the result
+  - `fields` (`Array<Field | string>`): Specific fields to include in the result. Primary key and primary value fields are automatically included.
 
-**Returns:** `Promise<Record | null>` - A promise that resolves to the Record object or null if not found or filtered out by the view
+**Returns:** `Promise<NocoDBRecord | null>` - A promise that resolves to the NocoDBRecord object or null if not found, filtered out by the view, or if an AxiosError occurs
+
+**Note:** The method includes automatic error handling for AxiosErrors and will return null instead of throwing an error.
 
 **Example:**
 ```javascript

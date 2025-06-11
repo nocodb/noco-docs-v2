@@ -87,7 +87,7 @@ Updates the display name of the field.
 **Parameters:**
 - `name` (`string`): New field name
 
-**Returns:** `Promise<Field>` - A promise that resolves to the updated Field
+**Returns:** `Promise<Field>` - A promise that resolves to the updated Field object
 
 **Example:**
 ```javascript
@@ -95,9 +95,53 @@ Updates the display name of the field.
 const oldField = projectsTable.getField('Project Lead');
 
 // Update its name
-await oldField.updateNameAsync('Project Manager');
+const updatedField = await oldField.updateNameAsync('Project Manager');
 
-output.text('Field name updated successfully.');
+output.text(`Field name updated from "${oldField.name}" to "${updatedField.name}"`);
+```
+
+## UITypes Constants
+
+NocoDB Scripts provides a comprehensive set of field type constants through the `UITypes` object:
+
+```javascript
+const UITypes = {
+  LinkToAnotherRecord: 'LinkToAnotherRecord',
+  Lookup: 'Lookup',
+  SingleLineText: 'SingleLineText',
+  LongText: 'LongText',
+  Attachment: 'Attachment',
+  Checkbox: 'Checkbox',
+  MultiSelect: 'MultiSelect',
+  SingleSelect: 'SingleSelect',
+  Date: 'Date',
+  Year: 'Year',
+  Time: 'Time',
+  PhoneNumber: 'PhoneNumber',
+  GeoData: 'GeoData',
+  Email: 'Email',
+  URL: 'URL',
+  Number: 'Number',
+  Decimal: 'Decimal',
+  Currency: 'Currency',
+  Percent: 'Percent',
+  Duration: 'Duration',
+  Rating: 'Rating',
+  Formula: 'Formula',
+  Rollup: 'Rollup',
+  DateTime: 'DateTime',
+  CreatedTime: 'CreatedTime',
+  LastModifiedTime: 'LastModifiedTime',
+  Geometry: 'Geometry',
+  JSON: 'JSON',
+  Barcode: 'Barcode',
+  QrCode: 'QrCode',
+  Button: 'Button',
+  Links: 'Links',
+  User: 'User',
+  CreatedBy: 'CreatedBy',
+  LastModifiedBy: 'LastModifiedBy'
+};
 ```
 
 ## Field Types

@@ -21,9 +21,11 @@ The Collaborator object allows you to identify users, track ownership, assign ta
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |
-| `id` | `string` | The unique identifier of the collaborator |
-| `name` | `string \| null` | The display name of the collaborator (may be null if not set) |
-| `email` | `string` | The email address of the collaborator |
+| `id` | `string` | The unique identifier of the collaborator (read-only) |
+| `name` | `string \| null` | The display name of the collaborator (read-only, may be null if not set) |
+| `email` | `string` | The email address of the collaborator (read-only) |
+
+**Note:** All Collaborator properties are read-only and cannot be modified.
 
 ## Contexts Where Collaborator Objects Appear
 

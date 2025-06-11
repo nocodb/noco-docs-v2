@@ -22,12 +22,11 @@ The RecordQueryResult object is designed to help you work efficiently with query
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |
-| `records` | `ReadonlyArray<Record>` | Array of Record objects returned by the query |
+| `records` | `ReadonlyArray<NocoDBRecord>` | Array of NocoDBRecord objects returned by the query |
 | `recordIds` | `ReadonlyArray<string>` | Array of record IDs (strings) returned by the query |
 | `hasMoreRecords` | `boolean` | Whether there are more records available beyond what was returned |
-| `currentPage` | `number` | The current page number (0-based) |
-| `pageSize` | `number` | The number of records per page |
 | `table` | `Table` | Reference to the table from which records were queried |
+| `raw_data` | `Array` | The raw underlying data from the API response |
 
 ## Methods
 
@@ -38,9 +37,9 @@ Retrieves a specific record from the query result by its ID.
 **Parameters:**
 - `recordId` (`string`): The ID of the record to retrieve
 
-**Returns:** `Record` object corresponding to the specified ID
+**Returns:** `NocoDBRecord` object corresponding to the specified ID
 
-**Throws:** Error if the record with the specified ID is not found in the query result
+**Throws:** Error with message "No record matching "[recordId]" found in query" if the record with the specified ID is not found in the query result
 
 **Example:**
 ```javascript
@@ -63,7 +62,7 @@ try {
 
 Loads the next page of records when hasMoreRecords is true. This method appends the newly loaded records to the existing records array and returns the same RecordQueryResult instance with the updated data.
 
-**Returns:** `Promise<RecordQueryResult>` - A promise that resolves to the same RecordQueryResult instance with newly loaded records appended to the records array
+**Returns:** `Promise<RecordQueryResult>` - A promise that resolves to the same RecordQueryResult instance with newly loaded records appended to the records array, or `null` if there are no more records to load
 
 **Example:**
 ```javascript
@@ -72,7 +71,7 @@ const tasksTable = base.getTable('Tasks');
 
 // Initial query with a small page size
 const tasksResult = await tasksTable.selectRecordsAsync({
-  limit: 50 // Start with 50 records
+  pageSize: 50 // Start with 50 records
 });
 
 output.text(`Loaded ${tasksResult.records.length} tasks initially.`);
@@ -99,7 +98,7 @@ const queryResult = await projectsTable.selectRecordsAsync({
   sorts: [
     { field: 'Due Date', direction: 'asc' }
   ],
-  limit: 100
+  pageSize: 100
 });
 
 // Output basic information about the result
@@ -162,7 +161,7 @@ async function processAllRecords() {
   // Initial query with modest page size
   let queryResult = await customersTable.selectRecordsAsync({
     fields: ['Name', 'Email', 'Last Order Date', 'Total Spend'],
-    limit: 100
+    pageSize: 100
   });
   
   let processedCount = 0;
@@ -427,7 +426,7 @@ async function safelyQueryRecords(tableName, options = {}) {
 // Use the safe query function
 const customersResult = await safelyQueryRecords('Customers', {
   fields: ['Name', 'Email', 'Phone'],
-  limit: 50
+  pageSize: 50
 });
 
 if (customersResult) {
@@ -450,7 +449,7 @@ if (customersResult) {
 
 ## Best Practices
 
-1. **Use appropriate page sizes** - Choose a limit that balances performance and memory usage. The default is often 100 records, but you may need larger or smaller limits based on your needs.
+1. **Use appropriate page sizes** - Choose a pageSize that balances performance and memory usage. The default is often 100 records, but you may need larger or smaller page sizes based on your needs.
 
 2. **Check for more records** - Always check the `hasMoreRecords` property to determine if you need to load additional pages of records.
 

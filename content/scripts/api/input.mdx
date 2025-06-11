@@ -122,13 +122,13 @@ output.text(`Selected priority level: ${priority}`);
 Prompts the user to upload a file.
 
 **Parameters:**
-- `label` (`string`, optional): The prompt text to display to the user
+- `label` (`string`, optional): The prompt text to display to the user (defaults to " --Select a file-- ")
 - `options` (`object`, optional): Additional options for file upload:
   - `allowedFileTypes` (`Array<string>`): File extensions or MIME types to accept (e.g., '.csv', '.xlsx', 'application/json')
   - `hasHeaderRow` (`boolean`): For spreadsheets, whether to treat the first row as headers
   - `useRawValues` (`boolean`): For spreadsheets, whether to return raw string values vs. parsed types
 
-**Returns:** `Promise<{ file: NcFile, parsedContents: any }>` - A promise that resolves to an object containing the uploaded file and its parsed contents (if applicable)
+**Returns:** `Promise<any>` - A promise that resolves to the parsed file contents. The data is automatically parsed from JSON if possible, otherwise returned as-is
 
 **Example:**
 ```javascript
@@ -237,11 +237,11 @@ Prompts the user to select a record from a table, view, or set of records.
 
 **Parameters:**
 - `label` (`string`): The prompt text to display to the user
-- `source` (`Table | View | RecordQueryResult | Array<Record>`): The source to select from
+- `source` (`Table | View | RecordQueryResult | Array<NocoDBRecord>`): The source to select from
 - `options` (`object`, optional): Additional options:
-  - `fields` (`Array<Field | string>`): Specific fields to display
+  - `fields` (`Array<Field | string>`): Specific fields to display. Primary key and primary value fields are automatically included.
 
-**Returns:** `Promise<Record | null>` - A promise that resolves to the selected Record object, or null if no record is selected
+**Returns:** `Promise<NocoDBRecord | null>` - A promise that resolves to the selected NocoDBRecord object, or null if no record is selected
 
 **Example:**
 ```javascript

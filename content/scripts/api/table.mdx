@@ -22,19 +22,22 @@ Table objects are typically accessed through the `base` object and provide the p
 | `id` | `string` | The unique identifier of the table |
 | `name` | `string` | The name of the table |
 | `description` | `string \| null` | The description of the table (if any) |
-| `fields` | `Field[]` | Array of all user-defined fields in the table |
+| `fields` | `Field[]` | Array of user-defined fields in the table (excludes system fields) |
 | `views` | `View[]` | Array of all views defined for the table |
+| `base` | `Base` | Reference to the parent base that this table belongs to |
 
 ## Methods
 
 ### getField(idOrName)
 
-Retrieves a field from the table by its ID or name.
+Retrieves a field from the table by its ID or name. This method searches both user-defined fields and system fields.
 
 **Parameters:**
 - `idOrName` (`string`): The ID or name of the field to retrieve
 
 **Returns:** `Field` object corresponding to the specified ID or name, or `undefined` if not found
+
+**Note:** While the `fields` property only includes user-defined fields, `getField()` can access both user fields and system fields (like Created Time, Last Modified Time, etc.)
 
 **Example:**
 ```javascript
@@ -83,13 +86,13 @@ Queries records from the table with optional filtering and sorting.
 
 **Parameters:**
 - `options` (optional): Object with the following properties:
-  - `fields` (`Array<Field | string>`): Specific fields to include in the result
+  - `fields` (`Array<Field | string>`): Specific fields to include in the result. If not specified, all fields are included.
   - `sorts` (`Array<{field: Field | string, direction: 'asc' | 'desc'}>`): Sorting options
-  - `recordIds` (`Array<string>`): Specific record IDs to retrieve
-  - `limit` (`number`): Maximum number of records to return (default: 100)
-  - `offset` (`number`): Number of records to skip
+  - `recordIds` (`Array<string>`): Specific record IDs to retrieve  
+  - `pageSize` (`number`): Maximum number of records to return per page (default: 50)
+  - `page` (`number`): Page number for pagination (default: 1)
 
-**Returns:** `Promise<RecordQueryResult>` - A promise that resolves to a RecordQueryResult object
+**Returns:** `Promise<RecordQueryResult>` - A promise that resolves to a RecordQueryResult object with pagination support
 
 **Example:**
 ```javascript
@@ -100,7 +103,7 @@ const queryResult = await tasksTable.selectRecordsAsync({
     {field: 'Due Date', direction: 'asc'},
     {field: 'Status', direction: 'desc'}
   ],
-  limit: 100
+  pageSize: 100
 });
 
 output.text(`Retrieved ${queryResult.records.length} records.`);
@@ -153,7 +156,7 @@ if (record) {
 Creates a new record in the table with the specified field values.
 
 **Parameters:**
-- `data` (`Object`): Object mapping field names or IDs to their values
+- `data` (`Object`): Object mapping field names or IDs to their values.
 
 **Returns:** `Promise<string>` - A promise that resolves to the ID of the created record
 
@@ -176,12 +179,12 @@ const newRecordId2 = await contactsTable.createRecordAsync({
 });
 ```
 
-### createRecordsAsync(dataArray)
+### createRecordsAsync(data)
 
 Creates multiple records in the table.
 
 **Parameters:**
-- `dataArray` (`Array<Object>`): Array of objects mapping field names or IDs to their values
+- `data` (`Array<Object>`): Array of objects mapping field names or IDs to their values.
 
 **Returns:** `Promise<Array<string>>` - A promise that resolves to an array of IDs of the created records
 
@@ -214,8 +217,8 @@ output.text(`Created ${newRecordIds.length} new records.`);
 Updates a record with the specified field values.
 
 **Parameters:**
-- `recordId` (`string | Record`): The ID of the record to update or a Record object
-- `data` (`Object`): Object mapping field names or IDs to their new values
+- `recordId` (`string | NocoDBRecord`): The ID of the record to update or a NocoDBRecord object
+- `data` (`Object`): Object mapping field names or IDs to their new values.
 
 **Returns:** `Promise<void>` - A promise that resolves when the update is complete
 
@@ -242,7 +245,7 @@ if (record) {
 Updates multiple records with the specified field values.
 
 **Parameters:**
-- `records` (`Array<{id: string, fields: Object}>`): Array of objects with record IDs and field values to update
+- `records` (`Array<{id: string | NocoDBRecord, fields: Object}>`): Array of objects with record IDs (or NocoDBRecord objects) and field values to update.
 
 **Returns:** `Promise<void>` - A promise that resolves when all updates are complete
 
@@ -274,9 +277,9 @@ output.text('Records updated successfully.');
 Deletes a record from the table.
 
 **Parameters:**
-- `recordIdOrRecord` (`string | Record`): The ID of the record to delete or a Record object
+- `recordIdOrRecord` (`string | NocoDBRecord`): The ID of the record to delete or a NocoDBRecord object
 
-**Returns:** `Promise<void>` - A promise that resolves when the deletion is complete
+**Returns:** `Promise<boolean>` - A promise that resolves to `true` when the deletion is complete
 
 **Example:**
 ```javascript
@@ -297,9 +300,9 @@ if (record) {
 Deletes multiple records from the table.
 
 **Parameters:**
-- `recordIds` (`Array<string | Record>`): Array of record IDs or Record objects to delete
+- `recordIds` (`Array<string>`): Array of record IDs to delete
 
-**Returns:** `Promise<void>` - A promise that resolves when all deletions are complete
+**Returns:** `Promise<boolean>` - A promise that resolves to `true` when all deletions are complete
 
 **Example:**
 ```javascript
@@ -323,16 +326,15 @@ if (recordsToDelete.length > 0) {
 }
 ```
 
-### createFieldAsync(options)
+### createFieldAsync(field)
 
 Creates a new field in the table with the specified configuration.
 
 **Parameters:**
-- `options` (`Object`): Field configuration object with:
+- `field` (`Object`): Field configuration object with:
   - `name` (`string`): Name for the new field
   - `type` (`UITypes`): Type of field to create
   - `description` (`string`, optional): Description for the field
-  - `default_value` (optional): Default value for the field
   - `options` (`Object`, optional): Type-specific options for the field
 
 **Returns:** `Promise<Field>` - A promise that resolves to the created Field object
@@ -393,7 +395,7 @@ const upcomingTasks = await tasksTable.selectRecordsAsync({
   sorts: [
     { field: 'Due Date', direction: 'asc' }
   ],
-  limit: 10
+  pageSize: 10
 });
 
 // Display the upcoming tasks
@@ -478,7 +480,7 @@ const contactsTable = base.getTable('Contacts');
 async function processAllRecords() {
   let queryResult = await contactsTable.selectRecordsAsync({
     fields: ['Name', 'Email', 'Last Contact Date'],
-    limit: 100 // Process in batches of 100
+    pageSize: 100 // Process in batches of 100
   });
   
   let processedCount = 0;
@@ -553,7 +555,7 @@ await processAllRecords();
 
 2. **Batch operations** - When creating or updating many records, use the bulk methods (`createRecordsAsync`, `updateRecordsAsync`) instead of individual calls for better performance.
 
-3. **Paginate large queries** - When working with large tables, use pagination via the `limit` option and `loadMoreRecords()` method to avoid memory issues.
+3. **Paginate large queries** - When working with large tables, use pagination via the `pageSize` option and `loadMoreRecords()` method to avoid memory issues.
 
 4. **Error handling** - Always wrap async operations in try/catch blocks to handle errors gracefully.
 

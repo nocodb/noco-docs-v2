@@ -31,29 +31,56 @@ To create your first script:
 A typical NocoDB script follows this pattern:
 
 ```javascript
-// 1. Set up configuration (optional)
-const config = input.config({
-  title: "My Script",
-  description: "This script demonstrates basic functionality",
-  items: [
-    input.config.table('sourceTable', {label: 'Select a table'})
-  ]
+// 1. Get input from user for interactive scripts
+const table = await input.tableAsync('Select a table to analyze:');
+const field = await input.fieldAsync('Which field would you like to analyze?', table);
+
+// 2. Perform operations with enhanced query capabilities
+const query = await table.selectRecordsAsync({
+  fields: [field.name],
+  sorts: [{ field: field.name, direction: 'asc' }],
+  pageSize: 100
 });
 
-// 2. Get input from user (optional)
-const table = base.getTable(config.sourceTable);
-const fieldName = await input.textAsync('Which field would you like to analyze?');
-
-// 3. Perform operations
-const query = await table.selectRecordsAsync();
+// 3. Process records with rich cell value handling
 let count = 0;
-for (const record of query.records) {
-  const value = record.getCellValue(fieldName);
-  if (value) count++;
+let totalRecords = query.records.length;
+
+// Handle pagination if there are more records
+while (query.hasMoreRecords) {
+  await query.loadMoreRecords();
+  totalRecords = query.records.length;
 }
 
-// 4. Display output
-output.markdown(`# Results\n${count} records have values in the ${fieldName} field.`);
+// Count non-empty values
+for (const record of query.records) {
+  const value = record.getCellValue(field.name);
+  if (value !== null && value !== undefined && value !== '') {
+    count++;
+  }
+}
+
+// 4. Display formatted output with progress
+output.markdown(`# Field Analysis Results`);
+output.text(`Field: ${field.name} (${field.type})`);
+output.text(`Total records analyzed: ${totalRecords}`);
+output.text(`Records with values: ${count}`);
+output.text(`Empty records: ${totalRecords - count}`);
+output.text(`Fill rate: ${((count / totalRecords) * 100).toFixed(1)}%`);
+
+// 5. Show sample values in a table
+if (count > 0) {
+  const sampleData = query.records
+    .filter(record => record.getCellValue(field.name) !== null)
+    .slice(0, 5)
+    .map(record => ({
+      'Record ID': record.id,
+      'Value': record.getCellValueAsString(field.name)
+    }));
+  
+  output.markdown('## Sample Values');
+  output.table(sampleData);
+}
 ```
 
 ## Core Concepts
@@ -62,18 +89,33 @@ output.markdown(`# Results\n${count} records have values in the ${fieldName} fie
 - **Tables and Views**: Access your base structure
 - **Records**: Work with individual data entries
 - **Fields**: Define the structure of your tables
-- **Input**: Collect user input with interactive prompts
-- **Output**: Display formatted results to users
+- **RecordQueryResult**: Handle paginated query results with advanced loading capabilities
+- **Collaborators**: Work with user data
+- **Session**: Access current user context and session information
+- **Input**: Collect user input with interactive prompts and file uploads
+- **Output**: Display formatted results with text, markdown, tables, and progress indicators
+- **API Integration**: Connect to external services and NocoDB's REST APIs
 
 ## API Reference
 
 Learn about the available objects and methods:
 
-- [Base Object](/docs/scripts/api/base)
-- [Table Object](/docs/scripts/api/table) 
-- [View Object](/docs/scripts/api/view)
-- [Record Object](/docs/scripts/api/record)
-- [Field Types](/docs/scripts/api/fields)
-- [Input Methods](/docs/scripts/api/input)
-- [Output Methods](/docs/scripts/api/output)
-- [Remote Fetch](/docs/scripts/api/remote-fetch)
+### Core Objects
+- [Base Object](/docs/scripts/api/base) - Access tables, collaborators, and create new structures
+- [Table Object](/docs/scripts/api/table) - Query, create, update, and delete records with advanced options
+- [View Object](/docs/scripts/api/view) - Work with filtered and sorted table perspectives
+- [Record Object](/docs/scripts/api/record) - Individual data entries with rich cell value handling
+- [Field Object](/docs/scripts/api/field) - Table structure with comprehensive field type support
+- [RecordQueryResult](/docs/scripts/api/record-query-result) - Paginated query results with load-more capabilities
+
+### User and Session Management
+- [Collaborator](/docs/scripts/api/collaborator) - User information and permissions
+- [Session](/docs/scripts/api/session) - Current user context and session data
+
+### Input and Output
+- [Input Methods](/docs/scripts/api/input) - Interactive prompts, file uploads, and user selections
+- [Output Methods](/docs/scripts/api/output) - Text, markdown, tables, progress indicators, and debugging
+
+### External Integration
+- [Remote Fetch](/docs/scripts/api/fetch) - HTTP requests, external APIs, and NocoDB REST API proxy
+- [Script Settings](/docs/scripts/api/script-settings) - Configuration and environment variables

@@ -1,29 +1,28 @@
 ---
 title: 'Record'
-description: 'Documentation for the Record object in NocoDB Scripts'
+description: 'Documentation for the NocoDBRecord object in NocoDB Scripts'
 icon: 'database-rows'
 ---
 
-The `Record` object represents a single row of data in a NocoDB table and provides methods to access and work with the cell values within that record.
+The `NocoDBRecord` object represents a single row of data in a NocoDB table and provides methods to access and work with the cell values within that record.
 
 ## Overview
 
-Records are typically retrieved from tables or views using query methods like `selectRecordsAsync()` or `selectRecordAsync()`. Each Record object provides access to:
+Records are typically retrieved from tables or views using query methods like `selectRecordsAsync()` or `selectRecordAsync()`. Each NocoDBRecord object provides access to:
 
 - The record's unique identifier
 - The record's primary display value (name)
 - All cell values in the record
-- String representations of cell values
+- Formatted string representations of cell values
 
-Working with Record objects is central to most NocoDB scripts, as they allow you to read, manipulate, and interpret the data in your base.
+Working with NocoDBRecord objects is central to most NocoDB scripts, as they allow you to read, manipulate, and interpret the data in your base with rich type support.
 
 ## Properties
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |
 | `id` | `string` | The unique identifier for this record |
-| `name` | `string` | The primary display value for this record |
-| `table` | `Table` | Reference to the table that this record belongs to |
+| `name` | `string` | The primary display value for this record (derived from display field) |
 
 ## Methods
 
@@ -75,9 +74,11 @@ Gets a cell value formatted as a string, applying appropriate formatting based o
 **Parameters:**
 - `fieldOrFieldIdOrName` (`Field | string`): The field, field ID, or field name to get the value for
 
-**Returns:** `string` - A string representation of the cell value
+**Returns:** `string` - A string representation of the cell value with proper field-type formatting
 
 **Throws:** Error if the field is not found or not included in the query
+
+**Note:** This method provides comprehensive formatting for all field types including currency, dates, durations, percentages, and more.
 
 **Example:**
 ```javascript
@@ -163,21 +164,26 @@ const tags = record.getCellValue('Tags'); // array of strings or empty array
 ### Relationship Fields
 
 ```javascript
-// Link to Another Record (many-to-one relationship)
-const project = record.getCellValue('Project'); // Record object or null
+// LinkToAnotherRecord (many-to-one relationship)
+const project = record.getCellValue('Project'); // NocoDBRecord object or null
 if (project) {
   console.log(`Project ID: ${project.id}`);
   console.log(`Project Name: ${project.name}`);
 }
 
-// Link to Another Record (many-to-many relationship)
-const team = record.getCellValue('Team Members'); // Array of Record objects or empty array
+// LinkToAnotherRecord (many-to-many relationship)
+const team = record.getCellValue('Team Members'); // Array of NocoDBRecord objects or empty array
 if (team && team.length > 0) {
   for (const member of team) {
     console.log(`Member ID: ${member.id}`);
     console.log(`Member Name: ${member.name}`);
   }
 }
+
+// Links (new field type for relationships)
+const linkedProjects = record.getCellValue('Related Projects'); // Can return count or records
+// For many-to-many/has-many: returns count as number
+// For belongs-to/one-to-one: returns NocoDBRecord object or null
 ```
 
 ### Attachment Field
