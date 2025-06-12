@@ -3,6 +3,7 @@
   "pages": [
     "webhook-overview",
     "create-webhook",
-    "actions-on-webhook"
+    "actions-on-webhook",
+    "webhook-v2-vs-v3"
   ]
 }
