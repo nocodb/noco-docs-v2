@@ -26,25 +26,24 @@ import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 
    - **Record** - Triggers when a record is inserted, updated, or deleted, or for all actions if “Send me everything” is selected.
    - **Manual Trigger / Button Trigger**  - Trigger runs when a user manually clicks a webhook configured button.
-   - **Field** (*coming soon*) - Will allow triggers based on changes in specific fields.
-   - **View** (*coming soon*) - Will enable triggers based on changes in views or filtered datasets.
 
 
 3. Select **Trigger Event** type : Refer table [here](#trigger-source-and-event) for available events for each source
 4. [Optional] **Trigger based on condition** : details [here](#webhook-with-conditions)
+    > Conditions are not applicable for Manual Trigger webhook
     - Specify the condition for which webhook should be triggered
     - You can select multiple conditions
     - If no condition is selected, webhook will be triggered for all records
-    - Conditions are not applicable for Manual Trigger webhook
+
 5. [Optional] **Trigger for updates in specific fields** : details [here](#webhook-on-field-changes-)
-   - Select the fields for which webhook should be triggered. This is only applicable for `After Update` event.
-   - You can select multiple fields
-   - If no field is selected, webhook will be triggered for all fields
+    > This is only applicable for `After Update` event.
+   - Select the fields for which webhook should be triggered.
+   - If no field is selected, any field update will trigger webhook
 6. **Method & URL** : Specify the endpoint that the webhook will call when triggered. You can choose from the following HTTP methods: GET, POST, PUT, DELETE, PATCH, and HEAD.
 7. [Optional] **Headers & Parameters** : Configure Request headers & parameters
 8. [Optional] **Body** : Configure request body. You can use [handlebar syntax](https://handlebarsjs.com/guide/#simple-expressions) to access and manipulate the data easily. For example, `{{ json event }}` will give you the complete event data (default behaviour if body not configured).
 9. [Optional] Click **Test** webhook button to verify if parameter are configured appropriately (with sample payload)
-10. Click **Create Webhook** button to create the webhook
+10. Click **Create Webhook** button to complete webhook creation
 
 
 ### Trigger Source and Event
@@ -53,7 +52,7 @@ Webhooks in NocoDB can be configured based on the source of the trigger and the 
 
 | **Trigger Source** | **Trigger Event**  | **Description**                                     |
 | ------------------ | ------------------ | --------------------------------------------------- |
-| Record             | Send Me Everything | Triggers on any insert, update, or delete operation |
+| Record             | Send Me Everything | Triggers on any record insert, update, or delete operation |
 |                    | After Insert       | Triggers after one or more records are inserted     |
 |                    | After Update       | Triggers after one or more records are updated      |
 |                    | After Delete       | Triggers after one or more records are deleted      |
