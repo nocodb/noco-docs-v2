@@ -48,8 +48,8 @@ importers:
         specifier: ^26.1.0
         version: 26.1.0
       lucide-react:
-        specifier: ^0.512.0
-        version: 0.512.0(react@19.1.0)
+        specifier: ^0.514.0
+        version: 0.514.0(react@19.1.0)
       nc-analytics:
         specifier: ^0.0.9
         version: 0.0.9
@@ -2694,8 +2694,8 @@ packages:
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
-  lucide-react@0.512.0:
-    resolution: {integrity: sha512-VCLpMynBVa+UvEPhs8fXluoa5nh7oPn3JtJ9F29+LmNi6q70IRxx80OBFT5KT6/T5/2hX+XkoWOC8zcRQI7Mzg==}
+  lucide-react@0.514.0:
+    resolution: {integrity: sha512-HXD0OAMd+JM2xCjlwG1EGW9Nuab64dhjO3+MvdyD+pSUeOTBaVAPhQblKIYmmX4RyBYbdzW0VWnJpjJmxWGr6w==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
@@ -6367,7 +6367,7 @@ snapshots:
     dependencies:
       react: 19.1.0
 
-  lucide-react@0.512.0(react@19.1.0):
+  lucide-react@0.514.0(react@19.1.0):
     dependencies:
       react: 19.1.0
 
