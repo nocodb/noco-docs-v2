@@ -111,11 +111,11 @@ try {
       type: UITypes.SingleSelect,
       options: {
         choices: [
-          { title: 'Pending', color: 'yellow' },
-          { title: 'Processing', color: 'blue' },
-          { title: 'Shipped', color: 'green' },
-          { title: 'Delivered', color: 'purple' },
-          { title: 'Cancelled', color: 'red' }
+          { title: 'Pending', color: '#FFC107' },
+          { title: 'Processing', color: '#007BFF' },
+          { title: 'Shipped', color: '#28A745' },
+          { title: 'Delivered', color: '#6F42C1' },
+          { title: 'Cancelled', color: '#DC3545' }
         ]
       }
     }
@@ -152,12 +152,23 @@ if (!inventoryTable) {
   
   try {
     inventoryTable = await base.createTableAsync(inventoryTableName, [
-      { name: 'Item ID', type: UITypes.SingleLineText, primary_key: true },
+      { name: 'Item ID', type: UITypes.SingleLineText },
       { name: 'Item Name', type: UITypes.SingleLineText },
       { name: 'Quantity', type: UITypes.Number },
-      { name: 'Category', type: UITypes.SingleSelect }
+      { 
+        name: 'Category', 
+        type: UITypes.SingleSelect, 
+        options: {
+          choices: [
+            { title: 'Electronics', color: '#FFC107' },
+            { title: 'Clothing', color: '#007BFF' },
+            { title: 'Home & Garden', color: '#28A745' },
+            { title: 'Books', color: '#6F42C1' },
+            { title: 'Sports', color: '#DC3545' }
+          ]
+        }
+      }
     ]);
-    
     output.text(`${inventoryTableName} table created successfully!`);
   } catch (error) {
     output.text(`Error creating table: ${error.message}`);

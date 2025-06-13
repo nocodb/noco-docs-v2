@@ -164,25 +164,24 @@ const tags = record.getCellValue('Tags'); // array of strings or empty array
 ### Relationship Fields
 
 ```javascript
-// LinkToAnotherRecord (many-to-one relationship)
+// LinkToAnotherRecord (one to one / belongs to relationship)
 const project = record.getCellValue('Project'); // NocoDBRecord object or null
 if (project) {
-  console.log(`Project ID: ${project.id}`);
-  console.log(`Project Name: ${project.name}`);
+  output.text(`Project ID: ${project.id}`);
+  output.text(`Project Name: ${project.name}`);
 }
 
-// LinkToAnotherRecord (many-to-many relationship)
-const team = record.getCellValue('Team Members'); // Array of NocoDBRecord objects or empty array
-if (team && team.length > 0) {
-  for (const member of team) {
-    console.log(`Member ID: ${member.id}`);
-    console.log(`Member Name: ${member.name}`);
-  }
+// LinkToAnotherRecord (many-to-many / has-many relationship)
+const team = record.getCellValue('Team Members'); // RecordQueryResult object or null
+while (team.hasMoreRecords) {
+  await team.loadMoreRecords();
 }
+
+output.text(`Team members: ${team.records.length}`);
 
 // Links (new field type for relationships)
 const linkedProjects = record.getCellValue('Related Projects'); // Can return count or records
-// For many-to-many/has-many: returns count as number
+// For many-to-many/has-many: returns RecordQueryResult object or null
 // For belongs-to/one-to-one: returns NocoDBRecord object or null
 ```
 
@@ -196,26 +195,24 @@ const documents = record.getCellValue('Documents'); // Array of attachment objec
 Each attachment object has:
 {
   url: string,
-  path?: string,
   title: string,
   mimetype: string,
   size: number,
-  signedPath?: string,
   signedUrl?: string,
   thumbnails?: {
-    tiny: { signedPath: string, signedUrl: string },
-    small: { signedPath: string, signedUrl: string },
-    card_cover: { signedPath: string, signedUrl: string }
+    tiny: { signedUrl: string },
+    small: { signedUrl: string },
+    card_cover: { signedUrl: string }
   }
 }
 */
 
 if (documents && documents.length > 0) {
   for (const doc of documents) {
-    console.log(`File: ${doc.title}`);
-    console.log(`Type: ${doc.mimetype}`);
-    console.log(`Size: ${doc.size} bytes`);
-    console.log(`URL: ${doc.url}`);
+    output.text(`File: ${doc.title}`);
+    output.text(`Type: ${doc.mimetype}`);
+    output.text(`Size: ${doc.size} bytes`);
+    output.text(`URL: ${doc.url}`);
   }
 }
 ```
@@ -227,9 +224,9 @@ if (documents && documents.length > 0) {
 const assignee = record.getCellValue('Assigned To'); // Collaborator object or null
 
 if (assignee) {
-  console.log(`Assignee ID: ${assignee.id}`);
-  console.log(`Assignee Name: ${assignee.name}`);
-  console.log(`Assignee Email: ${assignee.email}`);
+  output.text(`Assignee ID: ${assignee.id}`);
+  output.text(`Assignee Name: ${assignee.name}`);
+  output.text(`Assignee Email: ${assignee.email}`);
 }
 
 // User (multiple)
@@ -237,9 +234,9 @@ const reviewers = record.getCellValue('Reviewers'); // Array of Collaborator obj
 
 if (reviewers && reviewers.length > 0) {
   for (const reviewer of reviewers) {
-    console.log(`Reviewer ID: ${reviewer.id}`);
-    console.log(`Reviewer Name: ${reviewer.name}`);
-    console.log(`Reviewer Email: ${reviewer.email}`);
+    output.text(`Reviewer ID: ${reviewer.id}`);
+    output.text(`Reviewer Name: ${reviewer.name}`);
+    output.text(`Reviewer Email: ${reviewer.email}`);
   }
 }
 ```
@@ -271,23 +268,6 @@ const teamEmails = record.getCellValue('Team Emails'); // Array of values or emp
 const totalHours = record.getCellValue('Total Hours'); // number or null
 const averageScore = record.getCellValue('Average Score'); // number or null
 const taskCount = record.getCellValue('Task Count'); // number or null
-```
-
-### Button Field
-
-```javascript
-// Button fields return button configuration information
-const emailButton = record.getCellValue('Send Email');
-/*
-{
-  label: string,
-  icon: string | never,
-  type: 'url' | 'script' | 'webhook',
-  url?: string,
-  fk_script_id?: string,
-  fk_webhook_id?: string
-}
-*/
 ```
 
 ## Working with Records
@@ -378,66 +358,6 @@ if (employee1 && employee2) {
 }
 ```
 
-### Creating a Record Copy
-
-```javascript
-// Get the Products table
-const productsTable = base.getTable('Products');
-
-// Get a product record
-const productRecord = await productsTable.selectRecordAsync('rec123456');
-
-if (productRecord) {
-  // Create a new record with modified values from the original
-  const newProductData = {};
-  
-  // Iterate through all fields in the table
-  for (const field of productsTable.fields) {
-    // Skip system fields and computed fields
-    if (field.isComputed) {
-      continue;
-    }
-    
-    // Get the original value
-    const originalValue = productRecord.getCellValue(field.name);
-    
-    // Handle special fields
-    if (field.name === 'Product Name' && originalValue) {
-      // Append "- Copy" to the name
-      newProductData[field.name] = `${originalValue} - Copy`;
-    } else if (field.name === 'SKU' && originalValue) {
-      // Generate a new SKU
-      newProductData[field.name] = `${originalValue}-COPY`;
-    } else if (field.name === 'In Stock') {
-      // Set initial stock to 0
-      newProductData[field.name] = 0;
-    } else {
-      // Copy the original value for all other fields
-      newProductData[field.name] = originalValue;
-    }
-  }
-  
-  // Create the new record
-  try {
-    const newProductId = await productsTable.createRecordAsync(newProductData);
-    output.text(`Created copy of product with ID: ${newProductId}`);
-    
-    // Get the new record
-    const newProduct = await productsTable.selectRecordAsync(newProductId);
-    
-    // Display the new product information
-    if (newProduct) {
-      output.markdown(`# New Product: ${newProduct.getCellValue('Product Name')}`);
-      output.text(`SKU: ${newProduct.getCellValue('SKU')}`);
-      output.text(`Price: ${newProduct.getCellValueAsString('Price')}`);
-      output.text(`In Stock: ${newProduct.getCellValue('In Stock')}`);
-      output.text(`Category: ${newProduct.getCellValue('Category')}`);
-    }
-  } catch (error) {
-    output.text(`Error creating product copy: ${error.message}`);
-  }
-}
-```
 
 ### Working with Linked Records
 
@@ -447,23 +367,27 @@ const projectsTable = base.getTable('Projects');
 const tasksTable = base.getTable('Tasks');
 
 // Get a project record with its linked tasks
-const projectRecord = await projectsTable.selectRecordAsync('rec123456', {
+const projectRecord = await projectsTable.selectRecordAsync('25', {
   fields: ['Project Name', 'Description', 'Status', 'Tasks']
 });
-
+ 
 if (projectRecord) {
   const projectName = projectRecord.getCellValue('Project Name');
   const tasks = projectRecord.getCellValue('Tasks') || [];
+
+  while(tasks.hasMoreRecords) {
+    await tasks.loadMoreRecords()
+  }
   
   output.markdown(`# Project: ${projectName}`);
   output.text(`Status: ${projectRecord.getCellValue('Status')}`);
-  output.text(`Number of Tasks: ${tasks.length}`);
+  output.text(`Number of Tasks: ${tasks.records.length}`);
   
-  if (tasks.length > 0) {
+  if (tasks.records.length > 0) {
     // Direct access to linked record information
     output.markdown('## Task Summary');
     
-    for (const task of tasks) {
+    for (const task of tasks.records) {
       output.text(`- ${task.name}`);
     }
     
@@ -471,7 +395,7 @@ if (projectRecord) {
     output.markdown('## Detailed Task Information');
     
     // Get all task IDs
-    const taskIds = tasks.map(task => task.id);
+    const taskIds = tasks.recordIds
     
     // Query the tasks with additional fields
     const taskRecords = await tasksTable.selectRecordsAsync({
@@ -505,6 +429,10 @@ const salesTable = base.getTable('Sales');
 const salesRecords = await salesTable.selectRecordsAsync({
   fields: ['Date', 'Product', 'Quantity', 'Unit Price', 'Total']
 });
+
+while(salesRecords.hasMoreRecords) {
+  await salesRecords.loadMoreRecords()
+}
 
 // Perform calculations with record values
 let totalSales = 0;
