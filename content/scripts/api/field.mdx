@@ -49,11 +49,11 @@ const statusField = projectsTable.getField('Status');
 // Update its choices
 await statusField.updateOptionsAsync({
   choices: [
-    { title: 'Not Started', color: 'gray' },
-    { title: 'In Progress', color: 'blue' },
-    { title: 'Under Review', color: 'orange' },
-    { title: 'Completed', color: 'green' },
-    { title: 'Cancelled', color: 'red' }
+    { title: 'Not Started', color: '#808080' },
+    { title: 'In Progress', color: '#3366FF' },
+    { title: 'Under Review', color: '#FF9900' },
+    { title: 'Completed', color: '#33CC33' },
+    { title: 'Cancelled', color: '#FF3333' }
   ]
 });
 
@@ -192,7 +192,7 @@ await projectsTable.createFieldAsync({
   name: 'Sequence',
   type: UITypes.Number,
   options: {
-    thousands_separator: true
+    locale_string: true
   }
 });
 ```
@@ -207,7 +207,7 @@ await projectsTable.createFieldAsync({
   name: 'Score',
   type: UITypes.Decimal,
   options: {
-    thousands_separator: true,
+    locale_string: true,
     precision: 2
   }
 });
@@ -256,7 +256,7 @@ await projectsTable.createFieldAsync({
   options: {
     icon: 'star',
     max_value: 5,
-    color: 'yellow'
+    color: '#FFCC00'
   }
 });
 ```
@@ -308,7 +308,6 @@ await projectsTable.createFieldAsync({
   name: 'Start Time',
   type: UITypes.Time,
   options: {
-    time_format: 'HH:mm:ss',
     '12hr_format': false
   }
 });
@@ -342,7 +341,7 @@ await projectsTable.createFieldAsync({
   type: UITypes.Checkbox,
   options: {
     icon: 'square',
-    color: 'green'
+    color: '#33CC33'
   }
 });
 ```
@@ -360,11 +359,11 @@ await projectsTable.createFieldAsync({
   type: UITypes.SingleSelect,
   options: {
     choices: [
-      { title: 'Not Started', color: 'gray' },
-      { title: 'In Progress', color: 'blue' },
-      { title: 'Under Review', color: 'orange' },
-      { title: 'Completed', color: 'green' },
-      { title: 'Cancelled', color: 'red' }
+      { title: 'Not Started', color: '#808080' },
+      { title: 'In Progress', color: '#3366FF' },
+      { title: 'Under Review', color: '#FF9900' },
+      { title: 'Completed', color: '#33CC33' },
+      { title: 'Cancelled', color: '#FF3333' }
     ]
   }
 });
@@ -381,11 +380,11 @@ await projectsTable.createFieldAsync({
   type: UITypes.MultiSelect,
   options: {
     choices: [
-      { title: 'Urgent', color: 'red' },
-      { title: 'Bug', color: 'orange' },
-      { title: 'Feature', color: 'blue' },
-      { title: 'Documentation', color: 'green' },
-      { title: 'Enhancement', color: 'purple' }
+      { title: 'Urgent', color: '#FF0000' },
+      { title: 'Bug', color: '#FFA500' },
+      { title: 'Feature', color: '#0000FF' },
+      { title: 'Documentation', color: '#008000' },
+      { title: 'Enhancement', color: '#800080' }
     ]
   }
 });
@@ -403,7 +402,7 @@ await tasksTable.createFieldAsync({
   name: 'Project',
   type: UITypes.LinkToAnotherRecord,
   options: {
-    relation_type: 'bt', // bt = Belongs To (many-to-one)
+    relation_type: 'mm',
     related_table_id: projectsTable.id,
     limit_record_selection_view_id: null
   }
@@ -423,8 +422,8 @@ await tasksTable.createFieldAsync({
   name: 'Project Manager',
   type: UITypes.Lookup,
   options: {
-    relation_field_id: projectField.id, // The link field
-    lookup_field_id: projectsTable.getField('Project Manager').id // The field to look up
+    related_field_id: projectField.id, // The link field
+    related_table_lookup_field_id: projectsTable.getField('Project Manager').id // The field to look up
   }
 });
 ```
@@ -443,8 +442,8 @@ await projectsTable.createFieldAsync({
   name: 'Total Estimated Hours',
   type: UITypes.Rollup,
   options: {
-    relation_field_id: tasksField.id, // The link field
-    rollup_field_id: estimatedHoursField.id, // The field to roll up
+    related_field_id: tasksField.id, // The link field
+    related_table_rollup_field_id: estimatedHoursField.id, // The field to roll up
     rollup_function: 'sum' // The function to apply
   }
 });
@@ -462,13 +461,7 @@ await projectsTable.createFieldAsync({
   name: 'Days Until Due',
   type: UITypes.Formula,
   options: {
-    formula: 'DATETIME_DIFF(TODAY(), {Due Date}, "days")',
-    result: {
-      type: UITypes.Number,
-      format: {
-        thousands_separator: false
-      }
-    }
+    formula: 'ADD(33, 43)'
   }
 });
 ```
@@ -543,26 +536,6 @@ await projectsTable.createFieldAsync({
 });
 ```
 
-#### Button
-
-Creates interactive buttons that can trigger actions.
-
-```javascript
-// Create a Button field
-await projectsTable.createFieldAsync({
-  name: 'Send Reminder',
-  type: UITypes.Button,
-  options: {
-    type: 'url',
-    label: 'Send Reminder Email',
-    icon: 'mail',
-    color: 'blue',
-    theme: 'solid',
-    formula: 'mailto:{Assigned To.email}?subject=Reminder: {Task Name}&body=This is a reminder that the task "{Task Name}" is due on {Due Date}.'
-  }
-});
-```
-
 ## Cell Values for Different Field Types
 
 Different field types store and return values in specific formats. Understanding these formats is crucial when working with field values:
@@ -610,11 +583,11 @@ const tags = record.getCellValue('Tags'); // array of strings or empty array
 ### Relationship Fields
 
 ```javascript
-// Link to Another Record (single)
+// Link to Another Record (single) One to One, Belongs to
 const project = record.getCellValue('Project'); // Record object or null
 
-// Link to Another Record (multiple)
-const team = record.getCellValue('Team Members'); // Array of Record objects or empty array
+// Link to Another Record (multiple) Many to Many, Has many
+const team = record.getCellValue('Team Members'); // RecordQueryResult object or null
 
 // Lookup (single value)
 const manager = record.getCellValue('Project Manager'); // value or null
@@ -683,9 +656,9 @@ const newField = await projectsTable.createFieldAsync({
   description: 'Assessed risk level of the project',
   options: {
     choices: [
-      { title: 'Low', color: 'green' },
-      { title: 'Medium', color: 'yellow' },
-      { title: 'High', color: 'red' }
+      { title: 'Low', color: '#00FF00' },
+      { title: 'Medium', color: '#FFFF00' },
+      { title: 'High', color: '#FF0000' }
     ]
   }
 });
@@ -703,7 +676,7 @@ const priorityField = projectsTable.getField('Priority');
 await priorityField.updateOptionsAsync({
   icon: 'star',
   max_value: 10, // Change from 5 to 10
-  color: 'orange' // Change color
+  color: '#FFA500' // Change color
 });
 
 output.text('Field options updated successfully');
@@ -719,7 +692,7 @@ const currentChoices = categoryField.options?.choices || [];
 // Add a new choice
 const updatedChoices = [
   ...currentChoices,
-  { title: 'New Category', color: 'purple' }
+  { title: 'New Category', color: '#800080' }
 ];
 
 // Update the field

@@ -39,6 +39,7 @@ Queries records from the view with optional parameters for field selection, sort
   - `recordIds` (`Array<string>`): Specific record IDs to retrieve
   - `pageSize` (`number`): Maximum number of records to return per page (default: 50)
   - `page` (`number`): Page number for pagination (default: 1)
+  - `where` (`string`): Where filter condition which adds to existing view filters
 
 **Returns:** `Promise<RecordQueryResult>` - A promise that resolves to a RecordQueryResult object with pagination support
 
@@ -56,6 +57,10 @@ const queryResult = await activeProjectsView.selectRecordsAsync({
   ],
   pageSize: 50
 });
+
+while(queryResult.hasMoreRecords) {
+  await queryResult.loadMoreRecords()
+}
 
 output.text(`Found ${queryResult.records.length} active projects.`);
 
@@ -81,8 +86,6 @@ Retrieves a single record from the view by its ID, applying the view's filters a
   - `fields` (`Array<Field | string>`): Specific fields to include in the result. Primary key and primary value fields are automatically included.
 
 **Returns:** `Promise<NocoDBRecord | null>` - A promise that resolves to the NocoDBRecord object or null if not found, filtered out by the view, or if an AxiosError occurs
-
-**Note:** The method includes automatic error handling for AxiosErrors and will return null instead of throwing an error.
 
 **Example:**
 ```javascript
@@ -120,12 +123,19 @@ const overdueTasks = await overdueTasksView.selectRecordsAsync({
   fields: ['Task Name', 'Due Date', 'Assigned To', 'Status']
 });
 
+while(overdueTasks.hasMoreRecords) {
+  await overdueTasks.loadMoreRecords()
+}
+
 // Create a notification summary
 output.markdown('# Overdue Tasks Summary');
 output.text(`There are ${overdueTasks.records.length} overdue tasks.`);
 
 // Group tasks by assignee
-const tasksByAssignee = {};
+const tasksByAssignee = {} as Record<string, {
+  name: string,
+  tasks: Array<{name: string, dueDate: string}>
+}>;
 for (const task of overdueTasks.records) {
   const assignee = task.getCellValue('Assigned To');
   const assigneeId = assignee ? assignee.id : 'unassigned';
@@ -172,6 +182,10 @@ const selectedView = salesTable.getView(selectedViewName);
 const sales = await selectedView.selectRecordsAsync({
   fields: ['Date', 'Amount', 'Product', 'Sales Rep', 'Region']
 });
+
+while(sales.hasMoreRecords) {
+  await sales.loadMoreRecords()
+}
 
 // Calculate summary statistics
 let totalSales = 0;

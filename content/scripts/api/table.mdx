@@ -91,6 +91,7 @@ Queries records from the table with optional filtering and sorting.
   - `recordIds` (`Array<string>`): Specific record IDs to retrieve  
   - `pageSize` (`number`): Maximum number of records to return per page (default: 50)
   - `page` (`number`): Page number for pagination (default: 1)
+  - `where` (`string`): Where filter condition.
 
 **Returns:** `Promise<RecordQueryResult>` - A promise that resolves to a RecordQueryResult object with pagination support
 
@@ -313,12 +314,10 @@ output.text('Records deleted successfully.');
 // Delete records using a query result
 const completedTasks = await tasksTable.selectRecordsAsync({
   fields: ['Status'],
-  // Filter is typically applied through a view, as the API doesn't directly support filtering
+  where: '(Status, eq, Completed)',
 });
 
-const recordsToDelete = completedTasks.records
-  .filter(record => record.getCellValue('Status') === 'Completed')
-  .map(record => record.id);
+const recordsToDelete = completedTasks.records.map(record => record.id);
 
 if (recordsToDelete.length > 0) {
   await tasksTable.deleteRecordsAsync(recordsToDelete);
@@ -349,7 +348,7 @@ const ratingField = await projectsTable.createFieldAsync({
   options: {
     icon: 'star',
     max_value: 5,
-    color: 'yellow'
+    color: '#FFCC00'
   }
 });
 
@@ -361,10 +360,10 @@ const statusField = await tasksTable.createFieldAsync({
   type: UITypes.SingleSelect,
   options: {
     choices: [
-      { title: 'Not Started', color: 'gray' },
-      { title: 'In Progress', color: 'blue' },
-      { title: 'Review', color: 'orange' },
-      { title: 'Completed', color: 'green' }
+      { title: 'Not Started', color: '#808080' },
+      { title: 'In Progress', color: '#3366FF' },
+      { title: 'Review', color: '#FF9900' },
+      { title: 'Completed', color: '#33CC33' }
     ]
   }
 });
@@ -485,6 +484,10 @@ async function processAllRecords() {
   
   let processedCount = 0;
   let updatedCount = 0;
+
+  while (queryResult.hasMoreRecords) {
+    await queryResult.loadMoreRecords();
+  }
   
   // Process first batch
   let recordsToUpdate = [];
@@ -501,38 +504,6 @@ async function processAllRecords() {
           'Notes': 'No contact in the last 90 days.'
         }
       });
-    }
-  }
-  
-  // Continue processing while there are more records
-  while (queryResult.hasMoreRecords) {
-    // Get next batch
-    queryResult = await queryResult.loadMoreRecords();
-    
-    // Process this batch
-    for (const record of queryResult.records) {
-      processedCount++;
-      
-      const lastContactDate = record.getCellValue('Last Contact Date');
-      if (!lastContactDate || new Date(lastContactDate) < new Date(Date.now() - 90 * 24 * 60 * 60 * 1000)) {
-        recordsToUpdate.push({
-          id: record.id,
-          fields: {
-            'Status': 'Needs Follow-up',
-            'Notes': 'No contact in the last 90 days.'
-          }
-        });
-      }
-      
-      // Update in batches of 50 to avoid memory issues
-      if (recordsToUpdate.length >= 50) {
-        await contactsTable.updateRecordsAsync(recordsToUpdate);
-        updatedCount += recordsToUpdate.length;
-        recordsToUpdate = [];
-        
-        // Show progress
-        output.text(`Processed ${processedCount} records, updated ${updatedCount}...`);
-      }
     }
   }
   
