@@ -1,0 +1,94 @@
+---
+title: 'Behind Apache'
+icon: 'apache'
+description: 'Run NocoDB Behind Apache Proxy.'
+tags: ['nginx', 'proxy']
+keywords : ['NocoDB Apache', 'NocoDB Proxy']
+---
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+## Prerequisites
+We assume you already have a Apache server running.
+
+## Step 1 - Run NocoDB
+
+<Tabs items={['docker', 'docker-compose', 'nix']}>
+<Tab value="docker">
+```bash
+docker run \
+	-d \
+	--name nocodb \
+	--tmpfs /run:nodev,nosuid,exec,mode=0755 \
+	-v ./nocodb:/usr/app/data \
+	-e NC_AUTH_JWT_SECRET="your-super-secret-string" \
+	-e NC_PUBLIC_URL="__your_nocodb_domain__.com" \
+	-p 8080:8080 \
+	--restart unless-stopped \
+	-it nocodb/nocodb:latest
+```
+</Tab>
+
+<Tab value="docker-compose">
+```yaml
+version: "3.9"
+services:
+  nocodb:
+    container_name: nocodb
+    image: nocodb/nocodb:latest
+    environment:
+      NC_AUTH_JWT_SECRET: 'your-super-secret-passs'
+      NC_PUBLIC_URL: '__your_nocodb_domain__.com'
+    ports:
+      - "8080:8080"
+    volumes:
+      - nocodb_data:/usr/app/data
+	tmpfs:
+      - /run:nodev,nosuid,exec,mode=0755
+volumes:
+  nocodb_data:
+```
+</Tab>
+
+<Tab value="nix">
+```bash
+nix run github:nocodb/nocodb/master
+```
+</Tab>
+</Tabs>
+
+## Step 2 - Enable the required Apache modules
+
+The Apache config shown later needs the following modules enabled.
+
+```bash
+sudo a2enmod proxy headers proxy_http proxy_wstunnel rewrite 
+sudo systemctl restart apache2
+```
+
+## Step 3 - Create the Apache config for NocoDB
+
+Create a new `nocodb.conf` in `/etc/apache2/sites-enabled/` like the following example
+
+> Make sure to replace any __nocodb_domain__ with you own domain
+
+```
+<VirtualHost *:80>
+ProxyPreserveHost On
+
+# Replace with your domain
+ServerName __nocodb_domain__
+
+ProxyPass / http://localhost:8080/
+ProxyPassReverse / http://localhost:8080/
+
+</VirtualHost>
+
+```
+
+## Step 3 - Enable the apache site
+
+```bash
+sudo a2ensite nocodb.conf
+```
+
+> You should now be able to access NocoDB on your configured domain.

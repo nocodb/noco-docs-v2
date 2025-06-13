@@ -1,0 +1,17 @@
+---
+title: 'Install with Nix'
+icon: 'nix'
+tags: ['Open Source', 'Nix', 'NixOS']
+keywords : ['NocoDB installation', 'Nix', 'NixOS']
+---
+
+if nix is not already installed on your system, we recommend the determinate systems installer.
+
+```bash
+curl --proto '=https' --tlsv1.2 -ssf -l https://install.determinate.systems/nix | sh -s -- install
+```
+
+once nix is installed, you can run nocodb using the following command:
+```bash 
+nix run github:nocodb/nocodb/master
+```
