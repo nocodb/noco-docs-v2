@@ -1,11 +1,10 @@
-"use client";
 import Sidebar from '@/components/layout/Sidebar';
 import { source } from '@/lib/source';
-import { TreeContextProvider } from 'fumadocs-ui/provider';
-import type {ReactNode} from 'react';
+import { TreeContextProvider } from '@/provider/TreeContextProvider';
+import type { ReactNode } from 'react';
 import MobileSidebar from '@/app/docs/MobileSidebar';
 
-export default function Layout({children}: { children: ReactNode }) {
+export default function Layout({ children }: { children: ReactNode }) {
     return (
         <div className='relative'>
             <TreeContextProvider tree={source.pageTree}>
@@ -13,8 +12,9 @@ export default function Layout({children}: { children: ReactNode }) {
                     <Sidebar />
                     {children}
                 </div>
-                <MobileSidebar/>
+                <MobileSidebar />   
             </TreeContextProvider>
+
         </div>
     );
 }

@@ -1,6 +1,6 @@
 import Sidebar from "@/components/layout/Sidebar";
 import { scriptsSource } from "@/lib/source";
-import { TreeContextProvider } from "fumadocs-ui/provider";
+import { TreeContextProvider } from '@/provider/TreeContextProvider';
 import { ReactNode } from "react";
 import MobileSidebar from "@/app/docs/MobileSidebar";
 

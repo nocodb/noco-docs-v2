@@ -7,6 +7,8 @@ import Image from "next/image";
 import {Button} from "@/components/ui/button";
 import {ThemeSwitch} from "@/components/layout/ThemeSwitch";
 import {SearchTrigger} from "@/components/layout/SearchTrigger";
+import {SearchTriggerIcon} from "@/components/layout/SearchTriggerIcon";
+
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { Menu, X } from "lucide-react"
@@ -42,6 +44,10 @@ export default function Navbar() {
                         </Button>
                     </Link>
                 </div>
+            </div>
+            <div className="lg:hidden flex gap-3 items-center">
+                <SearchTriggerIcon />
+                <ThemeSwitch />
             </div>
         </div>
     )
