@@ -30,7 +30,44 @@ const response = await remoteFetchAsync(url, options);
   - `headers` (`object`, optional): Headers to include in the request
   - `body` (`string | null`, optional): Body content to send with the request
 
-**Returns:** `Promise<any>` - A promise that resolves to the response data
+**Returns:** `Promise<any>` - A promise that resolves to the response data or rejects with an axios-like error object
+
+## Error Handling
+
+The `remoteFetchAsync` function provides enhanced error handling that mimics the axios error structure. When a request fails, the rejected error object includes:
+
+- `message` (`string`): The error message
+- `response` (`object`): Response details including:
+  - `data`: Response data from the server
+  - `status`: HTTP status code
+  - `statusText`: HTTP status text
+  - `headers`: Response headers
+  - `config`: Request configuration
+- `config` (`object`): The original request configuration
+- `code` (`string`): Error code (if available)
+- `name` (`string`): Error name (defaults to 'AxiosError')
+
+### Handling Errors
+
+```javascript
+try {
+  const response = await remoteFetchAsync('https://api.example.com/data');
+  output.inspect(response.data);
+} catch (error) {
+  // Error object mimics axios structure
+  output.text(`Error: ${error.message}`, 'error');
+  
+  if (error.response) {
+    // Server responded with error status
+    output.text(`Status: ${error.response.status}`, 'error');
+    output.text(`Status Text: ${error.response.statusText}`, 'error');
+    output.inspect(error.response.data);
+  } else {
+    // Network error or other issue
+    output.text('Network error or request failed', 'error');
+  }
+}
+```
 
 ## Basic Examples
 
@@ -343,25 +380,27 @@ await submitFormData(formData);
 
 ## Best Practices
 
-1. **Use try/catch blocks** - Always wrap `remoteFetchAsync` calls in try/catch blocks to handle connection errors, timeouts, and other issues.
+1. **Use try/catch blocks** - Always wrap `remoteFetchAsync` calls in try/catch blocks to handle connection errors, timeouts, and other issues. The function provides axios-like error objects with detailed error information.
 
-2. **Check response status** - Validate the HTTP status code before attempting to use the response data.
+2. **Check error.response for server errors** - When handling errors, check if `error.response` exists to distinguish between server errors (4xx, 5xx status codes) and network/connection errors.
 
-3. **Set appropriate headers** - Include the correct `Content-Type` and `Accept` headers for your request.
+3. **Validate response status in success cases** - Even for successful requests, validate the HTTP status code before attempting to use the response data.
 
-4. **Handle authentication properly** - Use secure methods to store and transmit authentication credentials.
+4. **Set appropriate headers** - Include the correct `Content-Type` and `Accept` headers for your request.
 
-5. **Implement rate limiting** - Be mindful of API rate limits and implement throttling or backoff strategies when needed.
+5. **Handle authentication properly** - Use secure methods to store and transmit authentication credentials.
 
-6. **Cache responses when appropriate** - For data that doesn't change frequently, consider storing the response and reusing it.
+6. **Implement rate limiting** - Be mindful of API rate limits and implement throttling or backoff strategies when needed.
 
-7. **Log meaningful errors** - Provide clear error messages to help troubleshoot issues.
+7. **Cache responses when appropriate** - For data that doesn't change frequently, consider storing the response and reusing it.
 
-8. **Validate input data** - Ensure data being sent to external APIs is valid and properly formatted.
+8. **Log meaningful errors** - Provide clear error messages to help troubleshoot issues.
 
-9. **Respect API terms of service** - Ensure your usage of external APIs complies with their terms of service and documentation.
+9. **Validate input data** - Ensure data being sent to external APIs is valid and properly formatted.
 
-10. **Consider timeouts** - Be aware that remote requests may time out if they take too long to complete.
+10. **Respect API terms of service** - Ensure your usage of external APIs complies with their terms of service and documentation.
+
+11. **Consider timeouts** - Be aware that remote requests may time out if they take too long to complete.
 
 ## Security Considerations
 

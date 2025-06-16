@@ -277,134 +277,60 @@ if (record) {
 ```javascript
 // Interactive form for creating a new project
 async function createNewProject() {
-  // Get the Projects table
   const projectsTable = base.getTable('Projects');
   const tasksTable = base.getTable('Tasks');
   
-  // Collect project information
-  output.markdown('# New Project Form');
+  output.markdown('# Create New Project');
   
+  // Just the basics
   const projectName = await input.textAsync('Project Name:');
+  const projectDescription = await input.textAsync('Description:');
+  const dueDate = await input.textAsync('Due Date (YYYY-MM-DD):');
   
-  const projectDescription = await input.textAsync('Project Description:');
-  
-  const startDate = await input.textAsync('Start Date (YYYY-MM-DD):');
-  
-  const projectType = await input.selectAsync('Project Type:', [
-    'Software Development',
-    'Marketing Campaign',
-    'Product Launch',
-    'Research',
-    'Infrastructure',
-    'Other'
-  ]);
-  
-  const priority = await input.selectAsync('Priority:', [
-    { label: 'Low', value: 1 },
-    { label: 'Medium', value: 2 },
-    { label: 'High', value: 3 },
-    { label: 'Critical', value: 4 }
-  ]);
-  
-  // Get team members
-  const teamTable = base.getTable('Team Members');
-  const teamQuery = await teamTable.selectRecordsAsync({
-    fields: ['Name', 'Role', 'Department']
-  });
-  
-  // Create options for team lead selection
-  const teamOptions = teamQuery.records.map(record => ({
-    label: `${record.getCellValue('Name')} (${record.getCellValue('Role')})`,
-    value: record.id
-  }));
-  
-  const teamLead = await input.selectAsync('Team Lead:', teamOptions);
-  
-  // Ask for milestone tasks
-  output.markdown('## Initial Tasks');
-  output.text('Add some initial tasks for this project:');
-  
+  // Add a few tasks
+  output.markdown('## Add Tasks');
   const tasks = [];
   let addingTasks = true;
   
   while (addingTasks) {
     const taskName = await input.textAsync('Task Name:');
+    tasks.push({ name: taskName });
     
-    const taskDueDate = await input.textAsync('Due Date (YYYY-MM-DD):');
-    
-    // Add the task to our list
-    tasks.push({
-      name: taskName,
-      dueDate: taskDueDate
-    });
-    
-    // Ask if user wants to add another task
     const addAnother = await input.buttonsAsync(
       'Add another task?',
-      ['Yes', 'No, I\'m done']
+      ['Yes', 'No, create project']
     );
     
     addingTasks = (addAnother === 'Yes');
   }
   
-  // Confirm creation
-  output.markdown('## Summary');
-  output.text(`Project Name: ${projectName}`);
-  output.text(`Description: ${projectDescription}`);
-  output.text(`Start Date: ${startDate}`);
-  output.text(`Type: ${projectType}`);
-  output.text(`Priority: ${priority}`);
-  output.text(`Number of Initial Tasks: ${tasks.length}`);
-  
-  const confirmation = await input.buttonsAsync(
-    'Create this project?',
-    [
-      { label: 'Create Project', value: true, variant: 'primary' },
-      { label: 'Cancel', value: false, variant: 'secondary' }
-    ]
-  );
-  
-  if (!confirmation) {
-    output.text('Project creation cancelled.');
-    return;
-  }
-  
-  // Create the project record
-  output.text('Creating project...');
-  
+  // Create everything
   try {
-    // Create the project
+    output.text('Creating project...');
+    
     const projectId = await projectsTable.createRecordAsync({
       'Project Name': projectName,
       'Description': projectDescription,
-      'Start Date': startDate,
-      'Type': projectType,
-      'Priority': priority,
-      'Team Lead': teamLead
+      'Due Date': dueDate
     });
     
-    output.text(`Project created with ID: ${projectId}`);
-    
-    // Create the tasks
-    output.text('Creating tasks...');
-    
+    // Create tasks
     for (const task of tasks) {
       await tasksTable.createRecordAsync({
         'Task Name': task.name,
-        'Due Date': task.dueDate,
-        'Project': projectId,
-        'Status': 'Not Started'
+        'Projects': [{id: projectId}],
+        'Status': 'To Do'
       });
     }
     
-    output.text(`Created ${tasks.length} tasks for this project.`);
-    output.markdown('# Project Created Successfully');
+    output.markdown('# ✅ Project Created!');
+    output.text(`Created "${projectName}" with ${tasks.length} tasks`);
+    
   } catch (error) {
-    output.text(`Error creating project: ${error.message}`);
+    output.text(`Error: ${error.message}`);
   }
 }
 
-// Run the function
 await createNewProject();
 ```
 
@@ -412,217 +338,519 @@ await createNewProject();
 
 ```javascript
 // Example of using file upload to import data
-async function importCSVData() {
-  // First, select destination table
-  const table = await input.tableAsync('Select a table to import data into:');
-  
-  // Now, ask for CSV file
-  const result = await input.fileAsync('Upload CSV file:', {
-    allowedFileTypes: ['.csv'],
-    hasHeaderRow: true
-  });
-  
-  if (!result || !result.parsedContents) {
-    output.text('No file uploaded or file could not be parsed.');
-    return;
-  }
-  
-  const csvData = result.parsedContents;
-  
-  // Show file preview
-  output.markdown('# CSV Import Preview');
-  output.text(`File contains ${csvData.length} rows and ${Object.keys(csvData[0] || {}).length} columns.`);
-  
-  if (csvData.length > 0) {
-    output.text('Sample data (first 3 rows):');
-    output.table(csvData.slice(0, 3));
-  }
-  
-  // Ask how to handle duplicates
-  const duplicateHandling = await input.selectAsync(
-    'How should duplicate records be handled?',
-    [
-      { label: 'Skip duplicates', value: 'skip' },
-      { label: 'Update existing records', value: 'update' },
-      { label: 'Allow duplicates', value: 'allow' }
-    ]
-  );
-  
-  // If not allowing duplicates, we need a unique ID field
-  let uniqueField = null;
-  if (duplicateHandling !== 'allow') {
-    uniqueField = await input.fieldAsync('Select a field to use for identifying duplicates:', table);
+async function importCSVData(): Promise<void> {
+  try {
+    // Step 1: Select destination table
+    const table: Table = await input.tableAsync('Select a table to import data into:');
     
-    // Find matching CSV column
-    const csvColumns = Object.keys(csvData[0] || {});
-    const matchingColumn = csvColumns.find(col => 
-      col.toLowerCase() === uniqueField.name.toLowerCase()
+    // Step 2: Upload CSV file
+    const result: any = await input.fileAsync('Upload CSV file:', {
+      allowedFileTypes: ['.csv'],
+      hasHeaderRow: true,
+      useRawValues: false
+    });
+    
+    if (!result || !result.parsedContents) {
+      output.text('No file uploaded or file could not be parsed.');
+      return;
+    }
+    
+    const csvData: Record<string, any>[] = result.parsedContents;
+    
+    if (csvData.length === 0) {
+      output.text('CSV file is empty.');
+      return;
+    }
+    
+    // Step 3: Show file preview
+    output.markdown('# CSV Import Preview');
+    output.text(`File contains ${csvData.length} rows and ${Object.keys(csvData[0] || {}).length} columns.`);
+    
+    if (csvData.length > 0) {
+      output.text('Sample data (first 3 rows):');
+      output.table(csvData.slice(0, 3));
+    }
+    
+    // Step 4: Configure duplicate handling
+    const duplicateHandling: 'skip' | 'update' | 'allow' | 'cancel' = await input.selectAsync(
+      'How should duplicate records be handled?',
+      [
+        { label: 'Skip duplicates', value: 'skip' },
+        { label: 'Update existing records', value: 'update' },
+        { label: 'Allow duplicates', value: 'allow' },
+        { label: '-- Cancel Import --', value: 'cancel' }
+      ]
     );
     
-    if (!matchingColumn) {
-      const confirmation = await input.buttonsAsync(
-        `Warning: No CSV column matches the unique field "${uniqueField.name}". Continue anyway?`,
-        [
-          { label: 'Continue', value: true, variant: 'primary' },
-          { label: 'Cancel', value: false, variant: 'secondary' }
-        ]
+    if (duplicateHandling === 'cancel') {
+      output.text('Import cancelled by user.');
+      return;
+    }
+    
+    // Step 5: Select unique field if handling duplicates
+    let uniqueField: Field | undefined;
+    let uniqueColumnName: string | null = null;
+    
+    if (duplicateHandling !== 'allow') {
+      // Create field options with cancel option
+      const fieldOptions = [
+        { label: '-- Cancel Import --', value: 'cancel' },
+        ...table.fields
+          .filter(field => !field.isComputed && !field.is_system_field)
+          .map(field => ({
+            label: `${field.name} (${field.type})`,
+            value: field.name
+          }))
+      ];
+      
+      const selectedFieldName: string = await input.selectAsync(
+        'Select a field to use for identifying duplicates:', 
+        fieldOptions
       );
       
-      if (!confirmation) {
-        output.text('Import cancelled.');
+      if (selectedFieldName === 'cancel') {
+        output.text('Import cancelled by user.');
         return;
+      }      
+      uniqueField = table.getField(selectedFieldName);
+
+      if(uniqueField) {
+      const csvColumns: string[] = Object.keys(csvData[0] || {});
+      uniqueColumnName = csvColumns.find(col => 
+        col.toLowerCase().trim() === uniqueField!.name.toLowerCase().trim()
+      ) || null;
+      
+      if (!uniqueColumnName) {
+        const availableColumns = [
+          { label: '-- Cancel Import --', value: 'cancel' },
+          ...csvColumns.map(col => ({ label: col, value: col }))
+        ];
+        
+        uniqueColumnName = await input.selectAsync(
+          `No CSV column matches "${uniqueField.name}". Select the CSV column to use:`,
+          availableColumns
+        );
+        
+        if (uniqueColumnName === 'cancel') {
+          output.text('Import cancelled by user.');
+          return;
+        }
+      }
+
       }
     }
-  }
-  
-  // Map CSV columns to table fields
-  output.markdown('## Field Mapping');
-  output.text('Map each CSV column to a field in the table:');
-  
-  const csvColumns = Object.keys(csvData[0] || {});
-  const fieldMap = {};
-  
-  for (const column of csvColumns) {
-    // Find best match for autosuggestion
-    const bestMatchField = table.fields.find(field => 
-      field.name.toLowerCase() === column.toLowerCase()
+    
+    // Step 6: Map CSV columns to table fields
+    output.markdown('## Field Mapping');
+    output.text('Map each CSV column to a field in the table:');
+    
+    const csvColumns: string[] = Object.keys(csvData[0] || {});
+    const fieldMap: Record<string, string> = {};
+    
+    // Get available fields (exclude computed and system fields)
+    const availableFields: Field[] = table.fields.filter(field => 
+      !field.isComputed && 
+      !field.primary_key && 
+      !field.is_system_field
     );
     
-    const fieldOptions = [
-      { label: '-- Skip this column --', value: null },
-      ...table.fields
-        .filter(field => !field.isComputed) // Filter out computed fields
-        .map(field => ({
-          label: field.name,
+    for (const column of csvColumns) {
+      // Find best match for auto-suggestion
+      const bestMatchField: Field | undefined = availableFields.find(field => 
+        field.name.toLowerCase().trim() === column.toLowerCase().trim()
+      );
+      
+      const fieldOptions: Array<{ label: string; value: string }> = [
+        { label: '-- Skip this column --', value: 'skip' },
+        { label: '-- Cancel Import --', value: 'cancel' },
+        ...availableFields.map(field => ({
+          label: `${field.name} (${field.type})`,
           value: field.name
         }))
-    ];
+      ];
+      
+      let selectedField: string;
+      if (bestMatchField) {
+        // Auto-confirm perfect matches, but give option to change
+        const autoConfirm: string = await input.buttonsAsync(
+          `Auto-mapped: "${column}" → "${bestMatchField.name}". Accept this mapping?`,
+          [
+            { label: 'Accept', value: 'accept', variant: 'primary' },
+            { label: 'Change Mapping', value: 'change', variant: 'secondary' },
+            { label: 'Skip Column', value: 'skip', variant: 'secondary' },
+            { label: 'Cancel Import', value: 'cancel', variant: 'danger' }
+          ]
+        );
+        
+        if (autoConfirm === 'cancel') {
+          output.text('Import cancelled by user.');
+          return;
+        } else if (autoConfirm === 'accept') {
+          selectedField = bestMatchField.name;
+          output.text(`✓ Mapped: "${column}" → "${bestMatchField.name}"`);
+        } else if (autoConfirm === 'skip') {
+          selectedField = 'skip';
+        } else {
+          selectedField = await input.selectAsync(
+            `Map CSV column "${column}" to:`,
+            fieldOptions
+          );
+        }
+      } else {
+        selectedField = await input.selectAsync(
+          `Map CSV column "${column}" to:`,
+          fieldOptions
+        );
+      }
+      
+      if (selectedField === 'cancel') {
+        output.text('Import cancelled by user.');
+        return;
+      } else if (selectedField && selectedField !== 'skip') {
+        fieldMap[column] = selectedField;
+      }
+    }
     
-    // Default to best match if found
-    const defaultOption = bestMatchField ? bestMatchField.name : null;
+    // Ensure at least one field is mapped
+    if (Object.keys(fieldMap).length === 0) {
+      output.text('No fields mapped. Import cancelled.');
+      return;
+    }
     
-    const fieldName = await input.selectAsync(
-      `Map CSV column "${column}" to:`,
-      fieldOptions,
-      // Note: defaultOption would work if supported
+    // Step 7: Show mapping preview
+    output.markdown('## Import Configuration');
+    output.text('The following columns will be imported:');
+    
+    const mappingTable = Object.entries(fieldMap).map(([csvCol, fieldName]) => {
+      const field = table.getField(fieldName);
+      return {
+        'CSV Column': csvCol,
+        'Table Field': fieldName,
+        'Field Type': field?.type || 'Unknown'
+      };
+    });
+    
+    output.table(mappingTable);
+    
+    // Step 8: Final confirmation
+    const confirmation: boolean = await input.buttonsAsync(
+      `Ready to import ${csvData.length} records with ${duplicateHandling} duplicate handling. Continue?`,
+      [
+        { label: 'Import Data', value: true, variant: 'primary' },
+        { label: 'Cancel', value: false, variant: 'secondary' }
+      ]
     );
     
-    if (fieldName) {
-      fieldMap[column] = fieldName;
+    if (!confirmation) {
+      output.text('Import cancelled.');
+      return;
     }
-  }
-  
-  // Confirm mapping
-  output.markdown('## Import Preview');
-  output.text('The following columns will be imported:');
-  
-  const mappingTable = Object.entries(fieldMap).map(([csvCol, fieldName]) => ({
-    'CSV Column': csvCol,
-    'Table Field': fieldName
-  }));
-  
-  output.table(mappingTable);
-  
-  // Ask for confirmation
-  const confirmation = await input.buttonsAsync(
-    `Ready to import ${csvData.length} records. Continue?`,
-    [
-      { label: 'Import Data', value: true, variant: 'primary' },
-      { label: 'Cancel', value: false, variant: 'secondary' }
-    ]
-  );
-  
-  if (!confirmation) {
-    output.text('Import cancelled.');
-    return;
-  }
-  
-  // Begin import
-  output.markdown('# Importing Data');
-  output.text(`Starting import of ${csvData.length} records...`);
-  
-  // Set up counters
-  let created = 0;
-  let updated = 0;
-  let skipped = 0;
-  let failed = 0;
-  let processed = 0;
-  
-  const batchSize = 25; // Process in batches
-  
-  for (let i = 0; i < csvData.length; i += batchSize) {
-    const batch = csvData.slice(i, i + batchSize);
     
-    // Process each row in parallel
-    const promises = batch.map(async (row) => {
-      try {
-        // Map data according to field mapping
-        const recordData = {};
+    // Step 9: Begin import process
+    output.markdown('# Importing Data');
+    
+    // Initialize counters
+    let created: number = 0;
+    let updated: number = 0;
+    let skipped: number = 0;
+    let failed: number = 0;
+    let processed: number = 0;
+    const failedRows: Array<{ Row: number | string; Error: string; 'Data Sample': string }> = [];
+    
+    const batchSize: number = 10;
+    const totalBatches: number = Math.ceil(csvData.length / batchSize);
+    
+    // Process data in batches
+    for (let batchIndex = 0; batchIndex < totalBatches; batchIndex++) {
+      const startIndex: number = batchIndex * batchSize;
+      const endIndex: number = Math.min(startIndex + batchSize, csvData.length);
+      const batch: Record<string, any>[] = csvData.slice(startIndex, endIndex);
+      
+      // Prepare records for this batch
+      const recordsToCreate: Record<string, any>[] = [];
+      const recordsToUpdate: Array<{ id: string; fields: Record<string, any> }> = [];
+      
+      for (let rowIndex = 0; rowIndex < batch.length; rowIndex++) {
+        const row: Record<string, any> = batch[rowIndex];
+        const actualRowIndex: number = startIndex + rowIndex;
         
-        for (const [csvColumn, fieldName] of Object.entries(fieldMap)) {
-          if (row[csvColumn] !== undefined && row[csvColumn] !== null) {
-            recordData[fieldName] = row[csvColumn];
-          }
-        }
-        
-        // Check for duplicates if needed
-        if (duplicateHandling !== 'allow' && uniqueField) {
-          const uniqueValue = recordData[uniqueField.name];
+        try {
+          // Transform CSV data according to field mapping and types
+          const recordData: Record<string, any> = {};
           
-          if (uniqueValue) {
-            // Search for existing record
-            const existingRecords = await table.selectRecordsAsync({
-              fields: [uniqueField.name],
-              // This is a simplified approach - in reality you might need a more complex query
-              // Note that NocoDB doesn't have direct filterByFormula
-            });
+          for (const [csvColumn, fieldName] of Object.entries(fieldMap)) {
+            const rawValue: any = row[csvColumn];
             
-            const existingRecord = existingRecords.records.find(record => 
-              record.getCellValue(uniqueField.name)?.toString() === uniqueValue.toString()
-            );
-            
-            if (existingRecord) {
-              if (duplicateHandling === 'update') {
-                // Update the existing record
-                await table.updateRecordAsync(existingRecord.id, recordData);
-                updated++;
-                return;
-              } else if (duplicateHandling === 'skip') {
-                // Skip this record
-                skipped++;
-                return;
+            if (rawValue !== undefined && rawValue !== null && rawValue !== '') {
+              const field: Field | undefined = table.getField(fieldName);
+              if (field) {
+                recordData[fieldName] = transformValue(rawValue, field);
               }
             }
           }
+          
+          // Skip empty records
+          if (Object.keys(recordData).length === 0) {
+            skipped++;
+          } else {
+            // Handle duplicates
+            let shouldCreateRecord = true;
+            
+            if (duplicateHandling !== 'allow' && uniqueField && uniqueColumnName) {
+              const uniqueValue: any = row[uniqueColumnName];
+              
+              if (uniqueValue !== undefined && uniqueValue !== null && uniqueValue !== '') {
+                // Check for existing record using efficient server-side filtering
+                const existingRecords: RecordQueryResult = await table.selectRecordsAsync({
+                  fields: [uniqueField.name],
+                  where: `(${uniqueField.name},eq,${uniqueValue})`,
+                  pageSize: 1
+                });
+                
+                if (existingRecords.records.length > 0) {
+                  const existingRecord: NocoDBRecord = existingRecords.records[0];
+                  
+                  if (duplicateHandling === 'update') {
+                    recordsToUpdate.push({
+                      id: existingRecord.id,
+                      fields: recordData
+                    });
+                    shouldCreateRecord = false;
+                  } else if (duplicateHandling === 'skip') {
+                    skipped++;
+                    shouldCreateRecord = false;
+                  }
+                }
+              }
+            }
+            
+            // Add to creation queue if not handled as duplicate
+            if (shouldCreateRecord) {
+              recordsToCreate.push(recordData);
+            }
+          }
+          
+        } catch (error: any) {
+          console.error(`Error processing row ${actualRowIndex + 1}:`, error);
+          failedRows.push({
+            'Row': actualRowIndex + 1,
+            'Error': error.message || String(error),
+            'Data Sample': JSON.stringify(row).substring(0, 100) + '...'
+          });
+          failed++;
+        }
+      }
+      
+      // Execute batch operations
+      try {
+        // Bulk create new records
+        if (recordsToCreate.length > 0) {
+          const createdIds: string[] = await table.createRecordsAsync(recordsToCreate);
+          created += createdIds.length;
         }
         
-        // Create new record
-        await table.createRecordAsync(recordData);
-        created++;
-      } catch (error) {
-        console.error(`Error processing row:`, error);
-        failed++;
+        // Bulk update existing records
+        if (recordsToUpdate.length > 0) {
+          await table.updateRecordsAsync(recordsToUpdate);
+          updated += recordsToUpdate.length;
+        }
+        
+      } catch (batchError: any) {
+        console.error(`Error in batch ${batchIndex + 1}:`, batchError);
+        failed += recordsToCreate.length + recordsToUpdate.length;
+        
+        // Log batch failure
+        failedRows.push({
+          'Row': `Batch ${batchIndex + 1}`,
+          'Error': `Batch operation failed: ${batchError.message || String(batchError)}`,
+          'Data Sample': `${recordsToCreate.length} creates, ${recordsToUpdate.length} updates`
+        });
       }
-    });
+      
+      processed = endIndex;
+    }
     
-    // Wait for batch to complete
-    await Promise.all(promises);
+    // Step 10: Show final results
+    output.markdown('# Import Complete! 🎉');
     
-    // Update progress
-    processed += batch.length;
-    output.text(`Processed ${processed} of ${csvData.length} records...`);
+    const resultsTable: Array<{ Metric: string; Count: number }> = [
+      { 'Metric': 'Total Records Processed', 'Count': csvData.length },
+      { 'Metric': 'Records Created', 'Count': created },
+      { 'Metric': 'Records Updated', 'Count': updated },
+      { 'Metric': 'Records Skipped', 'Count': skipped },
+      { 'Metric': 'Failed Records', 'Count': failed }
+    ];
+    
+    output.table(resultsTable);
+    
+    // Show failed records if any
+    if (failedRows.length > 0) {
+      output.markdown('## Failed Records');
+      output.text(`${failedRows.length} records failed to import. First 10 failures:`);
+      output.table(failedRows.slice(0, 10));
+    }
+    
+    // Success summary
+    const successRate: number = Math.round(((created + updated + skipped) / csvData.length) * 100);
+    output.text(`Import completed with ${successRate}% success rate.`);
+    
+  } catch (error: any) {
+    console.error('Import failed:', error);
+    output.text(`Import failed: ${error.message || String(error)}`);
   }
-  
-  // Show final results
-  output.markdown('# Import Complete');
-  output.text(`Total records processed: ${csvData.length}`);
-  output.text(`Records created: ${created}`);
-  output.text(`Records updated: ${updated}`);
-  output.text(`Records skipped: ${skipped}`);
-  output.text(`Failed records: ${failed}`);
 }
 
-// Run the import function
+/**
+ * Transform CSV value to appropriate type based on field definition
+ * @param {any} value - Raw CSV value
+ * @param {Field} field - NocoDB field definition
+ * @returns {any} Transformed value
+ */
+function transformValue(value: unknown, field: Field) {
+  if (value === null || value === undefined || value === '') {
+    return null;
+  }
+  
+  const stringValue = String(value).trim();
+  
+  switch (field.type) {
+    case UITypes.Number:
+    case UITypes.Decimal:
+    case UITypes.Currency:
+    case UITypes.Percent:
+    case UITypes.Rating:
+      const numValue = parseFloat(stringValue.replace(/[^\d.-]/g, ''));
+      return isNaN(numValue) ? null : numValue;
+      
+    case UITypes.Checkbox:
+      return ['true', '1', 'yes', 'on', 'checked'].includes(stringValue.toLowerCase());
+      
+    case UITypes.Time:
+      // Try to parse time format
+      const timeMatch = stringValue.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
+      if (timeMatch) {
+        const [, hours, minutes, seconds = '00'] = timeMatch;
+        return `${hours.padStart(2, '0')}:${minutes}:${seconds}`;
+      }
+      return stringValue;
+      
+    case UITypes.Year:
+      const yearValue = parseInt(stringValue);
+      return (yearValue >= 1900 && yearValue <= 2100) ? yearValue : null;
+      
+    case UITypes.Duration:
+      // Try to parse duration format (h:mm:ss or seconds)
+      if (stringValue.includes(':')) {
+        const parts = stringValue.split(':');
+        if (parts.length >= 2) {
+          const hours = parseInt(parts[0]) || 0;
+          const minutes = parseInt(parts[1]) || 0;
+          const seconds = parseInt(parts[2]) || 0;
+          return hours * 3600 + minutes * 60 + seconds; // Convert to seconds
+        }
+      }
+      // Try parsing as seconds
+      const durationSeconds = parseFloat(stringValue);
+      return isNaN(durationSeconds) ? null : durationSeconds;
+      
+    case UITypes.MultiSelect:
+      // Split on common delimiters
+      if (stringValue.includes(',')) {
+        return stringValue.split(',').map(s => s.trim()).filter(s => s);
+      } else if (stringValue.includes(';')) {
+        return stringValue.split(';').map(s => s.trim()).filter(s => s);
+      } else if (stringValue.includes('|')) {
+        return stringValue.split('|').map(s => s.trim()).filter(s => s);
+      }
+      return [stringValue];
+      
+    case UITypes.SingleSelect:
+      return stringValue;
+      
+    case UITypes.JSON:
+      try {
+        return JSON.parse(stringValue);
+      } catch {
+        return stringValue; // Keep as string if not valid JSON
+      }
+      
+    case UITypes.Email:
+      // Basic email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(stringValue) ? stringValue : null;
+      
+    case UITypes.URL:
+      // Basic URL validation
+      try {
+        new URL(stringValue);
+        return stringValue;
+      } catch {
+        // Try adding https:// if it looks like a domain
+        if (stringValue.includes('.') && !stringValue.includes(' ')) {
+          try {
+            new URL(`https://${stringValue}`);
+            return `https://${stringValue}`;
+          } catch {
+            return null;
+          }
+        }
+        return null;
+      }
+      
+    case UITypes.PhoneNumber:
+      // Clean phone number - keep digits, +, parentheses, hyphens, spaces
+      return stringValue.replace(/[^\d+()-\s]/g, '');
+      
+    case UITypes.GeoData:
+      // Try to parse as lat,lng or JSON
+      if (stringValue.includes(',')) {
+        const [lat, lng] = stringValue.split(',').map(s => parseFloat(s.trim()));
+        if (!isNaN(lat) && !isNaN(lng)) {
+          return { latitude: lat, longitude: lng };
+        }
+      }
+      try {
+        const geoData = JSON.parse(stringValue);
+        if (geoData.latitude !== undefined && geoData.longitude !== undefined) {
+          return geoData;
+        }
+      } catch {
+        // Not valid JSON
+      }
+      return null;
+      
+    case UITypes.Attachment:
+      // For attachments, we can only handle URLs
+      try {
+        new URL(stringValue);
+        return [{
+          url: stringValue,
+          title: stringValue.split('/').pop() || 'attachment'
+        }];
+      } catch {
+        return null;
+      }
+      
+    case UITypes.User:
+      // Try to find user by email
+      const collaborator = base.getCollaborator(stringValue);
+      if (collaborator) {
+        return [collaborator.id]; // Users are stored as arrays of IDs
+      }
+      return null;
+    case UITypes.Barcode:
+    case UITypes.QrCode:
+      return { value: stringValue };
+      
+    case UITypes.SingleLineText:
+    case UITypes.LongText:
+    case UITypes.SpecificDBType:
+    default:
+      return stringValue;
+  }
+}
+
+// Execute the import
 await importCSVData();
 ```
 
@@ -883,12 +1111,6 @@ await updateRecords();
 9. **Provide default values** - When possible, suggest sensible defaults to make the script easier to use.
 
 10. **Break complex workflows into steps** - For scripts with many inputs, organize them into logical sections with appropriate headings.
-
-## Limitations
-
-1. **Synchronous nature** - Each input blocks the script until the user responds, which can make complex forms feel sequential.
-
-2. **No persistent state between runs** - Input values aren't saved between script executions unless you explicitly store them.
 
 ## Related Resources
 
