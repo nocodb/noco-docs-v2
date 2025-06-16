@@ -127,6 +127,8 @@ has the required permissions. To disable it, set the `NC_DISABLE_PG_DATA_REFLECT
 
 | Variable           | Mandatory | Description                                                                                                                       | If Not Set           |
 |--------------------|-----------|-----------------------------------------------------------------------------------------------------------------------------------|----------------------|
+| `DEBUG` | No | Allows to enable various levels of debug logging. Set to `nc:*` to enable all NocoDB debug logging. Set to `nc:*,knex:*` to additionally enable database query logging. Recommended only during debugging. | Unset by default. |
+| `NC_ENABLE_ALL_API_ERROR_LOGGING` | No | Enables more verbose API error logging. Recommended only during debugging. | Defaults to `false`. |
 | `NC_DISABLE_CACHE` | No        | Disables caching to force metadata fetching directly from the database instead of Redis/cache. Recommended only during debugging. | Defaults to `false`. |
 
 ## Telemetry
