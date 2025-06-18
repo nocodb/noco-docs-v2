@@ -21,18 +21,25 @@ In every script, you have access to a global `base` object that represents the c
 | `id` | `string` | The unique identifier of the base |
 | `name` | `string` | The name of the base |
 | `tables` | `Table[]` | Array of all tables in the base with their fields and views |
-| `activeCollaborators` | `Collaborator[]` | Array of active collaborators with read-only properties |
+| `activeCollaborators` | `Collaborator[]` | Array of active collaborators having access to this base (with read-only properties) |
 
 ## Methods
 
-### getTable(idOrName)
+### getTable
 
-Retrieves a table from the base by its ID or name.
+Retrieves a table from the base using its **ID** or **name**.
+
 
 **Parameters:**
-- `idOrName` (`string`): The ID or name of the table to retrieve
+- `idOrName` (String): The ID or name of the table to retrieve
 
-**Returns:** `Table` object corresponding to the specified ID or name
+<Callout type="info">
+Both the table name and table ID are case-sensitive.
+</Callout>
+
+**Returns:**
+- `Table` object if a match is found
+- `null` if no table matches the provided input
 
 **Example:**
 ```javascript
@@ -52,14 +59,21 @@ if (table) {
 }
 ```
 
-### getCollaborator(idOrEmailOrName)
+### getCollaborator
 
-Retrieves a collaborator by their ID, email, or name.
+Retrieves a collaborator from the base by their **ID**, **email**, or **name**.
 
 **Parameters:**
-- `idOrEmailOrName` (`string`): The ID, email, or name of the collaborator
+- `idOrEmailOrName` (String): The collaborator’s ID, email address, or display name.
 
-**Returns:** `Collaborator` object or `null` if not found
+<Callout type="info">
+Email addresses are case-insensitive. ID and name are case-sensitive.
+</Callout>
+
+
+**Returns:**
+- `Collaborator` object if a match is found.
+- `null` if no collaborator matches the provided input.
 
 **Example:**
 ```javascript
@@ -74,18 +88,20 @@ if (user) {
 }
 ```
 
-### createTableAsync(name, fields)
+### createTableAsync
 
 Creates a new table in the base with the specified name and fields. 
 
 **Parameters:**
-- `name` (`string`): The name for the new table
-- `fields` (`Array`): Array of field configurations where each field should have:
-  - `name` (`string`): The field name
-  - `type` (`UITypes`): The field type
-  - `options` (`object`, optional): Field-specific options
+- `name` (String): The name for the new table
+- `fields` (Array): Array of field configurations where each field should have:
+  - `name` (String): The field name
+  - `type` (UITypes): The field type
+  - `options` (Object, optional): Field-specific options
 
 **Returns:** `Promise<Table>` - A promise that resolves to the newly created table
+
+Note that, `fields` can be an empty array. A table with only system fields will be created. The first field in the fields array will be marked as display value field. Fields must have case sensitive unique names.
 
 **Example:**
 ```javascript
