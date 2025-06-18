@@ -13,12 +13,20 @@ import Link from "next/link";
 import { useTheme } from "next-themes";
 import { Menu, X } from "lucide-react"
 import { useDocsNavigation } from "@/app/docs/DocsNavigationProvider";
+import { useState, useLayoutEffect } from "react";
 
 export default function Navbar() {
-    const { theme } = useTheme()
+    const { resolvedTheme } = useTheme()
     const { isOpen, toggle } = useDocsNavigation()
-    const logoIcon = theme === "dark" ? logoIconDark : logoIconLight
-    const logoText = theme === "dark" ? logoTextDark : logoTextLight
+    const [mounted, setMounted] = useState(false)
+    
+    useLayoutEffect(() => {
+        setMounted(true)
+    }, [])
+    
+    const logoIcon = mounted ? (resolvedTheme === "light" ? logoIconLight : logoIconDark) : logoIconDark
+    const logoText = mounted ? (resolvedTheme === "light" ? logoTextLight : logoTextDark) : logoTextDark
+
     return (
         <div className="max-w-screen-xl sticky top-0 z-50 mx-auto relative flex items-center p-4">
             <Button className="lg:hidden mr-3" variant="ghost" onClick={toggle}>
@@ -26,8 +34,14 @@ export default function Navbar() {
             </Button>
             <Link href="/docs">
                 <div className="flex gap-3 items-center">
-                    <Image width={32} height={32} src={logoIcon} alt="NocoDB Logo" quality={100} suppressHydrationWarning/>
-                    <Image width={101} height={16} src={logoText} alt="NocoDB Logo" quality={100} suppressHydrationWarning/>
+                    {mounted ? (
+                        <>
+                            <Image width={32} height={32} src={logoIcon} alt="NocoDB Logo" quality={100} suppressHydrationWarning/>
+                            <Image width={101} height={16} src={logoText} alt="NocoDB Logo" quality={100} suppressHydrationWarning/>
+                        </>
+                    ) : (
+                        <></>
+                    )}
                 </div>
             </Link>
             <div className="flex-1"></div>
