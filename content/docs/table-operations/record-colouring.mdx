@@ -1,0 +1,73 @@
+---
+title: 'Colouring records ☁'
+description: 'Learn how to colour records in NocoDB.'
+tags: ['Table operations', 'Record colouring', 'Grid view']
+keywords : ['table operations', 'record colouring']
+---
+
+<Callout type="info">
+This feature is available in NocoDB Team plan and higher.
+</Callout>
+
+In NocoDB, you can apply colours to records in a table to visually distinguish them based on specific criteria. This feature is particularly useful for highlighting important information or categorizing records. Row colouring is available for Grid, Gallery, Kanban & Calendar views.
+
+Record colouring is applied at view level; hence, configuring record colour in one view will not affect the same record in another view.
+
+## Add record colour
+
+You can access the record colouring options by clicking the `Colour` button in the toolbar of any table view.
+![Colour records](/img/v2/table-operations/row-colouring-1.png)
+
+You can colour your records based on
+1. Single select field
+2. Conditions
+
+### Based on single select field
+
+To colour records based on a single select field, follow these steps:
+1. Click the `Colour` button in the toolbar.
+2. Select the `Using Single select field` option.
+3. Choose the single select field you want to use for colouring records from the dropdown menu.
+
+When colouring records using a single select field, each record inherits the colour associated with its selected option in that field. Records without a value in the selected field will not be coloured. This behaviour is predefined and cannot be customized.
+
+![Colour records based on single select field](/img/v2/table-operations/row-colouring-2.png)
+
+Record colouring by default applies a left border to the records in the table view. You can additionally apply background colour to the records by toggling the `Background colour` option.
+
+![Background colour](/img/v2/table-operations/row-colouring-3.png)
+
+### Based on conditions
+
+To colour records based on conditions, follow these steps:
+1. Click the `Colour` button in the toolbar.
+2. Select the `Using Conditions` option.
+3. Configure the conditions for colouring records as required
+4. Choose the colour you want to apply to the records that meet the specified conditions.
+
+Record colouring by default applies a left border to the records in the table view. You can additionally apply background colour to the records by toggling the `Background colour` option.
+
+![Colour records based on conditions](/img/v2/table-operations/row-colouring-4.png)
+
+You can add multiple conditions to colour records based on different criteria. The conditions are evaluated in the order they are added, and the **first matching condition will determine the colour** applied to the record.
+
+## Modify record colour
+- For record colouring based on single select field, you can modify the colour associated with each option in the single select field by using edit-field option.
+- For record colouring based on conditions, you can modify the conditions and the associated colours as required from the dropdown menu that appears when you click the `Colour` button in the toolbar.
+
+Note that, it's not possible to have different colour for single select field options in different views. The colour associated with each option in the single select field is consistent across all views where that field is used for colouring records.
+
+## Remove record colour
+
+You can remove the colouring applied to records in a table view by following these steps:
+
+### Single select field case
+    - Click the `Colour` button in the toolbar.
+    - Click "Remove colouring" button from the dropdown.
+![Remove colouring](/img/v2/table-operations/remove-colour-1.png)
+
+### Conditions case
+    - Click the `Colour` button in the toolbar.
+    - Remove conditions one by one by clicking the `delete` button next to each condition.
+![Remove colouring](/img/v2/table-operations/remove-colour-2.png)
+
