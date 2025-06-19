@@ -1,0 +1,62 @@
+---
+title: 'Install on DigitalOcean'
+icon: 'digitalocean'
+tags: ['Open Source']
+keywords : ['NocoDB installation', 'NocoDB Digital Ocean installation', 'NocoDB prerequisites']
+---
+
+This guide outlines how to deploy **NocoDB** on [DigitalOcean App Platform](https://www.digitalocean.com/products/app-platform), a fully managed solution for container-based applications. It covers provisioning databases, object storage, and setting environment variables for a reliable, scalable setup.
+
+## Step 1: Set Up Required Services
+
+Since DigitalOcean App Platform doesn't support persistent volumes, NocoDB's data must be stored using **managed services**. You’ll need:
+
+* **PostgreSQL database**
+* **Redis instance**
+* **Spaces bucket (S3-compatible storage)**
+
+### PostgreSQL
+
+1. Go to **Databases → Create Database**.
+2. Choose **PostgreSQL v15** and a region.
+3. Use at least 1 vCPU / 1GB RAM for smaller workloads.
+4. Once created, go to the connection info and switch to the **Connection String** view—copy this for later.
+
+### Redis
+
+1. Go to **Databases → Create Database** again.
+2. Select **Redis v7**, same region.
+3. Minimum specs: 1 vCPU / 1GB RAM.
+4. Copy the Redis connection string from the details page.
+
+### Spaces (Object Storage)
+
+1. Go to **Spaces Object Storage → Create Spaces Bucket**.
+2. Choose the same region used for your DB/Redis.
+3. Then go to **API → Generate New Key** to get your `Access Key` and `Secret Key`.
+
+## Step 2: Deploy the NocoDB App
+
+1. Navigate to **Apps → Create App**.
+2. Choose **Docker Hub** as the source.
+3. Use `Repository: nocodb/nocodb` & `Tag: latest`
+4. Proceed and edit the **HTTP Port** to `8080`.
+5. Refer [Configuring NocoDB section](./configuring-nocodb#docker-image-configuration) to set environment variables
+6. Set resources to **1 container with 2GB RAM / 1 vCPU** at a minimum.
+7. Complete deployment by clicking **Create Resources**.
+
+## Step 3: Secure the Setup
+
+For PostgreSQL and Redis, add your NocoDB app as a **trusted source**:
+
+* Navigate to your database → **Settings → Trusted Sources** → Add the app.
+
+## Updating NocoDB
+
+To upgrade to a new NocoDB version:
+
+1. Go to **App Settings → Source → Edit Component**.
+2. Change the image tag (e.g., `latest`, or a specific version).
+3. Save to trigger a redeploy.
+
+You're all set! Visit your app URL to access your NocoDB workspace.

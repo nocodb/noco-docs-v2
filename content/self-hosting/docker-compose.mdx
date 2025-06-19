@@ -1,0 +1,83 @@
+---
+title: 'Install with Docker Compose'
+icon: 'docker'
+tags: ['Open Source']
+keywords : ['NocoDB installation', 'NocoDB docker installation', 'NocoDB prerequisites']
+---
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+Docker Compose allows you to define and run multi-container Docker applications. It's a great way to set up NocoDB along with its database in a single configuration file.
+
+
+## Prerequisites
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+## docker-compose.yml
+
+<Tabs items={['http', 'https']}>
+
+<Tab value="http">
+```
+version: "3.9"
+services:
+  nocodb:
+    container_name: nocodb
+    image: nocodb/nocodb:latest
+    environment:
+      NC_AUTH_JWT_SECRET: 'your-super-secret-passs'
+      NC_PUBLIC_URL: '__your_nocodb_domain__.com'
+    ports:
+      - "80:8080"
+    volumes:
+      - nocodb_data:/usr/app/data
+	tmpfs:
+      - /run:nodev,nosuid,exec,mode=0755
+volumes:
+  nocodb_data:
+```
+</Tab>
+
+<Tab value="https">
+```
+version: "3.9"
+services:
+  nocodb:
+    container_name: nocodb
+    image: nocodb/nocodb:latest
+    environment:
+      NC_AUTH_JWT_SECRET: 'your-super-secret-passs'
+      aio_ssl_email: 'you@example.com'
+      aio_ssl_domain: 'example.com'
+      aio_ssl_enable: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - nocodb_data:/usr/app/data
+	tmpfs:
+      - /run:nodev,nosuid,exec,mode=0755
+volumes:
+  nocodb_data:
+```
+</Tab>
+
+</Tabs>
+
+> If you have other services running on the same server using up port 80,
+> see [Behind Traefik section](./traefik) to use HTTPS with NocoDB
+
+## Start NocoDB
+
+```bash
+docker compose up -d
+
+```
+> Once the container is running, you can access NocoDB by opening http://localhost in your web browser.
+
+## Update NocoDB
+
+```bash
+docker compose pull
+docker compose down
+docker compose up -d
+```

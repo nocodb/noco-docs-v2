@@ -1,0 +1,112 @@
+---
+title: 'Install on Kubernets'
+icon: 'k8s'
+tags: ['kubernets', 'k8s']
+keywords: ['Kubernets']
+---
+
+This guide provides a starting point for deploying NocoDB using Kubernetes.
+
+Make sure to supply external Redis and PostgreSQL services by setting the appropriate environment variables listed below. Refer to the "Environment variables" section for a full explanation of each option.
+If not specified, NocoDB will default to its internal Redis and PostgreSQL instances.
+
+Additionally, configure NocoDB to use an S3-compatible storage provider to handle user-uploaded files, both for storage and delivery.
+
+## Prerequisites
+
+- k8s cluster
+
+## manifest.yaml
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: nocodb
+type: Opaque
+data:
+  NC_AUTH_JWT_SECRET: change_me_now
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nocodb
+data:
+  NC_PUBLIC_URL: __your_nocodb_domain__.com
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aio
+spec:
+  selector:
+    app: aio
+  ports:
+    - protocol: TCP
+      name: "http"
+      targetPort: 80
+      port: 80
+    - protocol: TCP
+      name: "https"
+      targetPort: 443
+      port: 443
+  type: ClusterIP
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: aio
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/var/nocodb_aio"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: aio
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: aio
+  labels:
+    app: aio
+spec:
+  volumes:
+    - name: aio
+      persistentVolumeClaim:
+        claimName: aio
+    - name: tmpfs
+      emptyDir:
+        medium: Memory
+  containers:
+    - name: aio
+      image: nocodb/nocodb:latest
+      envFrom:
+        - secretRef:
+            name: nocodb
+        - configMapRef:
+            name: nocodb
+      ports:
+        - containerPort: 80
+        - containerPort: 443
+      volumeMounts:
+        - mountPath: "/usr/app/data"
+          name: aio
+        - mountPath: "/run"
+          name: tmpfs
+```

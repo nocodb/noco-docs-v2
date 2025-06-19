@@ -1,0 +1,38 @@
+---
+title: 'Behind Traefik'
+icon: 'traefik'
+description: 'Run NocoDB Behind Traefik Proxy.'
+tags: ['nginx', 'proxy']
+keywords : ['NocoDB Traefik', 'NocoDB Proxy']
+---
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+If you are setting up [Traefik](https://doc.traefik.io/traefik/) as your reverse proxy, the following guide will help you integrate it with NocoDB.
+
+## Sample Traefik Docker Compose Setup
+Below is a sample docker-compose configuration that demonstrates how to run NocoDB alongside Traefik.
+
+
+```yaml
+version: "3.9"
+services:
+  nocodb:
+    container_name: nocodb
+    image: nocodb/nocodb:latest
+    labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.nocodb.rule=Host(`__your_nocodb_domain__.com`)"
+    environment:
+      NC_AUTH_JWT_SECRET: 'your-super-secret-passs'
+      NC_PUBLIC_URL: '__your_nocodb_domain__.com'
+    ports:
+      - "8080:8080"
+    volumes:
+      - nocodb_data:/usr/app/data
+	tmpfs:
+      - /run:nodev,nosuid,exec,mode=0755
+volumes:
+  nocodb_data:
+```
+
+> You should now be able to access NocoDB on you configured domain.
