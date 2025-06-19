@@ -138,7 +138,7 @@ function SidebarItem({item, children, level,}: {
     }
     if (item.type === "folder") {
         return (
-            <SidebarFolder defaultOpen={active ?? item.defaultOpen ?? false}>
+            <SidebarFolder defaultOpen={(active || (item.defaultOpen ?? false))}>
                 {item.index ? (
                     <div className="flex items-center">
                         <Link
