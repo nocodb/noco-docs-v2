@@ -1,0 +1,76 @@
+---
+title: 'Table Permissions'
+description: 'Learn about working with table permissions in NocoDB.'
+tags: ['Table', 'Permissions']
+keywords: ['Table permissions', 'NocoDB table permissions', 'NocoDB roles', 'NocoDB permissions', 'NocoDB table permissions overview']
+---
+
+Table permissions in NocoDB let you control who can create or delete records in each table. This feature helps teams enforce stricter access control while still allowing collaborative workflows.
+
+<Callout type="info">
+Table permissions are available in NocoDB cloud- Team plan onwards and Self hosted Enterprise plans.
+</Callout>
+
+## Enabling Table Permissions
+To configure permissions on a specific table:
+1. Click the `⋯` icon next to the table name in the sidebar.
+2. Select **Edit table permissions**.
+3. Use the dropdowns to control who can:
+   - Create records
+   - Delete records
+
+![Table permissions](/img/v2/permissions/table-permissions-1.png)
+
+![Table permissions](/img/v2/permissions/table-permissions-2.png)
+
+## Permission Levels
+
+You can assign different levels of access to each action (create record / delete record). The available options are:
+
+| Option             | Who gets access                                                      |
+|--------------------|----------------------------------------------------------------------|
+| **Editors & up**   | Members with **Editor**, **Creator**, or **Owner** roles *(default)* |
+| **Creators & up**  | Members with **Creator** or **Owner** roles                          |
+| **Specific users** | A custom list of selected members                                    |
+| **Nobody**         | No one can perform this action                                       |
+
+By default, users with **Editor** role and above can create and delete records in a table.
+* Select **Creators & up** to prevent editors from performing these actions.
+* Select **Nobody** to disable record creation or deletion for all users.
+* Select **Specific users** to grant access only to selected members.
+
+> Only members with **Editor**, **Creator**, or **Owner** roles are available for selection in the dropdown for specific user selection.*
+
+![Table permissions](/img/v2/permissions/table-permissions-3.png)
+
+<Callout type="info">
+Additional notes on table permissions:
+- Table permissions does not affect the ability to view records in the table. Users with access can still view all records, but their ability to create or delete records will be restricted based on the permissions set.
+- Table permissions are applied at the table level, meaning they affect all records within that table. Cannot be set for individual / selected records.
+- Table permissions are independent of field permissions. You can set table permissions without enabling field permissions, and vice versa.
+- Table permissions also restrict the ability to
+    - create or delete records via API calls and
+    - create records using shared forms.
+</Callout>
+
+## Permissions Overview
+
+Permissions overview provides a quick summary of the current table & field permissions in a consolidated tabular view.
+
+To access the permissions overview:
+1. Go to base homepage (Click `Overview` in the sidebar).
+2. Click the **Permissions** tab.
+
+![Permissions overview](/img/v2/permissions/permissions-overview-1.png)
+
+Subsequently, you can select the table for which you want to view the permissions overview. The overview will display field permissions in addition to table permissions, allowing you to see who can create or delete records in each table, as well as which fields are editable and by whom.
+
+![Permissions overview](/img/v2/permissions/permissions-overview-2.png)
+
+`Permissions overview` can also be accessed from the table / field permission configuration modal.
+
+![Permissions overview](/img/v2/permissions/permissions-overview-3.png)
+
+
+
+
