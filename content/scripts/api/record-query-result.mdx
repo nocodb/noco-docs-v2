@@ -30,7 +30,7 @@ The RecordQueryResult object is designed to help you work efficiently with query
 
 ## Methods
 
-### getRecord(recordId)
+### getRecord
 
 Retrieves a specific record from the query result by its ID.
 
@@ -58,7 +58,7 @@ try {
 }
 ```
 
-### loadMoreRecords()
+### loadMoreRecords
 
 Loads the next page of records when hasMoreRecords is true. This method appends the newly loaded records to the existing records array and returns the same RecordQueryResult instance with the updated data.
 
@@ -385,6 +385,8 @@ output.table(monthData);
 5. **Handle linked records carefully** - Remember that linked records might require additional queries to retrieve full details.
 
 6. **Use getRecord() for lookups** - When you need to find a specific record by ID, use the `getRecord()` method instead of searching through the records array.
+
+7. **Await async operations** - Always use `await` when calling async methods to ensure proper execution flow.
 
 ## Related Resources
 

@@ -4,18 +4,18 @@ description: 'Documentation for the Collaborator object in NocoDB Scripts'
 icon: 'users'
 ---
 
-The `Collaborator` object represents a user who has access to a NocoDB base. It provides information about a user's identity, including their ID, name, and email address.
+The `Collaborator` object represents a user who has access to a NocoDB base. It contains key identity attributes such as the user's **ID**, **name**, and **email address**.
 
 ## Overview
 
 Collaborator objects appear in several contexts within NocoDB Scripts:
 
-- The `session.currentUser` property provides a Collaborator object representing the current user
-- User fields in records return Collaborator objects
-- The `base.activeCollaborators` property returns an array of Collaborator objects
-- The `CreatedBy` and `LastModifiedBy` field types return Collaborator objects
+- `session.currentUser` returns a Collaborator object representing the current user running the script
+- `User fields` in records return Collaborator objects
+- `base.activeCollaborators` returns an array of Collaborator objects for the current base
+- Field types such as `CreatedBy` and `LastModifiedBy` return Collaborator objects
 
-The Collaborator object allows you to identify users, track ownership, assign tasks, and implement user-based logic in your scripts.
+This object enables user identification, tracking ownership, assigning responsibilities, and implementing user-specific logic in scripts.
 
 ## Properties
 

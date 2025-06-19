@@ -28,14 +28,16 @@ Table objects are typically accessed through the `base` object and provide the p
 
 ## Methods
 
-### getField(idOrName)
+### getField
 
 Retrieves a field from the table by its ID or name. This method searches both user-defined fields and system fields.
 
 **Parameters:**
 - `idOrName` (`string`): The ID or name of the field to retrieve
 
-**Returns:** `Field` object corresponding to the specified ID or name, or `undefined` if not found
+**Returns:** 
+- `Field` object if a match is found
+- `null` if no field matches the provided input
 
 **Note:** While the `fields` property only includes user-defined fields, `getField()` can access both user fields and system fields (like Created Time, Last Modified Time, etc.)
 
@@ -55,14 +57,16 @@ if (titleField) {
 }
 ```
 
-### getView(idOrName)
+### getView
 
 Retrieves a view from the table by its ID or name.
 
 **Parameters:**
 - `idOrName` (`string`): The ID or name of the view to retrieve
 
-**Returns:** `View` object corresponding to the specified ID or name, or `undefined` if not found
+**Returns:** 
+- `View` object if a match is found
+- `null` if no view matches the provided input
 
 **Example:**
 ```javascript
@@ -80,7 +84,7 @@ if (activeProjectsView) {
 }
 ```
 
-### selectRecordsAsync(options)
+### selectRecordsAsync
 
 Queries records from the table with optional filtering and sorting.
 
@@ -124,7 +128,7 @@ if (queryResult.hasMoreRecords) {
 }
 ```
 
-### selectRecordAsync(recordId, options)
+### selectRecordAsync
 
 Retrieves a single record from the table by its ID.
 
@@ -133,7 +137,7 @@ Retrieves a single record from the table by its ID.
 - `options` (optional): Object with the following properties:
   - `fields` (`Array<Field | string>`): Specific fields to include in the result
 
-**Returns:** `Promise<Record | null>` - A promise that resolves to the Record object or null if not found
+**Returns:** `Promise<Record | null>` - A promise that resolves to the Record object if a match is found
 
 **Example:**
 ```javascript
@@ -152,7 +156,7 @@ if (record) {
 }
 ```
 
-### createRecordAsync(data)
+### createRecordAsync
 
 Creates a new record in the table with the specified field values.
 
@@ -180,7 +184,7 @@ const newRecordId2 = await contactsTable.createRecordAsync({
 });
 ```
 
-### createRecordsAsync(data)
+### createRecordsAsync
 
 Creates multiple records in the table.
 
@@ -213,7 +217,7 @@ const newRecordIds = await contactsTable.createRecordsAsync([
 output.text(`Created ${newRecordIds.length} new records.`);
 ```
 
-### updateRecordAsync(recordId, data)
+### updateRecordAsync
 
 Updates a record with the specified field values.
 
@@ -241,7 +245,7 @@ if (record) {
 }
 ```
 
-### updateRecordsAsync(records)
+### updateRecordsAsync
 
 Updates multiple records with the specified field values.
 
@@ -273,7 +277,7 @@ await contactsTable.updateRecordsAsync([
 output.text('Records updated successfully.');
 ```
 
-### deleteRecordAsync(recordIdOrRecord)
+### deleteRecordAsync
 
 Deletes a record from the table.
 
@@ -296,7 +300,7 @@ if (record) {
 }
 ```
 
-### deleteRecordsAsync(recordIds)
+### deleteRecordsAsync
 
 Deletes multiple records from the table.
 
@@ -325,7 +329,7 @@ if (recordsToDelete.length > 0) {
 }
 ```
 
-### createFieldAsync(field)
+### createFieldAsync
 
 Creates a new field in the table with the specified configuration.
 
@@ -522,15 +526,13 @@ await processAllRecords();
 
 ## Best Practices
 
-1. **Use views for filtering** - NocoDB Scripts doesn't have a direct filtering API. Use views with filters instead.
+1. **Batch operations** - When creating or updating many records, use the bulk methods (`createRecordsAsync`, `updateRecordsAsync`) instead of individual calls for better performance.
 
-2. **Batch operations** - When creating or updating many records, use the bulk methods (`createRecordsAsync`, `updateRecordsAsync`) instead of individual calls for better performance.
+2. **Paginate large queries** - When working with large tables, use pagination via the `pageSize` option and `loadMoreRecords()` method to avoid memory issues.
 
-3. **Paginate large queries** - When working with large tables, use pagination via the `pageSize` option and `loadMoreRecords()` method to avoid memory issues.
+3. **Error handling** - Always wrap async operations in try/catch blocks to handle errors gracefully.
 
-4. **Error handling** - Always wrap async operations in try/catch blocks to handle errors gracefully.
-
-5. **Optimize field selection** - Only request the fields you need by using the `fields` option in queries to improve performance.
+4. **Optimize field selection** - Only request the fields you need by using the `fields` option in queries to improve performance.
 
 ## Related Resources
 
