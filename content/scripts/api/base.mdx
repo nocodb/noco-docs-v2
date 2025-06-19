@@ -31,7 +31,7 @@ Retrieves a table from the base using its **ID** or **name**.
 
 
 **Parameters:**
-- `idOrName` (String): The ID or name of the table to retrieve
+- `idOrName` (`string`): The ID or name of the table to retrieve
 
 <Callout type="info">
 Both the table name and table ID are case-sensitive.
@@ -64,7 +64,7 @@ if (table) {
 Retrieves a collaborator from the base by their **ID**, **email**, or **name**.
 
 **Parameters:**
-- `idOrEmailOrName` (String): The collaborator’s ID, email address, or display name.
+- `idOrEmailOrName` (`string`): The collaborator’s ID, email address, or display name.
 
 <Callout type="info">
 Email addresses are case-insensitive. ID and name are case-sensitive.
@@ -93,15 +93,15 @@ if (user) {
 Creates a new table in the base with the specified name and fields. 
 
 **Parameters:**
-- `name` (String): The name for the new table
-- `fields` (Array): Array of field configurations where each field should have:
-  - `name` (String): The field name
-  - `type` (UITypes): The field type
-  - `options` (Object, optional): Field-specific options
+- `name` (`string`): The name for the new table
+- `fields` (`Array`): Array of field configurations where each field should have:
+  - `name` (`string`): The field name
+  - `type` (`UITypes`): The field type
+  - `options` (`Object`, optional): Field-specific options
 
 **Returns:** `Promise<Table>` - A promise that resolves to the newly created table
 
-Note that, `fields` can be an empty array. A table with only system fields will be created. The first field in the fields array will be marked as display value field. Fields must have case sensitive unique names.
+Note that, `fields` can be an empty array. A table with only system fields will be created. The first field in the fields array will be marked as display value field. Fields must have case sensitive unique names. Fields of all type except 'Button' are allowed.
 
 **Example:**
 ```javascript
@@ -230,6 +230,10 @@ if (memberById) {
   output.text(`Found collaborator by ID: ${memberById.name || memberById.email}`);
 }
 ```
+
+## Best Practices
+
+1. **Await async operations** - Always use `await` when calling async methods to ensure proper execution flow.
 
 ## Related Resources
 

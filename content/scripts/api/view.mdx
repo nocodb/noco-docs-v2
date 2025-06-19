@@ -28,7 +28,7 @@ In NocoDB Scripts, View objects provide a convenient way to work with these filt
 
 ## Methods
 
-### selectRecordsAsync(options)
+### selectRecordsAsync
 
 Queries records from the view with optional parameters for field selection, sorting, and pagination.
 
@@ -76,7 +76,7 @@ for (const record of queryResult.records) {
 }
 ```
 
-### selectRecordAsync(recordId, options)
+### selectRecordAsync
 
 Retrieves a single record from the view by its ID, applying the view's filters and permissions.
 
@@ -263,6 +263,8 @@ output.table(salesByRegionData);
 2. **Remember views are read-only** - View objects provide query capabilities but any record creation or updates happen at the table level.
 
 3. **Combine with Table operations** - Use views for reading/filtering and table methods for writing data.
+
+4. **Await async operations** - Always use `await` when calling async methods to ensure proper execution flow.
 
 ## Related Resources
 

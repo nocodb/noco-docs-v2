@@ -32,7 +32,7 @@ All Field objects share these common properties:
 
 All Field objects provide these methods:
 
-### updateOptionsAsync(options)
+### updateOptionsAsync
 
 Updates the field's options configuration.
 
@@ -60,7 +60,7 @@ await statusField.updateOptionsAsync({
 output.text('Field options updated successfully.');
 ```
 
-### updateDescriptionAsync(description)
+### updateDescriptionAsync
 
 Updates the description of the field.
 
@@ -80,7 +80,7 @@ await budgetField.updateDescriptionAsync('Budget in USD. Must be approved for am
 output.text('Field description updated successfully.');
 ```
 
-### updateNameAsync(name)
+### updateNameAsync
 
 Updates the display name of the field.
 
@@ -719,6 +719,8 @@ output.text(`Added new category option. Now ${updatedChoices.length} categories 
 6. **Check field existence** - Always verify a field exists before trying to access it.
 
 7. **Use field IDs for stability** - When possible, reference fields by ID rather than name for scripts that need to be robust against field name changes.
+
+8. **Await async operations** - Always use `await` when calling async methods to ensure proper execution flow.
 
 ## Related Resources
 
