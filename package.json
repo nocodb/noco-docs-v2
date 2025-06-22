@@ -23,7 +23,7 @@
     "@types/jsdom": "^21.1.7",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "fumadocs-core": "15.5.3",
+    "fumadocs-core": "15.5.4",
     "fumadocs-mdx": "11.6.9",
     "fumadocs-ui": "15.5.3",
     "jsdom": "^26.1.0",
