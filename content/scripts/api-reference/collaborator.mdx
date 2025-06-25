@@ -19,11 +19,11 @@ This object enables user identification, tracking ownership, assigning responsib
 
 ## Properties
 
-| Property | Type | Description |
-| -------- | ---- | ----------- |
-| `id` | `string` | The unique identifier of the collaborator (read-only) |
-| `name` | `string \| null` | The display name of the collaborator (read-only, may be null if not set) |
-| `email` | `string` | The email address of the collaborator (read-only) |
+| Property | Type             | Description                                                              |
+|----------|------------------|--------------------------------------------------------------------------|
+| `id`     | `string`         | The unique identifier of the collaborator (read-only)                    |
+| `name`   | `string \| null` | The display name of the collaborator (read-only, may be null if not set) |
+| `email`  | `string`         | The email address of the collaborator (read-only)                        |
 
 **Note:** All Collaborator properties are read-only and cannot be modified.
 
@@ -80,7 +80,7 @@ When a table has a User field type, `getCellValue()` returns a Collaborator obje
 ```javascript
 // Get a record from the Tasks table
 const tasksTable = base.getTable('Tasks');
-const taskRecord = await tasksTable.selectRecordAsync('rec123456');
+const taskRecord = await tasksTable.selectRecordAsync('123');
 
 // Get the assigned user (assuming 'Assigned To' is a User field)
 const assignedTo = taskRecord.getCellValue('Assigned To');
@@ -113,7 +113,7 @@ The `CreatedBy` and `LastModifiedBy` field types return Collaborator objects:
 ```javascript
 // Get a record with system user fields
 const recordsTable = base.getTable('Documents');
-const document = await recordsTable.selectRecordAsync('rec123456');
+const document = await recordsTable.selectRecordAsync('123');
 
 // Get the user who created the record
 const createdBy = document.getCellValue('Created By');

@@ -17,14 +17,14 @@ Table objects are typically accessed through the `base` object and provide the p
 
 ## Properties
 
-| Property | Type | Description |
-| -------- | ---- | ----------- |
-| `id` | `string` | The unique identifier of the table |
-| `name` | `string` | The name of the table |
-| `description` | `string \| null` | The description of the table (if any) |
-| `fields` | `Field[]` | Array of user-defined fields in the table (excludes system fields) |
-| `views` | `View[]` | Array of all views defined for the table |
-| `base` | `Base` | Reference to the parent base that this table belongs to |
+| Property      | Type             | Description                                                        |
+|---------------|------------------|--------------------------------------------------------------------|
+| `id`          | `string`         | The unique identifier of the table                                 |
+| `name`        | `string`         | The name of the table                                              |
+| `description` | `string \| null` | The description of the table (if any)                              |
+| `fields`      | `Field[]`        | Array of user-defined fields in the table (excludes system fields) |
+| `views`       | `View[]`         | Array of all views defined for the table                           |
+| `base`        | `Base`           | Reference to the parent base that this table belongs to            |
 
 ## Methods
 
@@ -47,7 +47,7 @@ Retrieves a field from the table by its ID or name. This method searches both us
 const titleField = projectsTable.getField('Title');
 
 // Get a field by ID
-const statusField = projectsTable.getField('fld12345');
+const statusField = projectsTable.getField('c12345');
 
 // Check if a field exists
 if (titleField) {
@@ -142,7 +142,7 @@ Retrieves a single record from the table by its ID.
 **Example:**
 ```javascript
 // Get a specific record by ID
-const recordId = 'rec12345';
+const recordId = '123';
 const record = await contactsTable.selectRecordAsync(recordId, {
   fields: ['Name', 'Email', 'Phone']
 });
@@ -179,8 +179,8 @@ output.text(`New record created with ID: ${newRecordId}`);
 
 // Create a record with field IDs
 const newRecordId2 = await contactsTable.createRecordAsync({
-  'fld123': 'Jane Smith',  // Name field
-  'fld456': 'jane@example.com'  // Email field
+  'c123456': 'Jane Smith',  // Name field
+  'c456789': 'jane@example.com'  // Email field
 });
 ```
 
@@ -230,13 +230,13 @@ Updates a record with the specified field values.
 **Example:**
 ```javascript
 // Update a record by ID
-await contactsTable.updateRecordAsync('rec12345', {
+await contactsTable.updateRecordAsync('123', {
   'Status': 'Inactive',
   'Last Contact Date': new Date().toISOString()
 });
 
 // Update a record using a Record object
-const record = await contactsTable.selectRecordAsync('rec12345');
+const record = await contactsTable.selectRecordAsync('123');
 if (record) {
   await contactsTable.updateRecordAsync(record, {
     'Notes': 'Customer requested follow-up next quarter.'
@@ -259,7 +259,7 @@ Updates multiple records with the specified field values.
 // Update multiple records at once
 await contactsTable.updateRecordsAsync([
   {
-    id: 'rec12345',
+    id: '123',
     fields: {
       'Status': 'Active',
       'Last Contact Date': new Date().toISOString()
@@ -289,11 +289,11 @@ Deletes a record from the table.
 **Example:**
 ```javascript
 // Delete a record by ID
-await tasksTable.deleteRecordAsync('rec12345');
+await tasksTable.deleteRecordAsync('123');
 output.text('Record deleted successfully.');
 
 // Delete a record using a Record object
-const record = await tasksTable.selectRecordAsync('rec67890');
+const record = await tasksTable.selectRecordAsync('678');
 if (record) {
   await tasksTable.deleteRecordAsync(record);
   output.text(`Record "${record.name}" deleted successfully.`);
@@ -312,7 +312,7 @@ Deletes multiple records from the table.
 **Example:**
 ```javascript
 // Delete multiple records by ID
-await tasksTable.deleteRecordsAsync(['rec12345', 'rec67890', 'rec24680']);
+await tasksTable.deleteRecordsAsync(['123', '678', '246']);
 output.text('Records deleted successfully.');
 
 // Delete records using a query result
