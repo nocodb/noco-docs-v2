@@ -39,6 +39,9 @@ const subject = await input.textAsync('Enter email subject:');
 output.text(`Email subject: ${subject}`);
 ```
 
+**Output:**
+![Text Input Example](/img/v2/scripts/input-text-1.png)
+
 ### input.buttonsAsync()
 
 Presents the user with buttons to choose from.
@@ -64,6 +67,9 @@ const status = await input.buttonsAsync(
 output.text(`Selected status: ${status}`);
 ```
 
+**Output:**
+![Button Input Example](/img/v2/scripts/input-button-1.png)
+
 **Example with button options:**
 ```javascript
 // Ask for confirmation with styled buttons
@@ -82,6 +88,9 @@ if (confirmation) {
   output.text('Operation cancelled.');
 }
 ```
+
+**Output:**
+![Button Input Example](/img/v2/scripts/input-button-2.png)
 
 ### input.selectAsync()
 
@@ -103,6 +112,9 @@ const department = await input.selectAsync(
 output.text(`Selected department: ${department}`);
 ```
 
+**Output:**
+![Select Input Example](/img/v2/scripts/input-select-1.png)
+
 **Example with label/value objects:**
 ```javascript
 // Ask user to select a priority level
@@ -116,6 +128,9 @@ const priority = await input.selectAsync(
 );
 output.text(`Selected priority level: ${priority}`);
 ```
+
+**Output:**
+![Select Input Example](/img/v2/scripts/input-select-2.png)
 
 ### input.fileAsync()
 
@@ -150,6 +165,9 @@ if (result && result.parsedContents) {
 }
 ```
 
+**Output:**
+![File Input Example](/img/v2/scripts/input-file-1.png)
+
 ### input.tableAsync()
 
 Prompts the user to select a table from the base.
@@ -171,6 +189,9 @@ for (const field of table.fields) {
   output.text(`- ${field.name} (${field.type})`);
 }
 ```
+
+**Output:**
+![Table Input Example](/img/v2/scripts/input-table-1.png)
 
 ### input.viewAsync()
 
@@ -195,6 +216,9 @@ output.text(`Selected view: ${view.name} (type: ${view.type})`);
 const records = await view.selectRecordsAsync();
 output.text(`This view contains ${records.records.length} records.`);
 ```
+
+**Output:**
+![View Input Example](/img/v2/scripts/input-view-1.png)
 
 ### input.fieldAsync()
 
@@ -230,6 +254,9 @@ for (const record of records.records) {
 
 output.text(`The field "${field.name}" has values in ${nonEmptyCount} out of ${records.records.length} records.`);
 ```
+
+**Output:**
+![Field Input Example](/img/v2/scripts/input-field-1.png)
 
 ### input.recordAsync()
 
@@ -269,6 +296,9 @@ if (record) {
   output.text('No record selected.');
 }
 ```
+
+**Output:**
+![Record Input Example](/img/v2/scripts/input-record-1.png)
 
 ## Practical Examples
 
