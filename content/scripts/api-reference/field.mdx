@@ -19,14 +19,14 @@ NocoDB supports a wide variety of field types to accommodate different kinds of 
 
 All Field objects share these common properties:
 
-| Property | Type | Description |
-| -------- | ---- | ----------- |
-| `id` | `string` | The unique identifier of the field |
-| `name` | `string` | The display name of the field |
-| `type` | `UITypes` | The type of the field (e.g., SingleLineText, Number, Date) |
-| `description` | `string \| null` | The description of the field (if any) |
-| `isComputed` | `boolean` | Whether the field value is computed rather than directly editable |
-| `options` | `object \| null` | Type-specific options for the field |
+| Property      | Type             | Description                                                       |
+|---------------|------------------|-------------------------------------------------------------------|
+| `id`          | `string`         | The unique identifier of the field                                |
+| `name`        | `string`         | The display name of the field                                     |
+| `type`        | `UITypes`        | The type of the field (e.g., SingleLineText, Number, Date)        |
+| `description` | `string \| null` | The description of the field (if any)                             |
+| `isComputed`  | `boolean`        | Whether the field value is computed rather than directly editable |
+| `options`     | `object \| null` | Type-specific options for the field                               |
 
 ## Common Methods
 
@@ -633,7 +633,7 @@ const reviewers = record.getCellValue('Reviewers');
 const statusField = projectsTable.getField('Status');
 
 // Get a field by ID
-const titleField = projectsTable.getField('fld123456');
+const titleField = projectsTable.getField('c123456');
 
 // Check field properties
 if (statusField) {

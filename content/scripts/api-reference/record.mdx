@@ -19,10 +19,10 @@ Working with NocoDBRecord objects is central to most NocoDB scripts, as they all
 
 ## Properties
 
-| Property | Type | Description |
-| -------- | ---- | ----------- |
-| `id` | `string` | The unique identifier for this record |
-| `name` | `string` | The primary display value for this record (derived from display field) |
+| Property | Type     | Description                                                            |
+|----------|----------|------------------------------------------------------------------------|
+| `id`     | `string` | The unique identifier for this record                                  |
+| `name`   | `string` | The primary display value for this record (derived from display field) |
 
 ## Methods
 
@@ -43,7 +43,7 @@ Retrieves the value of a specific cell in the record.
 const projectsTable = base.getTable('Projects');
 
 // Query a specific record
-const projectRecord = await projectsTable.selectRecordAsync('rec123456');
+const projectRecord = await projectsTable.selectRecordAsync('123');
 
 if (projectRecord) {
   // Get cell values using field names
@@ -86,7 +86,7 @@ Gets a cell value formatted as a string, applying appropriate formatting based o
 const invoicesTable = base.getTable('Invoices');
 
 // Query a specific record
-const invoiceRecord = await invoicesTable.selectRecordAsync('rec123456');
+const invoiceRecord = await invoicesTable.selectRecordAsync('123');
 
 if (invoiceRecord) {
   // Get formatted string values
@@ -279,7 +279,7 @@ const taskCount = record.getCellValue('Task Count'); // number or null
 const tasksTable = base.getTable('Tasks');
 
 // Get a specific record
-const taskRecord = await tasksTable.selectRecordAsync('rec123456', {
+const taskRecord = await tasksTable.selectRecordAsync('123', {
   fields: ['Task Name', 'Description', 'Status', 'Due Date', 'Assigned To', 'Priority']
 });
 
@@ -319,8 +319,8 @@ if (taskRecord) {
 const employeesTable = base.getTable('Employees');
 
 // Get two employee records
-const employee1 = await employeesTable.selectRecordAsync('rec123456');
-const employee2 = await employeesTable.selectRecordAsync('rec789012');
+const employee1 = await employeesTable.selectRecordAsync('123');
+const employee2 = await employeesTable.selectRecordAsync('456');
 
 if (employee1 && employee2) {
   // Compare salary values

@@ -93,7 +93,7 @@ Retrieves a single record from the view by its ID, applying the view's filters a
 const tasksTable = base.getTable('Tasks');
 const myTasksView = tasksTable.getView('My Tasks');
 
-const recordId = 'rec12345';
+const recordId = '123';
 const task = await myTasksView.selectRecordAsync(recordId, {
   fields: ['Task Name', 'Status', 'Due Date', 'Notes']
 });

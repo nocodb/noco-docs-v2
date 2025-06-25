@@ -20,13 +20,13 @@ The RecordQueryResult object is designed to help you work efficiently with query
 
 ## Properties
 
-| Property | Type | Description |
-| -------- | ---- | ----------- |
-| `records` | `ReadonlyArray<NocoDBRecord>` | Array of NocoDBRecord objects returned by the query |
-| `recordIds` | `ReadonlyArray<string>` | Array of record IDs (strings) returned by the query |
-| `hasMoreRecords` | `boolean` | Whether there are more records available beyond what was returned |
-| `table` | `Table` | Reference to the table from which records were queried |
-| `raw_data` | `Array` | The raw underlying data from the API response |
+| Property         | Type                          | Description                                                       |
+|------------------|-------------------------------|-------------------------------------------------------------------|
+| `records`        | `ReadonlyArray<NocoDBRecord>` | Array of NocoDBRecord objects returned by the query               |
+| `recordIds`      | `ReadonlyArray<string>`       | Array of record IDs (strings) returned by the query               |
+| `hasMoreRecords` | `boolean`                     | Whether there are more records available beyond what was returned |
+| `table`          | `Table`                       | Reference to the table from which records were queried            |
+| `raw_data`       | `Array`                       | The raw underlying data from the API response                     |
 
 ## Methods
 
