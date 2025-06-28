@@ -29,5 +29,5 @@ const collectionName = 'noco-docs-v2';
 
 sync(client, {
     collection: collectionName,
-    documents: [...productRecords, ...selfHostedRecords]
+    documents: [...productRecords, ...selfHostedRecords, ...scriptsRecords]
 })
