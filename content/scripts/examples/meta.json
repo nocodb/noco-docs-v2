@@ -1,0 +1,12 @@
+{
+  "title": "Examples",
+  "defaultOpen": false,
+  "pages": [
+    "find-and-replace",
+    "convert-attachments-to-urls",
+    "randomize-values", 
+    "validate-emails",
+    "select-options",
+    "save-view-ordering"
+  ]
+}

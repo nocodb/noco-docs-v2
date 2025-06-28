@@ -1,0 +1,73 @@
+---
+title: 'Find and Replace'
+description: 'Search and replace text patterns across records in any text-based field with preview and confirmation'
+icon: 'search'
+---
+
+This script provides a powerful find and replace functionality for text fields in your table. It allows you to search for specific text patterns and replace them with new values across multiple records, with the ability to preview matches before making changes.
+
+### Use Cases
+
+- **Data Cleanup**: Fix typos, standardize formatting, or correct inconsistent data
+- **URL Updates**: Update domain names or path structures across multiple records
+- **Content Migration**: Replace old terminology with new branding or naming conventions
+- **Bulk Corrections**: Fix systematic errors across large datasets
+
+### How it Works
+
+1. **Select Field**: Choose any text-based field (Single Line Text, Long Text, Email, URL, etc.)
+2. **Enter Search Pattern**: Specify the text you want to find
+3. **Enter Replacement**: Define what the found text should be replaced with
+4. **Preview Matches**: Review all matches before applying changes
+5. **Confirm Changes**: Apply replacements to all matching records
+
+### Requirements
+
+- A **text-based field** containing the data you want to modify
+- **Find pattern**: The text string you want to search for
+- **Replace pattern**: The text string you want to use as replacement
+
+### Supported Field Types
+
+- Single Line Text
+- Long Text
+- Email
+- URL
+- Phone Number
+- Any other text-based field
+
+### Example
+
+**Scenario**: Update company domain across all email addresses
+
+**Before:**
+```
+john@oldcompany.com
+jane@oldcompany.com
+admin@oldcompany.com
+```
+
+**Find**: `oldcompany.com`
+**Replace**: `newcompany.com`
+
+**After:**
+```
+john@newcompany.com
+jane@newcompany.com
+admin@newcompany.com
+```
+
+### Features
+
+- **Safe Preview**: See all matches before making any changes
+- **Exact Matching**: Finds only the exact text pattern specified
+- **Batch Processing**: Updates all matching records in one operation
+- **Case Sensitive**: Matches respect letter casing
+- **Non-Destructive**: Only replaces the specified pattern, leaving other text unchanged
+
+### Best Practices
+
+- Always use the preview feature to verify matches before applying changes
+- Test with a small dataset first when working with large tables
+- Consider case sensitivity when defining your search pattern
+- Make sure your replacement text won't create unintended formatting issues
