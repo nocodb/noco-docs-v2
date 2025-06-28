@@ -54,12 +54,26 @@ export async function searchDocs(
     query: string,
     tag?: string,
 ): Promise<SortedResult[]> {
-    const searchParams = {
+    // Define search parameters based on Typesense capabilities
+    const searchParams: any = {
         q: query,
         query_by: 'title,section,content',
-        sort_by: '_text_match:desc',
-        per_page: 10,
+        query_by_weights: '6,4,1',  // Give even higher weight to title
+        prefix: true,              // Enable prefix searching
+        infix: 'always',           // Enable infix searching to match parts of words
+        typo_tolerance: true,      // Enable typo tolerance
+        num_typos: 2,             // Allow up to 2 typos
+        boost: {
+            is_root_heading: 2,    // Boost root headings
+            heading_level: {
+                value: 1,          // Boost h1 headings
+                function: "reciprocal" // Lower heading levels get less boost
+            }
+        },
+        sort_by: '_text_match:asc',
+        per_page: 15,             // Increase results per page
         filter_by: undefined as string | undefined,
+        contextual_search: true,
     };
 
     if (tag) {

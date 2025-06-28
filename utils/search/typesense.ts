@@ -86,6 +86,8 @@ export async function createOrUpdateCollection(
             {name: 'section', type: 'string', optional: true},
             {name: 'section_id', type: 'string', optional: true},
             {name: 'content', type: 'string'},
+            {name: 'heading_level', type: 'int32', optional: true},
+            {name: 'is_root_heading', type: 'bool', optional: true},
         ],
     };
 
@@ -102,6 +104,13 @@ function toIndex(page: DocumentRecord): BaseIndex[] {
     let id = 0;
     const indexes: BaseIndex[] = [];
     const scannedHeadings = new Set<string>();
+    let relatedTopicsFound = false;
+
+    // Get heading level (h1, h2, etc.)
+    function getHeadingLevel(heading: any): number {
+        if (!heading || !heading.depth) return 0;
+        return heading.depth;
+    }
 
     function createIndex(
         section: string | undefined,
@@ -128,6 +137,15 @@ function toIndex(page: DocumentRecord): BaseIndex[] {
         indexes.push(createIndex(undefined, undefined, page.description));
     }
 
+    // Find if there's a "Related topics" heading
+    const relatedTopicsHeading = page.structured.headings.find(h => 
+        h.content.toLowerCase() === 'related topics' || 
+        h.content.toLowerCase() === 'related topic' || 
+        h.content.toLowerCase() === 'related resources' || 
+        h.content.toLowerCase() === 'related resource' || 
+        h.content.toLowerCase() === 'related fields'
+    );
+
     page.structured.contents.forEach((p) => {
         if (['img', 'iframe', 'center'].includes(p.content) || !p.content.trim()) {
             return;
@@ -136,6 +154,22 @@ function toIndex(page: DocumentRecord): BaseIndex[] {
         const heading = p.heading
             ? page.structured.headings.find((h) => p.heading === h.id)
             : null;
+            
+        // Check if we've reached the "Related topics" section
+        if (heading && relatedTopicsHeading && heading.id === relatedTopicsHeading.id) {
+            relatedTopicsFound = true;
+            // Include the "Related topics" heading itself
+            if (!scannedHeadings.has(heading.id)) {
+                scannedHeadings.add(heading.id);
+                indexes.push(createIndex(heading.content, heading.id, heading.content));
+            }
+            return;
+        }
+        
+        // Skip content if we're after the "Related topics" section
+        if (relatedTopicsFound) {
+            return;
+        }
 
         if (p.content && p.content !== heading?.content) {
             indexes.push(createIndex(heading?.content, heading?.id, p.content));
@@ -143,7 +177,14 @@ function toIndex(page: DocumentRecord): BaseIndex[] {
 
         if (heading && !scannedHeadings.has(heading.id)) {
             scannedHeadings.add(heading.id);
-            indexes.push(createIndex(heading.content, heading.id, heading.content));
+            // Add heading level as a field to improve search relevance
+            const headingLevel = getHeadingLevel(heading);
+            // Root page headings (h1) should get higher priority
+            const isRootHeading = headingLevel === 1 || heading.content === page.title;
+            indexes.push(createIndex(heading.content, heading.id, heading.content, {
+                heading_level: headingLevel,
+                is_root_heading: isRootHeading
+            }));
         }
     });
 
