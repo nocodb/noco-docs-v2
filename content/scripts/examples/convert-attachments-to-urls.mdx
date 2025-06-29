@@ -1,0 +1,31 @@
+---
+title: 'Convert Attachments to URLs'
+description: 'Convert attachment fields into comma-separated URL lists for integration with external services'
+icon: 'link'
+---
+
+### Overview
+
+This script processes attachment fields in your table and converts them into comma-separated URL strings. This is particularly useful when you need to send attachment URLs to third-party integration services that expect URL strings rather than attachment objects.
+
+### How it Works
+
+1. **Select Source Field**: Choose an attachment field containing the files you want to convert
+2. **Choose Target Field**: Select a text field where the comma-separated URLs will be written
+3. **Process Records**: The script processes each record, extracting URLs from attachments
+4. **Output Format**: URLs are joined with commas: `url1,url2,url3`
+
+### Requirements
+
+- An **Attachment field** with uploaded files
+- A **Text field** to store the comma-separated URL output
+
+### Example
+
+**Before:**
+- Attachment Field: `[file1.pdf, image2.jpg, document3.docx]`
+- URL Field: `(empty)`
+
+**After:**
+- Attachment Field: `[file1.pdf, image2.jpg, document3.docx]` _(unchanged)_
+- URL Field: `https://example.com/file1.pdf,https://example.com/image2.jpg,https://example.com/document3.docx`

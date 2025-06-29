@@ -1,0 +1,74 @@
+---
+title: 'Save View Ordering to Field'
+description: 'Preserve manual record ordering from any view by saving it as sequential numbers in a numeric field'
+---
+
+This script captures the current ordering of records in a selected view and saves it as sequential numbers (1, 2, 3...) to a numeric field of your choice. This allows you to preserve manually arranged record sequences and apply the same ordering to other views.
+
+### Use Cases
+
+- **Preserve Manual Ordering**: Save custom record arrangements that took time to organize
+- **Cross-View Consistency**: Apply the same ordering logic to multiple views
+- **Priority Systems**: Create numbered priority sequences for tasks or items
+- **Reference Ordering**: Maintain canonical record sequences for reporting
+- **Backup Arrangements**: Preserve ordering before applying filters or sorts
+
+### How it Works
+
+1. **Select Source View**: Choose the view with the desired record ordering
+2. **Choose Numeric Field**: Select a number field to store the sequence values
+3. **Capture Ordering**: The script reads the current record order from the view
+4. **Assign Numbers**: Sequential numbers (1, 2, 3...) are written to the chosen field
+5. **Apply Elsewhere**: Sort other views by this numeric field to reproduce the ordering
+
+### Requirements
+
+- A **Number field** in your table (preferably configured as an integer)
+- A **view** with the desired record ordering already arranged
+- **Write permissions** to modify the selected numeric field
+
+### Workflow Example
+
+**Step 1: Arrange Records**
+```
+View: "Priority Tasks"
+Current Order:
+- Complete project proposal
+- Review budget requirements  
+- Schedule team meeting
+- Update documentation
+```
+
+**Step 2: Run Script**
+- Select "Priority Tasks" view
+- Choose "Sort Order" number field
+- Execute script
+
+**Step 3: Result**
+```
+Records with new Sort Order values:
+- Complete project proposal → Sort Order: 1
+- Review budget requirements → Sort Order: 2
+- Schedule team meeting → Sort Order: 3
+- Update documentation → Sort Order: 4
+```
+
+**Step 4: Reproduce Ordering**
+- In any other view, sort by "Sort Order" field
+- Records appear in the exact same sequence
+
+### Benefits
+
+- **Persistent Ordering**: Manual arrangements survive view changes and filters
+- **Reusable Sequences**: Apply the same ordering logic across multiple views
+- **Reference Standard**: Create a canonical ordering for your data
+- **Time Saving**: Avoid re-arranging records manually in different views
+- **Flexible Application**: Sort by the numeric field whenever you need the preserved order
+
+### Best Practices
+
+- Use an **integer Number field** for clean sequential values
+- **Name the field clearly** (e.g., "Priority Order", "Display Sequence", "Sort Index")
+- **Document the source view** so team members understand the ordering logic
+- **Update periodically** if the preferred ordering changes
+- **Combine with filters** to create ordered subsets of your data

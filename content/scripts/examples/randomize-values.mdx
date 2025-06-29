@@ -1,0 +1,86 @@
+---
+title: 'Randomize Values'
+description: 'Generate random data for empty fields across multiple data types with customizable ranges and constraints'
+icon: 'shuffle'
+---
+
+### Use Cases
+
+- **Demo Data**: Create realistic sample data for presentations and testing
+- **Test Scenarios**: Generate varied data sets for application testing
+- **Placeholder Content**: Fill empty fields with appropriate dummy data
+- **Data Modeling**: Create diverse datasets for analysis and development
+
+### Supported Field Types
+
+#### Numeric Fields
+- **Number**: Generate random integers or decimals within specified ranges
+- **Currency**: Create random monetary values with proper decimal precision
+- **Percent**: Generate percentage values between defined minimum and maximum
+- **Rating**: Random ratings within the field's configured scale
+
+#### Date Fields
+- **Date**: Random dates within a specified date range
+- **DateTime**: Random date and time combinations within defined boundaries
+
+#### Selection Fields
+- **SingleSelect**: Randomly choose from available options
+- **MultiSelect**: Generate random combinations of available options
+- **User**: Randomly assign from available collaborators
+
+### How it Works
+
+1. **Select Field**: Choose the field you want to populate with random values
+2. **Configure Ranges**: Set minimum and maximum values or date ranges as applicable
+3. **Set Constraints**: Define any specific parameters for the field type
+4. **Preview Settings**: Review your configuration before applying
+5. **Generate Values**: The script fills only empty cells, preserving existing data
+
+### Requirements
+
+- Fields with **empty values** (existing data will not be overwritten)
+- **Appropriate field types** from the supported list above
+- **Valid ranges** or constraints for the selected field type
+
+### Configuration Examples
+
+#### Number Field
+- **Minimum**: 1
+- **Maximum**: 1000
+
+#### Date Field
+- **Start Date**: January 1, 2024
+- **End Date**: December 31, 2024
+
+#### Currency Field
+- **Minimum**: $10.00
+- **Maximum**: $500.00
+
+#### Rating Field
+- **Scale**: 1-5 stars (uses field's configured rating scale)
+
+#### SingleSelect Field
+- **Options**: Randomly selects from all available options in the field
+
+### Features
+
+- **Preserves Existing Data**: Only fills empty cells, never overwrites existing values
+- **Type-Appropriate**: Generates data that matches each field's specific requirements
+- **Customizable Ranges**: Set meaningful boundaries for numeric and date fields
+- **Realistic Values**: Creates data that looks natural and appropriate
+- **Batch Processing**: Efficiently handles large numbers of records
+
+### Best Practices
+
+- Set realistic ranges that match your data requirements
+- Test with a small sample before applying to large datasets
+- Consider your field validation rules when setting ranges
+- Use meaningful date ranges for time-based data
+- Review the generated data to ensure it meets your needs
+
+### Safety Features
+
+- **Non-Destructive**: Existing data is completely preserved
+- **Empty Cells Only**: Only populates fields that are currently empty
+- **Type Validation**: Ensures generated values match field type requirements
+- **Range Compliance**: All values respect the specified minimum and maximum bounds

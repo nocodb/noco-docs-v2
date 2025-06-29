@@ -1,0 +1,90 @@
+---
+title: 'Validate Emails'
+description: 'Identify and list all invalid email addresses in email fields for data quality assurance'
+---
+
+### Use Cases
+
+- **Data Quality Assurance**: Ensure all email addresses in your database are properly formatted
+- **Marketing Campaign Prep**: Clean email lists before sending campaigns to improve deliverability
+- **Contact Management**: Identify and fix invalid email addresses in customer databases
+- **Import Validation**: Check imported data for email formatting issues
+- **Compliance Auditing**: Verify email data quality for regulatory compliance requirements
+
+### How it Works
+
+1. **Select Email Field**: Choose the email field you want to validate
+2. **Run Validation**: The script checks each email address against standard email format rules
+3. **Generate Report**: View a list of all records with invalid email addresses
+4. **Review Results**: Examine the invalid emails and their associated records
+
+### Requirements
+
+- An **Email field** or **Text field** containing email addresses
+- Records with email data to validate
+
+### Validation Rules
+
+The script checks for common email format issues:
+
+- **Missing @ symbol**: `userexample.com`
+- **Invalid domain format**: `user@domain`
+- **Multiple @ symbols**: `us@er@example.com`
+- **Invalid characters**: `user@exam<ple.com`
+- **Missing local part**: `@example.com`
+- **Missing domain**: `user@`
+- **Improper spacing**: `user @example.com`
+
+### Example Output
+
+**Invalid Email Report:**
+```
+Record ID | Email Address | Issue
+----------|---------------|--------
+123       | user.example.com | Missing @ symbol
+145       | admin@domain | Invalid domain format
+167       | test@@example.com | Multiple @ symbols
+189       | contact@exam ple.com | Invalid spacing
+201       | @example.com | Missing local part
+```
+
+### Common Invalid Formats
+
+#### Missing @ Symbol
+```
+❌ Invalid: johndoeexample.com
+✅ Valid: johndoe@example.com
+```
+
+#### Incomplete Domain
+```
+❌ Invalid: admin@company
+✅ Valid: admin@company.com
+```
+
+#### Extra Characters
+```
+❌ Invalid: user@exam<ple.com
+✅ Valid: user@example.com
+```
+
+#### Spacing Issues
+```
+❌ Invalid: contact @example.com
+✅ Valid: contact@example.com
+```
+
+### Benefits
+
+- **Data Quality**: Maintain high-quality email data for better communication
+- **Deliverability**: Improve email campaign success rates by removing invalid addresses
+- **Error Prevention**: Catch email formatting issues before they cause problems
+- **Compliance**: Meet data quality standards for email marketing and communication
+- **Efficiency**: Quickly identify problematic emails across large datasets
+
+### Field Types
+
+This script works with:
+- **Email fields**: Purpose-built email fields in NocoDB
+- **Text fields**: Any text field containing email addresses
+- **Single Line Text**: Standard text fields with email content
