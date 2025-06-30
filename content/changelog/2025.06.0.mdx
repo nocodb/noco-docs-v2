@@ -1,0 +1,167 @@
+---
+title: '2025.06.0'
+description: 'Feature release : Introducing Table & field permissions, Scripts, Record colouring, Webhook & API enhancements'
+---
+
+![Image](/img/changelog/2025.06.0.png)
+
+
+## **Table & Field Permissions** : Control access—exactly how you need it
+
+
+> Give the right people the right level of access. With granular table and field permissions, you decide who can create, edit or delete data—keeping sensitive information protected and workflows clean.
+
+
+Whether you're managing customer data, financial records, or team operations, controlling access is critical. **Table & Field Permissions** let you define who can create or delete records in a table, and who can edit values in specific fields—so every user interacts only with the data they’re meant to.
+
+This feature helps enforce data discipline without slowing down collaboration. Need to prevent accidental changes to calculated fields? Lock them down. Trying to keep draft records protected until approved? Limit creation and deletion rights at the table level.
+
+With precise controls at your fingertips, you reduce the risk of errors, simplify team roles, and ensure everyone stays focused on what matters. Whether you're working with internal stakeholders, clients, or cross-functional teams, you can shape the right experience for each user.
+
+
+![Image-1](/img/changelog/202506-1.png)
+
+
+Example use cases
+
+* **HR**: Allow only HR managers to edit salary or compensation fields; restrict others to read-only
+* **Finance**: Permit only finance team members to create or delete transaction records
+* **Project Management**: Prevent contributors from deleting key milestones or modifying status fields
+* **Client Portals**: Let clients view data while restricting their ability to create or delete records
+* **Data Integrity**: Make core fields non-editable to avoid accidental changes
+
+
+*Table & Field Permissions are now available on self-hosted enterprise edition and NocoDB cloud team plan (or higher)*
+
+
+Field and table permissions are easy to configure and flexible enough to support any team structure. To learn how to get started, check out the full documentation [here](https://nocodb.com/docs/product-docs/table-permissions/table-permissions-overview).
+
+***
+
+## **Record colouring** : Turn data into insight—instantly!
+
+
+> Brings instant visual clarity to your tables—highlight key data using custom rules or field values. Spot **trends**, flag **priorities**, and take action faster with colours that make your data speak.
+
+
+Whether you're tracking project statuses, managing sales pipelines, reviewing creative assets, or monitoring financial thresholds, **Record Colouring** helps you instantly surface what matters—without changing your data or layout. By visually highlighting records based on field values or custom conditions, you can spot trends, flag issues, and act faster—all within the views you already use.
+
+
+Apply customisable colours to records across Grid, Gallery, Kanban and Calendar views, making it easier to **spot, group and act** on key items. By mapping colours to single-select field options or to user-defined conditions—such as high-priority tasks, overdue invoices or specific risk levels—you **gain** **faster visual insights, clearer categorisation and fewer oversights**.
+
+
+![Image-2](/img/changelog/202506-2.png)
+
+
+Example use case
+
+* **Sales & CRM**: Colour leads by deal stage or highlight high-value opportunities
+* **Project Management**: Flag overdue tasks or group work by assignee and priority
+* **Finance**: Highlight unpaid invoices or large transactions at a glance
+* **Marketing**: Track content status across campaigns (Draft, In Review, Published)
+* **Operations**: Mark records needing review or flag data issues instantly
+
+
+Each view can have its own colouring criteria, so you maintain flexibility across different perspectives without affecting other team members’ views. For step-by-step guidance on setting up and managing record colouring, see the documentation [here](https://nocodb.com/docs/product-docs/table-operations/record-colouring).
+
+
+*Record colouring is now available on self-hosted enterprise edition and NocoDB cloud team plan (or higher)*
+
+***
+
+## **Scripts** (beta) : Power of JavaScript, right in your workspace!
+
+
+> Save hours on manual, repetitive tasks and unlock custom workflows tailored to your data. Automate operations, run complex logic, and integrate with external services—all by writing and running JavaScript directly inside NocoDB. Do more, with less!
+
+
+Whether you're syncing records between tables, triggering API calls, cleaning up inconsistent data, or generating content from templates, Scripts let you do more with your data without leaving your base. And because everything runs inside NocoDB, there’s no need to manage external services—your logic lives with your data. Dive in and shape the platform around your unique needs.
+
+We designed **Scripts** to give teams the freedom to solve problems their way. With a built-in editor, contextual docs, and a flexible JavaScript API, you can run anything from a quick fix to a full data operation—right in your NocoDB workspace!
+
+
+![Image-3](/img/changelog/202506-3.png)
+
+
+Example use cases-
+
+* **Sales & CRM**: Automatically update related records when deal stages change
+* **Project Management**: Mass-update task statuses based on conditions
+* **Finance**: Fetch real-time currency rates and apply them to your transaction records
+* **Marketing**: Generate campaign summaries or sync form data from external tools
+* **Support**: Auto-assign tickets to agents based on workload or topic
+
+
+Scripts are just the beginning of a growing developer toolkit in NocoDB. As your team scales and your use cases get more advanced, your scripts evolve with you—no lock-ins, no external dependencies, no workarounds.
+
+Whether you’re building internal tools, automating edge cases, or connecting systems together, **Scripts** makes it easier to shape NocoDB around your business, not the other way around.
+
+
+*Scripts (in beta) now available on self-hosted enterprise edition and NocoDB cloud team plan (or higher)*
+
+
+Learn more and explore examples in our documentation [here](https://nocodb.com/docs/scripts).
+
+
+***
+
+
+## **Webhook v3** : Smarter triggers, cleaner automation
+
+
+> Streamline your integrations with unified events, richer payloads, and flexible trigger options. Webhook v3 gives you precise control over when and how data changes are pushed to external systems—no extra overhead, no missed updates.
+
+
+Webhook v3 simplifies how events are structured by **consolidating single and bulk operations** into unified event types: `after insert`, `after update`, and `after delete`.
+
+The **bulk insert payload** now contains the actual inserted records (not just a count).
+
+
+We’ve also added two powerful configuration options:
+
+* **Send Everything** – A single configuration to capture all record changes (Insert, Update, and Delete) within a table. Alternatively, you can choose specific combinations of events—such as Insert & Delete —based on your needs. There's no longer a need to create separate webhook’s for each event type.
+* **Field-level triggers** – fire webhook’s only when specific fields (like `Status` or `Priority`) change.
+
+
+*Field level triggers are available only on self-hosted enterprise edition and NocoDB cloud plans.*
+
+
+Existing webhook will remain functional. To make adoption easy, existing Webhook (v2) configurations can be upgraded via the UI with just a few clicks. You’ll see a side-by-side comparison before confirming the switch.
+
+
+📘 Learn more and view upgrade steps in our [docs](https://nocodb.com/docs/product-docs/table-operations/webhook-v2-vs-v3)
+
+
+***
+
+
+## **API v3** : Fewer calls, cleaner design
+
+
+> Build faster with a consistent, RESTful API that returns richer relation data, supports in-place record linking, and offers predictable, project-scoped endpoints—making integrations simpler and more efficient.
+
+* [API v3 Reference](https://data-apis-v3.nocodb.com/)
+
+#### **Highlights:**
+
+
+1. **Embedded Relation Field Data**
+    * **v2:** When you listed records, relation fields returned only a count of linked records.
+    * **v3:** The same endpoint now returns the full list of paginated linked records inline, so you can fetch related details in a single call—no more chasing separate endpoints.
+2. **Unified Record Linking in CRUD Operations**
+    * **v2:** Creating or updating a record with links required you to call dedicated “link” or “unlink” endpoints after using associated create / update record APIs.
+    * **v3:** You can now create or modify record links directly within the `create record` and `update record` APIs. This means linking related records happens as part of your standard CRUD request.
+3. **Standardised Responses & Errors** Predictable envelopes and status codes simplify client-side parsing and error handling. Field type handling is now more consistent across create and update APIs, reducing ambiguity and integration effort.
+
+
+
+#### **Benefits**
+
+* **Reduced API Traffic:** Inline relation data and combined link operations mean fewer HTTP requests and lower latency.
+* **Simplified Workflows:** Fetch records plus their relations, or create records with links, in one go—no orchestration required.
+
+
+📘 **Explore the API docs**
+
+* [API v3 Reference](https://data-apis-v3.nocodb.com/)
+
