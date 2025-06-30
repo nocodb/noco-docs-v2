@@ -1,6 +1,7 @@
 {
   "pages": [
-    "overview"
+    "create-script",
+    "actions-on-script"
   ],
   "title": "Scripts ☁"
 }
