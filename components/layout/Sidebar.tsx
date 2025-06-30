@@ -140,30 +140,23 @@ function SidebarItem({item, children, level,}: {
         return (
             <SidebarFolder defaultOpen={(active || (item.defaultOpen ?? false))}>
                 {item.index ? (
-                    <div className="flex items-center">
-                        <Link
-                            className={cn(
-                                "flex-1 px-3 text-[13px] flex items-center gap-3 h-9 leading-4.5 font-[500] rounded-[8px] py-1.5",
-                                active
-                                    ? "text-nc-content-grey-emphasis bg-nc-background-grey-light"
-                                    : "text-nc-content-grey-subtle-2 hover:bg-nc-background-grey-light"
+                    <SidebarFolderTrigger>
+                        <div className="flex w-full flex-1 items-center">
+                            <Link
+                                className={cn(
+                                    "flex-1 pl-3 text-[13px] flex w-full flex-1 items-center gap-3 h-9 leading-4.5 font-[500] rounded-[8px] py-1.5",
+                                    active
+                                        ? "text-nc-content-grey-emphasis"
+                                        : "text-nc-content-grey-subtle-2 hover:bg-nc-background-grey-light"
                             )}
                             href={item.index.url}
                             onClick={handleLinkClick}
                         >
                             {item.index.icon}
-                            {item.index.name}
+                            {item.index.name}                        
                         </Link>
-                        <SidebarFolderTrigger>
-                            <button className="p-1 rounded">
-                                <ChevronDown
-                                    className={cn(
-                                        "h-4 w-4 text-nc-content-grey-subtle-2 transition-transform"
-                                    )}
-                                />
-                            </button>
-                        </SidebarFolderTrigger>
                     </div>
+                    </SidebarFolderTrigger>
                 ) : (
                     <SidebarFolderTrigger>
                         <div
