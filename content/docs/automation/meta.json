@@ -1,8 +1,9 @@
 {
   "title": "Automation",
   "pages": [
+    "scripts",
     "webhook",
-    "scripts"
+    "webhook-v2-deprecated"
   ],
   "icon": "play"
 }
