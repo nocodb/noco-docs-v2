@@ -12,7 +12,7 @@ const tabs = [{
     href: '/docs/self-hosting',
 },
 {
-    title: 'NocoDB Scripts ☁',
+    title: 'Scripts ☁',
     href: '/docs/scripts',
 },
 {
