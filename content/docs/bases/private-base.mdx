@@ -1,0 +1,66 @@
+---
+title: "Private Base ☁"
+description: "Learn how to configure and manage access to Private Bases in NocoDB."
+tags: ["Private Base", "Bases", "Collaboration"]
+keywords: ["Private Base", "NocoDB Private Base", "Base Collaboration"]
+---
+
+<Callout type="warning"> The Private Base feature is available only on the **Business** plan and above </Callout>
+
+A **Private Base** in NocoDB allows base owners to fully control access at the base level, independently of workspace-level roles. This feature is ideal for projects that require confidentiality, restricted visibility, or selective collaboration within a workspace.
+
+
+## How Private Base Works
+
+When a base is marked as **private**:
+
+* **Workspace role inheritance is disabled** — users with roles like Owner, Editor, or Viewer at the workspace level will **not** automatically gain access.
+* By default, only the **base creator (Owner)** can access the base.
+* Access must be **explicitly granted** to other members by assigning a base-specific role (Owner, Creator, Editor, Commenter, or Viewer).
+
+<Callout type="info">Members without explicit access will not see the base listed in their workspace</Callout>
+
+## Creating a Private Base
+
+To create a new private base:
+
+1. In the left sidebar, click the **`+ Create Base`** button and choose `Start from scratch`.
+2. Enter a name for your base in the pop-up modal.
+3. From the **Permissions** dropdown, select **Private Access**.
+4. Click **`Create Base`** to finish.
+
+<Callout type="info"> Only the base creator will have access by default. Other workspace members, including Workspace Owners, will not see or access the base unless explicitly added</Callout>
+
+<Callout type="info"> Private bases cannot be shared publicly, and all view-sharing (except for form views) is restricted</Callout>
+
+## Converting an Existing Base to Private
+
+You can change any existing base to private:
+
+1. Navigate to the base and click **`Overview`** in the left sidebar.
+2. Go to the **Settings** tab and select **`Base Access`**.
+3. Toggle the access setting to **Private**.
+
+<Callout type="info"> All explicitly configured base-level roles will be retained. Inherited workspace access for other users will be removed</Callout>
+
+<Callout type="info"> If the base / view is currently shared publicly, this will be disabled when switching to private access</Callout>
+
+## Disabling Private Access
+
+To switch a private base back to default (workspace-inherited) access:
+
+1. Navigate to the base and click **`Overview`** in the left sidebar.
+2. Go to the **Settings** tab and select **`Base Access`**.
+3. Toggle the access setting to **Default**.
+
+<Callout type="info"> Workspace-level role inheritance will be re-enabled. Any member with an existing workspace role will gain corresponding access to the base. Explicit base roles will remain unchanged</Callout>
+
+<Callout type="info"> If the base / view was previously shared publicly, this will be re-enabled when switching back to default access</Callout>
+
+## Managing Access in a Private Base
+
+Managing user access in a private base follows the same process as any other base. You can invite workspace members and assign them roles explicitly at the base level. Role changes at the workspace level will not affect access to a private base unless the base itself is set back to default access.
+
+For detailed steps, refer to the [Base Collaboration Guide](/bases/base-collaboration).
+
+---
