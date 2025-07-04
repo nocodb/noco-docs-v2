@@ -24,10 +24,16 @@ When a base is marked as **private**:
 
 To create a new private base:
 
-1. In the left sidebar, click the **`+ Create Base`** button and choose `Start from scratch`.
-2. Enter a name for your base in the pop-up modal.
-3. From the **Permissions** dropdown, select **Private Access**.
-4. Click **`Create Base`** to finish.
+1. Navigate to the left sidebar and click on the `+ Create Base` button.
+2. Select `Start from scratch` from the modal that appears.
+3. Input the desired name for the database within the presented pop-up modal.
+4. Select `Base Type` as "**Private**".
+5. Conclude the process by clicking on the `Create Base` button.
+
+![Create base](/img/v2/base/base-create-1.png)
+![Create base](/img/v2/base/base-create-2.png)
+![Create base](/img/v2/base/base-create-3.png)
+![Create base](/img/v2/base/base-create-4.png)
 
 <Callout type="info"> Only the base creator will have access by default. Other workspace members, including Workspace Owners, will not see or access the base unless explicitly added</Callout>
 
@@ -35,23 +41,28 @@ To create a new private base:
 
 ## Converting an Existing Base to Private
 
-You can change any existing base to private:
+As a base Owner, you can change any of your existing base type to private:
 
 1. Navigate to the base and click **`Overview`** in the left sidebar.
-2. Go to the **Settings** tab and select **`Base Access`**.
+2. Go to the **Settings** tab and select **`Base Type`**.
 3. Toggle the access setting to **Private**.
+
+![Convert to Private Base](/img/v2/base/base-convert.png)
 
 <Callout type="info"> All explicitly configured base-level roles will be retained. Inherited workspace access for other users will be removed</Callout>
 
 <Callout type="info"> If the base / view is currently shared publicly, this will be disabled when switching to private access</Callout>
 
+
 ## Disabling Private Access
 
-To switch a private base back to default (workspace-inherited) access:
+To switch a private base back to default (workspace-inherited) type:
 
 1. Navigate to the base and click **`Overview`** in the left sidebar.
-2. Go to the **Settings** tab and select **`Base Access`**.
+2. Go to the **Settings** tab and select **`Base Type`**.
 3. Toggle the access setting to **Default**.
+
+![Change Base Type](/img/v2/base/base-convert.png)
 
 <Callout type="info"> Workspace-level role inheritance will be re-enabled. Any member with an existing workspace role will gain corresponding access to the base. Explicit base roles will remain unchanged</Callout>
 
@@ -59,7 +70,7 @@ To switch a private base back to default (workspace-inherited) access:
 
 ## Managing Access in a Private Base
 
-Managing user access in a private base follows the same process as any other base. You can invite workspace members and assign them roles explicitly at the base level. Role changes at the workspace level will not affect access to a private base unless the base itself is set back to default access.
+Managing user access in a private base follows the same process as any other base. You can invite workspace members and assign them roles explicitly at the base level. Role changes at the workspace level will not affect access to a private base unless the base type itself is set back to default access.
 
 For detailed steps, refer to the [Base Collaboration Guide](/bases/base-collaboration).
 
