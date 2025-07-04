@@ -47,7 +47,7 @@ jobs:
             
             const botComment = comments.data.find(comment => 
               comment.user.login === 'github-actions[bot]' && 
-              comment.body.includes('**Build Status**')
+              comment.body.includes('Build Status')
             );
             
             // Format current time in UTC YYYY-MM-DD HH:MM:SS
@@ -104,7 +104,7 @@ jobs:
             
             const botComment = comments.data.find(comment => 
               comment.user.login === 'github-actions[bot]' && 
-              comment.body.includes('**Build Status**')
+              comment.body.includes('Build Status')
             );
             
             // Format current time in UTC YYYY-MM-DD HH:MM:SS
