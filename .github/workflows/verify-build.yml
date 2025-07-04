@@ -30,12 +30,63 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Update PR Comment (Running)
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const prNumber = context.issue.number;
+            
+            // Find existing comment
+            const comments = await github.rest.issues.listComments({
+              owner,
+              repo,
+              issue_number: prNumber,
+            });
+            
+            const botComment = comments.data.find(comment => 
+              comment.user.login === 'github-actions[bot]' && 
+              comment.body.includes('**Build Status**')
+            );
+            
+            // Format current time in UTC YYYY-MM-DD HH:MM:SS
+            const now = new Date();
+            const formattedTime = now.getUTCFullYear() + '-' + 
+              String(now.getUTCMonth() + 1).padStart(2, '0') + '-' + 
+              String(now.getUTCDate()).padStart(2, '0') + ' ' + 
+              String(now.getUTCHours()).padStart(2, '0') + ':' + 
+              String(now.getUTCMinutes()).padStart(2, '0') + ':' + 
+              String(now.getUTCSeconds()).padStart(2, '0');
+            
+            const commentBody = '🔄 **Build Status: Running...**\n\n' +
+              '- 🔄 Build in progress\n' +
+              '- ⏳ Please wait for completion\n\n' +
+              `📝 Latest commit: ${context.sha.substring(0, 7)}\n` +
+              `⏰ Updated: ${formattedTime} UTC`;
+            
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: botComment.id,
+                body: commentBody
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: prNumber,
+                body: commentBody
+              });
+            }
+
       - name: Build project
         id: build
         run: pnpm run build
         continue-on-error: true
 
-      - name: Update PR Comment
+      - name: Update PR Comment (Final Status)
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
         with:
@@ -56,17 +107,26 @@ jobs:
               comment.body.includes('**Build Status**')
             );
             
+            // Format current time in UTC YYYY-MM-DD HH:MM:SS
+            const now = new Date();
+            const formattedTime = now.getUTCFullYear() + '-' + 
+              String(now.getUTCMonth() + 1).padStart(2, '0') + '-' + 
+              String(now.getUTCDate()).padStart(2, '0') + ' ' + 
+              String(now.getUTCHours()).padStart(2, '0') + ':' + 
+              String(now.getUTCMinutes()).padStart(2, '0') + ':' + 
+              String(now.getUTCSeconds()).padStart(2, '0');
+            
             const commentBody = buildStatus 
               ? '✅ **Build Status: Success!**\n\n' +
                 '- ✅ Build completed successfully\n' +
                 '- 🚀 Ready for review\n\n' +
                 `📝 Latest commit: ${context.sha.substring(0, 7)}\n` +
-                `⏰ Updated: ${new Date().toISOString()}`
+                `⏰ Updated: ${formattedTime} UTC`
               : '❌ **Build Status: Failed!**\n\n' +
                 '- ❌ Build encountered errors\n' +
                 '- 🔍 Please check the workflow logs for details\n\n' +
                 `📝 Latest commit: ${context.sha.substring(0, 7)}\n` +
-                `⏰ Updated: ${new Date().toISOString()}`;
+                `⏰ Updated: ${formattedTime} UTC`;
             
             if (botComment) {
               await github.rest.issues.updateComment({
