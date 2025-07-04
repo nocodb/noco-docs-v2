@@ -1,13 +1,17 @@
 name: Trigger Deploy AWS Workflow
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Verify Build"]
+    types:
+      - completed
     branches:
       - main
 
 jobs:
   dispatch:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Trigger Deploy AWS Workflow
         env:

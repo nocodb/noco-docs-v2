@@ -1,0 +1,149 @@
+name: Verify Build
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  verify-build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          cache: true
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Update PR Comment (Running)
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const prNumber = context.issue.number;
+            
+            // Find existing comment
+            const comments = await github.rest.issues.listComments({
+              owner,
+              repo,
+              issue_number: prNumber,
+            });
+            
+            const botComment = comments.data.find(comment => 
+              comment.user.login === 'github-actions[bot]' && 
+              comment.body.includes('Build Status')
+            );
+            
+            // Format current time in UTC YYYY-MM-DD HH:MM:SS
+            const now = new Date();
+            const formattedTime = now.getUTCFullYear() + '-' + 
+              String(now.getUTCMonth() + 1).padStart(2, '0') + '-' + 
+              String(now.getUTCDate()).padStart(2, '0') + ' ' + 
+              String(now.getUTCHours()).padStart(2, '0') + ':' + 
+              String(now.getUTCMinutes()).padStart(2, '0') + ':' + 
+              String(now.getUTCSeconds()).padStart(2, '0');
+            
+            const commentBody = '🔄 **Build Status: Running...**\n\n' +
+              '- 🔄 Build in progress\n' +
+              '- ⏳ Please wait for completion\n\n' +
+              `📝 Latest commit: ${context.sha.substring(0, 7)}\n` +
+              `⏰ Updated: ${formattedTime} UTC`;
+            
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: botComment.id,
+                body: commentBody
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: prNumber,
+                body: commentBody
+              });
+            }
+
+      - name: Build project
+        id: build
+        run: pnpm run build
+        continue-on-error: true
+
+      - name: Update PR Comment (Final Status)
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const prNumber = context.issue.number;
+            const buildStatus = '${{ steps.build.outcome }}' === 'success';
+            
+            // Find existing comment
+            const comments = await github.rest.issues.listComments({
+              owner,
+              repo,
+              issue_number: prNumber,
+            });
+            
+            const botComment = comments.data.find(comment => 
+              comment.user.login === 'github-actions[bot]' && 
+              comment.body.includes('Build Status')
+            );
+            
+            // Format current time in UTC YYYY-MM-DD HH:MM:SS
+            const now = new Date();
+            const formattedTime = now.getUTCFullYear() + '-' + 
+              String(now.getUTCMonth() + 1).padStart(2, '0') + '-' + 
+              String(now.getUTCDate()).padStart(2, '0') + ' ' + 
+              String(now.getUTCHours()).padStart(2, '0') + ':' + 
+              String(now.getUTCMinutes()).padStart(2, '0') + ':' + 
+              String(now.getUTCSeconds()).padStart(2, '0');
+            
+            const commentBody = buildStatus 
+              ? '✅ **Build Status: Success!**\n\n' +
+                '- ✅ Build completed successfully\n' +
+                '- 🚀 Ready for review\n\n' +
+                `📝 Latest commit: ${context.sha.substring(0, 7)}\n` +
+                `⏰ Updated: ${formattedTime} UTC`
+              : '❌ **Build Status: Failed!**\n\n' +
+                '- ❌ Build encountered errors\n' +
+                '- 🔍 Please check the workflow logs for details\n\n' +
+                `📝 Latest commit: ${context.sha.substring(0, 7)}\n` +
+                `⏰ Updated: ${formattedTime} UTC`;
+            
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: botComment.id,
+                body: commentBody
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: prNumber,
+                body: commentBody
+              });
+            }
+
+      - name: Fail workflow if build failed
+        if: steps.build.outcome == 'failure'
+        run: exit 1
