@@ -26,6 +26,7 @@ import XTwitter from '@/components/icons/XTwitter';
 import Facebook from '@/components/icons/Facebook';
 import Linkedin from '@/components/icons/Linkedin';
 import Extension from '@/components/icons/Extension';
+import Sparkle from '@/components/icons/Sparkle';
 
 
 const iconMap = {
@@ -56,7 +57,8 @@ const iconMap = {
     xTwitter: XTwitter,
     facebook: Facebook,
     linkedin: Linkedin,
-    extension: Extension
+    extension: Extension,
+    sparkle: Sparkle,
 } as const;
 
 type IconNameType = keyof typeof iconMap;
