@@ -8,17 +8,19 @@ keywords: ['NocoDB base', 'create base']
 ## Create base from scratch
 To initiate the creation of a new database from the ground up, follow these steps:
 1. Navigate to the left sidebar and click on the `+ Create Base` button.
-2. Input the desired name for the database within the presented pop-up modal.
-3. Conclude the process by clicking on the `Create Base` button.
+2. Select `Start from scratch` from the modal that appears.
+3. Input the desired name for the database within the presented pop-up modal.
+4. Select `Base Type` : Default / Private.
+   - **Default**: This is the standard base type where access is governed by workspace roles.
+   - **Private**: This base type allows for granular control over access, independent of workspace roles. Only the base creator will have access by default, and other members must be explicitly granted access. Learn more about [Private Base](/bases/private-base).
+5. Conclude the process by clicking on the `Create Base` button.
 
 ![Create base](/img/v2/base/base-create-1.png)
 ![Create base](/img/v2/base/base-create-2.png)
+![Create base](/img/v2/base/base-create-3.png)
+![Create base](/img/v2/base/base-create-4.png)
 
-<Callout type="info">
-- Upon the creation of the base, you will assume the role of the `base owner.`
-- Only Users with `base owner` permission state possesses the authority to delete a base.
-- It is possible to create multiple bases within a single workspace.
-</Callout>
+<Callout type="info">When you create a base, you become its owner. Only base owners can delete a base, and multiple bases can be created within a single workspace</Callout>
 
 On the successful creation of a base, you will be directed to the Base Dashboard, which serves as the primary landing page for the base. This central hub provides users with swift access to essential features such as base settings and collaboration tools. To access the Base Dashboard, simply click on the base name located in the left sidebar.
 
