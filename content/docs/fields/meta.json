@@ -1,5 +1,5 @@
 {
   "label": "Fields",
-  "pages": ["fields-overview", "primary-key", "display-value", "field-types","multi-fields-editor", "field-summary-footer", "actions-on-field"],
+  "pages": ["primary-key", "display-value", "field-types","multi-fields-editor", "field-summary-footer", "actions-on-field"],
   "icon": "type"
 }

@@ -1,7 +1,6 @@
 {
   "title": "REST APIs",
   "pages": [
-    "overview",
     "accessing-apis",
     "upload-via-api"
   ]
