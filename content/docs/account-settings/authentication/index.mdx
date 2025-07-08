@@ -17,6 +17,7 @@ SSO is a session and user authentication service that permits a user to use one 
 
 SSO functionality is achieved by establishing a connection with an identity provider (IdP), which serves as a repository for managing users digital identities within the digital or cloud-based ecosystem. Through the use of protocols like the Security Assertion Markup Language (SAML 2.0), such as in the case of NocoDB, SSO facilitates the secure exchange of authentication data between the identity provider and the service providers.
 
+
 ### Google OAuth
 
 Google OAuth, short for Open Authorization, is a widely used and standardized protocol that facilitates secure authentication and authorization processes, particularly in the context of web and mobile applications. Developed by Google, OAuth enables users to grant third-party applications limited access to their resources without exposing their credentials. This authorization framework is based on token-based authentication, where users can log in using their Google credentials, and developers can obtain an access token to interact with Google APIs on the user's behalf.
@@ -25,8 +26,6 @@ Please follow the details in the article to integrate with [Google OAuth](google
 
 ### Security Assertion Markup Language (SAML) 
 The Security Assertion Markup Language (SAML) stands as a critical protocol in the realm of secure authentication and authorization processes. Developed to enable Single Sign-On (SSO) functionality, SAML facilitates the exchange of authentication and authorization data between an identity provider (IdP) and a service provider (SP). This XML-based protocol ensures the secure transfer of user identity information, allowing individuals to access multiple applications and services with a single set of credentials. SAML operates on a trust model, wherein the identity provider asserts the user's identity to the service provider, which, in turn, grants or denies access based on the provided assertions. 
-
-[//]: # (This robust framework is widely employed in various industries and platforms, contributing to the seamless and secure integration of disparate systems and applications in the digital landscape. SAML adoption is particularly evident in cloud-based services, enterprise applications, and other environments where a unified and secure authentication process is paramount.)
 
 Please follow the details in the article below to integrate with various popular SAML providers.
 1. [Okta](/account-settings/authentication/saml-sso/okta)
@@ -38,8 +37,6 @@ Please follow the details in the article below to integrate with various popular
 ### OpenID Connect (OIDC)
 The OpenID Connect (OIDC) protocol is a modern authentication layer built on top of the OAuth 2.0 framework, designed to address user authentication and authorization challenges in web and mobile applications. OIDC provides a standardized and secure way for applications to verify the identity of end-users. Leveraging JSON Web Tokens (JWTs), OIDC enables the exchange of user identity information between the identity provider (IdP) and the Service provider, typically a web application. 
 
-[//]: # (One of the key advantages of OIDC is its ability to enable Single Sign-On &#40;SSO&#41; capabilities, allowing users to authenticate once and access multiple applications seamlessly. OIDC also provides a standardized set of claims, such as user profile information, making it easier for developers to integrate identity management into their applications. Widely adopted in various industries, OIDC plays a crucial role in enhancing the security and user experience of authentication processes across diverse digital platforms.)
-
 Please follow the details in the article below to integrate with various popular OIDC providers.
 1. [Okta](/account-settings/authentication/oidc-sso/okta)
 2. [Auth0](/account-settings/authentication/oidc-sso/auth0)
@@ -47,3 +44,34 @@ Please follow the details in the article below to integrate with various popular
 4. [Active Directory](/account-settings/authentication/oidc-sso/azure-ad)
 
 
+## Accessing the SSO Configuration Menu
+
+The location of the **SSO configuration menu** varies depending on your plan.
+
+* If you're on the **Business plan**, you can access SSO settings from the **Workspace Settings**.
+* For **Enterprise plan** users, the SSO menu is available under the **Admin Panel**.
+
+Please follow the steps relevant to your plan to locate and configure SSO.
+
+### Business Plan
+
+To access the SSO configuration menu in the Business plan, navigate to the **Workspace Settings**. Here, you can manage your SSO settings, including adding new identity providers and configuring existing ones.
+
+![SSO Configuration](/img/v2/account-settings/accessing-sso-business-plan.png)
+
+Alternatively, you can directly access the SSO configuration screen using the URL:
+`https://app.nocodb.com/#/workspaceID/settings?tab=sso`
+
+### Enterprise Plan
+
+For users on the Enterprise plan, the SSO configuration menu is located in the **Account Settings**. This allows for more advanced SSO configurations and management options across the entire organization.
+
+1. Click on the user icon in the bottom left corner of the NocoDB interface.
+2. Select **Account Settings** from the menu.
+3. Navigate to the **Single Sign-on (SSO)** tab.
+
+![SSO Configuration](/img/v2/account-settings/accessing-sso-enterprise-plan-1.png)
+![SSO Configuration](/img/v2/account-settings/accessing-sso-enterprise-plan-2.png)
+
+Alternatively, you can directly access the SSO configuration screen using the URL:
+`https://your-domain/#/account/authentication`
