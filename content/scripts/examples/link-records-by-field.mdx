@@ -1,0 +1,124 @@
+---
+title: 'Link Records by Field'
+description: 'Link records between two tables using matching field values, with pagination and summary reporting.'
+---
+
+This script links records between two NocoDB tables by matching values in selected fields. It allows users to:
+
+1. Select a **source table** and a **target table**
+2. Choose a **matching field** from each table
+3. Choose a **linked record field** in the source table that connects to the target
+
+For each record in the source table, the script searches for a record in the target table with a **matching value**. If a match is found, the linked record field in the source table is updated to point to that record in the target table.
+
+It also handles large datasets using pagination and prints a clear summary of results at the end.
+
+```javascript
+// Prompt user to pick Source & Target table
+const sourceTable = await input.tableAsync("Select Source table");
+const targetTable = await input.tableAsync("Select Target table");
+
+// Prompt for matching field in Source
+const fieldInSource = await input.fieldAsync("Select matching field in Source table", sourceTable);
+
+// Prompt for matching field in Target
+const fieldInTarget = await input.fieldAsync("Select matching field in Target table", targetTable);
+
+// Prompt for linked record field in Source (should link to Target)
+const linkFieldInSource = await input.fieldAsync("Select linked record field in Source table", sourceTable);
+
+// Fetch all records from Target with pagination
+let targetQuery = await targetTable.selectRecordsAsync({
+    fields: [fieldInTarget],
+    pageSize: 100
+});
+
+const mapTarget = new Map();
+function indexTargetRecords(records) {
+    for (let record of records) {
+        const key = record.getCellValueAsString(fieldInTarget)?.trim();
+        if (key) {
+            mapTarget.set(key, record);
+        }
+    }
+}
+indexTargetRecords(targetQuery.records);
+
+while (targetQuery.hasMoreRecords) {
+    await targetQuery.loadMoreRecords();
+    indexTargetRecords(targetQuery.records.slice(-100));
+}
+
+// Fetch all records from Source with pagination
+let sourceQuery = await sourceTable.selectRecordsAsync({
+    fields: [fieldInSource, linkFieldInSource],
+    pageSize: 100
+});
+
+let totalProcessed = 0;
+let totalLinked = 0;
+let totalUnmatched = 0;
+
+async function linkSourceRecords(records) {
+    for (let record of records) {
+        const valueSource = record.getCellValueAsString(fieldInSource)?.trim();
+        const matchingTargetRecord = mapTarget.get(valueSource);
+
+        if (matchingTargetRecord) {
+            await sourceTable.updateRecordAsync(record.id, {
+                [linkFieldInSource.id]: [{ id: matchingTargetRecord.id }]
+            });
+            totalLinked++;
+        } else {
+            totalUnmatched++;
+        }
+
+        totalProcessed++;
+        output.clear();
+        output.text(`Processed ${totalProcessed} records...`);
+    }
+}
+
+// Process first page
+await linkSourceRecords(sourceQuery.records);
+
+// Process remaining pages
+while (sourceQuery.hasMoreRecords) {
+    await sourceQuery.loadMoreRecords();
+    const newRecords = sourceQuery.records.slice(-100);
+    await linkSourceRecords(newRecords);
+}
+
+// Output final summary (vertical format)
+output.markdown(`### ✅ Summary`);
+output.table({
+    "Total Records Processed": totalProcessed,
+    "Records Linked": totalLinked,
+    "Unmatched Records": totalUnmatched
+});
+````
+
+### Use Cases
+
+* **CRM Linking**: Connect customers to orders or support tickets using customer IDs or names
+* **Product Mapping**: Link SKUs from an imported dataset to master product records
+* **Inventory Management**: Associate stock movement entries with corresponding items
+* **Data Consolidation**: Normalize records across multiple sources based on shared identifiers
+
+### How It Works
+
+1. **Select Tables & Fields**: Choose a source and target table, and matching fields in both
+2. **Run the Script**: It looks up the target for every matching value in the source
+3. **Link Records**: When a match is found, the source record’s linked field is updated
+4. **View Summary**: A final summary shows how many records were processed, linked, or skipped
+
+### Behavior in Edge Cases
+
+* **Missing in Target**: If no matching target is found, the source record is skipped
+* **Missing in Source**: Target records with no source match are ignored
+* **Duplicate Values in Source**: All matching source records link to the same target record
+* **Duplicate Values in Target**: The first match is used; others are ignored
+* **Blank or Null Values**: Records with empty matching values are skipped
+
+---
+

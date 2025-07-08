@@ -7,6 +7,8 @@
     "randomize-values", 
     "validate-emails",
     "select-options",
-    "save-view-ordering"
+    "save-view-ordering",
+    "link-records-by-field",
+    "unique-field-values-summary"
   ]
 }
