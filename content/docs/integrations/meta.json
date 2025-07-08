@@ -1,7 +1,6 @@
 {
   "title": "Integrations",
   "pages": [
-    "overview",
     "create-connection",
     "actions-on-connection"
   ],

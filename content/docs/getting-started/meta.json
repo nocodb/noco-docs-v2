@@ -1,5 +1,5 @@
 {
   "title": "Getting Started",
-  "pages": ["quick-start", "terminologies", "keyboard-shortcuts", "self-hosted"],
+  "pages": ["terminologies", "keyboard-shortcuts", "self-hosted"],
   "icon": "book"
 }

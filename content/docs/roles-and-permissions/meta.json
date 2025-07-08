@@ -1,7 +1,7 @@
 {
   "title": "Roles & Permissions",
   "pages": [
-    "roles-permissions-overview", "table-permissions", "field-permissions"
+    "table-permissions", "field-permissions"
   ],
   "icon": "userCreator"
 }

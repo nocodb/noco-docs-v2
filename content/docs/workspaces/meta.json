@@ -1,5 +1,5 @@
 {
   "title": "Workspaces ☁",
-  "pages": ["workspace-overview", "create-workspace", "workspace-collaboration", "actions-on-workspace", "workspace-audit"],
+  "pages": ["create-workspace", "workspace-collaboration", "actions-on-workspace", "workspace-audit"],
   "icon": "layout"
 }
