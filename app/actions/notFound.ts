@@ -95,15 +95,6 @@ export async function notifySlackAbout404(data: NotificationData): Promise<void>
         {
           type: 'section',
           fields: fields
-        },
-        {
-          type: 'context',
-          elements: [
-            {
-              type: 'mrkdwn',
-              text: `💡 *Quick Actions:* Check if this should redirect to an existing page or if content needs to be created`
-            }
-          ]
         }
       ]
     };
