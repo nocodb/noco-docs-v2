@@ -1,0 +1,33 @@
+---
+title: 'Fields: Numerical'
+description: 'Learn how to create numerical fields for storing quantities, percentages, currency, and more.'
+---
+
+Numerical fields are used to store numbers in different formats such as raw numbers, decimals, currency values, and percentages. These fields are essential for calculations, analytics, and reporting.
+
+```javascript
+// NocoDB Script: Create Numerical Fields
+
+const tableName = 'Numeric Fields Demo';
+let table = base.getTable(tableName);
+
+if (!table) {
+  table = await base.createTableAsync(tableName, []);
+  output.text(`✅ Created table: "${tableName}"`);
+}
+
+async function createField(name, config) {
+  if (!table.getField(name)) {
+    await table.createFieldAsync({ name, ...config });
+    output.text(`✅ Created: ${name}`);
+  }
+}
+
+await createField('Amount', { type: "Number" });
+await createField('Budget', { type: "Currency" });
+await createField('Conversion Rate', { type: "Decimal" });
+await createField('Progress %', { type: "Percent" });
+
+output.table(table.fields.map(f => ({ 'Field Name': f.name, 'Type': f.type })));
+output.text(`ℹ️ Total fields created: ${table.fields.length}`);
+```

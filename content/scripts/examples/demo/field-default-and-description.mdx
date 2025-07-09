@@ -1,0 +1,34 @@
+---
+title: 'Fields: Setting default values & description'
+description: 'Learn how to set default values and descriptions for fields in NocoDB.'
+---
+
+Text-based fields are useful for storing information like names, descriptions, phone numbers, and web addresses. These fields support both short and long text formats, as well as structured formats such as email, phone number, and URLs.
+
+```javascript
+// NocoDB Script: Create Text-Based Fields
+
+const tableName = 'Text Defaults Demo';
+let table = base.getTable(tableName);
+
+if (!table) {
+  table = await base.createTableAsync(tableName, []);
+  output.text(`✅ Created table: "${tableName}"`);
+}
+
+async function createField(name, config) {
+  if (!table.getField(name)) {
+    await table.createFieldAsync({ name, ...config });
+    output.text(`✅ Created: ${name}`);
+  }
+}
+
+await createField('Name', { type: "SingleLineText", default_value: "John Doe", description: "Enter the full name of the person." });
+await createField('Description', { type: "LongText", default_value: "This is a sample description.", description: "Provide a detailed description." });
+await createField('Phone', { type: "PhoneNumber", default_value: "+1234567890", description: "Enter a valid phone number." });
+await createField('Email', { type: "Email", default_value: 'a@a.com', description: "Enter a valid email address." });
+await createField('Website', { type: "URL", default_value: 'https://example.com', description: "Enter a valid URL." });
+
+output.table(table.fields.map(f => ({ 'Field Name': f.name, 'Type': f.type })));
+output.text(`ℹ️ Total fields created: ${table.fields.length}`);
+```

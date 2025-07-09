@@ -1,0 +1,48 @@
+---
+title: 'Fields: Virtual & Formula'
+description: 'Add calculated or derivative data with virtual fields in NocoDB.'
+---
+
+Virtual fields don’t store data directly; instead, they derive or encode information from other fields. Common examples include barcodes, formulas.
+
+```javascript
+// NocoDB Script: Create Virtual & Formula Fields
+
+const tableName = 'Virtual Fields Demo';
+let table = base.getTable(tableName);
+
+if (!table) {
+  table = await base.createTableAsync(tableName, []);
+  output.text(`✅ Created table: "${tableName}"`);
+}
+
+// helper
+async function createField(name, config) {
+  if (!table.getField(name)) {
+    await table.createFieldAsync({ name, ...config });
+    output.text(`✅ Created: ${name}`);
+  }
+}
+
+// Base text field required for virtual examples
+await createField('Name', { type: "SingleLineText" });
+
+// Create Barcode linked to “Name”
+const nameField = table.getField('Name');
+await createField('Barcode', {
+  type: "Barcode",
+  options: { barcode_value_field_id: nameField.id }
+});
+
+// Auto‑number (incrementing integer)
+await createField('Record No', { type: "AutoNumber" });
+
+// Formula combining text
+await createField('Greeting', {
+  type: "Formula",
+  options: { formula: 'CONCAT("Hello, ", {Name}, "!")' }
+});
+
+output.table(table.fields.map(f => ({ 'Field Name': f.name, 'Type': f.type })));
+output.text(`ℹ️ Total fields created: ${table.fields.length}`);
+```

@@ -1,0 +1,33 @@
+---
+title: 'Fields: System'
+description: 'Capture automatic audit information with system fields in NocoDB.'
+---
+
+System fields are populated automatically by NocoDB. They’re ideal for audit trails, showing who created or last modified a record and when those actions happened.
+
+```javascript
+// NocoDB Script: Create System Fields
+
+const tableName = 'System Fields Demo';
+let table = base.getTable(tableName);
+
+if (!table) {
+  table = await base.createTableAsync(tableName, []);
+  output.text(`✅ Created table: "${tableName}"`);
+}
+
+async function createField(name, config) {
+  if (!table.getField(name)) {
+    await table.createFieldAsync({ name, ...config });
+    output.text(`✅ Created: ${name}`);
+  }
+}
+
+await createField('Created By',   { type: "CreatedBy" });
+await createField('Last Modified By', { type: "LastModifiedBy" });
+await createField('Created Time', { type: "CreatedTime" });
+await createField('Last Modified Time', { type: "LastModifiedTime" });
+
+output.table(table.fields.map(f => ({ 'Field Name': f.name, 'Type': f.type })));
+output.text(`ℹ️ Total fields created: ${table.fields.length}`);
+```

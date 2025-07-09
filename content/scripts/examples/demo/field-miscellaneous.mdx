@@ -1,0 +1,40 @@
+---
+title: 'Fields: Miscellaneous'
+description: 'Additional field types for attachments, checkboxes, ratings, and structured data.'
+---
+
+These fields cover everything that doesn’t neatly fit the prior categories—files, booleans, star ratings, JSON blobs, and geospatial data.
+
+```javascript
+// NocoDB Script: Create Miscellaneous Fields
+
+const tableName = 'Misc Fields Demo';
+let table = base.getTable(tableName);
+
+if (!table) {
+  table = await base.createTableAsync(tableName, []);
+  output.text(`✅ Created table: "${tableName}"`);
+}
+
+async function createField(name, config) {
+  if (!table.getField(name)) {
+    await table.createFieldAsync({ name, ...config });
+    output.text(`✅ Created: ${name}`);
+  }
+}
+
+await createField('Attachment', { type: "Attachment" });
+await createField('Is Published', {
+  type: "Checkbox",
+  options: { icon: "square" }
+});
+await createField('Priority', {
+  type: "Rating",
+  options: { icon: 'star', max_value: 5, color: '#F4B400' }
+});
+await createField('Extra Info', { type: "JSON" });
+await createField('Geometry Data', { type: "Geometry" });
+
+output.table(table.fields.map(f => ({ 'Field Name': f.name, 'Type': f.type })));
+output.text(`ℹ️ Total fields created: ${table.fields.length}`);
+```

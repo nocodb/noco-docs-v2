@@ -2,6 +2,7 @@
   "title": "Examples",
   "defaultOpen": true,
   "pages": [
+    "demo",
     "find-and-replace",
     "convert-attachments-to-urls",
     "randomize-values", 

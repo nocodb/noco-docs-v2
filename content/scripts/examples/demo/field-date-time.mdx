@@ -1,0 +1,36 @@
+---
+title: 'Fields: Date & Time'
+description: 'Create fields to capture dates, times, and durations.'
+---
+
+Date & time fields help capture temporal data such as start dates, deadlines, timestamps, and durations. These fields are particularly helpful in scheduling, timelines, and audits.
+
+```javascript
+// NocoDB Script: Create Date & Time Fields
+
+const tableName = 'DateTime Fields Demo';
+let table = base.getTable(tableName);
+
+if (!table) {
+  table = await base.createTableAsync(tableName, []);
+  output.text(`✅ Created table: "${tableName}"`);
+}
+
+async function createField(name, config) {
+  if (!table.getField(name)) {
+    await table.createFieldAsync({ name, ...config });
+    output.text(`✅ Created: ${name}`);
+  }
+}
+
+await createField('Start Date', { type: "Date" });
+await createField('Start Time', { type: "Time" });
+await createField('Due DateTime', { type: "DateTime" });
+await createField('Duration (mins)', {
+  type: "Duration",
+  options: { duration_format: "h:mm" }
+});
+
+output.table(table.fields.map(f => ({ 'Field Name': f.name, 'Type': f.type })));
+output.text(`ℹ️ Total fields created: ${table.fields.length}`);
+```
