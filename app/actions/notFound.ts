@@ -2,15 +2,56 @@
 
 type Section = 'product-docs' | 'scripts' | 'self-hosting' | 'changelog';
 
+interface NotificationData {
+  section: Section;
+  errorUrl?: string;
+  referer?: string;
+  internalReferer?: string;
+  searchParams?: string;
+}
+
 /**
  * Send a notification to Slack when a 404 error occurs
- * @param section The documentation section where the 404 occurred
- * @param errorUrl The full URL that caused the 404 error
  */
-export async function notifySlackAbout404(section: Section, errorUrl?: string): Promise<void> {
+export async function notifySlackAbout404(data: NotificationData): Promise<void> {
   try {
+    const {
+      section,
+      errorUrl,
+      referer,
+      internalReferer,
+      searchParams
+    } = data;
+
     const actualErrorUrl = errorUrl || `/docs/${section}`;
-    const timestamp = new Date().toISOString();
+    
+    // Build dynamic fields based on available data
+    const fields = [
+      {
+        type: 'mrkdwn',
+        text: `*Section:*\n\`${section}\``
+      },
+      {
+        type: 'mrkdwn',
+        text: `*Error URL:*\n\`${actualErrorUrl}${searchParams || ''}\``
+      }
+    ];
+
+    // Add referer information if available
+    if (referer) {
+      fields.push({
+        type: 'mrkdwn',
+        text: `*Referred from:*\n\`${referer}\``
+      });
+    }
+
+    if (internalReferer && internalReferer !== referer) {
+      fields.push({
+        type: 'mrkdwn',
+        text: `*Internal path:*\n\`${internalReferer}\``
+      });
+    }
+
     const message = {
       blocks: [
         {
@@ -23,38 +64,25 @@ export async function notifySlackAbout404(section: Section, errorUrl?: string): 
         },
         {
           type: 'section',
-          fields: [
-            {
-              type: 'mrkdwn',
-              text: `*Section:*\n\`${section}\``
-            },
-            {
-              type: 'mrkdwn',
-              text: `*Error URL:*\n\`${actualErrorUrl}\``
-            }
-          ]
+          fields: fields
         },
         {
-          type: 'section',
-          fields: [
+          type: 'context',
+          elements: [
             {
               type: 'mrkdwn',
-              text: `*Environment:*\n${process.env.NODE_ENV || 'development'}`
-            },
-            {
-              type: 'mrkdwn',
-              text: `*Time:*\n${timestamp}`
+              text: `💡 *Quick Actions:* Check if this should redirect to an existing page or if content needs to be created`
             }
           ]
         }
       ]
     };
 
-    const SLACK_WEBHOOK_URL = process.env.SLACK_DOCS_ERROR_URL
+    const SLACK_WEBHOOK_URL = process.env.SLACK_DOCS_ERROR_URL;
     
     if (!SLACK_WEBHOOK_URL) {
-      console.error('SLACK_DOCS_ERROR_URL environment variable is not set')
-      return
+      console.error('SLACK_DOCS_ERROR_URL environment variable is not set');
+      return;
     }
 
     const response = await fetch(SLACK_WEBHOOK_URL, {
@@ -63,13 +91,14 @@ export async function notifySlackAbout404(section: Section, errorUrl?: string): 
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(message)
-    })
+    });
 
     if (!response.ok) {
-      console.error('Failed to send Slack notification: ' + response.statusText)
+      console.error('Failed to send Slack notification: ' + response.statusText);
     }
 
   } catch (error) {
-    console.error('Error sending 404 notification to Slack:', error)
+    console.error('Error sending 404 notification to Slack:', error);
   }
 }
+
