@@ -50,10 +50,10 @@ export async function notifySlackAbout404(section: Section, errorUrl?: string): 
       ]
     };
 
-    const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL
+    const SLACK_WEBHOOK_URL = process.env.SLACK_DOCS_ERROR_URL
     
     if (!SLACK_WEBHOOK_URL) {
-      console.error('SLACK_WEBHOOK_URL environment variable is not set')
+      console.error('SLACK_DOCS_ERROR_URL environment variable is not set')
       return
     }
 
