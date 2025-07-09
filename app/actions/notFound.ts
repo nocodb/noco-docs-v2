@@ -10,6 +10,12 @@ interface NotificationData {
   searchParams?: string;
 }
 
+// Store last notification times for URLs to implement cooldown
+const notificationHistory: Record<string, number> = {};
+
+// Cooldown period in milliseconds (24 hours)
+const NOTIFICATION_COOLDOWN = 24 * 60 * 60 * 1000;
+
 /**
  * Send a notification to Slack when a 404 error occurs
  */
@@ -22,10 +28,35 @@ export async function notifySlackAbout404(data: NotificationData): Promise<void>
       internalReferer,
       searchParams
     } = data;
-
     const actualErrorUrl = errorUrl || `/docs/${section}`;
     
-    // Build dynamic fields based on available data
+    const notificationKey = `${actualErrorUrl}${searchParams || ''}`;
+    
+    const lastNotificationTime = notificationHistory[notificationKey];
+    const currentTime = Date.now();
+    
+    if (lastNotificationTime && (currentTime - lastNotificationTime) < NOTIFICATION_COOLDOWN) {
+      return;
+    }
+    
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://nocodb.com';
+      const fullUrl = new URL(actualErrorUrl.startsWith('/') ? actualErrorUrl : `/${actualErrorUrl}`, baseUrl);
+      if (searchParams) {
+        fullUrl.search = searchParams;
+      }
+      
+      const response = await fetch(fullUrl.toString(), { method: 'HEAD' });
+      
+      if (response.status !== 404) {
+        return;
+      }
+    } catch (error) {
+      console.warn(`Couldn't validate URL ${actualErrorUrl}: ${error}`);
+    }
+    
+    notificationHistory[notificationKey] = currentTime;
+    
     const fields = [
       {
         type: 'mrkdwn',
@@ -37,7 +68,6 @@ export async function notifySlackAbout404(data: NotificationData): Promise<void>
       }
     ];
 
-    // Add referer information if available
     if (referer) {
       fields.push({
         type: 'mrkdwn',
