@@ -1,0 +1,60 @@
+```javascript
+// NocoDB Script: Table Operations
+// Demonstrates how to check for table existence, create a table, and list all tables in the base.
+
+const tableName = 'Inventory';
+
+// ------------------------------
+// Check if table exists
+// ------------------------------
+let table = base.getTable(tableName);
+
+if (!table) {
+  output.text(`🔍 Table "${tableName}" not found. Creating it now...`);
+
+  try {
+    // ------------------------------
+    // CREATE TABLE
+    // ------------------------------
+    table = await base.createTableAsync(tableName, [
+      { name: 'Item ID', type: "SingleLineText" },
+      { name: 'Item Name', type: "SingleLineText" },
+      { name: 'Quantity', type: "Number" },
+      {
+        name: 'Category',
+        type: "SingleSelect",
+        options: {
+          choices: [
+            { title: 'Electronics', color: '#FFC107' },
+            { title: 'Clothing', color: '#007BFF' },
+            { title: 'Home & Garden', color: '#28A745' },
+            { title: 'Books', color: '#6F42C1' },
+            { title: 'Sports', color: '#DC3545' }
+          ]
+        }
+      }
+    ]);
+
+    output.text(`✅ Table "${tableName}" created successfully!`);
+  } catch (error) {
+    output.text(`❌ Error creating table: ${error.message}`);
+  }
+} else {
+  output.text(`ℹ️ Table "${tableName}" already exists.`);
+}
+
+// ------------------------------
+// READ: List all tables in base
+// ------------------------------
+output.markdown('### 📋 Tables in this base');
+
+const tableSummary = base.tables.map(t => ({
+  'Table Name': t.name,
+  'Table ID': t.id,
+  'Fields': t.fields.length,
+  'Views': t.views.length
+}));
+
+output.table(tableSummary);
+
+```
