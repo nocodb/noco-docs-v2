@@ -5,11 +5,11 @@
     "table-operations",
     "field-text-based",
     "field-number-based",
-    "field-date-based",
+    "field-date-time",
     "field-select-based",
-    "field-miscellaneous",
     "field-system",
     "field-user",
-    "field-virtual"
+    "field-virtual",
+    "field-miscellaneous"
   ]
 }

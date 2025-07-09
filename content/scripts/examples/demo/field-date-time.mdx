@@ -3,7 +3,10 @@ title: 'Fields: Date & Time'
 description: 'Create fields to capture dates, times, and durations.'
 ---
 
-Date & time fields help capture temporal data such as start dates, deadlines, timestamps, and durations. These fields are particularly helpful in scheduling, timelines, and audits.
+This script demonstrates how to create & work with following fields in NocoDB
+`Date` `Time` `DateTime` `Duration`
+
+Detailed descriptions of each field type & associated configuration options are available in the [NocoDB meta API documentation](https://nocodb.com/apis/v3/meta#tag/Fields).
 
 ```javascript
 // NocoDB Script: Create Date & Time Fields
@@ -23,14 +26,48 @@ async function createField(name, config) {
   }
 }
 
-await createField('Start Date', { type: "Date" });
-await createField('Start Time', { type: "Time" });
-await createField('Due DateTime', { type: "DateTime" });
+// Date field
+//
+await createField('Start Date', {
+  type: "Date",
+  default_value: "2025-01-01", // ISO date format
+  description: "The starting date of the event or task",
+  options: {
+      date_format: "YYYY-MM-DD"
+  }
+});
+
+// Time field
+//
+await createField('Start Time', {
+  type: "Time",
+  default_value: "09:00", // 24-hr format
+  description: "The starting time of the event or task",
+  options: {
+      "12hr_format": true // Use 12-hour format with AM/PM
+  }
+});
+
+// DateTime field
+//
+await createField('Due DateTime', {
+  type: "DateTime",
+  default_value: "2025-01-01T17:00", // ISO datetime format
+  description: "Deadline including both date and time"
+});
+
+// Duration field
+//
 await createField('Duration (mins)', {
   type: "Duration",
-  options: { duration_format: "h:mm" }
+  default_value: "300", // in seconds
+  description: "Expected duration of the event or task in minutes",
+  options: {
+      duration_format: "h:mm"
+  }
 });
 
 output.table(table.fields.map(f => ({ 'Field Name': f.name, 'Type': f.type })));
 output.text(`ℹ️ Total fields created: ${table.fields.length}`);
+
 ```
