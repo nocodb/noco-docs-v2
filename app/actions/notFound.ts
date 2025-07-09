@@ -2,15 +2,86 @@
 
 type Section = 'product-docs' | 'scripts' | 'self-hosting' | 'changelog';
 
+interface NotificationData {
+  section: Section;
+  errorUrl?: string;
+  referer?: string;
+  internalReferer?: string;
+  searchParams?: string;
+}
+
+// Store last notification times for URLs to implement cooldown
+const notificationHistory: Record<string, number> = {};
+
+// Cooldown period in milliseconds (24 hours)
+const NOTIFICATION_COOLDOWN = 24 * 60 * 60 * 1000;
+
 /**
  * Send a notification to Slack when a 404 error occurs
- * @param section The documentation section where the 404 occurred
- * @param errorUrl The full URL that caused the 404 error
  */
-export async function notifySlackAbout404(section: Section, errorUrl?: string): Promise<void> {
+export async function notifySlackAbout404(data: NotificationData): Promise<void> {
   try {
+    const {
+      section,
+      errorUrl,
+      referer,
+      internalReferer,
+      searchParams
+    } = data;
     const actualErrorUrl = errorUrl || `/docs/${section}`;
-    const timestamp = new Date().toISOString();
+    
+    const notificationKey = `${actualErrorUrl}${searchParams || ''}`;
+    
+    const lastNotificationTime = notificationHistory[notificationKey];
+    const currentTime = Date.now();
+    
+    if (lastNotificationTime && (currentTime - lastNotificationTime) < NOTIFICATION_COOLDOWN) {
+      return;
+    }
+    
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://nocodb.com';
+      const fullUrl = new URL(actualErrorUrl.startsWith('/') ? actualErrorUrl : `/${actualErrorUrl}`, baseUrl);
+      if (searchParams) {
+        fullUrl.search = searchParams;
+      }
+      
+      const response = await fetch(fullUrl.toString(), { method: 'HEAD' });
+      
+      if (response.status !== 404) {
+        return;
+      }
+    } catch (error) {
+      console.warn(`Couldn't validate URL ${actualErrorUrl}: ${error}`);
+    }
+    
+    notificationHistory[notificationKey] = currentTime;
+    
+    const fields = [
+      {
+        type: 'mrkdwn',
+        text: `*Section:*\n\`${section}\``
+      },
+      {
+        type: 'mrkdwn',
+        text: `*Error URL:*\n\`${actualErrorUrl}${searchParams || ''}\``
+      }
+    ];
+
+    if (referer) {
+      fields.push({
+        type: 'mrkdwn',
+        text: `*Referred from:*\n\`${referer}\``
+      });
+    }
+
+    if (internalReferer && internalReferer !== referer) {
+      fields.push({
+        type: 'mrkdwn',
+        text: `*Internal path:*\n\`${internalReferer}\``
+      });
+    }
+
     const message = {
       blocks: [
         {
@@ -23,38 +94,16 @@ export async function notifySlackAbout404(section: Section, errorUrl?: string): 
         },
         {
           type: 'section',
-          fields: [
-            {
-              type: 'mrkdwn',
-              text: `*Section:*\n\`${section}\``
-            },
-            {
-              type: 'mrkdwn',
-              text: `*Error URL:*\n\`${actualErrorUrl}\``
-            }
-          ]
-        },
-        {
-          type: 'section',
-          fields: [
-            {
-              type: 'mrkdwn',
-              text: `*Environment:*\n${process.env.NODE_ENV || 'development'}`
-            },
-            {
-              type: 'mrkdwn',
-              text: `*Time:*\n${timestamp}`
-            }
-          ]
+          fields: fields
         }
       ]
     };
 
-    const SLACK_WEBHOOK_URL = process.env.SLACK_DOCS_ERROR_URL
+    const SLACK_WEBHOOK_URL = process.env.SLACK_DOCS_ERROR_URL;
     
     if (!SLACK_WEBHOOK_URL) {
-      console.error('SLACK_DOCS_ERROR_URL environment variable is not set')
-      return
+      console.error('SLACK_DOCS_ERROR_URL environment variable is not set');
+      return;
     }
 
     const response = await fetch(SLACK_WEBHOOK_URL, {
@@ -63,13 +112,14 @@ export async function notifySlackAbout404(section: Section, errorUrl?: string): 
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(message)
-    })
+    });
 
     if (!response.ok) {
-      console.error('Failed to send Slack notification: ' + response.statusText)
+      console.error('Failed to send Slack notification: ' + response.statusText);
     }
 
   } catch (error) {
-    console.error('Error sending 404 notification to Slack:', error)
+    console.error('Error sending 404 notification to Slack:', error);
   }
 }
+
