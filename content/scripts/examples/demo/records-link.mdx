@@ -1,0 +1,136 @@
+---
+title: 'Records: Link & Unlink'
+description: 'This script demonstrates how to create and manage relational fields in NocoDB, including linking & unlinking records between tables'
+---
+
+This script demonstrates how to create and manage relational fields in NocoDB, specifically focusing on linking and unlinking records between two tables using the `LinkToAnotherRecord` field type.
+
+
+```javascript
+// NocoDB Script: Relational Fields Demo (LinkToAnotherRecord, Lookup, Rollup)
+
+const projectsTableName = 'Projects';
+const tasksTableName = 'Tasks';
+
+// ---------------------
+// Ensure Projects Table
+// ---------------------
+let projectsTable = base.getTable(projectsTableName);
+if (!projectsTable) {
+  projectsTable = await base.createTableAsync(projectsTableName, [
+    { name: 'Project Name', type: "SingleLineText" },
+    { name: 'Client', type: "SingleLineText" }
+  ]);
+  output.text(`✅ Created table "${projectsTableName}"`);
+}
+
+// ---------------------
+// Ensure Tasks Table
+// ---------------------
+let tasksTable = base.getTable(tasksTableName);
+if (!tasksTable) {
+  tasksTable = await base.createTableAsync(tasksTableName, [
+    { name: 'Task Name', type: "SingleLineText" },
+    {
+      name: 'Status',
+      type: "SingleSelect",
+      options: {
+        choices: [
+          { title: 'To Do', color: '#6c757d' },
+          { title: 'In Progress', color: '#007bff' },
+          { title: 'Done', color: '#28a745' }
+        ]
+      }
+    },
+    { name: 'Hours', type: "Number" }
+  ]);
+  output.text(`✅ Created table "${tasksTableName}"`);
+}
+
+// ---------------------
+// Create LinkToAnotherRecord: Tasks → Projects
+// ---------------------
+if (!tasksTable.getField('Project')) {
+  await tasksTable.createFieldAsync({
+    name: 'Project',
+    type: "LinkToAnotherRecord",
+    options: {
+      relation_type: 'mm',
+      related_table_id: projectsTable.id
+    }
+  });
+  output.text(`🔗 Created "Project" field in "Tasks" as LinkToAnotherRecord to "Projects"`);
+}
+
+// ---------------------
+// Demo: Insert records, link, unlink
+// ---------------------
+
+// Step 1: Insert sample projects if empty
+const projectRecords = await projectsTable.selectRecordsAsync();
+if (projectRecords.records.length === 0) {
+  await projectsTable.createRecordsAsync([
+    { 'Project Name': 'Website Redesign', 'Client': 'Acme Corp' },
+    { 'Project Name': 'Mobile App Launch', 'Client': 'Globex Inc' }
+  ]);
+  output.text(`➕ Inserted sample records in "${projectsTableName}"`);
+}
+
+// Step 2: Insert sample tasks if empty
+const taskRecords = await tasksTable.selectRecordsAsync();
+if (taskRecords.records.length === 0) {
+  await tasksTable.createRecordsAsync([
+    { 'Task Name': 'Design UI', 'Status': 'To Do', 'Hours': 10 },
+    { 'Task Name': 'Build Backend', 'Status': 'In Progress', 'Hours': 20 },
+    { 'Task Name': 'Write Docs', 'Status': 'Done', 'Hours': 5 }
+  ]);
+  output.text(`➕ Inserted sample records in "${tasksTableName}"`);
+}
+
+// Refresh records
+const projects = await projectsTable.selectRecordsAsync();
+const tasks = await tasksTable.selectRecordsAsync();
+
+const projectIds = projects.records.map(r => r.id);
+const taskIds = tasks.records.map(r => r.id);
+const projectField = tasksTable.getField('Project');
+
+// Step 3: Link tasks to projects
+const linkUpdates = tasks.records.map((task, i) => ({
+  id: task.id,
+  fields: {
+    [projectField.id]: [{ id: projectIds[i % projectIds.length] }]
+  }
+}));
+
+await tasksTable.updateRecordsAsync(linkUpdates);
+output.text('🔗 Linked each task to a project');
+
+// Step 4: Display linked state
+const linkedTasks = await tasksTable.selectRecordsAsync();
+output.text('📌 Tasks after linking to projects:');
+output.table(linkedTasks.records.map(r => ({
+  Task: r.getCellValue('Task Name'),
+  Project: r.getCellValue('Project')?.records[0]?.name || ''
+})));
+
+// Step 5: Unlink all tasks
+const unlinkUpdates = linkedTasks.records.map(r => ({
+  id: r.id,
+  fields: {
+    [projectField.id]: [] // remove link
+  }
+}));
+
+await tasksTable.updateRecordsAsync(unlinkUpdates);
+output.text('❌ Unlinked all tasks from projects');
+
+// Step 6: Display unlinked state
+const finalTasks = await tasksTable.selectRecordsAsync();
+output.text('📌 Tasks after unlinking:');
+output.table(finalTasks.records.map(r => ({
+  Task: r.getCellValue('Task Name'),
+  Project: r.getCellValue('Project')?.records[0]?.name || '(none)'
+})));
+
+```

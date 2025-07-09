@@ -10,6 +10,9 @@
     "field-system",
     "field-user",
     "field-virtual",
-    "field-miscellaneous"
+    "field-miscellaneous",
+    "records-list",
+    "records-CRUD",
+    "records-link"
   ]
 }
