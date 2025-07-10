@@ -8,7 +8,7 @@ keywords: ['SSO', 'Overview', 'Authentication', 'Google', 'OAuth']
 NocoDB offers a functionality that allows users to connect with Google OAuth 2.0, enabling them to log into their NocoDB accounts using their Google authentication credentials. This article provides a step-by-step guide to integrating Google OAuth 2.0 with NocoDB.
 
 <Callout type="info">For users on **Business plan**, the SSO configuration menu is available under **Workspace Settings**.
-    Refer [here](/account-settings/authentication#business-plan) for more details.</Callout>
+    Refer [here](/docs/product-docs/account-settings/authentication#business-plan) for more details.</Callout>
 
 1. Copy `Redirect URL` from NocoDB
     - **Cloud version**: Go to `Workspace Settings` > `Authentication` > `Google OAuth`
@@ -22,7 +22,7 @@ NocoDB offers a functionality that allows users to connect with Google OAuth 2.0
 5. Proceed to the `Credentials` screen, then click on `Create Credentials`. Choose `OAuth Client ID` from the available options to generate OAuth credentials.
 6. Choose `Web application` from the options available in the `Application type` dropdown menu.
 7. Configure the following
-    a) `Authorized JavaScript origins` refer to the HTTP origins where your web application is hosted, such as https://app.nocodb.com
+    a) `Authorized JavaScript origins` refer to the HTTP origins where your web application is hosted, such as https:///app.nocodb.com
     b) `Authorized Redirect URIs` refer to the URIs where the user is redirected after successful authentication with Google. Paste the *Redirect URL* copied from NocoDB in step (1).
 8. Click on the `Create` button to generate the OAuth credentials. Copy the `Client ID` and `Client Secret` from the OAuth 2.0 Client IDs section.
 9. Go back to NocoDB and paste the credentials in in the respective fields in the `Google OAuth` section:

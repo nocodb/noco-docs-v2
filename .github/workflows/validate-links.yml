@@ -4,11 +4,13 @@ on:
   push:
     branches: [main]
     paths:
-      - 'content/**/*.{md,mdx}'
+      - 'content/**/*.md'
+      - 'content/**/*.mdx'
   pull_request:
     branches: [main]
     paths:
-      - 'content/**/*.{md,mdx}'
+      - 'content/**/*.md'
+      - 'content/**/*.mdx'
 
 jobs:
   validate-links:

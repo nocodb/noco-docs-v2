@@ -92,6 +92,9 @@ async function checkLinks() {
 
   const results = await validateFiles([...docsFiles, ...blogFiles, ...selfHostingFiles, ...scriptsFiles, ...changelogFiles], {
     scanned,
+    pathToUrl: (file) => {
+      return path.dirname(file);
+    },
   });
   
   printErrors(results, true);
