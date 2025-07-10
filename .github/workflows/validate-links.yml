@@ -4,11 +4,13 @@ on:
   push:
     branches: [main]
     paths:
-      - 'content/**/*.{md,mdx}'
+      - 'content/**/*.md'
+      - 'content/**/*.mdx'
   pull_request:
     branches: [main]
     paths:
-      - 'content/**/*.{md,mdx}'
+      - 'content/**/*.md'
+      - 'content/**/*.mdx'
 
 jobs:
   validate-links:
@@ -22,4 +24,4 @@ jobs:
         run: bun install
         
       - name: Validate links
-        run: bun run validate-links
+        run: bun scripts/validateLinks.ts
