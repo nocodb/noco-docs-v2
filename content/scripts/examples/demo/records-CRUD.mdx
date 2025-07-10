@@ -42,21 +42,21 @@ for (let field of fields) {
 
 // Step 3: Create demo records
 const recordsToCreate = [
-  {
+  { fields: {
     'Name': 'John Doe',
     'Email': 'john.doe@example.com',
     'Status': 'Active'
-  },
-  {
+  }},
+  { fields: {
     'Name': 'Jane Smith',
     'Email': 'jane.smith@example.com',
     'Status': 'Pending'
-  },
-  {
+  }},
+  { fields: {
     'Name': 'Bob Johnson',
     'Email': 'bob.johnson@example.com',
     'Status': 'Active'
-  }
+  }}
 ];
 
 const createdRecords = await table.createRecordsAsync(recordsToCreate);
