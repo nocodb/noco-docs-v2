@@ -70,8 +70,8 @@ if (!tasksTable.getField('Project')) {
 const projectRecords = await projectsTable.selectRecordsAsync();
 if (projectRecords.records.length === 0) {
   await projectsTable.createRecordsAsync([
-    { 'Project Name': 'Website Redesign', 'Client': 'Acme Corp' },
-    { 'Project Name': 'Mobile App Launch', 'Client': 'Globex Inc' }
+    { fields: { 'Project Name': 'Website Redesign', 'Client': 'Acme Corp' }},
+    { fields: { 'Project Name': 'Mobile App Launch', 'Client': 'Globex Inc' }}
   ]);
   output.text(`➕ Inserted sample records in "${projectsTableName}"`);
 }
@@ -80,9 +80,9 @@ if (projectRecords.records.length === 0) {
 const taskRecords = await tasksTable.selectRecordsAsync();
 if (taskRecords.records.length === 0) {
   await tasksTable.createRecordsAsync([
-    { 'Task Name': 'Design UI', 'Status': 'To Do', 'Hours': 10 },
-    { 'Task Name': 'Build Backend', 'Status': 'In Progress', 'Hours': 20 },
-    { 'Task Name': 'Write Docs', 'Status': 'Done', 'Hours': 5 }
+    { fields: { 'Task Name': 'Design UI', 'Status': 'To Do', 'Hours': 10 }},
+    { fields: { 'Task Name': 'Build Backend', 'Status': 'In Progress', 'Hours': 20 }},
+    { fields: { 'Task Name': 'Write Docs', 'Status': 'Done', 'Hours': 5 }}
   ]);
   output.text(`➕ Inserted sample records in "${tasksTableName}"`);
 }
