@@ -296,7 +296,7 @@ async function importCSVData(): Promise<void> {
 
             // Add to creation queue if not handled as duplicate
             if (shouldCreateRecord) {
-              recordsToCreate.push(recordData);
+              recordsToCreate.push({fields: recordData});
             }
           }
 
