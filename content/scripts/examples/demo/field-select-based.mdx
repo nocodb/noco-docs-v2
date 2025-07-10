@@ -1,0 +1,52 @@
+---
+title: 'Fields: Select'
+description: 'Create single select and multi select fields for categorizing data.'
+---
+
+This script demonstrates how to create & work with the following select fields in NocoDB:
+`SingleSelect`, `MultiSelect`
+
+For detailed descriptions of each field type and associated configuration options, refer to the [NocoDB meta API documentation](https://nocodb.com/apis/v3/meta#tag/Fields).
+
+
+```javascript
+// NocoDB Script: Create Select Fields
+
+const tableName = 'Select Fields Demo';
+let table = base.getTable(tableName);
+
+if (!table) {
+  table = await base.createTableAsync(tableName, []);
+  output.text(`✅ Created table: "${tableName}"`);
+}
+
+async function createField(name, config) {
+  if (!table.getField(name)) {
+    await table.createFieldAsync({ name, ...config });
+    output.text(`✅ Created: ${name}`);
+  }
+}
+
+await createField('Tags', {
+  type: "MultiSelect",
+  options: {
+    choices: [
+      { title: 'UI', color: '#FFC107' },
+      { title: 'API', color: '#28A745' }
+    ]
+  }
+});
+
+await createField('Status', {
+  type: "SingleSelect",
+  options: {
+    choices: [
+      { title: 'Draft', color: '#6c757d' },
+      { title: 'Published', color: '#007BFF' }
+    ]
+  }
+});
+
+output.table(table.fields.map(f => ({ 'Field Name': f.name, 'Type': f.type })));
+output.text(`ℹ️ Total fields created: ${table.fields.length}`);
+```

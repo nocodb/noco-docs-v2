@@ -2,6 +2,8 @@
   "title": "Examples",
   "defaultOpen": true,
   "pages": [
+    "demo",
+    "api-ref-manual-examples",
     "find-and-replace",
     "convert-attachments-to-urls",
     "randomize-values", 
@@ -9,6 +11,7 @@
     "select-options",
     "save-view-ordering",
     "link-records-by-field",
-    "unique-field-values-summary"
+    "unique-field-values-summary",
+    "import-csv"
   ]
 }

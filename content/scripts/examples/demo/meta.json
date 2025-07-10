@@ -1,0 +1,18 @@
+{
+  "title": "Generic",
+  "defaultOpen": true,
+  "pages": [
+    "table-operations",
+    "field-text-based",
+    "field-number-based",
+    "field-date-time",
+    "field-select-based",
+    "field-system",
+    "field-user",
+    "field-virtual",
+    "field-miscellaneous",
+    "records-list",
+    "records-CRUD",
+    "records-link"
+  ]
+}

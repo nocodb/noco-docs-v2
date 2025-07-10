@@ -1,0 +1,31 @@
+---
+title: 'Records: Pagination'
+description: 'This script demonstrates how to load and display records from a selected table in NocoDB, with pagination support for large datasets.'
+---
+
+```javascript
+// Ask user to select a table
+const table = await input.tableAsync('Select a table to load records from');
+
+// Initial query with small page size
+const result = await table.selectRecordsAsync({ pageSize: 50 });
+
+// Initial log
+output.text(`Loading records from "${table.name}"...`);
+
+// Track total loaded so far
+let previouslyLoaded = result.records.length;
+output.text(`Loaded ${previouslyLoaded} records so far...`);
+
+// Load all records using pagination, with progress updates
+while (result.hasMoreRecords) {
+  await result.loadMoreRecords();
+  const newlyLoaded = result.records.length;
+  const batchSize = newlyLoaded - previouslyLoaded;
+  previouslyLoaded = newlyLoaded;
+  output.text(`→ Loaded ${batchSize} more. Total so far: ${newlyLoaded}`);
+}
+
+// Final count
+output.text(`✅ Done. Total records loaded from "${table.name}": ${result.records.length}`);
+```

@@ -1,0 +1,34 @@
+---
+title: 'Fields: User & Collaborator'
+description: 'Assign or reference users directly within records.'
+---
+
+This script demonstrates how to create & work with the following fields in NocoDB:
+`User`
+
+For detailed descriptions of each field type and associated configuration options, refer to the [NocoDB meta API documentation](https://nocodb.com/apis/v3/meta#tag/Fields).
+
+```javascript
+// NocoDB Script: Create User Fields
+
+const tableName = 'User Fields Demo';
+let table = base.getTable(tableName);
+
+if (!table) {
+  table = await base.createTableAsync(tableName, []);
+  output.text(`✅ Created table: "${tableName}"`);
+}
+
+async function createField(name, config) {
+  if (!table.getField(name)) {
+    await table.createFieldAsync({ name, ...config });
+    output.text(`✅ Created: ${name}`);
+  }
+}
+
+// Single user picker
+await createField('Owner', { type: "User" });
+
+output.table(table.fields.map(f => ({ 'Field Name': f.name, 'Type': f.type })));
+output.text(`ℹ️ Total fields created: ${table.fields.length}`);
+```

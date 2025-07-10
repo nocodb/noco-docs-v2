@@ -1,0 +1,36 @@
+---
+title: 'Fields: Numerical'
+description: 'Learn how to create numerical fields for storing quantities, percentages, currency, and more.'
+---
+
+This script demonstrates how to create & work with the following numerical fields in NocoDB:
+`Number`, `Currency`, `Decimal`, `Percent`
+
+For detailed descriptions of each field type and associated configuration options, refer to the [NocoDB meta API documentation](https://nocodb.com/apis/v3/meta#tag/Fields).
+
+```javascript
+// NocoDB Script: Create Numerical Fields
+
+const tableName = 'Numeric Fields Demo';
+let table = base.getTable(tableName);
+
+if (!table) {
+  table = await base.createTableAsync(tableName, []);
+  output.text(`✅ Created table: "${tableName}"`);
+}
+
+async function createField(name, config) {
+  if (!table.getField(name)) {
+    await table.createFieldAsync({ name, ...config });
+    output.text(`✅ Created: ${name}`);
+  }
+}
+
+await createField('Amount', { type: "Number" });
+await createField('Budget', { type: "Currency" });
+await createField('Conversion Rate', { type: "Decimal" });
+await createField('Progress %', { type: "Percent" });
+
+output.table(table.fields.map(f => ({ 'Field Name': f.name, 'Type': f.type })));
+output.text(`ℹ️ Total fields created: ${table.fields.length}`);
+```
