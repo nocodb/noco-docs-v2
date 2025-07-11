@@ -1,0 +1,46 @@
+---
+title: 'Array functions'
+description: 'This article explains various array functions that can be used in formula fields.'
+tags: ['Fields', 'Field types', 'Formula', 'Array']
+keywords: ['Fields', 'Field types', 'Formula', 'Array', 'Create formula field', 'Array functions']
+---
+
+This cheat sheet provides a quick reference guide for various array functions commonly used in data analysis and programming. Each function is accompanied by its syntax, a sample usage, and a brief description.
+
+
+## ARRAYSORT
+The ARRAYSORT function sorts an array result from links or lookup.
+
+#### Syntax
+```plaintext
+ARRAYSORT(array, ["asc" | "desc"])
+```
+
+#### Sample
+```plaintext
+ARRAYSORT({LookupField}, "desc")
+```
+
+#### Remark
+This function sorts an array result given from links or lookup field.
+The 2nd parameter is the sort order, "asc" or "desc" to sort the values ascending or descending, with "asc" as the default if not provided.
+
+---
+
+## ARRAYUNIQUE
+The ARRAYUNIQUE function returns unique items from the given array.
+
+#### Syntax
+```plaintext
+ARRAYUNIQUE(array)
+```
+
+#### Sample
+```plaintext
+ARRAYUNIQUE({Field})
+```
+
+#### Remark
+This function removes duplicate values, leaving only unique items from the given array.
+
+---
