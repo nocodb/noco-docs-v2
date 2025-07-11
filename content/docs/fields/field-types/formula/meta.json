@@ -6,6 +6,7 @@
     "numeric-functions",
     "string-functions",
     "date-functions",
+    "array-functions",
     "conditional-expressions",
     "generic-functions",
     "formula-result-formatting"
