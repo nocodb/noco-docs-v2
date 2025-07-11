@@ -1,6 +1,6 @@
 ---
-title: 'Ping Identity' 
-description: 'Learn how to configure Ping Identity as an identity provider for NocoDB.' 
+title: 'Ping Identity'
+description: 'Learn how to configure Ping Identity as an identity provider for NocoDB.'
 tags: ['SSO', 'Ping Identity', 'SAML']
 keywords: ['SSO', 'Ping Identity', 'SAML', 'Authentication', 'Identity Provider']
 ---
@@ -27,11 +27,11 @@ This article briefs about the steps to configure Auth0 as Identity service provi
 ### Ping Identity, Configure NocoDB as an Application
 1. Access your [PingOne account](https://www.pingidentity.com/en/account/sign-on.html) and navigate to the homepage.
 2. Click on `Add Environment` from the top right corner.
-3. On the `Create Environment` screen, 
+3. On the `Create Environment` screen,
    - Opt for `Build your own solution`
-   - In the `Select solution(s) for your Environment` section, select `PingOne SSO` from `Cloud Services` 
+   - In the `Select solution(s) for your Environment` section, select `PingOne SSO` from `Cloud Services`
    - Click `Next`
-   - Provide a name and description for the environment, 
+   - Provide a name and description for the environment,
    - Click `Next`
 4. Access the newly created environment and go to `Connections` > `Applications` from the sidebar.
 5. Within the Applications homepage, initiate the creation of a new application by clicking the "+" icon.
@@ -42,7 +42,7 @@ This article briefs about the steps to configure Auth0 as Identity service provi
    - Populate the `ACS URLs` field with the `Redirect URL` retrieved from step (2) above
    - Insert the `Audience URI` retrieved above in step (2) in the `Entity ID` field
    - `Save`
-7. In your application, 
+7. In your application,
    - Navigate to the `Configurations` tab
    - Copy the `IDP Metadata URL`
 8. On your application panel, activate user access to the application by toggling the switch in the top right corner.
@@ -62,3 +62,5 @@ For Sign-in's, user should be able to now see `Sign in with <SSO>` option.
 <Callout type="note">
 Post sign-out, refresh page (for the first time) if you do not see `Sign in with SSO` option
 </Callout>
+
+<Callout type="info">For more common questions and troubleshooting, see our [SSO FAQ](/account-settings/authentication/FAQs).</Callout>

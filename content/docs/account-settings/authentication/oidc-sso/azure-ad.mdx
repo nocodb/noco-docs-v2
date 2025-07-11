@@ -1,6 +1,6 @@
 ---
-title: 'Azure AD (Entra)' 
-description: 'Learn how to configure Azure AD as an identity provider for NocoDB.' 
+title: 'Azure AD (Entra)'
+description: 'Learn how to configure Azure AD as an identity provider for NocoDB.'
 tags: ['SSO', 'Azure AD', 'OIDC']
 keywords: ['SSO', 'Azure AD', 'OIDC', 'Authentication', 'Identity Provider']
 ---
@@ -34,23 +34,23 @@ This article briefs about the steps to configure Azure AD as Identity service pr
     - Choose `Web` as the Application type
     - Add the `Redirect URL` under `Redirect URIs`.
     - `Register`
-5. On your application's homepage, 
+5. On your application's homepage,
     - Copy the `Application (client) ID`
     - Click `Add a certificate or secret` under `Client credentials` section
     - On `Certificates & secrets` page, go to `Client secrets` section
     - Click `New client secret`
-    - On `Add a client secret` page, 
+    - On `Add a client secret` page,
         - Add a description for the secret
         - Set expiration as required
         - `Add`
     - Copy the `Value` of the newly created secret
-6. On your application's homepage, 
+6. On your application's homepage,
     - Go to `Endpoints` tab
     - Open `OpenID Connect metadata document` URL & copy `authorization_endpoint`, `token_endpoint`, `userinfo_endpoint` & `jwks_uri` from the JSON response
 7. Configuring scopes
     - Go to `API permissions` tab
     - Click `Add a permission`
-    - On `Request API permissions` page, 
+    - On `Request API permissions` page,
         - Select `Microsoft Graph` from `Microsoft APIs`
         - Select `Delegated permissions`
         - Select `openid` `profile` `email` `offline_access` from `Select permissions` dropdown
@@ -77,5 +77,7 @@ For Sign-in's, user should be able to now see `Sign in with <SSO>` option.
 <Callout type="info">
 Post sign-out, refresh page (for the first time) if you do not see `Sign in with SSO` option
 </Callout>
+
+<Callout type="info">For more common questions and troubleshooting, see our [SSO FAQ](/account-settings/authentication/FAQs).</Callout>
 
 For information about Azure AD API Scopes, refer [here](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#offline_access)
