@@ -5,6 +5,7 @@
     "create-table",
     "create-view",
     "create-field",
-    "create-options"
+    "create-options",
+    "create-formula"
   ]
 }
