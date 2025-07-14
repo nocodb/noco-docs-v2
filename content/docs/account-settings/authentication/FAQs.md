@@ -13,3 +13,14 @@ This error means that the email address you are using does not belong to a domai
 **For NocoDB Cloud:** Yes. In addition to configuring Google OAuth or other SSO providers, you must also verify your domain in the SSO settings. This is done by adding your domain and verifying it by adding the provided TXT record to your DNS. Only after domain verification will users from that domain be able to sign in via SSO.
 
 **For NocoDB Self-hosted/On-prem:** Domain verification is not required. You can configure SSO providers without verifying your domain via DNS. 
+
+## Why do I get a redirection/callback URL or URI error when setting up SSO?
+
+This error usually means that the Redirect URL (sometimes called Callback URL or Redirect URI) configured in your identity provider does not exactly match the one provided by NocoDB. Common reasons include:
+- Typo or extra spaces in the URL/URI
+- Using HTTP instead of HTTPS (or vice versa)
+- Not including the full path as required
+- Registering the wrong environment (e.g., using a local URL for production)
+- Forgetting to update the Redirect URL after changing your NocoDB domain
+
+**Solution:** Always copy and paste the exact Redirect URL/URI provided by NocoDB into your identity provider's configuration. Any mismatch will result in an error during authentication. 
