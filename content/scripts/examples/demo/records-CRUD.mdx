@@ -1,0 +1,102 @@
+---
+title: 'Records: CRUD Operations'
+description: 'This script demonstrates how to create, read, update, and delete records in a NocoDB table.'
+---
+
+This script demonstrates how to perform basic CRUD (Create, Read, Update, Delete) operations on records in a NocoDB table. It includes creating a table if it doesn't exist, adding fields, creating demo records, updating those records, and finally deleting them.
+
+More information about the NocoDB API can be found in the [NocoDB data API documentation](https://nocodb.com/apis/v3/data).
+
+
+```javascript
+const tableName = 'Contacts';
+const fields = [
+  { name: 'Name', type: 'SingleLineText' },
+  { name: 'Email', type: 'Email' },
+  {
+    name: 'Status',
+    type: 'SingleSelect',
+    options: {
+      choices: [
+        { title: 'Active' },
+        { title: 'Pending' },
+        { title: 'Inactive' }
+      ]
+    }
+  }
+];
+
+// Step 1: Create table if it doesn’t exist
+let table = base.getTable(tableName);
+if (!table) {
+  table = await base.createTableAsync(tableName, []);
+}
+
+// Step 2: Create any missing fields
+const existingFieldNames = table.fields.map(f => f.name);
+for (let field of fields) {
+  if (!existingFieldNames.includes(field.name)) {
+    await table.createFieldAsync({ name: field.name, type: field.type, options: field.options });
+  }
+}
+
+// Step 3: Create demo records
+const recordsToCreate = [
+  { fields: {
+    'Name': 'John Doe',
+    'Email': 'john.doe@example.com',
+    'Status': 'Active'
+  }},
+  { fields: {
+    'Name': 'Jane Smith',
+    'Email': 'jane.smith@example.com',
+    'Status': 'Pending'
+  }},
+  { fields: {
+    'Name': 'Bob Johnson',
+    'Email': 'bob.johnson@example.com',
+    'Status': 'Active'
+  }}
+];
+
+const createdRecords = await table.createRecordsAsync(recordsToCreate);
+output.text(`✅ Created ${createdRecords.length} new records.`);
+
+// Step 4: Read the created records
+const records = await table.selectRecordsAsync();
+const created = records.records.filter(r => createdRecords.includes(r.id));
+
+const displayBeforeUpdate = created.map(r => ({
+  Name: r.getCellValue('Name'),
+  Email: r.getCellValue('Email'),
+  Status: r.getCellValue('Status')
+}));
+
+output.text('📖 Records after creation:');
+output.table(displayBeforeUpdate);
+
+// Step 5: Update status of each record to "Inactive"
+const updates = created.map(r => ({
+  id: r.id,
+  fields: {
+    Status: 'Inactive'
+  }
+}));
+
+await table.updateRecordsAsync(updates);
+
+const updated = await table.selectRecordsAsync();
+const updatedDisplay = updated.records.filter(r => createdRecords.includes(r.id)).map(r => ({
+  Name: r.getCellValue('Name'),
+  Email: r.getCellValue('Email'),
+  Status: r.getCellValue('Status')
+}));
+
+output.text('🔁 Records after status update:');
+output.table(updatedDisplay);
+
+// Step 6: Delete the created records
+await table.deleteRecordsAsync(createdRecords);
+output.text(`🗑️ Deleted ${createdRecords.length} records.`);
+
+```

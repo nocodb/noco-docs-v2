@@ -197,21 +197,21 @@ Creates multiple records in the table.
 ```javascript
 // Create multiple records at once
 const newRecordIds = await contactsTable.createRecordsAsync([
-  {
+  { fields: {
     'Name': 'John Doe',
     'Email': 'john.doe@example.com',
     'Status': 'Active'
-  },
-  {
+  }},
+  { fields: {
     'Name': 'Jane Smith',
     'Email': 'jane.smith@example.com',
     'Status': 'Pending'
-  },
-  {
+  }},
+  { fields: {
     'Name': 'Bob Johnson',
     'Email': 'bob.johnson@example.com',
     'Status': 'Active'
-  }
+  }}
 ]);
 
 output.text(`Created ${newRecordIds.length} new records.`);
@@ -449,24 +449,24 @@ if (newProject) {
 // Create multiple tasks for the project
 const tasksTable = base.getTable('Tasks');
 const tasks = [
-  {
+  { fields: {
     'Task Name': 'Requirements Gathering',
     'Project': newProjectId,
     'Status': 'Not Started',
     'Due Date': new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
-  },
-  {
+  }},
+  { fields: {
     'Task Name': 'Wireframes',
     'Project': newProjectId,
     'Status': 'Not Started',
     'Due Date': new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString()
-  },
-  {
+  }},
+  { fields: {
     'Task Name': 'Design Mockups',
     'Project': newProjectId,
     'Status': 'Not Started',
     'Due Date': new Date(Date.now() + 21 * 24 * 60 * 60 * 1000).toISOString()
-  }
+  }}
 ];
 
 const taskIds = await tasksTable.createRecordsAsync(tasks);

@@ -1,0 +1,589 @@
+---
+title: 'Import CSV Data'
+description: 'This script allows users to import data from a CSV file into a selected table in NocoDB, with options for handling duplicates and mapping CSV columns to table fields.'
+---
+
+
+
+
+```javascript
+// Example of using file upload to import data
+async function importCSVData(): Promise<void> {
+  try {
+    // Step 1: Select destination table
+    const table: Table = await input.tableAsync('Select a table to import data into:');
+
+    // Step 2: Upload CSV file
+    const result: any = await input.fileAsync('Upload CSV file:', {
+      allowedFileTypes: ['.csv'],
+      hasHeaderRow: true,
+      useRawValues: false
+    });
+
+    if (!result || !result.parsedContents) {
+      output.text('No file uploaded or file could not be parsed.');
+      return;
+    }
+
+    const csvData: Record<string, any>[] = result.parsedContents;
+
+    if (csvData.length === 0) {
+      output.text('CSV file is empty.');
+      return;
+    }
+
+    // Step 3: Show file preview
+    output.markdown('### CSV Import Preview');
+    output.text(`File contains ${csvData.length} rows and ${Object.keys(csvData[0] || {}).length} columns.`);
+
+    if (csvData.length > 0) {
+      output.text('Sample data (first 3 rows):');
+      output.table(csvData.slice(0, 3));
+    }
+
+    // Step 4: Configure duplicate handling
+    const duplicateHandling: 'skip' | 'update' | 'allow' | 'cancel' = await input.selectAsync(
+      'How should duplicate records be handled?',
+      [
+        { label: 'Skip duplicates', value: 'skip' },
+        { label: 'Update existing records', value: 'update' },
+        { label: 'Allow duplicates', value: 'allow' },
+        { label: '-- Cancel Import --', value: 'cancel' }
+      ]
+    );
+
+    if (duplicateHandling === 'cancel') {
+      output.text('Import cancelled by user.');
+      return;
+    }
+
+    // Step 5: Select unique field if handling duplicates
+    let uniqueField: Field | undefined;
+    let uniqueColumnName: string | null = null;
+
+    if (duplicateHandling !== 'allow') {
+      // Create field options with cancel option
+      const fieldOptions = [
+        { label: '-- Cancel Import --', value: 'cancel' },
+        ...table.fields
+          .filter(field => !field.isComputed && !field.is_system_field)
+          .map(field => ({
+            label: `${field.name} (${field.type})`,
+            value: field.name
+          }))
+      ];
+
+      const selectedFieldName: string = await input.selectAsync(
+        'Select a field to use for identifying duplicates:',
+        fieldOptions
+      );
+
+      if (selectedFieldName === 'cancel') {
+        output.text('Import cancelled by user.');
+        return;
+      }
+      uniqueField = table.getField(selectedFieldName);
+
+      if(uniqueField) {
+      const csvColumns: string[] = Object.keys(csvData[0] || {});
+      uniqueColumnName = csvColumns.find(col =>
+        col.toLowerCase().trim() === uniqueField!.name.toLowerCase().trim()
+      ) || null;
+
+      if (!uniqueColumnName) {
+        const availableColumns = [
+          { label: '-- Cancel Import --', value: 'cancel' },
+          ...csvColumns.map(col => ({ label: col, value: col }))
+        ];
+
+        uniqueColumnName = await input.selectAsync(
+          `No CSV column matches "${uniqueField.name}". Select the CSV column to use:`,
+          availableColumns
+        );
+
+        if (uniqueColumnName === 'cancel') {
+          output.text('Import cancelled by user.');
+          return;
+        }
+      }
+
+      }
+    }
+
+    // Step 6: Map CSV columns to table fields
+    output.markdown('### Field Mapping');
+    output.text('Map each CSV column to a field in the table:');
+
+    const csvColumns: string[] = Object.keys(csvData[0] || {});
+    const fieldMap: Record<string, string> = {};
+
+    // Get available fields (exclude computed and system fields)
+    const availableFields: Field[] = table.fields.filter(field =>
+      !field.isComputed &&
+      !field.primary_key &&
+      !field.is_system_field
+    );
+
+    for (const column of csvColumns) {
+      // Find best match for auto-suggestion
+      const bestMatchField: Field | undefined = availableFields.find(field =>
+        field.name.toLowerCase().trim() === column.toLowerCase().trim()
+      );
+
+      const fieldOptions: Array<{ label: string; value: string }> = [
+        { label: '-- Skip this column --', value: 'skip' },
+        { label: '-- Cancel Import --', value: 'cancel' },
+        ...availableFields.map(field => ({
+          label: `${field.name} (${field.type})`,
+          value: field.name
+        }))
+      ];
+
+      let selectedField: string;
+      if (bestMatchField) {
+        // Auto-confirm perfect matches, but give option to change
+        const autoConfirm: string = await input.buttonsAsync(
+          `Auto-mapped: "${column}" → "${bestMatchField.name}". Accept this mapping?`,
+          [
+            { label: 'Accept', value: 'accept', variant: 'primary' },
+            { label: 'Change Mapping', value: 'change', variant: 'secondary' },
+            { label: 'Skip Column', value: 'skip', variant: 'secondary' },
+            { label: 'Cancel Import', value: 'cancel', variant: 'danger' }
+          ]
+        );
+
+        if (autoConfirm === 'cancel') {
+          output.text('Import cancelled by user.');
+          return;
+        } else if (autoConfirm === 'accept') {
+          selectedField = bestMatchField.name;
+          output.text(`✓ Mapped: "${column}" → "${bestMatchField.name}"`);
+        } else if (autoConfirm === 'skip') {
+          selectedField = 'skip';
+        } else {
+          selectedField = await input.selectAsync(
+            `Map CSV column "${column}" to:`,
+            fieldOptions
+          );
+        }
+      } else {
+        selectedField = await input.selectAsync(
+          `Map CSV column "${column}" to:`,
+          fieldOptions
+        );
+      }
+
+      if (selectedField === 'cancel') {
+        output.text('Import cancelled by user.');
+        return;
+      } else if (selectedField && selectedField !== 'skip') {
+        fieldMap[column] = selectedField;
+      }
+    }
+
+    // Ensure at least one field is mapped
+    if (Object.keys(fieldMap).length === 0) {
+      output.text('No fields mapped. Import cancelled.');
+      return;
+    }
+
+    // Step 7: Show mapping preview
+    output.markdown('### Import Configuration');
+    output.text('The following columns will be imported:');
+
+    const mappingTable = Object.entries(fieldMap).map(([csvCol, fieldName]) => {
+      const field = table.getField(fieldName);
+      return {
+        'CSV Column': csvCol,
+        'Table Field': fieldName,
+        'Field Type': field?.type || 'Unknown'
+      };
+    });
+
+    output.table(mappingTable);
+
+    // Step 8: Final confirmation
+    const confirmation: boolean = await input.buttonsAsync(
+      `Ready to import ${csvData.length} records with ${duplicateHandling} duplicate handling. Continue?`,
+      [
+        { label: 'Import Data', value: true, variant: 'primary' },
+        { label: 'Cancel', value: false, variant: 'secondary' }
+      ]
+    );
+
+    if (!confirmation) {
+      output.text('Import cancelled.');
+      return;
+    }
+
+    // Step 9: Begin import process
+    output.markdown('### Importing Data');
+
+    // Initialize counters
+    let created: number = 0;
+    let updated: number = 0;
+    let skipped: number = 0;
+    let failed: number = 0;
+    let processed: number = 0;
+    const failedRows: Array<{ Row: number | string; Error: string; 'Data Sample': string }> = [];
+
+    const batchSize: number = 10;
+    const totalBatches: number = Math.ceil(csvData.length / batchSize);
+
+    // Process data in batches
+    for (let batchIndex = 0; batchIndex < totalBatches; batchIndex++) {
+      const startIndex: number = batchIndex * batchSize;
+      const endIndex: number = Math.min(startIndex + batchSize, csvData.length);
+      const batch: Record<string, any>[] = csvData.slice(startIndex, endIndex);
+
+      // Prepare records for this batch
+      const recordsToCreate: Record<string, any>[] = [];
+      const recordsToUpdate: Array<{ id: string; fields: Record<string, any> }> = [];
+
+      for (let rowIndex = 0; rowIndex < batch.length; rowIndex++) {
+        const row: Record<string, any> = batch[rowIndex];
+        const actualRowIndex: number = startIndex + rowIndex;
+
+        try {
+          // Transform CSV data according to field mapping and types
+          const recordData: Record<string, any> = {};
+
+          for (const [csvColumn, fieldName] of Object.entries(fieldMap)) {
+            const rawValue: any = row[csvColumn];
+
+            if (rawValue !== undefined && rawValue !== null && rawValue !== '') {
+              const field: Field | undefined = table.getField(fieldName);
+              if (field) {
+                recordData[fieldName] = transformValue(rawValue, field);
+              }
+            }
+          }
+
+          // Skip empty records
+          if (Object.keys(recordData).length === 0) {
+            skipped++;
+          } else {
+            // Handle duplicates
+            let shouldCreateRecord = true;
+
+            if (duplicateHandling !== 'allow' && uniqueField && uniqueColumnName) {
+              const uniqueValue: any = row[uniqueColumnName];
+
+              if (uniqueValue !== undefined && uniqueValue !== null && uniqueValue !== '') {
+                // Check for existing record using efficient server-side filtering
+                const existingRecords: RecordQueryResult = await table.selectRecordsAsync({
+                  fields: [uniqueField.name],
+                  where: `(${uniqueField.name},eq,${uniqueValue})`,
+                  pageSize: 1
+                });
+
+                if (existingRecords.records.length > 0) {
+                  const existingRecord: NocoDBRecord = existingRecords.records[0];
+
+                  if (duplicateHandling === 'update') {
+                    recordsToUpdate.push({
+                      id: existingRecord.id,
+                      fields: recordData
+                    });
+                    shouldCreateRecord = false;
+                  } else if (duplicateHandling === 'skip') {
+                    skipped++;
+                    shouldCreateRecord = false;
+                  }
+                }
+              }
+            }
+
+            // Add to creation queue if not handled as duplicate
+            if (shouldCreateRecord) {
+              recordsToCreate.push({fields: recordData});
+            }
+          }
+
+        } catch (error: any) {
+          console.error(`Error processing row ${actualRowIndex + 1}:`, error);
+          failedRows.push({
+            'Row': actualRowIndex + 1,
+            'Error': error.message || String(error),
+            'Data Sample': JSON.stringify(row).substring(0, 100) + '...'
+          });
+          failed++;
+        }
+      }
+
+      // Execute batch operations
+      try {
+        // Bulk create new records
+        if (recordsToCreate.length > 0) {
+          const createdIds: string[] = await table.createRecordsAsync(recordsToCreate);
+          created += createdIds.length;
+        }
+
+        // Bulk update existing records
+        if (recordsToUpdate.length > 0) {
+          await table.updateRecordsAsync(recordsToUpdate);
+          updated += recordsToUpdate.length;
+        }
+
+      } catch (batchError: any) {
+        console.error(`Error in batch ${batchIndex + 1}:`, batchError);
+        failed += recordsToCreate.length + recordsToUpdate.length;
+
+        // Log batch failure
+        failedRows.push({
+          'Row': `Batch ${batchIndex + 1}`,
+          'Error': `Batch operation failed: ${batchError.message || String(batchError)}`,
+          'Data Sample': `${recordsToCreate.length} creates, ${recordsToUpdate.length} updates`
+        });
+      }
+
+      processed = endIndex;
+    }
+
+    // Step 10: Show final results
+    output.markdown('### Import Complete! 🎉');
+
+    const resultsTable: Array<{ Metric: string; Count: number }> = [
+      { 'Metric': 'Total Records Processed', 'Count': csvData.length },
+      { 'Metric': 'Records Created', 'Count': created },
+      { 'Metric': 'Records Updated', 'Count': updated },
+      { 'Metric': 'Records Skipped', 'Count': skipped },
+      { 'Metric': 'Failed Records', 'Count': failed }
+    ];
+
+    output.table(resultsTable);
+
+    // Show failed records if any
+    if (failedRows.length > 0) {
+      output.markdown('### Failed Records');
+      output.text(`${failedRows.length} records failed to import. First 10 failures:`);
+      output.table(failedRows.slice(0, 10));
+    }
+
+    // Success summary
+    const successRate: number = Math.round(((created + updated + skipped) / csvData.length) * 100);
+    output.text(`Import completed with ${successRate}% success rate.`);
+
+  } catch (error: any) {
+    console.error('Import failed:', error);
+    output.text(`Import failed: ${error.message || String(error)}`);
+  }
+}
+
+/**
+ * Transform CSV value to appropriate type based on field definition
+ * @param {any} value - Raw CSV value
+ * @param {Field} field - NocoDB field definition
+ * @returns {any} Transformed value
+ */
+function transformValue(value: unknown, field: Field) {
+  if (value === null || value === undefined || value === '') {
+    return null;
+  }
+
+  const stringValue = String(value).trim();
+
+  switch (field.type) {
+    case UITypes.Number:
+    case UITypes.Decimal:
+    case UITypes.Currency:
+    case UITypes.Percent:
+    case UITypes.Rating:
+      const numValue = parseFloat(stringValue.replace(/[^\d.-]/g, ''));
+      return isNaN(numValue) ? null : numValue;
+
+    case UITypes.Checkbox:
+      return ['true', '1', 'yes', 'on', 'checked'].includes(stringValue.toLowerCase());
+
+    case UITypes.Time:
+      // Try to parse time format
+      const timeMatch = stringValue.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
+      if (timeMatch) {
+        const [, hours, minutes, seconds = '00'] = timeMatch;
+        return `${hours.padStart(2, '0')}:${minutes}:${seconds}`;
+      }
+      return stringValue;
+
+    case UITypes.Year:
+      const yearValue = parseInt(stringValue);
+      return (yearValue >= 1900 && yearValue <= 2100) ? yearValue : null;
+
+    case UITypes.Duration:
+      // Try to parse duration format (h:mm:ss or seconds)
+      if (stringValue.includes(':')) {
+        const parts = stringValue.split(':');
+        if (parts.length >= 2) {
+          const hours = parseInt(parts[0]) || 0;
+          const minutes = parseInt(parts[1]) || 0;
+          const seconds = parseInt(parts[2]) || 0;
+          return hours * 3600 + minutes * 60 + seconds; // Convert to seconds
+        }
+      }
+      // Try parsing as seconds
+      const durationSeconds = parseFloat(stringValue);
+      return isNaN(durationSeconds) ? null : durationSeconds;
+
+    case UITypes.MultiSelect:
+      // Split on common delimiters
+      if (stringValue.includes(',')) {
+        return stringValue.split(',').map(s => s.trim()).filter(s => s);
+      } else if (stringValue.includes(';')) {
+        return stringValue.split(';').map(s => s.trim()).filter(s => s);
+      } else if (stringValue.includes('|')) {
+        return stringValue.split('|').map(s => s.trim()).filter(s => s);
+      }
+      return [stringValue];
+
+    case UITypes.SingleSelect:
+      return stringValue;
+
+    case UITypes.JSON:
+      try {
+        return JSON.parse(stringValue);
+      } catch {
+        return stringValue; // Keep as string if not valid JSON
+      }
+
+    case UITypes.Email:
+      // Basic email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(stringValue) ? stringValue : null;
+
+    case UITypes.URL:
+      // Basic URL validation
+      try {
+        new URL(stringValue);
+        return stringValue;
+      } catch {
+        // Try adding https:// if it looks like a domain
+        if (stringValue.includes('.') && !stringValue.includes(' ')) {
+          try {
+            new URL(`https://${stringValue}`);
+            return `https://${stringValue}`;
+          } catch {
+            return null;
+          }
+        }
+        return null;
+      }
+
+    case UITypes.PhoneNumber:
+      // Clean phone number - keep digits, +, parentheses, hyphens, spaces
+      return stringValue.replace(/[^\d+()-\s]/g, '');
+
+    case UITypes.GeoData:
+      // Try to parse as lat,lng or JSON
+      if (stringValue.includes(',')) {
+        const [lat, lng] = stringValue.split(',').map(s => parseFloat(s.trim()));
+        if (!isNaN(lat) && !isNaN(lng)) {
+          return { latitude: lat, longitude: lng };
+        }
+      }
+      try {
+        const geoData = JSON.parse(stringValue);
+        if (geoData.latitude !== undefined && geoData.longitude !== undefined) {
+          return geoData;
+        }
+      } catch {
+        // Not valid JSON
+      }
+      return null;
+
+    case UITypes.Attachment:
+      // For attachments, we can only handle URLs
+      try {
+        new URL(stringValue);
+        return [{
+          url: stringValue,
+          title: stringValue.split('/').pop() || 'attachment'
+        }];
+      } catch {
+        return null;
+      }
+
+    case UITypes.User:
+      // Try to find user by email
+      const collaborator = base.getCollaborator(stringValue);
+      if (collaborator) {
+        return [collaborator.id]; // Users are stored as arrays of IDs
+      }
+      return null;
+    case UITypes.Barcode:
+    case UITypes.QrCode:
+      return { value: stringValue };
+
+    case UITypes.SingleLineText:
+    case UITypes.LongText:
+    case UITypes.SpecificDBType:
+    default:
+      return stringValue;
+  }
+}
+
+// Execute the import
+await importCSVData();
+```
+
+
+### Use Cases
+
+* **Bulk Data Import**: Import structured data from CSV files into a selected table
+* **Data Migration**: Move data from spreadsheets or legacy systems into NocoDB
+* **Mass Updates**: Update existing records using values from a CSV file
+* **Onboarding**: Quickly populate tables with user, product, or customer information
+
+### How it Works
+
+1. **Select Table**: Choose the destination table for importing data
+2. **Upload CSV File**: Upload a CSV with or without headers
+3. **Preview File**: View row and column counts with a sample of the uploaded data
+4. **Handle Duplicates**: Choose whether to skip, update, or allow duplicates
+5. **Select Unique Field** (if applicable): Specify the field to identify duplicate records
+6. **Map Columns**: Match CSV columns to table fields with auto-suggestions and manual mapping
+7. **Review Mappings**: Confirm which columns will be imported and how they’re mapped
+8. **Import Records**: Data is processed in batches with support for create and update operations
+9. **See Results**: Get a detailed report of created, updated, skipped, and failed records
+
+### Requirements
+
+* A **CSV file** with structured rows and columns
+* A **destination table** with relevant fields configured
+* Optional: A **unique field** in the table to detect and manage duplicate records
+
+### Supported Field Types
+
+* Single Line Text
+* Long Text
+* Number
+* Decimal
+* Currency
+* Percent
+* Rating
+* Checkbox
+* Select (Single & Multi)
+* Date/Time
+* Email
+* URL
+* Phone Number
+* Attachment (URLs only)
+* User (by email)
+* JSON
+* Barcode / QR Code
+* Geo Location
+
+### Features
+
+* **Interactive Mapping**: Automatically detect and map matching fields
+* **Duplicate Handling**: Choose how duplicates are treated—skip, update, or allow
+* **Batch Processing**: Imports data in small chunks for reliability
+* **Field Type Transformation**: Automatically transforms values to match field types
+* **Import Summary**: See a complete report with success rates and failed row details
+* **Cancel Anytime**: Option to cancel at every major step
+
+### Best Practices
+
+* Always review field mappings before confirming the import
+* Clean up CSV headers to closely match table field names for better auto-mapping
+* Use a unique field (e.g., email, ID) for accurate duplicate detection and updates
+* Check the sample preview to catch formatting issues early
+* Prefer smaller files for better performance and easier troubleshooting

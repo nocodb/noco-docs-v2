@@ -1,0 +1,38 @@
+---
+title: 'Fields: Text-Based'
+description: 'Learn how to create and manage text-based fields in NocoDB.'
+---
+
+This script demonstrates how to create & work with the following text-based fields in NocoDB:
+`SingleLineText`, `LongText`, `PhoneNumber`, `Email`, `URL`
+
+For detailed descriptions of each field type and associated configuration options, refer to the [NocoDB meta API documentation](https://nocodb.com/apis/v3/meta#tag/Fields).
+
+
+```javascript
+// NocoDB Script: Create Text-Based Fields
+
+const tableName = 'Text Fields Demo';
+let table = base.getTable(tableName);
+
+if (!table) {
+  table = await base.createTableAsync(tableName, []);
+  output.text(`✅ Created table: "${tableName}"`);
+}
+
+async function createField(name, config) {
+  if (!table.getField(name)) {
+    await table.createFieldAsync({ name, ...config });
+    output.text(`✅ Created: ${name}`);
+  }
+}
+
+await createField('Name', { type: "SingleLineText" });
+await createField('Description', { type: "LongText" });
+await createField('Phone', { type: "PhoneNumber" });
+await createField('Email', { type: "Email" });
+await createField('Website', { type: "URL" });
+
+output.table(table.fields.map(f => ({ 'Field Name': f.name, 'Type': f.type })));
+output.text(`ℹ️ Total fields created: ${table.fields.length}`);
+```

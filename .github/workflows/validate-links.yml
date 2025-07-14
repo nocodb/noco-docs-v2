@@ -1,0 +1,27 @@
+name: Validate Links
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'content/**/*.md'
+      - 'content/**/*.mdx'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'content/**/*.md'
+      - 'content/**/*.mdx'
+
+jobs:
+  validate-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install
+        
+      - name: Validate links
+        run: bun scripts/validateLinks.ts

@@ -1,0 +1,57 @@
+---
+title: 'Fields: Miscellaneous'
+description: 'Additional field types for attachments, checkboxes, ratings, and structured data.'
+---
+
+This script demonstrates how to create & work with following fields in NocoDB
+`Attachment` `Checkbox` `Rating` `JSON` `Geometry`
+
+Detailed descriptions of each field type & associated configuration options are available in the [NocoDB meta API documentation](https://nocodb.com/apis/v3/meta#tag/Fields).
+
+```javascript
+// NocoDB Script: Create Miscellaneous Fields
+
+const tableName = 'Misc Fields Demo';
+let table = base.getTable(tableName);
+
+if (!table) {
+  table = await base.createTableAsync(tableName, []);
+  output.text(`✅ Created table: "${tableName}"`);
+}
+
+async function createField(name, config) {
+  if (!table.getField(name)) {
+    await table.createFieldAsync({ name, ...config });
+    output.text(`✅ Created: ${name}`);
+  }
+}
+
+// Attachment Field
+//
+await createField('Attachment', { type: "Attachment" });
+
+// Checkbox Field
+//
+await createField('Is Published', {
+  type: "Checkbox",
+  options: { icon: "square" }
+});
+
+// Rating Field
+//
+await createField('Priority', {
+  type: "Rating",
+  options: { icon: 'star', max_value: 5, color: '#F4B400' }
+});
+
+// JSON Field
+//
+await createField('Extra Info', { type: "JSON" });
+
+// Geometry Field
+//
+await createField('Geometry Data', { type: "Geometry" });
+
+output.table(table.fields.map(f => ({ 'Field Name': f.name, 'Type': f.type })));
+output.text(`ℹ️ Total fields created: ${table.fields.length}`);
+```

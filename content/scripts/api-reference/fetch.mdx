@@ -225,30 +225,32 @@ for (const customer of customers.records) {
 
 ```javascript
 // Import data from Google Sheets (simplified example)
+// Note: Doesn't work if the spreadsheet is owned by a user with a Google Workspace (formerly G Suite) account
+// and requires the Google Sheets API to be enabled in your Google Cloud project. Share sheet with Viewer access publicly
 async function importFromGoogleSheets(spreadsheetId, range) {
-  const apiKey = 'YOUR_API_KEY';
+  const apiKey = 'API_KEY';
   
   try {
     output.text(`Fetching data from Google Sheets (${spreadsheetId})...`);
-    
+
     const response = await remoteFetchAsync(
       `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`
     );
-    
+
     if (response.status !== 200) {
       throw new Error(`API returned status ${response.status}`);
     }
-    
+
     const sheetData = response.data;
-    
+
     if (!sheetData.values || sheetData.values.length === 0) {
       output.text('No data found in the specified range.', 'warning');
       return null;
     }
-    
+
     // Extract headers from the first row
     const headers = sheetData.values[0];
-    
+
     // Convert the data to an array of objects
     const records = sheetData.values.slice(1).map(row => {
       const record = {};
@@ -257,10 +259,10 @@ async function importFromGoogleSheets(spreadsheetId, range) {
       });
       return record;
     });
-    
+
     output.text(`Fetched ${records.length} records from Google Sheets.`);
     output.table(records.slice(0, 5)); // Show first 5 records as preview
-    
+
     return records;
   } catch (error) {
     output.text(`Error fetching data from Google Sheets: ${error.message}`, 'error');
@@ -269,15 +271,15 @@ async function importFromGoogleSheets(spreadsheetId, range) {
 }
 
 // Example usage
-const spreadsheetId = '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms'; // Example Spreadsheet ID
-const range = 'Sheet1!A1:F100'; // Range to fetch
+const spreadsheetId = '1o_HhLwbUYJuwwPok8poOjRZxxxxxIgQF9z5aoEZrzXU'; // Example Spreadsheet ID
+const range = 'Sheet1!A1:B10'; // Range to fetch
 
 const sheetsData = await importFromGoogleSheets(spreadsheetId, range);
 
 if (sheetsData) {
   // Import the data into a NocoDB table
   const importTable = base.getTable('Imported Data');
-  
+
   // Clear confirmation before proceeding
   const confirm = await input.buttonsAsync(
     `Import ${sheetsData.length} records into the "${importTable.name}" table?`,
@@ -286,15 +288,22 @@ if (sheetsData) {
       { label: 'Cancel', value: false, variant: 'secondary' }
     ]
   );
-  
+
   if (confirm) {
     // Import data in batches
     const batchSize = 50;
     let imported = 0;
-    
+
+    // output.inspect(sheetsData);
+
     for (let i = 0; i < sheetsData.length; i += batchSize) {
       const batch = sheetsData.slice(i, i + batchSize);
-      await importTable.createRecordsAsync(batch);
+
+      // Wrap each record in a { fields: ... } object
+      const formattedBatch = batch.map(record => ({ fields: record }));
+      output.inspect(batch);
+
+      await importTable.createRecordsAsync(formattedBatch);
       imported += batch.length;
       output.text(`Imported ${imported} of ${sheetsData.length} records...`);
     }

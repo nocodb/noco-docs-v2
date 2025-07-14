@@ -1,7 +1,6 @@
 {
   "title": "Records",
   "pages": [
-    "records-overview",
     "create-record",
     "expand-record",
     "actions-on-record"
