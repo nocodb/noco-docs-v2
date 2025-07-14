@@ -70,3 +70,7 @@ PackageVersion: **0.258.2**
 - Community Forums: https://community.nocodb.com/
 - LinkedIn: https://www.linkedin.com/company/nocodb
 - Reddit: https://www.reddit.com/r/NocoDB/
+
+## SSO (Single Sign-On) FAQs
+
+For all questions related to SSO, please see the dedicated SSO FAQ section: [SSO FAQs](/docs/product-docs/account-settings/authentication/FAQs)

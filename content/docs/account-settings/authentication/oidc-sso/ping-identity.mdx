@@ -1,6 +1,6 @@
 ---
-title: 'Ping Identity' 
-description: 'Learn how to configure Ping Identity as an identity provider for NocoDB.' 
+title: 'Ping Identity'
+description: 'Learn how to configure Ping Identity as an identity provider for NocoDB.'
 tags: ['SSO', 'Ping Identity', 'OIDC']
 keywords: ['SSO', 'Ping Identity', 'OIDC', 'Authentication', 'Identity Provider']
 ---
@@ -38,14 +38,14 @@ This article briefs about the steps to configure Ping Identity as Identity servi
 6. On the "Add Application" panel:
     - Input the application name and description.
     - Choose "OIDC Web App" as the Application Type and click "Configure"
-7. From your application, 
+7. From your application,
     - Go to `Configurations` tab
     - Click on `Edit` button
     - Check `Refresh Token` option
     - Copy `Authorization URL`, `Token URL`, `Userinfo URL` & `JWK Set URL` from the `Endpoints` section
     - From `Generals` dropdown, copy `Client ID` & `Client Secret`
     - `Save`
-8. From `Resources` tab, 
+8. From `Resources` tab,
     - Click `Edit`
     - Select `openid` `profile` `email` from `Scopes`
 9. Switch toggle button in the top right corner to `On` to activate the application.
@@ -72,3 +72,5 @@ Post sign-out, refresh page (for the first time) if you do not see `Sign in with
 </Callout>
 
 For information about Ping Identity API Scopes, refer [here](https://docs.pingidentity.com/r/en-us/pingone/pingone_t_edit_scopes_for_an_application)
+
+<Callout type="info">For more common questions and troubleshooting, see our [SSO FAQ](/docs/product-docs/account-settings/authentication/FAQs).</Callout>
