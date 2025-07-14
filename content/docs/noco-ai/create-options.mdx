@@ -1,0 +1,70 @@
+---
+title: 'Create Options using AI'
+description: 'Automatically generate field options for select fields using NocoAI.'
+tags: ['Noco AI', 'Select Field Options']
+icon: 'sparkle'
+keywords: ['AI select options', 'NocoDB smart select', 'suggest dropdown values']
+---
+
+<Callout type="info">This feature is available only on NocoDB Cloud. It is not supported in self-hosted or on-premise deployments.</Callout>
+
+## Overview
+
+When working with **Single Select** or **Multi Select** fields, you can now let **NocoAI** suggest relevant options based on your field name and table context. This helps reduce manual work and ensures meaningful, consistent values.
+
+---
+
+## Steps to Create Options Using AI
+
+1. Add a **Single Select** or **Multi Select** Field
+   In your table, click **+** in top right of field header to add field and choose either **Single Select** or **Multi Select**. Specify a descriptive field name that indicates the type of options you need.
+
+2. Click **Auto Suggest**
+   Inside the field configuration modal, click the **✨ Auto Options** button to fetch option suggestions.
+
+3. Review Suggested Options
+   NocoAI will analyze your field name and table context to generate a list of relevant options.
+
+4. Customize if Needed
+   You can add, remove, or edit the suggested values before saving.
+
+5. Click **Save**
+   Finalize your configuration to add the field and its options to your table.
+
+---
+
+## Tips for Better AI Suggestions
+
+- **Use a descriptive field name**
+  Example: Instead of "Type", use "Application Status" or "Task Priority".
+
+- **Set table context**
+  The more specific your table name and existing fields are, the better the suggestions.
+  _Example_: In a table named “Tasks”, a field called “Priority” will likely suggest: `Low`, `Medium`, `High`.
+
+- **Apply business terms**
+  Use industry-appropriate terminology in your field name to guide the AI.
+  _Example_: For a field called “Candidate Stage”, suggestions might include: `Applied`, `Screened`, `Interviewed`, `Hired`.
+
+---
+
+## Example Use Cases
+
+| Table        | Field Name         | Suggested Options                                  |
+|--------------|--------------------|----------------------------------------------------|
+| `Tasks`      | Priority           | Low, Medium, High, Critical                        |
+| `Candidates` | Application Status | Applied, Shortlisted, Interviewed, Hired, Rejected |
+| `Projects`   | Phase              | Initiation, Planning, Execution, Closure           |
+| `Feedback`   | Sentiment          | Positive, Neutral, Negative                        |
+
+---
+
+## What’s Next
+
+Now that your select fields are powered with meaningful options, you can:
+
+- Group and filter views by select values
+- Build conditional logic in forms based on selected options
+- Automate workflows triggered by option changes
+
+Let NocoAI handle the heavy lifting while you focus on building smarter workflows.
