@@ -6,75 +6,20 @@ icon: "sparkle"
 keywords: ['Noco AI overview', 'NocoDB AI automation', 'AI-powered automation', 'NocoDB cloud AI']
 ---
 
-<Callout type="note">NocoAI is available on cloud deployments of NocoDB. It is currently not supported on self-hosted or on-premise installations.</Callout>
+<Callout type="info">NocoAI is available on cloud deployments of NocoDB. It is currently not supported on self-hosted or on-premise installations.</Callout>
 
 NocoAI brings intelligent automation and AI-powered assistance to the heart of NocoDB. Designed to reduce manual setup and enhance productivity, NocoAI helps you build, extend, and manage your bases using natural language — no technical expertise required.
 
 
 ## Key Features
 
-### Prompt-Based Schema Generation
-
-Build a complete base — including tables, fields, and views — by describing your needs in plain language.
-
-**Example:**
-`"Track marketing campaigns with budget, channel, timeline, and performance."`
-→ NocoAI auto-generates a fully structured base.
-
----
-
-### Table Recommendations
-
-Get suggestions for additional tables that align with your existing schema and use case.
-
-**Example:**
-Have a `Projects` table? NocoAI may recommend adding related tables like `Clients` or `Invoices`.
-
----
-
-### Field Recommendations
-
-Receive relevant field suggestions based on the context of the table you're editing.
-
-**Example:**
-In a `Tasks` table, suggestions might include:
-`Priority`, `Estimated Hours`, `Due Date`.
-
----
-
-### View Recommendations
-
+- **[Prompt-Based Schema Generation](/docs/product-docs/noco-ai/create-base)** : Build a complete base — including tables, fields, and views — by describing your needs in plain language.
+- **Table Recommendations** : Get suggestions for additional tables that align with your existing schema and use case.
+- **Field Recommendations** : Receive relevant field suggestions based on the context of the table you're editing.
+- **View Recommendations**
 Enhance visibility with recommended views tailored to your table’s content.
-
-**Example:**
-For a `Leads` table, NocoAI may recommend:
-
-* Kanban View (grouped by Status)
-* Calendar View (based on Due Date)
-* Filtered Views (e.g., “High Priority”)
-
----
-
-### Select Options Recommendations
-
-When creating single or multi-select fields, NocoAI suggests logical values based on the field name.
-
-**Example:**
-For a field named `Status`, options might include:
-`Not Started`, `In Progress`, `Completed`.
-
----
-
-### Prompt-Based Formula Generation
-
-Generate complex formulas by describing the logic you need.
-
-**Example:**
-`"Calculate the number of days between start and end date"`
-→ NocoAI outputs:
-`DATETIME_DIFF({End Date}, {Start Date}, 'days')`
-
----
+- **Select Options Recommendations** : When creating single or multi-select fields, NocoAI suggests logical values based on the field name.
+- **Prompt-Based Formula Generation** : Generate complex formulas by describing the logic you need.
 
 ## Use Cases
 
@@ -104,9 +49,4 @@ NocoAI is just getting started. Upcoming enhancements will include:
 
 To explore NocoAI, open any base or start a new one in NocoDB and look for the NocoAI features in the sidebar, table settings, or formula editor.
 
-Have feedback or ideas? Share them with the NocoDB team to help shape the future of AI-powered databases.
-
-
-
-
-
+Have feedback or ideas? Share them with the NocoDB team using support chat to help shape the future of AI-powered databases.
