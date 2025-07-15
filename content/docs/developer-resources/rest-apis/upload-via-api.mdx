@@ -7,131 +7,477 @@ hide_table_of_contents: true
 Sample code to upload files via API is listed below.
 Assumes `http://localhost:8080/` as the base URL for the API calls.
 
-### Upload local file
+## Upload local file (single)
+
+### Javascript
 
 ```javascript
-let axios = require("axios").default;
-let FormData = require('form-data');
-let fs = require('fs');
+const axios = require('axios');
+const FormData = require('form-data');
+const fs = require('fs');
 
-// Configurations
-//
-const project_id = '<Project Identifier>';
-const table_id = '<Table Identifier>';
-const xc_token = '<Auth Token>';
-const file_path = '<Local File Path>';
+(async () => {
+    // API Token for uploading the file
+    // Reference : https://docs.nocodb.com/account-settings/api-tokens/#create-api-token
+    const apiToken = 'YOUR_API_TOKEN';
 
+    // Base URL for the API
+    const baseURL = 'https://app.nocodb.com';
 
-// Insert Image
-// @param image_path : local file path
-// @return : JSON object to be used in insert record API for attachment field
-//
-async function insertImage (path) {
+    // Table ID
+    // Table ID of your table can be retrieved from the URL (OR) by using table context menu
+    const tableID = 'YOUR_TABLE_ID';
+
+    // Read the image file
+    const photoStream = fs.createReadStream('./photo.png');
+
+    // Create form data
     const formData = new FormData();
-    formData.append("file", fs.createReadStream(path));
-    const data = await axios({
-        url: 'http://localhost:8080/api/v2/storage/upload',
-        data: formData,
-        headers:{
-            'Content-Type':`multipart/form-data;`,
-            'xc-token': xc_token
-        },
-        method: 'post',
+    formData.append('file', photoStream);
 
-        // Optional : storage file path
-        params: {"path": "somePath"}
-    });
-    return data;
-}
-
-// Insert record with attachment
-// Assumes a table with two columns :
-//      'Title' of type SingleLineText and
-//      'Attachment' of type Attachment
-//
-async function uploadFileExample() {
-    let response = await insertImage(file_path);
-
-    let row = {
-        "Title": "2",
-        "Attachment": response.data
+    // Define headers for uploading the file
+    const uploadHeaders = {
+        'xc-token': apiToken,
+        ...formData.getHeaders(),
     };
 
-    await axios({
-        method: 'POST',
-        url: `http://localhost:8080/api/v2/tables/${table_id}/records`,
-        data: row,
-        headers: {
-            'xc-token': xc_token
-        }
+    // Upload the file
+    const uploadResponse = await axios.post(`${baseURL}/api/v1/db/storage/upload`, formData, {
+        headers: uploadHeaders,
     });
-}
 
-(async () => {
-    await uploadFileExample();
-})();
+    // Create a new row in the database
+    const response = await axios.post(`${baseURL}/api/v2/tables/${tableID}/records`, {
+        // Example field data
+        "Title": "New Name",
+        // Pass the uploaded file data; file is field name here & its type is "Attachment"
+        "file": uploadResponse.data,
+    }, {
+        headers: {
+            'xc-token': apiToken,
+            'Content-Type': 'application/json',
+        },
+    });
+})().catch(err => {
+    console.log(err);
+});
+
 ```
 
-### Upload via URL
+### Bash
+
+```bash
+#!/bin/bash
+
+# Required configuration
+API_TOKEN="YOUR_API_TOKEN"
+BASE_URL="https://app.nocodb.com"
+TABLE_ID="YOUR_TABLE_ID"       # e.g., m7wp2q8n4d9w4kp
+FILE_PATH="./upload/photo.png"             # Path to file to upload
+FIELD_NAME="File"                   # Name of attachment field
+TITLE_FIELD="Title"                 # Optional: a text field
+TITLE_VALUE="New Name"              # Optional: text value
+
+# Step 1: Upload the file
+echo "Uploading file..."
+UPLOAD_RESPONSE=$(curl -s -X POST "${BASE_URL}/api/v1/db/storage/upload" \
+  -H "xc-token: ${API_TOKEN}" \
+  -F "file=@${FILE_PATH}")
+
+echo "Upload response: $UPLOAD_RESPONSE"
+
+# Step 2: Create the record with uploaded file
+echo "Creating record..."
+
+CREATE_RESPONSE=$(curl -s -X POST "${BASE_URL}/api/v2/tables/${TABLE_ID}/records" \
+  -H "xc-token: ${API_TOKEN}" \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"${TITLE_FIELD}\": \"${TITLE_VALUE}\",
+    \"${FIELD_NAME}\": ${UPLOAD_RESPONSE}
+  }")
+
+echo "Create response: $CREATE_RESPONSE"
+```
+
+📝 **Instructions**
+
+1. Save the file as `upload-and-insert.sh`
+2. Make it executable:
+
+```bash
+chmod +x upload-and-insert.sh
+```
+3. Update the following variables:
+
+* `API_TOKEN`
+* `TABLE_ID`
+* `FILE_PATH`
+* Field names (`file`, `Title`, etc.)
+4. Run the script:
+
+```bash
+./upload-and-insert.sh
+```
+
+### Typescript
+
+```typescript
+import axios from 'axios';
+import FormData from 'form-data';
+import fs from 'fs';
+import path from 'path';
+
+const uploadAndInsert = async (): Promise<void> => {
+    const apiToken = 'YOUR_API_TOKEN'; // Replace with your actual API token
+    const baseURL = 'https://app.nocodb.com';
+    const tableID = 'YOUR_TABLE_ID'; // Replace with your actual table ID
+    const filePath = path.resolve('../uploads/photo.png');
+
+    const photoStream = fs.createReadStream(filePath);
+    const formData = new FormData();
+    formData.append('file', photoStream);
+
+    const uploadHeaders = {
+        'xc-token': apiToken,
+        ...formData.getHeaders(),
+    };
+
+    try {
+        const uploadResponse = await axios.post(`${baseURL}/api/v1/db/storage/upload`, formData, {
+            headers: uploadHeaders,
+        });
+
+        const uploadedFileData = uploadResponse.data;
+
+        const recordResponse = await axios.post(`${baseURL}/api/v2/tables/${tableID}/records`, {
+            Title: 'New Name',
+            file: uploadedFileData,
+        }, {
+            headers: {
+                'xc-token': apiToken,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        console.log('Record created:', recordResponse.data);
+    } catch (error) {
+        console.error('Error occurred:', error);
+    }
+};
+
+// Invoke properly
+(async () => {
+    await uploadAndInsert();
+})();
+
+```
+
+📝 **Instructions**
+
+Install required packages:
+
+```bash
+npm install axios form-data @types/form-data
+```
+
+If using Node.js with TypeScript, also install:
+
+```bash
+npm install --save-dev @types/node
+```
+
+---
+
+* Make sure your TypeScript `tsconfig.json` includes `"esModuleInterop": true` to support default imports from CommonJS libraries like `axios`, `form-data`, and `fs`.
+
+### Python
+
+```python
+import requests
+
+# Configuration
+API_TOKEN = "YOUR_API_TOKEN"
+BASE_URL = "https://app.nocodb.com"
+TABLE_ID = "YOUR_TABLE_ID"
+FILE_PATH = "./photo.png"
+
+# Step 1: Upload the file
+with open(FILE_PATH, 'rb') as file:
+    files = {
+        'file': file
+    }
+    headers = {
+        'xc-token': API_TOKEN
+    }
+
+    print("Uploading file...")
+    upload_response = requests.post(
+        f"{BASE_URL}/api/v1/db/storage/upload",
+        headers=headers,
+        files=files
+    )
+
+    if upload_response.status_code != 200:
+        print("Upload failed:", upload_response.text)
+        exit(1)
+
+    uploaded_file_data = upload_response.json()
+    print("Upload response:", uploaded_file_data)
+
+# Step 2: Insert a new record with uploaded file
+record_payload = {
+    "Title": "New Name",   # adjust field names as needed
+    "File": uploaded_file_data  # must match the name of your attachment field
+}
+
+headers = {
+    'xc-token': API_TOKEN,
+    'Content-Type': 'application/json'
+}
+
+print("Creating record...")
+record_response = requests.post(
+    f"{BASE_URL}/api/v2/tables/{TABLE_ID}/records",
+    headers=headers,
+    json=record_payload
+)
+
+if record_response.status_code != 200:
+    print("Record creation failed:", record_response.text)
+else:
+    print("Record created:", record_response.json())
+```
+
+
+📝 **Instructions**
+
+Make sure you have `requests` installed:
+
+```bash
+pip install requests
+```
+
+### Ruby
+
+```ruby
+require 'net/http'
+require 'uri'
+require 'json'
+require 'mime/types'
+
+# Configuration
+API_TOKEN = 'YOUR_API_TOKEN'
+BASE_URL = 'https://app.nocodb.com'
+TABLE_ID = 'YOUR_TABLE_ID'
+FILE_PATH = './photo.png'
+
+# Step 1: Upload the file
+uri = URI("#{BASE_URL}/api/v1/db/storage/upload")
+
+file = File.open(FILE_PATH)
+mime_type = MIME::Types.type_for(FILE_PATH).first.to_s
+
+request = Net::HTTP::Post::Multipart.new uri.path,
+  'file' => UploadIO.new(file, mime_type, File.basename(file))
+
+request['xc-token'] = API_TOKEN
+
+puts "Uploading file..."
+http = Net::HTTP.new(uri.host, uri.port)
+http.use_ssl = true
+response = http.request(request)
+
+if response.code.to_i != 200
+  puts "Upload failed: #{response.body}"
+  exit(1)
+end
+
+uploaded_file_data = JSON.parse(response.body)
+puts "Upload response: #{uploaded_file_data}"
+
+# Step 2: Insert a record
+uri = URI("#{BASE_URL}/api/v2/tables/#{TABLE_ID}/records")
+
+payload = {
+  "Title" => "New Name",
+  "file" => uploaded_file_data
+}.to_json
+
+request = Net::HTTP::Post.new(uri)
+request['Content-Type'] = 'application/json'
+request['xc-token'] = API_TOKEN
+request.body = payload
+
+puts "Creating record..."
+response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+  http.request(request)
+end
+
+if response.code.to_i != 200
+  puts "Record creation failed: #{response.body}"
+else
+  puts "Record created: #{response.body}"
+end
+```
+
+
+ 📝 **Instructions**
+
+You’ll need the `multipart-post` and `mime-types` gems:
+
+```bash
+gem install multipart-post mime-types
+```
+
+Add at the top if needed:
+
+```ruby
+require 'net/http/post/multipart'
+```
+
+### JAVA
+
+```java
+import okhttp3.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+
+public class NocoDBUploaderOkHttp {
+
+    private static final String API_TOKEN = "YOUR_API_TOKEN";
+    private static final String BASE_URL = "https://app.nocodb.com";
+    private static final String TABLE_ID = "YOUR_TABLE_ID";
+    private static final String FILE_PATH = "./photo.png";
+
+    public static void main(String[] args) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        ObjectMapper mapper = new ObjectMapper();
+
+        // Step 1: Upload file
+        File file = new File(FILE_PATH);
+        String mimeType = okhttp3.internal.http.HttpDate.format(new Date()); // fallback if type is unknown
+
+        RequestBody fileBody = RequestBody.create(file, MediaType.parse(Files.probeContentType(file.toPath())));
+        MultipartBody multipartBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("file", file.getName(), fileBody)
+                .build();
+
+        Request uploadRequest = new Request.Builder()
+                .url(BASE_URL + "/api/v1/db/storage/upload")
+                .header("xc-token", API_TOKEN)
+                .post(multipartBody)
+                .build();
+
+        System.out.println("Uploading file...");
+        try (Response response = client.newCall(uploadRequest).execute()) {
+            if (!response.isSuccessful()) {
+                System.err.println("Upload failed: " + response.body().string());
+                return;
+            }
+
+            String uploadResponseStr = response.body().string();
+            System.out.println("Upload response: " + uploadResponseStr);
+
+            // Step 2: Create record
+            List<Object> fileData = mapper.readValue(uploadResponseStr, List.class);
+            Map<String, Object> record = new HashMap<>();
+            record.put("Title", "New Name");
+            record.put("file", fileData); // field name in your NocoDB table
+
+            RequestBody recordBody = RequestBody.create(
+                    mapper.writeValueAsString(record),
+                    MediaType.parse("application/json")
+            );
+
+            Request recordRequest = new Request.Builder()
+                    .url(BASE_URL + "/api/v2/tables/" + TABLE_ID + "/records")
+                    .header("xc-token", API_TOKEN)
+                    .header("Content-Type", "application/json")
+                    .post(recordBody)
+                    .build();
+
+            System.out.println("Creating record...");
+            try (Response recordResponse = client.newCall(recordRequest).execute()) {
+                if (!recordResponse.isSuccessful()) {
+                    System.err.println("Record creation failed: " + recordResponse.body().string());
+                } else {
+                    System.out.println("Record created: " + recordResponse.body().string());
+                }
+            }
+        }
+    }
+}
+```
+
+## Upload local files (batch)
+
+### Javascript
 
 ```javascript
-let axios = require("axios").default;
-let FormData = require('form-data');
-let fs = require('fs');
-
-// Configurations
-//
-const project_id = '<Project Identifier>';
-const table_id = '<Table Identifier>';
-const xc_token = '<Auth Token>';
-
-// URL array : URLs of files to be uploaded
-const URLs = [{ url: '<URL1>' }, { url: '<URL2>' }];
-
-// Insert Image
-// @param URLs : [] containing public URL for files to be uploaded
-// @return : JSON object to be used in insert record API for attachment field
-//
-async function insertImageByURL (URL_array) {
-    const data = await axios({
-        url: 'http://localhost:8080/api/v2/storage/upload-by-url',
-        data: URL_array,
-        headers: {
-            'xc-token': xc_token
-        },
-        method: 'post',
-
-        // Optional : storage file path
-        params: {"path": "somePath"}
-    });
-    return data;
-}
-
-// Insert record with attachment
-// Assumes a table with two columns :
-//      'Title' of type SingleLineText and
-//      'Attachment' of type Attachment
-//
-async function uploadByUrlExample() {
-    let response = await insertImageByURL(URLs);
-
-    // Update two columns : Title and Attachment
-    let row = {
-        "Title": "3",
-        "Attachment": response.data
-    };
-
-    await axios({
-        method: 'POST',
-        url: `http://localhost:8080/api/v2/tables/${table_id}/records`,
-        data: row,
-        headers: {
-            'xc-token': xc-token
-        }
-    });
-}
+const axios = require('axios');
+const FormData = require('form-data');
+const fs = require('fs');
+const path = require('path');
 
 (async () => {
-    await uploadByUrlExample();
+    const apiToken = 'YOUR_API_TOKEN';
+    const baseURL = 'https://app.nocodb.com';
+    const tableID = 'YOUR_TABLE_ID';
+
+    // List of file paths to upload
+    const filesToUpload = [
+        './uploads/photo.png',
+        './uploads/photo2.png',
+        './uploads/photo3.png'
+    ];
+
+    const uploadedFiles = [];
+
+    // Upload each file one by one
+    for (const filePath of filesToUpload) {
+        const fileStream = fs.createReadStream(filePath);
+        const formData = new FormData();
+        formData.append('file', fileStream);
+
+        const uploadHeaders = {
+            'xc-token': apiToken,
+            ...formData.getHeaders(),
+        };
+
+        try {
+            const uploadResponse = await axios.post(`${baseURL}/api/v1/db/storage/upload`, formData, {
+                headers: uploadHeaders,
+            });
+
+            // Add the uploaded file metadata to the array
+            uploadedFiles.push(...uploadResponse.data); // .data is an array
+        } catch (err) {
+            console.error(`Failed to upload file ${filePath}:`, err.response?.data || err.message);
+        }
+    }
+
+    // Insert the record with all uploaded files
+    try {
+        const response = await axios.post(`${baseURL}/api/v2/tables/${tableID}/records`, {
+            Title: "New Name",
+            File: uploadedFiles, // Pass multiple files as array
+        }, {
+            headers: {
+                'xc-token': apiToken,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        console.log("Record created:", response.data);
+    } catch (err) {
+        console.error("Failed to create record:", err.response?.data || err.message);
+    }
 })();
+
 ```
+
