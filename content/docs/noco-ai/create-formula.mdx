@@ -1,0 +1,91 @@
+---
+title: 'Generate Formulas using AI'
+description: 'Use natural language prompts to generate formulas with NocoAI.'
+tags: ['Noco AI', 'Formula Field', 'Prompt Based Formula']
+icon: 'sparkle'
+keywords: ['AI formula generator', 'formula prompt', 'NocoDB smart formula']
+---
+
+<Callout type="info">This feature is available only on NocoDB Cloud. It is not supported in self-hosted or on-premise deployments.</Callout>
+
+## Overview
+
+Writing formulas can be complex and time-consuming. With **NocoAI**, you can now describe the logic you need in plain English, and have a formula generated for you automatically.
+
+This is perfect for non-technical users, power users who want to speed up formula creation, or anyone looking to avoid syntax errors.
+
+---
+
+## Steps to Generate Formulas Using AI
+
+1. Add a **Formula Field**
+
+    In your table, add field and select **Formula** as the type.
+
+2. Click **Formula Helper**
+
+    Inside the formula editor, click **✨ Formula Helper** to open the prompt-based generation interface.
+
+3. **Describe** the Logic in Natural Language
+
+    Write a simple prompt explaining what the formula should do.
+    _Example_:
+    > Show "✅ Done" if Status is "Completed", else show "⏳ In Progress".
+
+4. Review and click **Generate**
+
+    NocoAI will generate the formula based on your prompt in the formula editor. You can review and modify if needed.
+
+5. Click **Save**
+
+    Once you're happy with the result, save the field.
+
+
+<div style={{ display: "flex", gap: "1rem" }}>
+    <img src="/img/v2/noco-ai/create-formula-1.png" alt="Formula field using AI - Step 1" style={{ width: "50%", borderRadius: "8px", boxShadow: "0 0 8px rgba(0,0,0,0.05)" }} />
+    <img src="/img/v2/noco-ai/create-formula-2.png" alt="Formula field using AI - Step 2" style={{ width: "50%", borderRadius: "8px", boxShadow: "0 0 8px rgba(0,0,0,0.05)" }} />
+</div>
+
+---
+
+## Tips for Better Formula Suggestions
+
+- **Be precise in your prompt**
+
+    Mention exact field names and values where possible.
+    _Example_:
+    > Calculate number of days between Start Date and End Date.
+
+- **Use conditional phrases**
+
+    Help the AI understand intent.
+    _Example_:
+    > If Priority is "High" and Status is not "Completed", show "⚠️ Urgent".
+
+- **Refer to data types clearly**
+
+    Indicate if you’re working with dates, numbers, checkboxes, or text.
+    _Example_:
+    > Add 7 days to the Created Date.
+
+---
+
+## Example Prompts and Outcomes
+
+| Prompt                                             | Resulting Formula (Example)                       |
+|----------------------------------------------------|---------------------------------------------------|
+| If Status is "Done", show "✅", else show "⏳"       | `IF({Status} = "Done", "✅", "⏳")`                 |
+| Show the number of days between Start and End Date | `DATETIME_DIFF({End Date}, {Start Date}, "days")` |
+| If Due Date is past today, mark as "Overdue"       | `IF({Due Date} < TODAY(), "Overdue", "")`         |
+| Combine First Name and Last Name into one field    | `CONCAT({First Name}, " ", {Last Name})`          |
+
+---
+
+## What’s Next
+
+Once your formula field is ready, you can:
+
+- Use **[NocoAI View Suggestions](/docs/product-docs/noco-ai/create-view)** to visualize data based on these formulas
+- Create **[Fields using AI](/docs/product-docs/noco-ai/create-field)** to automatically generate relevant fields for your table
+
+NocoAI simplifies complex logic so you can stay focused on building great workflows!

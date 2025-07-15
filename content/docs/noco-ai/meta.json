@@ -1,0 +1,11 @@
+{
+  "title": "Noco AI",
+  "pages": [
+    "create-base",
+    "create-table",
+    "create-view",
+    "create-field",
+    "create-options",
+    "create-formula"
+  ]
+}
