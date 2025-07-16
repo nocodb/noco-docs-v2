@@ -44,3 +44,43 @@ ARRAYUNIQUE({Field})
 This function removes duplicate values, leaving only unique items from the given array.
 
 ---
+
+## ARRAYCOMPACT
+The ARRAYCOMPACT function removes null and empty from result.
+
+#### Syntax
+```plaintext
+ARRAYCOMPACT(array)
+```
+
+#### Sample
+```plaintext
+ARRAYCOMPACT({Field})
+```
+
+#### Remark
+This function removes null and empty, leaving only visible items from given array.
+
+---
+
+## ARRAYSLICE
+The ARRAYSLICE function takes partial array values from start to (optional) end.
+
+#### Syntax
+```plaintext
+ARRAYSLICE(array, start, [end])
+```
+
+#### Sample
+```plaintext
+ARRAYSLICE({Field}, 2, 3)
+```
+
+#### Remark
+This function takes the array value partially, from start to (optional) end.
+2nd parameter is the start index. Index start at 1.
+3rd parameter is the end index. In the example above it'll take array value 2 and 3, giving a total 2 items.
+Omitting end index will take the rest of items starting from start index.
+Either start or end index cannot be negative. End index need to be bigger or equal with start index. Doing so will return empty as result.
+
+---
