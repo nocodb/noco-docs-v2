@@ -1,67 +1,113 @@
 ---
 title: 'Workspace audit logs'
-description: 'This article explains how to access & work with workspace audit logs.'
+description: 'Learn how to access and use audit logs to track workspace activity in NocoDB.'
 tags: ['Workspaces', 'Audit Logs']
 keywords: ['NocoDB workspace', 'workspace audit logs', 'view workspace logs', 'workspace activity history', 'workspace actions', 'workspace changes', 'workspace events']
 ---
 
-<Callout type="info">Workspace audit logs are available only in **Enterprise Edition** in both self-hosted & cloud-hosted plans</Callout>
+<Callout type="warning">This article covers **workspace-level** audit logs. For **record-level** logs (e.g., changes to individual records), refer to the [record audit section](/docs/product-docs/records/expand-record#record-audit).</Callout>
+<Callout type="info">Audit logs are available only in the **Enterprise Edition**, both for self-hosted and cloud deployments.</Callout>
 
-The **Audit Logs** feature in NocoDB provides a detailed, time-stamped record of user activity across your workspace. It helps workspace admins track who did what, when, and where — promoting transparency and accountability.
+The **Audit Logs** feature in NocoDB provides a comprehensive, time-stamped record of user activity across your workspace. It enables workspace owners to monitor key actions, ensuring transparency, traceability, and accountability.
 
-⚠️ Note: This section **excludes** record-level audit logs (such as changes made to individual records). To view those, open a record in expanded view and navigate to the Audit tab. Refer [here](/docs/product-docs/records/expand-record#record-audit) for more details.
 
-### Accessing Audit Logs
+## Accessing audit logs
 
-Only workspace owners can access audit logs. To view the audit logs:
+Only **workspace owners** can access audit logs.
 
-1. Navigate to **Team & Settings** in the left side minibar
-2. Click on **Audits** tab.
+To view them:
+
+1. Navigate to **Team & Settings** from the left minibar.
+2. Select the **Audits** tab.
+
 ![image](/img/v2/workspace/workspace-audit.png)
 
+---
 
-### Understanding Audit Logs
+## Audit log details
 
-Each log entry displays:
+Each entry includes:
 
-* **User**: Name (if set) & Email of the user who performed the action.
-* **Timestamp**: When the action occurred (e.g., “35s ago”, "1h ago").
-* **Base**: The base where the action took place. Both base name and ID are shown.
-* **Event**: The type of action performed (e.g., *Field Create*, *Field Update*, *Field Rename*).
-* **IP Address**: Source IP of the user performing the action.
-* **OS, Browser**: Information about the user’s device and browser.
+* **User**: Name (if set) and email of the user who performed the action
+* **Timestamp**: Time of the event (e.g., “35s ago”, “1h ago”)
+* **Base**: Name and ID of the base involved
+* **Event**: Type of action performed (e.g., *Field Create*, *Table Delete*)
+* **IP Address**: IP of the user who performed the action
+* **Device Info**: Operating system and browser used
 
-Click on any log entry to view more details about the action, including the specific changes made. Additional details are included in the JSON format, which can be expanded for deeper insights.
+Click a log entry to expand it and view additional metadata, including the full event payload in JSON format.
 
 ![image](/img/v2/workspace/workspace-audit-details.png)
 
-#### Log Events
-The audit logs capture a wide range of events, including:
+---
 
-- **User** : Sign Up, Sign In, Sign Out, Invite, Email Verify, Profile update
-  - **Password** : Change, Reset, Forgot
-- **Workspace** : Create, Update, Delete, Rename
-  - **User** : Invite, Update, Delete
-- **Base** : Create, Update, Delete, Rename, Duplicate
-  - **User** : Invite, Update, Delete
-- **Table** : Create, Update, Delete, Rename, Duplicate
-- **Field** : Create, Update, Rename, Delete
-- **View** : Create, Update, Delete, Rename, Duplicate
-  - **Filter** : Create, Update, Delete
-  - **Sort** : Create, Update, Delete
-- **Webhook** : Create, Update, Delete
-  - **Filter** : Create, Update, Delete
-- **Source** : Create, Update, Delete, Rename
-- **Shared View** : Create, Update, Delete
-- **API Tokens** : Create, Delete
-- **Integration** : Create, Update, Delete
-- **Snapshots** : Create, Delete, Restore
-- **Org User** (Self-host only): Invite, Resend Invite
+## Logged events
 
+NocoDB audit logs cover a wide range of system events, including:
 
-### Filtering Audit Logs
+### User Actions
 
-Use the filter toolbar to narrow down logs by:
+* Sign Up, Sign In, Sign Out, Invite, Email Verify, Profile Update
+* Password: Change, Reset, Forgot
+
+### Workspace
+
+* Create, Update, Delete, Rename
+* Member: Invite, Update, Remove
+
+### Base
+
+* Create, Update, Delete, Rename, Duplicate
+* Member: Invite, Update, Remove
+
+### Table
+
+* Create, Update, Delete, Rename, Duplicate
+
+### Field
+
+* Create, Update, Rename, Delete
+
+### View
+
+* Create, Update, Delete, Rename, Duplicate
+* Filter: Create, Update, Delete
+* Sort: Create, Update, Delete
+
+### Webhook
+
+* Create, Update, Delete
+* Filter: Create, Update, Delete
+
+### Source
+
+* Create, Update, Delete, Rename
+
+### Shared View
+
+* Create, Update, Delete
+
+### API Tokens
+
+* Create, Delete
+
+### Integration
+
+* Create, Update, Delete
+
+### Snapshots
+
+* Create, Delete, Restore
+
+### Org Users (Self-hosted only)
+
+* Invite, Resend Invite
+
+---
+
+## Filtering logs
+
+Use the toolbar at the top of the **Audits** tab to filter logs by:
 
 * **User**
 * **Base**
@@ -70,6 +116,4 @@ Use the filter toolbar to narrow down logs by:
 
 ![image](/img/v2/workspace/workspace-audit-filter.png)
 
-This allows you to quickly find specific actions or investigate incidents.
-
-
+This helps you quickly locate relevant actions or investigate specific activities.
