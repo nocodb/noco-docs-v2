@@ -38,6 +38,29 @@ export interface BaseIndex {
     section_id?: string;
     content: string;
     description?: string;
+    
+    // DocSearch-style hierarchy
+    lvl0?: string;  // Main section/category
+    lvl1?: string;  // Page title
+    lvl2?: string;  // Major headings (h2)
+    lvl3?: string;  // Subsections (h3)
+    lvl4?: string;  // Minor headings (h4)
+    lvl5?: string;  // Smallest headings (h5)
+    
+    // Enhanced fields
+    type: 'lvl0' | 'lvl1' | 'lvl2' | 'lvl3' | 'lvl4' | 'lvl5' | 'content';
+    hierarchy: {
+        lvl0?: string;
+        lvl1?: string;
+        lvl2?: string;
+        lvl3?: string;
+        lvl4?: string;
+        lvl5?: string;
+    };
+    anchor?: string;
+    heading_level?: number;
+    is_root_heading?: boolean;
+    is_main_content: boolean;
     [key: string]: unknown;
 }
 
@@ -88,6 +111,17 @@ export async function createOrUpdateCollection(
             {name: 'content', type: 'string'},
             {name: 'heading_level', type: 'int32', optional: true},
             {name: 'is_root_heading', type: 'bool', optional: true},
+            
+            // DocSearch-style hierarchy fields
+            {name: 'lvl0', type: 'string', optional: true},
+            {name: 'lvl1', type: 'string', optional: true},
+            {name: 'lvl2', type: 'string', optional: true},
+            {name: 'lvl3', type: 'string', optional: true},
+            {name: 'lvl4', type: 'string', optional: true},
+            {name: 'lvl5', type: 'string', optional: true},
+            {name: 'type', type: 'string', facet: true, sort: true},
+            {name: 'anchor', type: 'string', optional: true},
+            {name: 'is_main_content', type: 'bool', optional: true},
         ],
     };
 
@@ -106,18 +140,81 @@ function toIndex(page: DocumentRecord): BaseIndex[] {
     const scannedHeadings = new Set<string>();
     let relatedTopicsFound = false;
 
+    // Track hierarchical context
+    const hierarchyContext = {
+        lvl0: getPageCategory(page),
+        lvl1: page.title,
+        lvl2: undefined as string | undefined,
+        lvl3: undefined as string | undefined,
+        lvl4: undefined as string | undefined,
+        lvl5: undefined as string | undefined,
+    };
+
     // Get heading level (h1, h2, etc.)
     function getHeadingLevel(heading: any): number {
         if (!heading || !heading.depth) return 0;
         return heading.depth;
     }
 
+    // Get page category from URL or tag
+    function getPageCategory(page: DocumentRecord): string {
+        if (page.tag) return page.tag;
+        
+        // Extract category from URL path
+        const urlPath = page.url.replace(/^.*\/docs\//, '');
+        const pathParts = urlPath.split('/');
+        
+        if (pathParts.length > 1) {
+            return pathParts[0].replace(/-/g, ' ');
+        }
+        
+        return 'Documentation';
+    }
+
+    // Update hierarchy context based on heading level
+    function updateHierarchyContext(heading: any, content: string) {
+        const level = getHeadingLevel(heading);
+        
+        switch (level) {
+            case 1:
+                hierarchyContext.lvl1 = content;
+                hierarchyContext.lvl2 = undefined;
+                hierarchyContext.lvl3 = undefined;
+                hierarchyContext.lvl4 = undefined;
+                hierarchyContext.lvl5 = undefined;
+                break;
+            case 2:
+                hierarchyContext.lvl2 = content;
+                hierarchyContext.lvl3 = undefined;
+                hierarchyContext.lvl4 = undefined;
+                hierarchyContext.lvl5 = undefined;
+                break;
+            case 3:
+                hierarchyContext.lvl3 = content;
+                hierarchyContext.lvl4 = undefined;
+                hierarchyContext.lvl5 = undefined;
+                break;
+            case 4:
+                hierarchyContext.lvl4 = content;
+                hierarchyContext.lvl5 = undefined;
+                break;
+            case 5:
+            case 6:
+                hierarchyContext.lvl5 = content;
+                break;
+        }
+    }
+
+    // Create hierarchical index record
     function createIndex(
         section: string | undefined,
         sectionId: string | undefined,
         content: string,
+        type: BaseIndex['type'] = 'content',
         additionalFields: Partial<BaseIndex> = {}
     ): BaseIndex {
+        const currentHierarchy = { ...hierarchyContext };
+        
         return {
             id: `${page._id}-${(id++).toString()}`,
             title: page.title,
@@ -128,13 +225,35 @@ function toIndex(page: DocumentRecord): BaseIndex[] {
             section_id: sectionId,
             content,
             description: page.description,
+            
+            // DocSearch-style hierarchy
+            lvl0: currentHierarchy.lvl0,
+            lvl1: currentHierarchy.lvl1,
+            lvl2: currentHierarchy.lvl2,
+            lvl3: currentHierarchy.lvl3,
+            lvl4: currentHierarchy.lvl4,
+            lvl5: currentHierarchy.lvl5,
+            
+            // Enhanced fields
+            type,
+            hierarchy: currentHierarchy,
+            anchor: sectionId,
+            is_main_content: type === 'content',
+            
             ...(page.extra_data || {}),
             ...additionalFields
         };
     }
 
+    // Add page title as lvl1 record
+    indexes.push(createIndex(undefined, undefined, page.title, 'lvl1', {
+        heading_level: 1,
+        is_root_heading: true
+    }));
+
+    // Add page description as content if available
     if (page.description) {
-        indexes.push(createIndex(undefined, undefined, page.description));
+        indexes.push(createIndex(undefined, undefined, page.description, 'content'));
     }
 
     // Find if there's a "Related topics" heading
@@ -143,7 +262,8 @@ function toIndex(page: DocumentRecord): BaseIndex[] {
         h.content.toLowerCase() === 'related topic' || 
         h.content.toLowerCase() === 'related resources' || 
         h.content.toLowerCase() === 'related resource' || 
-        h.content.toLowerCase() === 'related fields'
+        h.content.toLowerCase() === 'related fields' ||
+        h.content.toLowerCase() === 'available tools'
     );
 
     page.structured.contents.forEach((p) => {
@@ -158,11 +278,6 @@ function toIndex(page: DocumentRecord): BaseIndex[] {
         // Check if we've reached the "Related topics" section
         if (heading && relatedTopicsHeading && heading.id === relatedTopicsHeading.id) {
             relatedTopicsFound = true;
-            // Include the "Related topics" heading itself
-            if (!scannedHeadings.has(heading.id)) {
-                scannedHeadings.add(heading.id);
-                indexes.push(createIndex(heading.content, heading.id, heading.content));
-            }
             return;
         }
         
@@ -171,20 +286,31 @@ function toIndex(page: DocumentRecord): BaseIndex[] {
             return;
         }
 
-        if (p.content && p.content !== heading?.content) {
-            indexes.push(createIndex(heading?.content, heading?.id, p.content));
-        }
-
+        // Process heading first to update hierarchy context
         if (heading && !scannedHeadings.has(heading.id)) {
             scannedHeadings.add(heading.id);
-            // Add heading level as a field to improve search relevance
             const headingLevel = getHeadingLevel(heading);
-            // Root page headings (h1) should get higher priority
             const isRootHeading = headingLevel === 1 || heading.content === page.title;
-            indexes.push(createIndex(heading.content, heading.id, heading.content, {
+            
+            // Update hierarchy context
+            updateHierarchyContext(heading, heading.content);
+            
+            // Determine record type based on heading level
+            let recordType: BaseIndex['type'] = 'content';
+            if (headingLevel >= 1 && headingLevel <= 5) {
+                recordType = `lvl${headingLevel}` as BaseIndex['type'];
+            }
+            
+            // Add heading as separate record
+            indexes.push(createIndex(heading.content, heading.id, heading.content, recordType, {
                 heading_level: headingLevel,
                 is_root_heading: isRootHeading
             }));
+        }
+
+        // Add content record with current hierarchy context
+        if (p.content && p.content !== heading?.content) {
+            indexes.push(createIndex(heading?.content, heading?.id, p.content, 'content'));
         }
     });
 

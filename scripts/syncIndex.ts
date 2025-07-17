@@ -25,7 +25,7 @@ const client = new Client({
     apiKey: process.env?.TYPE_SENSE_ADMIN_API,
 })
 
-const collectionName = 'noco-docs-v2';
+const collectionName = 'noco-docs-v3';
 
 sync(client, {
     collection: collectionName,

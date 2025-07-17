@@ -54,26 +54,30 @@ export async function searchDocs(
     query: string,
     tag?: string,
 ): Promise<SortedResult[]> {
-    // Define search parameters based on Typesense capabilities
+    // Define search parameters with DocSearch-style hierarchical boosting
     const searchParams: any = {
         q: query,
-        query_by: 'title,section,content',
-        query_by_weights: '6,4,1',  // Give even higher weight to title
-        prefix: true,              // Enable prefix searching
-        infix: 'always',           // Enable infix searching to match parts of words
+        query_by: 'title,lvl0,lvl1,lvl2,lvl3,lvl4,lvl5,section,content',
+        query_by_weights: '10,9,8,6,4,3,2,5,1',  // Hierarchical weighting
         typo_tolerance: true,      // Enable typo tolerance
-        num_typos: 2,             // Allow up to 2 typos
+        num_typos: 4,             // Reduced typos for better precision
         boost: {
-            is_root_heading: 2,    // Boost root headings
-            heading_level: {
-                value: 1,          // Boost h1 headings
-                function: "reciprocal" // Lower heading levels get less boost
-            }
+            type: {
+                'lvl0': 10,        // Highest boost for main sections
+                'lvl1': 8,         // High boost for page titles
+                'lvl2': 6,         // Medium-high boost for major headings
+                'lvl3': 4,         // Medium boost for subsections
+                'lvl4': 3,         // Lower boost for minor headings
+                'lvl5': 2,         // Lowest boost for smallest headings
+                'content': 1       // Base boost for content
+            },
+            is_root_heading: 2,    // Additional boost for root headings
+            is_main_content: 1     // Boost main content
         },
-        sort_by: '_text_match:asc',
-        per_page: 15,             // Increase results per page
+        sort_by: '_text_match:desc',  // Sort by relevance
+        per_page: 12,             // Increase results per page
         filter_by: undefined as string | undefined,
-        contextual_search: true,
+        contextual_search: false,
     };
 
     if (tag) {
@@ -86,9 +90,10 @@ export async function searchDocs(
             .search({
                 ...searchParams,
                 q: '*',
-                per_page: 8,
+                per_page: 12,
                 group_by: 'page_id',
-                group_limit: 1
+                group_limit: 1,
+                sort_by: 'type:asc'  // Show pages first
             });
 
         return groupResults(results.hits || [])
