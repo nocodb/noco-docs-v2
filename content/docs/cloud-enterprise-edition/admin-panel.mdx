@@ -1,0 +1,105 @@
+---
+title: 'Admin Panel'
+description: 'This article explains how to use the Admin Panel in Cloud & Self hosted Enterprise Edition.'
+tags: ['Admin Panel', 'Cloud', 'Self hosted', 'Enterprise Edition']
+keywords: ['Admin Panel', 'Cloud', 'Self hosted', 'Enterprise Edition', 'Admin Panel in Cloud', 'Admin Panel in Self hosted']
+---
+
+The Admin Panel in NocoDB provides organization-level oversight and control. It allows administrators to monitor usage metrics, manage workspaces and bases, provision and track users, configure Single Sign-On (SSO), and update branding settings. This guide walks through each section available within the Admin Panel to help administrators maintain governance, enforce security, and keep user and workspace configurations aligned with organizational standards.
+
+## Navigation Overview
+
+Admin panel is accessible for users with administrative privileges. To access the Admin Panel, click on the **Admin Panel** option located in the user menu in the bottom-left corner of the NocoDB interface.
+
+![image](/img/v2/admin-panel/admin-panel-access.png)
+
+The Admin Panel interface includes a sidebar menu with persistent access to the following sections:
+
+* Dashboard
+* Workspaces
+* Bases
+* Members
+* Single Sign-On (SSO)
+* Settings
+
+Use the **Back** button in the top-left corner to return to the main NocoDB application interface.
+
+
+### Dashboard
+
+The Dashboard offers a high-level overview of key metrics across your NocoDB deployment. It acts as a basic control center for admins to monitor system usage and understand the scale of their organization’s data and user base. While the current functionality is limited, the visual summaries make it easy to track a few critical numbers at a glance.
+
+![image](/img/v2/admin-panel/dashboard.png)
+
+**Displayed Metrics:**
+
+* **Total Workspaces** – Number of workspaces created within the organization.
+* **Total Members** – Count of unique users who are part of at least one workspace.
+* **Total Bases** – Total number of bases created across all workspaces.
+
+As the platform evolves, this area will expand to include deeper analytics and customizable reports.
+
+
+### Workspaces
+
+The **Workspaces** section lists all active workspaces within your organization. This view helps admins monitor workspace-level ownership, participation, and data volume.
+
+![image](/img/v2/admin-panel/workspace.png)
+
+**Actions:**
+
+* **Add Member** – Invite new users to the workspace directly.
+* **Rename** – Edit the name of the workspace.
+* **Manage Users** – Modify user roles or remove users from the workspace.
+
+
+### Bases
+
+The **Bases** section displays all databases across the organization, regardless of the workspace they belong to. It provides a centralized list to help admins manage data structures, maintain visibility over base creation, and enforce naming or ownership standards.
+
+![image](/img/v2/admin-panel/bases.png)
+
+**Actions:**
+
+* **Rename** – Update the base name if needed.
+* **Manage Users** – Add or remove collaborators, or change their roles.
+
+
+### Members
+
+The **Members** section lists all users who have access to at least one workspace in the organization. It enables admins to monitor user activity, manage memberships across multiple workspaces, and ensure the right people have the right access.
+
+![image](/img/v2/admin-panel/members.png)
+
+**Actions:**
+
+* **Invite to Workspace** – Add the user to one or more additional workspaces.
+* **Bulk Actions** – Select multiple users for batch workspace invite.
+
+### Single Sign-On (SSO)
+
+The **Single Sign-On (SSO)** section allows organizations to configure centralized authentication for their users. SSO reduces the burden of managing individual credentials and ensures that user authentication adheres to enterprise security policies.
+
+![image](/img/v2/admin-panel/sso.png)
+
+Refer to the [SSO documentation](/docs/product-docs/account-settings/authentication#single-sign-on-sso) for detailed setup instructions.
+
+### Settings
+
+The **Settings** section allows administrators to define the visual identity and branding of their NocoDB instance.
+
+![image](/img/v2/admin-panel/settings.png)
+
+**Editable Fields:**
+
+* **Organisation Name** – The display name for the organisation.
+* **Organisation Logo** – Upload or update the logo for the organisation.
+
+---
+
+## Additional Notes
+
+* Only users with administrative privileges can access the Admin Panel.
+* Actions in the Admin Panel are scoped at the **organization level**, affecting all workspaces and bases.
+* Any updates made in this panel reflect immediately and globally across your NocoDB deployment.
+
