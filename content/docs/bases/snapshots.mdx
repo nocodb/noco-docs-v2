@@ -7,36 +7,22 @@ keywords: ["NocoDB base", "Snapshots", "base collaboration"]
 
 Snapshots are a powerful feature that allows users to create a point-in-time backup of their base. Whether you’re preparing for major changes or safeguarding against accidental data loss, this feature ensures your data is secure and retrievable.
 
+<Callout type="info">Snapshots are currently available exclusively on cloud-hosted paid plans & self-hosted enterprise plans</Callout>
 
-<Callout type="info">Snapshots are currently available exclusively on Cloud-hosted plans</Callout>
+## Key Notes
 
-### Key Notes
-
-#### 1. Audit Log Exclusion 
-- Snapshots do not include audit log data (revision history).
-
-#### 2. No Impact on Existing Base  
+- Snapshots do not include audit log data (global audits & records revision history).
 - Restoring a snapshot does not modify the current base. Instead, it creates a new base within the same workspace.
-
-#### 3. Permissions Handling  
-- Base-specific user permissions are not restored. Restored bases inherit default workspace permissions.  
-- Any custom base-level permissions must be re-applied manually.
-
-#### 4. Shared Configurations  
+- Base-specific user permissions are not restored. Restored bases inherit default workspace permissions. Any custom base-level permissions must be re-applied manually.
 - Shared base or shared view settings from the source base are not restored. These need to be reconfigured in the restored base.
-
-#### 5. Snapshot Limits  
-- Each base can have a maximum of two snapshots at a time.  
-- A minimum gap of three hours is required between creating two snapshots.  
-- You can delete all existing snapshots and immediately create a new one if needed.
-
-#### 6. Base Owner Access  
+- The number of snapshots allowed per base depends on your plan.
+- A minimum gap of three hours is required between creating two snapshots. You can delete all existing snapshots and immediately create a new one if needed.
 - Only Base Owners can access the snapshot feature.
 
 ## Access Snapshots
 
 To access snapshots, follow the steps below:
-1. Click on the base name in project tree to access the base home page.
+1. Click `Overview` button in left sidebar to access base home page.
 2. Go to the `Settings` tab.
 3. Select the `Snapshots` tab.
 
@@ -44,7 +30,7 @@ To access snapshots, follow the steps below:
 
 ## Create a Snapshot
 
-To create a snapshot, access the `Snapshots` tab and follow the steps below:
+To create a snapshot, [access snapshots](#access-snapshots) tab and follow the steps below:
 
 1. Click on the `New Snapshot` button.
 2. Enter a name for the snapshot (Optional). By default, the name will be set to the current date and time.
@@ -54,11 +40,11 @@ To create a snapshot, access the `Snapshots` tab and follow the steps below:
   
 ![Create Snapshot](/img/v2/base/snapshot-create-2.png)
 
-The snapshot will be created and displayed in the `Snapshots` tab.
+The snapshot thus created will be displayed in the `Snapshots` tab.
 
 ## Restore a Snapshot
 
-To restore a snapshot, access the Snapshots tab and follow the steps below:
+To restore a snapshot, [access snapshots](#access-snapshots) tab and follow the steps below:
 
 1. Click on the `Restore` button next to the snapshot you wish to restore.
 2. A confirmation dialog will appear. Click the `Confirm Restore` button to proceed.
@@ -67,6 +53,4 @@ To restore a snapshot, access the Snapshots tab and follow the steps below:
   
 ![Restore Snapshot](/img/v2/base/snapshot-restore-2.png)
 
-### Important Notes on Restoring
-- A restored snapshot creates a new base within the same workspace. Choosing a different workspace is not supported currently.
-- Permissions and shared configurations will need to be set up again as described above.
+<callout type="info">A restored snapshot creates a new base within the same workspace. Choosing a different workspace to restore is not supported currently.</callout>
