@@ -5,38 +5,44 @@ tags: ['Bases', 'Collaboration', 'Members', 'Invite', 'Roles', 'Permissions']
 keywords: ['NocoDB base', 'base collaboration']
 ---
 
-A member added to a workspace will carry his assigned role specific permissions to all the base with in workspace. To override member permissions to your base, please follow steps outlined below:
+In NocoDB, a member added to a workspace inherits their role-based permissions across all bases within that workspace. If you need to override a member’s permissions for a specific base, follow the steps below:
 
-1. Go to the left sidebar and select `Base name` to access the `Base Dashboard.`
-2. Click on the `Members` tab.
-3. Use the dropdown menu to specify the access permissions for the member you wish to collaborate.
-4. Finalize the process by assigning the desired role to the user.
+
+## Update members role in your base
+
+1. Access `Base Dashboard` from the left sidebar
+2. Navigate to the `Members` tab.
+3. Locate the user whose access you want to change.
+4. Use the dropdown to assign a new role specific to this base.
 
 ![image](/img/v2/base/base-collaboration.png)
 
 
-<Callout type="info">
-- Any existing user can invite members to the base, but they can only assign a role to new members that is at most equal to their own role.
-- Only the base owner / creator can change the role of a base member.
-</Callout>
+<Callout type="info"> Any existing user can invite members to the base, but they can only assign roles that are equal to or lower than their own role. Only the base owner / creator can change the role of a base member.</Callout>
 
 More details about roles & permissions can be found [here](/docs/product-docs/roles-and-permissions).
 
-## Removing members from your base
-1. Go to the left sidebar and select `Base name` to access the `Base Dashboard.`
-2. Click on the `Members` tab.
-3. Use the dropdown menu to specify the access permissions for the member you wish to collaborate.
-4. Assign the `No Access` role to the user.
+## Remove members from your base
+1. Access `Base Dashboard` from the left sidebar
+2. Navigate to the `Members` tab.
+3. Locate the user to remove.
+4. Set their role to No Access using the dropdown.
 
 ![image](/img/v2/base/base-collaboration.png)
 
-## Related articles
-- [Base overview](/docs/product-docs/bases)
-- [Create an empty base](/docs/product-docs/bases/create-base)
-- [Import base from Airtable](/docs/product-docs/bases/import-base-from-airtable)
-- [Invite team members to work on a base](/docs/product-docs/bases/base-collaboration)
-- [Share base publicly](/docs/product-docs/bases/share-base)
-- [Rename base](/docs/product-docs/bases/actions-on-base#rename-base)
-- [Duplicate base](/docs/product-docs/bases/actions-on-base#duplicate-base)
-- [Bookmark base](/docs/product-docs/bases/actions-on-base#star-base)
-- [Delete base](/docs/product-docs/bases/actions-on-base#delete-base)
+<Callout type="info">Removing a member from a base does not delete their account. They can still access other bases in the workspace, unless removed from the workspace entirely.</Callout>
+
+## Direct base invite
+
+In addition to inviting workspace members to a base, you can invite users directly to a specific base (with restricted workspace access). This is useful when you want to grant someone access to only a single base without exposing the rest of the workspace.
+
+When a user is invited directly to a base:
+
+* They are automatically added to the parent workspace with the **No Access** role.
+* Their access is restricted exclusively to the base they were invited into.
+* They will not be able to view or access any other bases, tables, or data within the same workspace.
+* Their name will still appear in the workspace’s member list, but their visibility and access will be limited.
+
+This approach is ideal for sharing specific projects with external collaborators, clients, or temporary contributors without compromising workspace-level visibility.
+
+---
