@@ -1,52 +1,65 @@
 ---
 title: 'Bases'
-description: 'This article explains the concept of bases in NocoDB.'
+description: 'Overview of bases in NocoDB and how they help organize data and collaboration.'
 icon: 'baseOutlineLogo'
 tags: ['Bases', 'Overview', 'Dashboard']
 keywords: ['NocoDB base', 'base overview', 'base dashboard', 'base collaboration', 'base actions', 'delete base', 'base management', 'base administration', 'base settings', 'base organization']
 ---
 
-In NocoDB, bases are the foundational elements that encompass tables, views, forms, and webhooks, providing a structured framework for data organization and collaborative work. Each base is inherently tied to a specific workspace and cannot be transferred between different workspaces. The creator of a base is designated as the 'base owner'. A base can have multiple owners, each with the authority to manage the base settings and access permissions. At least one owner is required for each base for it to remain operational.
+In NocoDB, a base is the core structure where your data lives. It contains tables, views, forms, webhooks, and more—offering a complete environment for organizing and collaborating on data. Each base belongs to a specific workspace and cannot be moved across workspaces.
 
-Bases also come with their unique set of members and access permissions, which take precedence over any permissions set at the workspace level. This fine-grained control allows for tailored collaboration and data management within each base. Importantly, there are no restrictions on the number of members you can invite to a base, fostering open teamwork. Similarly, you have the freedom to create as many tables as needed within a single base, 
-offering the scalability required to accommodate diverse datasets and projects. 
+The person who creates a base becomes its **owner**, and a base must always have at least one owner. Ownership can be shared, with multiple owners having full control over base settings and permissions.
 
-To get started, you can [create an empty base](/docs/product-docs/bases/create-base) if you want to start from scratch. If you've already been using Airtable, we make it easy to [import your base](/docs/product-docs/bases/import-base-from-airtable). When collaborating with your team, you can [invite them](/docs/product-docs/bases/base-collaboration) to work on a base together. If you want to share your data with a broader audience, you can [make your base public](/docs/product-docs/bases/share-base). If you ever need to rename your base, you can do so by using the [rename base](/docs/product-docs/bases/actions-on-base#rename-base) feature. And, if you find a base especially useful, you can [bookmark it](/docs/product-docs/bases/actions-on-base#star-base) for quick access. However, when the time comes to remove a base, you can [delete it](/docs/product-docs/bases/actions-on-base#delete-base).
+### Base-level Permissions
+
+Each base has its own set of members and permissions, independent of workspace-level access. This allows fine-grained control over who can view or edit content within a base.
+
+* You can invite unlimited members.
+* Each base can contain unlimited tables.
+* Base owners can override inherited workspace permissions.
+
+To get started:
+
+* [Create an empty base](/docs/product-docs/bases/create-base) to build from scratch.
+* [Import an Airtable base](/docs/product-docs/bases/import-base-from-airtable) if you're migrating.
+* [Invite your team](/docs/product-docs/bases/base-collaboration) to collaborate.
+* [Share your base publicly](/docs/product-docs/bases/share-base) if needed.
+* [Rename](/docs/product-docs/bases/actions-on-base#rename-base), [bookmark](/docs/product-docs/bases/actions-on-base#star-base), or [delete](/docs/product-docs/bases/actions-on-base#delete-base) it as required.
+
+---
 
 ## Base Dashboard
 
-The Base Dashboard serves as the primary landing page for a base, offering users a concise summary of its contents and functionality. 
-This central hub provides users with swift access to essential features such as base settings and collaboration tools. 
-To access the Base Dashboard, simply click on the base name located in the left sidebar. 
+The **Base Dashboard** is your landing page for each base, giving you a quick overview and access to its core features. To open it, click on the `Overview` button in the left sidebar.
 
 ![image](/img/v2/base/base-dashboard.png)
 
-The Base Dashboard is organized into three key sections, each serving a distinct purpose:
+The dashboard has the following sections:
 
-1. **Table List**: This section provides a comprehensive list of all tables within the base, 
-including those sourced from external data repositories. Users can conveniently access a specific table by clicking 
-on its name. Tables originating from external sources are clearly highlighted in the list for easy identification.
+### Overview
 
-2. **Base Members**: In this section, users can view a roster of members associated with the base, along with their 
-respective permission levels. It's worth noting that members who are part of the workspace automatically inherit 
-access permissions at the base level. However, the base owner retains the ability to adjust these permissions, 
-either increasing or decreasing them. Further details on collaboration management can be found in the dedicated 
-[Base Collaborations](/docs/product-docs/bases/base-collaboration) section.
+Provides quick access buttons to essential base features:
+* **Create Table** - Start building a table from scratch.
+* **Import Data** - Upload CSV, Excel, or other supported formats.
+* **Connect External Data** - Link to external databases like MySQL or PostgreSQL
+* **Create Empty Script** – Write custom JavaScript to automate workflows.
+* **Scripts by NocoDB** – Access a library of prebuilt scripts.
+* **Create Empty Dashboard** (*coming soon*)– Build custom dashboards with charts and widgets to visualize data.
 
-3. **Data Sources**: NocoDB offers the functionality to connect with external data sources and seamlessly 
-integrate them as native tables. This section provides a listing of connected data sources, setting the stage 
-for additional details on this feature, which will be covered in the forthcoming [Data Sources](/docs/product-docs/data-sources) section. 
-This feature empowers users to work with external data as effortlessly as with in-house data tables, enhancing the versatility 
-and scope of data management within the base.
 
-   
-## Related articles
-- [Create an empty base](/docs/product-docs/bases/create-base)
-- [Import base from Airtable](/docs/product-docs/bases/import-base-from-airtable)
-- [Invite team members to work on a base](/docs/product-docs/bases/base-collaboration)
-- [Share base publicly](/docs/product-docs/bases/share-base)
-- [Rename base](/docs/product-docs/bases/actions-on-base#rename-base)
-- [Duplicate base](/docs/product-docs/bases/actions-on-base#duplicate-base)
-- [Bookmark base](/docs/product-docs/bases/actions-on-base#star-base)
-- [Delete base](/docs/product-docs/bases/actions-on-base#delete-base)
+### Members
+Manage who has access to the base. You can invite members, assign them roles, and view existing collaborators.
+* Workspace members automatically inherit base access.
+* Base owners can adjust these permissions as needed.
+See [Base Collaboration](/docs/product-docs/bases/base-collaboration) for more details.
 
+### Permissions
+Control fine-grained access to tables and fields. See [Table Permissions](/docs/product-docs/roles-and-permissions/table-permissions) and [Field Permissions](/docs/product-docs/roles-and-permissions/field-permissions) for more details.
+
+### Data Sources
+Displays all external connections linked to the base. You can view, add, or remove connections to external databases from here. These external sources are treated like native tables and enhance the base's flexibility. See [Data Sources](/docs/product-docs/data-sources) for more details.
+
+### Settings
+Some general base configurations are available for you to modify. See [Base Settings](/docs/product-docs/bases/actions-on-base#base-settings) for more details.
+
+---
