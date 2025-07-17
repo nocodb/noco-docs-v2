@@ -5,10 +5,12 @@ tags: ["Bases", "Share", "Collaboration", "Share base"]
 keywords: ["NocoDB base", "share base", "base collaboration", "Public share"]
 ---
 
+## Enable public access
+
 To share a base, follow the steps below:
-1. Navigate to the top right corner of the top navigation bar and click on the `Share` button.
-2. In the `Shared base` section, toggle the switch to `Enable public access` in order to activate the shared base feature.
-3. The generated link for the shared base will be displayed above and can be utilized to share this base with others. To copy the URL, simply click on the `Copy URL` option.
+1. Navigate to the top right corner and click on the `Share` button.
+2. In the Shared base section, toggle the `Enable public access` switch to activate public sharing.
+3. A shareable link will be generated. Click the `Copy URL` option to copy it.
   
 ![Share base](/img/v2/base/share-base-1.png)
 
@@ -16,41 +18,48 @@ To share a base, follow the steps below:
 
 
 ## Modify Share base
-Amending the `Share base` setting will render the previously generated `Share base` link invalid and generate a new link in its place.
-Here are the steps to modify it:
-1. Click on the `Share` button located in the top right corner of the toolbar.
-2. Toggle the option labeled `Enable public access` to deactivate the base share.
-3. Toggle the same option, `Enable public access,` to reactivate the base share, subsequently generating a new link.
+
+Updating (regenerating) the shared base configuration will invalidate the previously generated link and generate a new one. To do this:
+
+1. Click the `Share` button in the top right corner.
+2. Toggle `Enable public access` off to disable sharing.
+3. Toggle it on again to reactivate sharing, which will generate a new link.
 
 ![Enable public access](/img/v2/base/share-base-enable-public-access.png)
 
 ## Disable Share base
-Disabling `Share base` will render the previously generated `Share base` link invalid
-Here are the steps to disable it:
-1. Click on the 'Share' button located in the top right corner of the toolbar.
-2. Toggle the option labeled `Enable public access` to deactivate the base share.
+
+To disable the shared link:
+1. Click the `Share` button in the top right corner.
+2. Toggle off the `Enable public access` option.
+
+This will deactivate the current share link.
 
 ![Enable public access](/img/v2/base/share-base-enable-public-access.png)
 
 ## Custom URL
-You can customize the URL of the shared base by entering a custom URL in the input field. The custom URL should be unique and should not contain special characters from the set (`/`, `?`, `#`). If the custom URL is already taken, you will be prompted to enter a different custom URL.
 
-To enable custom URL:
-1. Click on the `Custom URL` toggle
-2. Enter the custom URL in the input field
-3. Click on the `Save` button to save the changes
+You can personalize the shared base URL by setting a custom identifier. The custom URL must be unique and should not contain special characters like `/`, `?`, or `#`.
+
+To set a custom URL:
+
+1. Toggle the `Custom URL` option.
+2. Enter a custom value in the input field. If the custom URL entered is already in use, you will be prompted to choose a different one.
+3. Click `Save` to apply the changes.
 
 ![Custom URL](/img/v2/base/customURL.png)
 
-<Callout type="info">Note that, the custom URL is case-sensitive</Callout>
+<Callout type="info">The custom URL is case-sensitive</Callout>
+<Callout type="info">Creating or updating a custom URL will not invalidate the previously generated shared base link. Both the default and custom URLs will remain active unless public access is disabled.</Callout>
 
 ## Embeddable Frame
 
-The NocoDB interface can be seamlessly integrated into existing applications through the utilization of the [HTML IFRAME](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe) attribute. This feature empowers users to embed the NocoDB interface into their applications, allowing for a unified user experience. To generate the embeddable HTML code, follow these steps:
+You can embed the shared base into another application using an `HTML IFRAME`.
 
-**To Generate Embeddable HTML Code:**
-1. Click the `Share` button located in the top right corner of the toolbar.
-2. Within the `Shared base link` tab, select the button to copy the `Embeddable IFrame code` to your clipboard.
+To generate an embeddable iframe code:
+
+1. Click the `Share` button in the top right corner.
+2. In the `Shared base` section, click `<>` to copy the Embeddable IFrame code.
 
 ![Share base iFrame](/img/v2/base/share-base-iframe.png)
 
@@ -59,8 +68,7 @@ Example:
 ```html
 <iframe
     class="nc-embed"
-    src="https://nocodb-nocodb-rsyir.ondigitalocean.app/dashboard/#/nc/base/e3bba9df-4fc1-4d11-b7ce-41c4a3ad6810?embed"
-    frameBorder="0"
+    src="https://app.nocodb.com/#/nc/base/e3bba9df-4fc1-4d11-b7ce-41c4a3ad6810?embed"
     width="100%"
     height="700"
     style="background: transparent; border: 1px solid #ddd"
@@ -68,9 +76,7 @@ Example:
 </iframe>
 ```
 
-### Embed into application's HTML Body
-
-Sample code with embedded iframe generated above
+Here’s an example of a complete HTML document embedding the base:
 
 ```html
 <!DOCTYPE html>
@@ -79,18 +85,9 @@ Sample code with embedded iframe generated above
     <title>Sample iFrame Example</title>
 </head>
 <body style="height:100vh; margin:0">
-<iframe src="http://localhost:3000/#/base/035c5207-501a-48b8-8dbe-67742b78323e" width="100%" height="100%" style="border: none;"></iframe>
+<iframe src="http://app.nocodb.com/#/base/035c5207-501a-48b8-8dbe-67742b78323e" width="100%" height="100%" style="border: none;"></iframe>
 </body>
 </html>
 ```
 
-## Related articles
-- [Base overview](/docs/product-docs/bases)
-- [Create an empty base](/docs/product-docs/bases/create-base)
-- [Import base from Airtable](/docs/product-docs/bases/import-base-from-airtable)
-- [Invite team members to work on a base](/docs/product-docs/bases/base-collaboration)
-- [Share base publicly](/docs/product-docs/bases/share-base)
-- [Rename base](/docs/product-docs/bases/actions-on-base#rename-base)
-- [Duplicate base](/docs/product-docs/bases/actions-on-base#duplicate-base)
-- [Bookmark base](/docs/product-docs/bases/actions-on-base#star-base)
-- [Delete base](/docs/product-docs/bases/actions-on-base#delete-base)
+---
