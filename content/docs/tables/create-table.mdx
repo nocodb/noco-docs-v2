@@ -5,23 +5,29 @@ tags: ['Tables', 'Create']
 keywords: ['NocoDB table', 'create table']
 ---
 
-## Create new table
-1. Click on `+` on the left sidebar next to `base name` OR click on `Create New Table` button on the Base dashboard.
-2. Fill table name in the pop-up modal (Optional).
-3. Click on `Add Description` to add a description to the table (Optional).
-4. Click on `Create Table` button.
+## Create a new table
+
+To create a table from scratch:
+
+1. Click + Create New in the left sidebar.
+2. From the dropdown, select Table.
+3. (Optional) Provide a name for the table in the modal that appears.
+4. (Optional) Use Add Description to include additional context or details.
+5. Click Create Table to complete the setup.
 
 ![image](/img/v2/table/table-create-1.png)
 ![image](/img/v2/table/table-create-2.png)
 
 
-### Related articles
-- [Create a table using a CSV, Excel or a JSON](/docs/product-docs/tables/create-table-via-import)
-- [Import data from Csv/Xlsx into existing table](/docs/product-docs/tables/import-data-into-existing-table)
-- [Rename a table](/docs/product-docs/tables/actions-on-table#rename-table)
-- [Duplicate a table](/docs/product-docs/tables/actions-on-table#duplicate-table)
-- [Delete a table](/docs/product-docs/tables/actions-on-table#delete-table)
+## Creating table Using AI
+
+<Callout type="info">This feature is available only on NocoDB Cloud. It is not supported in self-hosted or on-premise deployments.</Callout>
+
+NocoAI can provide a set of suggested tables based on your current schema and context. The tables thus created will include relevant fields and will be linked to existing tables where applicable. This allows you to quickly expand your database structure without manually defining each table and its relationships.
+
+![image](/img/v2/table/create-table-ai.png)
+
+For more details on how to use this feature, refer to the [NocoAI documentation](/docs/product-docs/noco-ai/create-table).
 
 
-
-
+---
