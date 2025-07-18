@@ -7,10 +7,9 @@ keywords: ['NocoDB table', 'rename table', 'duplicate table', 'delete table']
 
 ## Rename table
 
-1. Access the contextual menu for the table by clicking on the ellipsis symbol (`...`) located in the left sidebar.
-2. Click on the `Rename` option from the context menu.
-3. Enter the desired new table name into the provided field.
-4. To finalize the renaming process, click on the `Rename` button.
+1. Click the `...` (ellipsis) next to the table name in the left sidebar and select `Rename table` from the context menu.
+   - Alternatively, double-click on the table name in the left sidebar to make it editable.
+2. Enter the new name for the table in the input field that appears. Use the `Enter` key to confirm the new name or click outside the input field to save changes.
 
 ![image](/img/v2/table/table-context-menu.png)
 
@@ -18,40 +17,37 @@ keywords: ['NocoDB table', 'rename table', 'duplicate table', 'delete table']
 
 ## Change table icon
 
-1. Click on the existing table icon to the left of the table name in the left sidebar.
-2. Select the desired icon from the list of available options.
+1. Click the current table icon next to the table name in the left sidebar.
+2. Choose a new icon from the available options.
 
 ![image](/img/v2/table/table-change-icon.png)
 
 ## Duplicate table
 
-1. Access the contextual menu for the table by clicking on the ellipsis symbol (`...`) located in the left sidebar.
-2. Click on the `Duplicate` option from the context menu.
-3. For additional customization (Optional)
-   a) Under `Include data`, you have the flexibility to choose whether to replicate the table with or without its data.
-   b) Regarding `Include views` you can select whether to duplicate the table with or without its associated views.
-4. Proceed by clicking the `Duplicate Table` button found in the confirmation dialog.
+1. Click the `...` (ellipsis) next to the table name in the left sidebar and select `Duplicate table`.
+2. (Optional) In the dialog:
+   - Use **Include data** to copy the table with or without its records.
+   - Use **Include views** to copy it with or without its saved views.
+3. Click **Duplicate Table**.
 
-A new table will be generated, mirroring the original table's schema and content, in accordance with the configurations specified in step 3.
+A new table will be created based on your selected options.
 
 ![image](/img/v2/table/table-context-menu.png)
 
 ![image](/img/v2/table/table-duplicate.png)
 
-:::info
+**Additional notes**
 - Duplicate table will be created in the same base as the original table
 - Duplicate table will carry suffix ` Copy` in its name.
 - Duplicate table option is not available for `External DB` bases
-:::
+
 
 ## Delete table
 
 <Callout type="info">**This action cannot be undone**</Callout>
 
-1. Access the contextual menu for the table by clicking on the ellipsis symbol (`...`) located in the left sidebar.
-2. Click on the `Delete` option from the context menu.
-3. To finalize the deletion process, click on the `Delete` button in the confirmation dialog.
-
+1. Click the `...` (ellipsis) next to the table name in the left sidebar and select `Delete table`.
+2. In the confirmation dialog, click `Delete Table` to confirm.
 ![image](/img/v2/table/table-context-menu.png)
 
 ![image](/img/v2/table/table-delete.png)
@@ -62,13 +58,4 @@ Table description can be added by clicking on the `Add Description` button on th
 
 ![image](/img/v2/table/table-description-2.png)
 
-## Related articles
-- [Create a new table](/docs/product-docs/tables/create-table)
-- [Create a table using a CSV, Excel or a JSON](/docs/product-docs/tables/create-table-via-import)
-- [Import data from Csv/Xlsx into existing table](/docs/product-docs/tables/import-data-into-existing-table)
-- [Rename a table](/docs/product-docs/tables/actions-on-table#rename-table)
-- [Duplicate a table](/docs/product-docs/tables/actions-on-table#duplicate-table)
-- [Delete a table](/docs/product-docs/tables/actions-on-table#delete-table)
-
-
-
+---
