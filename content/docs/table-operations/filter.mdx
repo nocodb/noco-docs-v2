@@ -65,6 +65,101 @@ Once enabled, you can use the `is null` & `is empty` filters to filter out cells
 Alternatively, you can use Blank filters to filter out cells with NULL or EMPTY values.
 
 
+
+# Filter Operators
+
+## Field Data Type Categories
+
+| Category       | Field Types                                           |
+|----------------|-------------------------------------------------------|
+| **Text**       | SingleLineText, MultiLineText, Email, PhoneNumber     |
+| **Numerical**  | Number, Decimal, Currency, Percent, Rating, Year      |
+| **Select**     | SingleSelect, MultiSelect, User, CreatedBy, UpdatedBy |
+| **File**       | Attachment                                            |
+| **Boolean**    | Checkbox                                              |
+| **Relational** | Links, LinkToAnotherRecord                            |
+| **Virtual**    | Formula, Barcode, QRCode, Lookup, Rollup              |
+| **Date**       | Date, DateTime, Time, CreatedAt, UpdatedAt            |
+
+
+## 📊 Generic Filter Operators Table
+
+| Operator     | Description                           | Example Filter Expression                | Applicable Field Types                                      |
+|--------------|---------------------------------------|------------------------------------------|-------------------------------------------------------------|
+| `eq`         | Equals                                | `(status,eq,"Open")`                     | All field types                                             |
+| `neq`        | Not equal to                          | `(priority,neq,"High")`                  | All field types                                             |
+| `not`        | Logical NOT                           | `not (status,eq,"Closed")`               | Wraps any expression                                        |
+| `like`       | Contains substring (case-insensitive) | `(name,like,"john")`                     | Text                                                        |
+| `nlike`      | Does not contain substring            | `(email,nlike,"test.com")`               | Text                                                        |
+| `empty`      | Is empty                              | `(description,empty)`                    | Text, Select, File, Relational, Virtual                     |
+| `notempty`   | Is not empty                          | `(comment,notempty)`                     | Text, Select, File, Relational, Virtual                     |
+| `null`       | Is null                               | `(dueDate,null)`                         | All field types                                             |
+| `notnull`    | Is not null                           | `(assignee,notnull)`                     | All field types                                             |
+| `checked`    | Is checked (for checkbox fields)      | `(done,checked)`                         | Boolean                                                     |
+| `notchecked` | Is not checked                        | `(done,notchecked)`                      | Boolean                                                     |
+| `blank`      | Is blank (alias for empty/null)       | `(note,blank)`                           | All field types                                             |
+| `notblank`   | Is not blank                          | `(note,notblank)`                        | All field types                                             |
+| `allof`      | Matches all of the values             | `(tags,allof,["urgent","important"])`    | MultiSelect, User, Lookup (array)                           |
+| `anyof`      | Matches any of the values             | `(tags,anyof,["low","medium"])`          | MultiSelect, User, Lookup (array)                           |
+| `nallof`     | Matches none of the values            | `(tags,nallof,["completed","archived"])` | MultiSelect, User, Lookup (array)                           |
+| `nanyof`     | Does not match any of the values      | `(category,nanyof,["finance","legal"])`  | MultiSelect, User, Lookup (array)                           |
+| `gt`         | Greater than                          | `(amount,gt,1000)`                       | Numerical, Date, Virtual (number/date formulas)             |
+| `lt`         | Less than                             | `(age,lt,30)`                            | Numerical, Date, Virtual (number/date formulas)             |
+| `gte` / `ge` | Greater than or equal to              | `(score,gte,80)` / `(score,ge,80)`       | Numerical, Date, Virtual (number/date formulas)             |
+| `lte` / `le` | Less than or equal to                 | `(price,lte,999)` / `(price,le,999)`     | Numerical, Date, Virtual (number/date formulas)             |
+| `in`         | In the list of values                 | `(status,in,["Open","In Progress"])`     | Text, Select, Numerical                                     |
+| `isnot`      | Is not equal (alternative form)       | `(type,isnot,"admin")`                   | Text, Select                                                |
+| `is`         | Is equal (alternative form)           | `(type,is,"user")`                       | Text, Select                                                |
+| `isWithin`   | Date/time within a relative range     | `(createdAt,isWithin,pastWeek)`          | Date, Virtual (date formulas)                               |
+| `btw`        | Between two values                    | `(rating,btw,[3,5])`                     | Numerical, Date, Virtual (number/date formulas)             |
+| `nbtw`       | Not between two values                | `(score,nbtw,[1,10])`                    | Numerical, Date, Virtual (number/date formulas)             |
+
+### ⏱️ isWithin Sub-Operators
+
+| Sub-Operator       | Description                  | Example                                     | Applicable Field Types        |
+|--------------------|------------------------------|---------------------------------------------|-------------------------------|
+| `pastWeek`         | Within the past 7 days       | `(createdAt,isWithin,pastWeek)`             | Date, Virtual (date formulas) |
+| `pastMonth`        | Within the past 30 days      | `(dueDate,isWithin,pastMonth)`              | Date, Virtual (date formulas) |
+| `pastYear`         | Within the past 365 days     | `(joinedAt,isWithin,pastYear)`              | Date, Virtual (date formulas) |
+| `nextWeek`         | In the next 7 days           | `(eventDate,isWithin,nextWeek)`             | Date, Virtual (date formulas) |
+| `nextMonth`        | In the next 30 days          | `(deadline,isWithin,nextMonth)`             | Date, Virtual (date formulas) |
+| `nextYear`         | In the next 365 days         | `(renewal,isWithin,nextYear)`               | Date, Virtual (date formulas) |
+| `pastNumberOfDays` | In the past N days (dynamic) | `(createdAt,isWithin,pastNumberOfDays(15))` | Date, Virtual (date formulas) |
+| `nextNumberOfDays` | In the next N days (dynamic) | `(dueDate,isWithin,nextNumberOfDays(10))`   | Date, Virtual (date formulas) |
+
+### 📅 Other Date Sub-Operators
+
+| Sub-Operator      | Description                    | Example                                 | Applicable Field Types        |
+|-------------------|--------------------------------|-----------------------------------------|-------------------------------|
+| `today`           | Matches today's date           | `(startDate,eq,today)`                  | Date, Virtual (date formulas) |
+| `tomorrow`        | Matches tomorrow's date        | `(endDate,eq,tomorrow)`                 | Date, Virtual (date formulas) |
+| `yesterday`       | Matches yesterday's date       | `(logDate,eq,yesterday)`                | Date, Virtual (date formulas) |
+| `oneWeekAgo`      | Exactly one week ago           | `(entryDate,eq,oneWeekAgo)`             | Date, Virtual (date formulas) |
+| `oneWeekFromNow`  | Exactly one week in the future | `(eventDate,eq,oneWeekFromNow)`         | Date, Virtual (date formulas) |
+| `oneMonthAgo`     | One month ago                  | `(billDate,eq,oneMonthAgo)`             | Date, Virtual (date formulas) |
+| `oneMonthFromNow` | One month from now             | `(dueDate,eq,oneMonthFromNow)`          | Date, Virtual (date formulas) |
+| `daysAgo`         | N days ago                     | `(createdAt,eq,daysAgo(10))`            | Date, Virtual (date formulas) |
+| `daysFromNow`     | N days in the future           | `(reminder,eq,daysFromNow(5))`          | Date, Virtual (date formulas) |
+| `exactDate`       | Matches a specific date        | `(joinedAt,eq,exactDate("2024-01-01"))` | Date, Virtual (date formulas) |
+
+### 🧪 GroupBy Specific Operators
+
+| Operator  | Description                | Example                          | Applicable Field Types |
+|-----------|----------------------------|----------------------------------|------------------------|
+| `gb_eq`   | Equals in group-by context | `(group status,gb_eq,"Pending")` | Text, Select, Boolean  |
+| `gb_null` | Null check in group-by     | `(group team,gb_null)`           | All types              |
+
+### 🔁 Aliases
+
+| Alias            | Equivalent To | Applicable Field Types                  |
+|------------------|---------------|-----------------------------------------|
+| `isblank`        | `blank`       | Text, Select, File, Relational, Virtual |
+| `is_blank`       | `blank`       | Text, Select, File, Relational, Virtual |
+| `isnotblank`     | `notblank`    | Text, Select, File, Relational, Virtual |
+| `is_not_blank`   | `notblank`    | Text, Select, File, Relational, Virtual |
+| `is_notblank`    | `notblank`    | Text, Select, File, Relational, Virtual |
+
+
 ### Related topics
 - [Field Operations](/docs/product-docs/table-operations/field-operations)
 - [Sort](/docs/product-docs/table-operations/sort)
