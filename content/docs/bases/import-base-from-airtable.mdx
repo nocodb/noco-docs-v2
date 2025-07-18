@@ -1,22 +1,17 @@
 ---
 title: 'Import Airtable to NocoDB'
-description: 'A complete import of your Airtable to any MySQL or Postgres databases within minutes'
+description: 'A complete import of your Airtable base to NocoDB within minutes'
 tags: ['Bases', 'Import']
 keywords: ['NocoDB', 'Airtable', 'Import Airtable', 'Airtable to NocoDB', 'Airtable to MySQL', 'Airtable to Postgres']
 ---
 
-NocoDB offers a streamlined process for seamlessly transferring your Airtable database to various database management systems, including MySQL, Postgres and SQLite, in just a matter of minutes. This feature is particularly useful for users who wish to migrate their Airtable database to a more robust and scalable database management system.
-
 <Callout type="info">Import from Airtable is in beta version. See [Importing Airtable To NocoDB](https://github.com/nocodb/nocodb/discussions/2122) for the migration notes</Callout>
 
+<Callout type="info">To proceed, you must have valid Airtable Credentials. Ensure you have access to [Personal Access Token](#create-personal-access-token) and [Shared Base ID / URL](#retrieve-share-base-id--url)</Callout>
 
-<Callout type="info">
-To proceed, you must have valid Airtable Credentials. Ensure you have access to the following information from your Airtable account:
-- [Personal Access Token](#create-personal-access-token)
-- [Shared Base ID / URL](#retrieve-share-base-id--url)
-</Callout>
+## Access import modal
 
-Open the `Import from Airtable` modal to begin the import process
+Open the **Import from Airtable** modal to begin the import process
 1. Hover over the base name in the left sidebar, click on the `...` icon to open base context menu
 2. Select `Import Data` from the base context menu
 3. Select `Airtable`
@@ -27,12 +22,13 @@ Alternatively, you can also access this modal from the `Base dashboard`
 1. Go to your Base dashboard, click on `Import Data`  
 2. Select `Airtable`
 
-   ![import data](/img/v2/base/base-import-from-dashboard-1.png)
-
-   ![import from dashboard](/img/v2/base/base-import-from-dashboard-2.png)
+![import data](/img/v2/base/base-import-from-dashboard-1.png)
+![import from dashboard](/img/v2/base/base-import-from-dashboard-2.png)
   
 
-Continue with the following steps on `Import from Airtable` modal to complete the import process:
+## Configure details
+
+Continue with the following steps on **Import from Airtable** modal to complete the import process:
 1. Input [Personal Access Token](#create-personal-access-token)   
 2. Input [shared Base ID / URL](#retrieve-share-base-id--url)  
 3. Use [Advanced settings](#advanced-settings) to configure import options  (Optional)
@@ -85,16 +81,5 @@ See [here](https://support.airtable.com/hc/en-us/articles/205752117-Creating-a-b
 
 ![Shared base](/img/v2/base/airtable-share-base.png)
 
-## Related articles
-- [Base overview](/docs/product-docs/bases)
-- [Create an empty base](/docs/product-docs/bases/create-base)
-- [Import base from Airtable](/docs/product-docs/bases/import-base-from-airtable)
-- [Invite team members to work on a base](/docs/product-docs/bases/base-collaboration)
-- [Share base publicly](/docs/product-docs/bases/share-base)
-- [Rename base](/docs/product-docs/bases/actions-on-base#rename-base)
-- [Duplicate base](/docs/product-docs/bases/actions-on-base#duplicate-base)
-- [Bookmark base](/docs/product-docs/bases/actions-on-base#star-base)
-- [Delete base](/docs/product-docs/bases/actions-on-base#delete-base)
-
-
+---
 
