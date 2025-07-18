@@ -58,18 +58,24 @@ Table description can be added by clicking on the `Add Description` button on th
 
 ![image](/img/v2/table/table-description-2.png)
 
-## Retrieve Table ID
+## Find table ID
 
-Table ID can be retrieved from the URL when you are viewing the table. The table ID has prefix `m` (represents model) and is a unique identifier for the table within the base.
+Each table in NocoDB has a unique ID (prefixed with `m`, short for *model*) that identifies it within a base.
 
-Sample URL
+You can find the table ID in the URL when viewing a table.
+
+Example:
+
 ```
 https://app.nocodb.com/#/wqd7e84kkpg8169/pqh6trao813gar7/mxo5v3uj1l1xjpz
 ```
-The table ID in this example is `mxo5v3uj1l1xjpz`.
 
-Table context menu also provides the option to copy the table ID to clipboard.
+In this example, the table ID is: `mxo5v3uj1l1xjpz`
+
+You can also copy the table ID by clicking the `...` (ellipsis) next to the table name and selecting **Copy Table ID**.
 
 ![image](/img/v2/table/table-context-menu.png)
+
+**Usage**: Table IDs are commonly used in API calls, scripting, and integrations where you need to reference a specific table.
 
 ---
