@@ -4,6 +4,7 @@
     "profile-page",
     "api-tokens",
     "authentication",
+    "language",
     "oss-specific-details"
   ],
   "icon": "user"
