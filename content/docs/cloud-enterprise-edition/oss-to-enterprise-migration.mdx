@@ -9,9 +9,9 @@ This guide outlines the steps to migrate from the OSS version of NocoDB to the E
 ## Prerequisites
 Before you begin, ensure the following:
 
-- The Self hosted version of NocoDB (`Instance-1`) is accessible.
+- The OSS version of NocoDB (`Instance-1`) is accessible.
 - You have access to the Enterprise Edition of NocoDB (`Instance-2`) — either self-hosted (on-prem) or provisioned via a cloud subscription on NocoDB.
-- If using the self-hosted (on-prem) Enterprise Edition, it must be running version v0.262.2 or higher.
+    - If using the self-hosted (on-prem) Enterprise Edition, it must be running version v0.262.2 or higher.
 - You have administrative access to both instances.
 
 ---
@@ -27,7 +27,7 @@ On the Enterprise Edition (**Instance-2**)
 1. On the base homepage, click **Import Data**.
 2. Choose **NocoDB** as the data source.
 3. Click **Generate & Copy URL**.
-4. The URL will be copied to your clipboard. The modal will now enter **listening mode**, waiting for a migration request from the Self hosted instance.
+4. The URL will be copied to your clipboard. The modal will now enter **listening mode**, waiting for a migration request from the OSS instance.
 
 ![Generate Migration URL](/img/v2/cloud-enterprise-edition/EE-prep-1.png)
 ![Generate Migration URL](/img/v2/cloud-enterprise-edition/EE-prep-2.png)
@@ -38,7 +38,7 @@ On the Enterprise Edition (**Instance-2**)
 
 ### Part 2: Migrate Base from Self hosted instance
 
-On the Self hosted instance (**Instance-1**):
+On the OSS instance (**Instance-1**):
 1. Open the base context menu and select **Settings**.
 2. Navigate to the **Migrate** tab.
 3. Paste the migration URL copied from Instance-2.
@@ -47,7 +47,7 @@ On the Self hosted instance (**Instance-1**):
 ![Migrate Base from OSS](/img/v2/cloud-enterprise-edition/OSS-step-1.png)
 ![Migrate Base from OSS](/img/v2/cloud-enterprise-edition/OSS-step-2.png)
 
-Once the migration is triggered, a status popup will appear on the self-hosted OSS instance (Instance-1). Upon successful completion, a confirmation message will be displayed on the Enterprise Edition (Instance-2).
+Once the migration is triggered, a status popup will appear on the OSS instance (Instance-1). Upon successful completion, a confirmation message will be displayed on the Enterprise Edition (Instance-2).
 
 Click **Go to Base** to access the migrated base.
 
