@@ -1,63 +1,46 @@
 ---
-title: 'Import data into a table'
-description: 'Learn how to import data into an existing table in NocoDB.'
+title: 'Upload data into a table'
+description: 'Learn how to upload data into an existing table in NocoDB.'
 tags: ['Tables', 'Upload', 'CSV', 'Excel', 'JSON']
-keywords: ['NocoDB table', 'import data into table', 'import data from csv', 'import data from excel', 'import data from xlsx']
+keywords: ['NocoDB table', 'Upload data into table', 'Upload data from csv', 'Upload data from excel', 'Upload data from xlsx']
 ---
-
 
 ## Import data from CSV / Excel
 
 ### Accessing import modal
-1. Click on `...` context menu from the toolbar.
-2. Click on `Upload` button.
-3. Select `Upload CSV` / `Upload Excel` option.    
+1. Click on `⋮` context menu from the toolbar.
+2. Select `Upload` from the dropdown menu.
+3. Select `CSV` / `Excel` option.
   
 ![image](/img/v2/table/upload-csv-1.png)
 
 ### Importing file data
-There are two ways to upload source file:
 
-#### 1. Upload from local directory
-1. Select `Upload` tab from the Quick import modal.
-2. Click on `file upload` button or drag and drop file to the modal.
-3. [Advance Settings](#advance-settings) (optional)
-4. Click on `Import` button.  
-  
-![image](/img/v2/table/upload-csv-2.png)
+1. Select file to upload
 
-#### 2. Upload from URL
-1. Select `URL` tab from the Quick import modal.
-2. Paste the URL of the file.
-3. [Advance Settings](#advance-settings) (optional)
-4. Click on `Import` button.
-
-![image](/img/v2/table/upload-csv-url.png)
-
-### Field mapping
-1. **Table Name** (Optional)
-    - Defaults to the name of the file; double-click to edit.
-
-2. **Mapping Fields** (Optional)
-    - Existing field names are listed under `Source field`, while new fields identified from the import file are listed under `Destination field`.
-    - NocoDB automatically maps destination field names based on the source field names.
+    There are two ways to upload source file:
+    - **Upload** : Upload from local directory. Either click 'browse file' or drag and drop file.
+    - **Add from URL** : Specify the URL of the file.
+2. (_optional_) Select character encoding. By default, it is set to `UTF-8`.
+3. Advanced Settings : **Use first record as header**
+   - Enabled by default. If selected, the first record in the spreadsheet will be treated as the header record and its contents will be used as field names.
+4. Click on `Upload files` button.
+5. **Mapping Fields** (Optional)
     - You can reconfigure the mapping by utilizing the dropdown menu that appears when you click on the destination field.
+    - Existing field names are listed under **NocoDB field** (column to the right), while new fields identified from the import file are listed under **Field** (column to the left).
+    - NocoDB automatically maps field names in the import file based on the NocoDB field names.
+6. **Exclude fields** (Optional)
+    - Uncheck checkbox to exclude a field from being imported.
+7. **Allow create missing select field options** (Optional)
+    - If enabled, NocoDB will create new options for select fields that are not already present in the table.
+8. **Initiate Import**
+    - Click on the `Upload` button to commence the file import process.
 
-3. **Exclude fields** (Optional)
-    - A checkbox is provided to exclude a field from being imported.
 
-4. **Initiate Import**
-    - Click on the `Import` button to commence the file import process.
+![image](/img/v2/table/upload-csv-2.png)
 
 ![image](/img/v2/table/upload-csv-3.png)
 
-### Advance settings
-- `# of records to parse to infer datatype` - defaults to 500 records.
-- `Utilize First Record as Headers`**`: Enabled by default. If selected, the first record in the spreadsheet will be treated as the header record and its contents will be used as field names.
+On completion, the imported data will be appended to the existing table.
 
-## Related articles
-- [Create a new table](/docs/product-docs/tables/create-table)
-- [Create a table using a CSV, Excel or a JSON](/docs/product-docs/tables/create-table-via-import)
-- [Rename a table](/docs/product-docs/tables/actions-on-table#rename-table)
-- [Duplicate a table](/docs/product-docs/tables/actions-on-table#duplicate-table)
-- [Delete a table](/docs/product-docs/tables/actions-on-table#delete-table)
+---
