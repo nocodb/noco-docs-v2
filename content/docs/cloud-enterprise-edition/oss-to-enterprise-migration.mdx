@@ -1,72 +1,56 @@
 ---
-title: 'OSS to Enterprise Migration'
-tags: ['Migration', 'OSS', 'Enterprise']
-keywords: ['Migration', 'OSS', 'Enterprise']
+title: "OSS to Enterprise Migration"
+tags: ["Migration", "OSS", "Enterprise"]
+keywords: ["Migration", "OSS", "Enterprise"]
 ---
 
-
-This guide will help you migrate from the OSS to the Enterprise Edition of NocoDB.
-Migration is supported for both **On-prem** and **Cloud** setups.
+This guide outlines the steps to migrate from the OSS version of NocoDB to the Enterprise Edition. Migration is supported for both **on-prem** and **cloud** deployments.
 
 ## Prerequisites
+Before you begin, ensure the following:
 
-- You have the OSS version of NocoDB installed (referred to as **Instance-1**).
-- You have the Enterprise Edition of NocoDB installed (referred to as **Instance-2**) — either on-prem or hosted on NocoDB Cloud.
-- If On-prem, make sure Enterprise Edition is running on **v0.262.2 or higher**.
-- You have admin access to both instances.
+- The Self hosted version of NocoDB (`Instance-1`) is accessible.
+- You have access to the Enterprise Edition of NocoDB (`Instance-2`) — either self-hosted (on-prem) or provisioned via a cloud subscription on NocoDB.
+- If using the self-hosted (on-prem) Enterprise Edition, it must be running version v0.262.2 or higher.
+- You have administrative access to both instances.
 
-<Callout type="info"> On-Prem Enterprise Edition (Instance-2), if option **enable OSS to Enterprise migration** isn't visible, enable from the "Feature preview" section.
-    → See [Enable OSS to Enterprise Migration](#enable-oss-to-enterprise-migration).</Callout>
+---
 
 ## Steps
 
-The migration process involves two parts:
+The migration process consists of two parts:
 
 ### Part 1: Generate Migration URL
 
-On the Enterprise Edition (**Instance-2**) — On-prem or Cloud:
+On the Enterprise Edition (**Instance-2**)
 
-1. Click on **Import Data** from the base homepage.
-2. Choose **NocoDB** as the datasource.
-3. Click on **Generate & Copy URL**.
-4. The URL is copied to your clipboard. The modal will now enter **listening mode**, awaiting the migration trigger from OSS.
+1. On the base homepage, click **Import Data**.
+2. Choose **NocoDB** as the data source.
+3. Click **Generate & Copy URL**.
+4. The URL will be copied to your clipboard. The modal will now enter **listening mode**, waiting for a migration request from the Self hosted instance.
 
 ![Generate Migration URL](/img/v2/cloud-enterprise-edition/EE-prep-1.png)
-
 ![Generate Migration URL](/img/v2/cloud-enterprise-edition/EE-prep-2.png)
-
 ![Generate Migration URL](/img/v2/cloud-enterprise-edition/EE-prep-3.png)
-
 ![Generate Migration URL](/img/v2/cloud-enterprise-edition/EE-prep-4.png)
 
-### Part 2: Migrate Base from OSS
+---
 
-On the OSS instance (**Instance-1**):
+### Part 2: Migrate Base from Self hosted instance
 
-1. Open the base context menu and click on **Settings**.
-2. Go to the **Migrate** tab.
-3. Paste the migration URL copied from Enterprise (Instance-2).
+On the Self hosted instance (**Instance-1**):
+1. Open the base context menu and select **Settings**.
+2. Navigate to the **Migrate** tab.
+3. Paste the migration URL copied from Instance-2.
 4. Click **Migrate**.
 
 ![Migrate Base from OSS](/img/v2/cloud-enterprise-edition/OSS-step-1.png)
-
 ![Migrate Base from OSS](/img/v2/cloud-enterprise-edition/OSS-step-2.png)
 
-That’s it! Your base will now be migrated to the Enterprise Edition of NocoDB.
-A popup on Instance-1 will show the migration status, and a confirmation message will appear on Instance-2's base homepage.
+Once the migration is triggered, a status popup will appear on the self-hosted OSS instance (Instance-1). Upon successful completion, a confirmation message will be displayed on the Enterprise Edition (Instance-2).
 
-Click on **Go to Base** to open the migrated base.
+Click **Go to Base** to access the migrated base.
 
 ![Migration Complete](/img/v2/cloud-enterprise-edition/completion.png)
 
-## Enable OSS to Enterprise Migration
-
-On the Enterprise Edition (Instance-2):
-
-1. Click the **User menu** (bottom-left corner).
-2. Go to **Experimental Features**.
-3. Enable **OSS to Enterprise migration**.
-
-![Enable OSS to Enterprise Migration](/img/v2/cloud-enterprise-edition/feature-preview-enable-1.png)
-
-![Enable OSS to Enterprise Migration](/img/v2/cloud-enterprise-edition/feature-preview-enable-2.png)
+---
