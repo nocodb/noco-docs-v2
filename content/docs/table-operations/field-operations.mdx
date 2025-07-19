@@ -5,39 +5,51 @@ tags: ['Table operations', 'Reorder', 'Show/hide', 'Cover image', 'Gallery view'
 keywords: ['hide field', 'show field', 'reorder field', 'cover image']
 ---
 
-Utilize the `Fields` button in the toolbar to manage the visibility of fields within the system. By default, all system-related fields are concealed, but you have the option to enable them by selecting `Show system fields`.
+Use the **Fields** button in the toolbar to manage
+- field visibility
+- field order
+- cover image in Gallery and Kanban views.
+- show / hide system fields
+- add new field
+- add lookup field using existing relational fields
 
-<Callout type="info">
-    For Gallery View & Kanban View, the `Fields` menu is available on the toolbar as `Edit Cards`.
-</Callout>
+![Fields Menu](/img/v2/table-operations/toolbar-fields.png)
 
+## Show / hide fields
+To show or hide fields, open the `Fields` menu and toggle the switch next to each field name.
 
-![Show system fields](/img/v2/table-operations/fields-show-system-fields.png)
-
-### Rearranging Fields
-You have the flexibility to rearrange field positions. Access the `Fields` menu and reorder fields effortlessly by dragging and dropping the associated field using the provided `drag icon`.
-
-![Reorder Fields](/img/v2/table-operations/fields-reorder.png)
-
-### Show/Hide Fields
-For showing or hiding fields, navigate to the `Fields` menu and simply click the toggle button associated with the respective field to hide or un-hide it.
-
-<Callout type="info">
-Consider creating different grid views with distinct sets of fields displayed in each view for enhanced customization.
-</Callout>
-
+<Callout type="tip"> For better customization, create multiple grid views with different sets of visible fields. </Callout>
 
 ![Show/Hide Fields](/img/v2/table-operations/fields-hide.png)
 
-### Change cover field (Gallery/Kanban View)
-For Gallery View & Kanban View, you can change the cover field by clicking on the `Change cover field` button in the `Edit Cards` menu. You can select any field of type `Attachment` as the cover field.
 
-![Change cover field](/img/v2/table-operations/change-cover-image.png)
+## Rearranging fields
+To rearrange field positions, open the `Fields` menu and drag fields using the `⋮⋮` (drag icon) next to each field name.
+![Reorder Fields](/img/v2/table-operations/fields-reorder.png)
 
-### Related topics
-- [Filter](/docs/product-docs/table-operations/filter)
-- [Sort](/docs/product-docs/table-operations/sort)
-- [GroupBy](/docs/product-docs/table-operations/group-by)
-- [Row Height](/docs/product-docs/table-operations/row-height)
-- [Quick Search](/docs/product-docs/table-operations/search)
-- [Download](/docs/product-docs/table-operations/download)
+
+## Show / hide system fields
+By default, system fields are hidden — you can enable them by selecting **Show system fields**.
+
+<Callout type="info">In Gallery and Kanban views, this option appears as **Edit Cards** in the toolbar.</Callout>
+
+![Show system fields](/img/v2/table-operations/fields-show-system-field-2.png)
+
+
+## Change cover field
+In Gallery and Kanban views, you can change the cover field by clicking `Cover image` field in the `Edit Cards` menu. Only fields of type Attachment can be used as cover fields. You can also use the Settings button in the same menu to adjust image display properties like `Fit image` or `Cover image`.
+
+<div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+    <img src="/img/v2/table-operations/fields-gallery-1.png" alt="Change cover field 1" style={{ maxWidth: '48%' }} />
+    <img src="/img/v2/table-operations/fields-gallery-2.png" alt="Change cover field 2" style={{ maxWidth: '48%' }} />
+</div>
+
+## Add new field
+To add a new field, click the `+ New Field` button at the bottom of the `Fields` menu. This opens the field creation modal where you can select the field type and configure its properties.
+
+## Add lookup field using existing relational fields
+To add a lookup field based on an existing relational field, click relational field in the `Fields` menu. This opens a modal where you can select the target field to create a lookup field. Click `Add n lookup field(s)` to complete the process.
+
+![Add Lookup Field](/img/v2/table-operations/fields-show-system-fields.png)
+
+---
