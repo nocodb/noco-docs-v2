@@ -5,70 +5,60 @@ tags: ['Table operations', 'Filter', 'Gallery view', 'Kanban view', 'Grid view']
 keywords: ['NocoDB table operations', 'table operations overview', 'filter']
 ---
 
+![Filter](/img/v2/table-operations/toolbar-filters.png)
 
-Filters provide a powerful way to narrow down and organize your data according to your specific requirements. NocoDB supports nested filters, allowing you to select multiple fields and conditions for filtering. You can choose between `and` or `or` mode of operation to combine filters, and filtering also supports Lookup, Formula, and Nested Data.
+Filters help you narrow down and organize data based on specific conditions. NocoDB supports:
+    - **Nested filters**: Combine multiple conditions across different fields.
+    - **AND / OR logic**: Choose how filters are grouped.
 
-### Adding or Editing Filters
-To add or edit a filter, simply click the `Filter` button in the toolbar and select either `Add filter` or `Add filter group`.
+Use filters to focus only on the records that matter to you.
 
-![Add Filter](/img/v2/table-operations/filter-1.png)
+## Add or edit filters
 
-Configure the filter by specifying the `Field,` `Operation,` and `Value` (if applicable).
+1. Click the **Filter** button in the toolbar.
+2. Choose **Add filter** or **Add filter group**.
+3. Set up each filter by selecting a **Field**, **Operation**, and (if needed) a **Value**.
+4. To refine results further, combine multiple filters using **AND** or **OR** logic.
 
-![Filter Configuration](/img/v2/table-operations/filter-2.png)
+![Add Filter](/img/v2/table-operations/filter-0.png)
 
-You can combine multiple filter conditions using either `And` or `Or` mode of operation.
-
-![Nested Filters](/img/v2/table-operations/filter-3.png)
-
-### Deleting Filters
-To remove a filter, click on the bin icon located to the right of the respective filter.
-
-![Delete Filter](/img/v2/table-operations/filter-5.png)
-
-### Grouping Filters
-You also have the option to group multiple filters together using a Filter Group.
-
-### Filter by Current User ☁
-
-
-<Callout type="info">
-This feature is available in NocoDB Cloud and NocoDB Enterprise Edition.
-</Callout>
-
-To filter records based on the current logged-in user, you can use the `Current User` option in the filter configuration for User field & its derivatives (createdBy & updatedBy field types) . This is particularly useful when creating views that display records relevant to the user currently logged in.
-
-![Filter by Current User](/img/v2/table-operations/current-user.png)
-
-
-Toolbar filters display an "@" icon next to the filter count to indicate the presence of dynamic filters based on the current user applied to the view.  
-![Filter by Current User](/img/v2/table-operations/current-user-2.png)
-
-<Callout type="info">
-"Current User" based filters evaluate to false in publicly shared views. The shared view will display all records after applying any other filters. If "Current User" was the only filter applied, no records will be shown.
-</Callout>
-
+### Group filters
+You can group multiple filters together using a `Filter Group` to build complex, nested conditions. This allows you to combine filters using either `AND` or `OR` logic, enabling more precise control over your data. To create a filter group, click the `Filter` button in the toolbar and choose `+ Add filter group`. Within a group, you can add individual filters or even nest additional groups.
 
 ![Grouped Filters](/img/v2/table-operations/filter-4.png)
 
-## Enabling NULL and EMPTY Filters
-By default, NULL filters (`is null` & `is not null`) and EMPTY filters (`is empty` & `is not empty`) are hidden. If you wish to filter out either of these explicitly, you can enable `Show NULL and EMPTY Filter` in [Project settings](/docs/product-docs/bases/actions-on-base#base-settings).
+## Delete filters
 
-Before enabling `Show NULL and EMPTY Filter`:
+<Callout type="info">NocoDB supports upto 5 levels of nested filter groups.</Callout>
+
+To remove a filter, click on the trash / bin icon located to the right of the respective filter.
+
+![Delete Filter](/img/v2/table-operations/filter-delete.png)
+
+## Filter by current user ☁
+
+<Callout type="info">This feature is available in NocoDB Cloud and NocoDB Enterprise Edition.</Callout>
+
+You can filter records based on the currently logged-in user using the **Current User** option when configuring filters on **User fields** and their derivatives (such as `createdBy` and `updatedBy`). This is especially useful for creating views that show only the records relevant to the user viewing them.
+
+![Filter by Current User](/img/v2/table-operations/current-user.png)
+
+When a dynamic **Current User** filter is applied, the toolbar shows an **@** icon next to the filter count as an indicator.
+
+![Filter by Current User](/img/v2/table-operations/current-user-2.png)
+
+<Callout type="warning">**Current User** filters do not apply in publicly shared views. If no other filters are present, the shared view will display no records.</Callout>
+
+## Enabling NULL and EMPTY filters
+
+By default, filters like `is null`, `is not null`, `is empty`, and `is not empty` are hidden in the filter menu. To use them explicitly, go to [Base settings](/docs/product-docs/bases/actions-on-base#base-settings) and enable **Show NULL and EMPTY filter**.
+
+Before enabling the setting:
 
 ![Show isBlank](/img/v2/table-operations/filter-is-blank.png)
 
-Once enabled, you can use the `is null` & `is empty` filters to filter out cells with NULL or EMPTY values.
+After enabling it, you’ll see additional options like `is null` and `is empty`, which let you filter out cells with `NULL` or empty values.
 
 ![Show NULL and EMPTY Filter](/img/v2/table-operations/filter-is-null-empty.png)
 
-Alternatively, you can use Blank filters to filter out cells with NULL or EMPTY values.
-
-
-### Related topics
-- [Field Operations](/docs/product-docs/table-operations/field-operations)
-- [Sort](/docs/product-docs/table-operations/sort)
-- [GroupBy](/docs/product-docs/table-operations/group-by)
-- [Row Height](/docs/product-docs/table-operations/row-height)
-- [Quick Search](/docs/product-docs/table-operations/search)
-- [Download](/docs/product-docs/table-operations/download)
+Alternatively, you can use **is blank** and **is not blank** filters to handle both NULL and EMPTY values in a simplified way.
