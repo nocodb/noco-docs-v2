@@ -1,30 +1,30 @@
 ---
 title: 'Single line text'
-description: 'This article explains how to create & work with a Single line text field.'
+description: 'Learn how to use the Single line text field in NocoDB.'
 tags: ['Fields', 'Field types', 'Text based types', 'Single line text']
 keywords: ['Fields', 'Field types', 'Text based types', 'Single line text', 'Create single line text field']
 ---
 
+The **Single line text** field stores short text like names, emails, or phone numbers. It supports plain, single-line input.
+For longer or multi-line content, use the [Long text](/docs/product-docs/fields/field-types/text-based/long-text) field.
 
-`Single line text` field is a simple text based field. It can hold any text value. It is generally used for storing short text values like name, email, phone number, etc. For storing text values with multiple lines, use [Long text](/docs/product-docs/fields/field-types/text-based/long-text) field. 
+## Create field
 
-## Create a single line text field
-1. Click on `+` icon to the right of `Fields header`
-2. On the dropdown modal, enter the field name (Optional).
-3. Select the field type as `Single line text` from the dropdown.
-4. Set default value for the field (Optional).
-5. Click on `Save Field` button.
+1. Click the `+` icon next to the **Fields** header.
+2. Enter a field name (optional).
+3. Choose `Single line text` as the type.
+4. Set a default value (optional).
+    - This value appears automatically when creating new records.
+5. Set field description (optional).
+   - This description appears as a tooltip when hovering over the field name.
+   - It can be used to provide additional context or instructions for users.
+6. Click **Save Field**.
 
 ![image](/img/v2/fields/types/singlelinetext.png)
 
-<Callout type="info">Specify default value without quotes</Callout>
+<Callout type="info">Default value should not be wrapped in quotes.</Callout>
 
-## Similar text based fields
-Following are the other text based fields available in NocoDB, custom-built for specific use cases.
-- [Long text](/docs/product-docs/fields/field-types/text-based/long-text)
-- [URL](/docs/product-docs/fields/field-types/text-based/url)
-- [Email](/docs/product-docs/fields/field-types/text-based/email)
-- [Phone](/docs/product-docs/fields/field-types/text-based/phonenumber)
+## Cell display
+In table view, content appears as a single line. If the text exceeds the cell width, it is truncated with an ellipsis. To show more content, adjust the [Record height](/docs/product-docs/table-operations/row-height) settings.
 
-
-
+---
