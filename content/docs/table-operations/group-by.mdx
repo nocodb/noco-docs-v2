@@ -2,46 +2,36 @@
 title: 'Grouping records'
 description: 'Learn how to group records in NocoDB.'
 tags: ['Table operations', 'Group by', 'Grid view']
-keywords : ['NocoDB table group by', 'group by field', 'group By''grouping records', 'grouping','group by in table']
+keywords: ['NocoDB table group by', 'group by field', 'group By', 'grouping records', 'grouping', 'group by in table']
 ---
 
-Grouping records in NocoDB allows for efficient categorization of data into specific `Groups` and `Subgroups.` NocoDB supports three levels of record segregation, providing a powerful organizational tool.
+![Grouping records](/img/v2/table-operations/grouping.png)
 
-![Group By](/img/v2/table-operations/group-by-1.png)
+Grouping records in NocoDB helps you organize data by categories using **Groups** and **Subgroups**. You can group records by up to **three levels**, making it easier to analyze and navigate complex datasets.
 
-### Adding or Editing Groups
+## Add or edit groups
 
-To create or modify a grouping in NocoDB, follow these steps:
-
-1. Click on `Group By` in the toolbar.
-2. Choose the field by which you want to group the records.
-3. Optionally, you can sort the groups in ascending or descending order.
+1. Click **Group By** in the toolbar.
+2. Select the field to group records by.
+3. (Optional) Sort the groups in ascending or descending order.
+4. (Optional) Use `+ New Subgroup` to create a subgroup within the selected group.
 
 ![Group By](/img/v2/table-operations/group-by-create.png)
 
-<Callout type="info">
-You can add subgroups with up to three levels to further refine your categorization.
-</Callout>
+<Callout type="info">You can add up to **three levels of grouping** to further refine your data view.</Callout>
 
-![Group By](/img/v2/table-operations/group-by-nested.png)
+## Delete groups
 
-### Deleting Groups
+1. Click **Group By** in the toolbar.
+2. Click the 🗑 icon next to the group you want to remove.
 
-To remove a grouping in NocoDB, take these actions:
-
-1. Click on `Group By` in the toolbar.
-2. Locate the bin icon to the right of the group you wish to delete and click on it.
-
-<Callout type="info">
-To disable `Group By` and return to the standard spreadsheet grid view, you must remove all configured groups.
-</Callout>
+<Callout type="info">To return to the standard grid view, remove all configured groups.</Callout>
 
 ![Group By](/img/v2/table-operations/group-by-delete.png)
 
-### Related topics
-- [Field Operations](/docs/product-docs/table-operations/field-operations)
-- [Filter](/docs/product-docs/table-operations/filter)
-- [Sort](/docs/product-docs/table-operations/sort)
-- [Row Height](/docs/product-docs/table-operations/row-height)
-- [Quick Search](/docs/product-docs/table-operations/search)
-- [Download](/docs/product-docs/table-operations/download)
+## Group level field aggregations ☁
+You can perform aggregations on fields at each group level. This allows you to summarize data within each group, such as calculating totals or averages.
+
+<Callout type="info">Availability: Self hosted Enterprise License, NocoDB cloud - Plus plan and higher</Callout>
+
+![Group Aggregation](/img/v2/table-operations/group-by-aggregation.png)
