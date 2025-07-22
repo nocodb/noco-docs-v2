@@ -3,8 +3,9 @@
   "pages": [
     "privacy",
     "terms-of-service",
-    "cookie-policy",
-    "acceptable-use-policy"
+    "acceptable-use-policy",
+    "ai-terms",
+    "cookie-policy"
   ],
   "icon": "terminal"
 }
