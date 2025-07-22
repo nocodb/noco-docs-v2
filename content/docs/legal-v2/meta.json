@@ -5,7 +5,9 @@
     "terms-of-service",
     "acceptable-use-policy",
     "ai-terms",
-    "cookie-policy"
+    "cookie-policy",
+    "dsa-disclosures",
+    "subprocessors"
   ],
   "icon": "terminal"
 }
