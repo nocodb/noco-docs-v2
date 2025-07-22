@@ -7,7 +7,9 @@
     "ai-terms",
     "cookie-policy",
     "dsa-disclosures",
-    "subprocessors"
+    "subprocessors",
+    "third-party-provider-ai-terms-policies",
+    "copyright-policy"
   ],
   "icon": "terminal"
 }
