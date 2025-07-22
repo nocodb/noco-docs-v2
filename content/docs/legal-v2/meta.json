@@ -1,7 +1,10 @@
 {
   "title": "Legal v2",
   "pages": [
-    "privacy"
+    "privacy",
+    "terms-of-service",
+    "cookie-policy",
+    "acceptable-use-policy"
   ],
   "icon": "terminal"
 }
