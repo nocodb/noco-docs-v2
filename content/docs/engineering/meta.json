@@ -6,8 +6,8 @@
     "development-setup",
     "unit-testing",
     "playwright",
-    "build-and-releases",
-    "translations",
+    "builds-and-releases",
+    "translation",
     "writing-docs"
   ],
   "icon": "terminal"

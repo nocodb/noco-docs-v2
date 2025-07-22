@@ -9,6 +9,7 @@ module.exports = {
     '*.js',
     '*.css',
     '*.xml',
+    '*.json',
     '*.less',
     '*.png',
     '*.jpg',
