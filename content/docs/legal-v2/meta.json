@@ -3,15 +3,16 @@
   "pages": [
     "privacy",
     "terms-of-service",
-    "acceptable-use-policy",
+    "aup",
+    "msa",
+    "sla",
     "ai-terms",
-    "cookie-policy",
+    "third-party-provider-ai-terms",
     "dsa-disclosures",
+    "dpa",
     "subprocessors",
-    "third-party-provider-ai-terms-policies",
-    "copyright-policy",
-    "master-subscription-agreement",
-    "service-level-agreement",
+    "copyright",
+    "cookie-policy",
     "trademark-guidelines"
   ],
   "icon": "terminal"
