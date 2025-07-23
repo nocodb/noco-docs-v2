@@ -9,7 +9,9 @@
     "dsa-disclosures",
     "subprocessors",
     "third-party-provider-ai-terms-policies",
-    "copyright-policy"
+    "copyright-policy",
+    "master-subscription-agreement",
+    "service-level-agreement"
   ],
   "icon": "terminal"
 }
