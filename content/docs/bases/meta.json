@@ -1,6 +1,5 @@
 {
   "pages": [
-    "index",
     "create-base",
     "import-base-from-airtable",
     "base-collaboration",
