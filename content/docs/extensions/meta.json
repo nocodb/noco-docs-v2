@@ -4,7 +4,8 @@
     "upload-data-from-csv",
     "url-preview",
     "world-clock",
-    "bulk-update"
+    "bulk-update",
+    "page-designer"
   ],
   "title": "Extensions ☁",
   "icon": "extension"
