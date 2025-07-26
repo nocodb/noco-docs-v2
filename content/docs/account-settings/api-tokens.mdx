@@ -53,3 +53,25 @@ Open Account Settings page from the user menu in the bottom left corner of the s
 2. From the `Actions` menu, click on `Delete` button associated with the API Token to be deleted
 
 ![Delete API Token](/img/v2/account-settings/api-token-4.png)
+
+
+## API Token Access with SSO-Enabled Workspaces
+
+If a workspace is configured to enforce Single Sign-On (SSO), API access to that workspace is restricted to tokens that are created **after authenticating via SSO**.
+
+<Callout type="warn">**Tokens created before SSO was enabled** do not have the necessary identity context and **will not work** for SSO-enforced workspaces.</Callout>
+
+To access an SSO-enforced workspace via API, users must:
+
+1. Sign in using SSO.
+2. Generate a new API token from their authenticated session.
+
+<Callout type="info">Tokens created before SSO enforcement may still work for other workspaces that do not require SSO.</Callout>
+
+### What Happens When SSO is Disabled?
+
+If SSO is later disabled for a workspace:
+
+* API tokens that were created via SSO authentication will **continue to work** as long as the user is still active and has the required permissions.
+* Tokens created prior to enabling SSO will continue to function & can now access the workspace without SSO authentication.
+* No tokens are automatically revoked when SSO is disabled.
