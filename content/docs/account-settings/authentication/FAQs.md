@@ -25,11 +25,6 @@ This error usually means that the Redirect URL (sometimes called Callback URL or
 
 **Solution:** Always copy and paste the exact Redirect URL/URI provided by NocoDB into your identity provider's configuration. Any mismatch will result in an error during authentication. 
 
-
-Here's an additional section you can append to the **SSO FAQs** page, covering API token behavior with SSO:
-
----
-
 ## How do API tokens work with SSO-enabled workspaces?
 
 When a workspace is configured to enforce Single Sign-On (SSO), API access is restricted to tokens generated through an authenticated SSO session. Please find additional details here: [API Tokens with SSO](/docs/product-docs/account-settings/api-tokens#api-token-access-with-sso-enabled-workspaces).
