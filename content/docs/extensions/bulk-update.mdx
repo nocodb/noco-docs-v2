@@ -6,7 +6,12 @@ keywords: ['Bulk Update', 'Update multiple records', 'Update data', 'Update reco
 ---
 
 ## Overview
-The Bulk Update extension in NocoDB allows you to update multiple records in a view simultaneously. This feature is particularly useful when you need to make the same change across multiple records, saving you time and effort.
+
+![Bulk Update](/img/v2/extensions/bulk-update/overview.png)
+
+The Bulk Update extension empowers users to modify multiple records across a selected table view simultaneously. Instead of editing each row one by one, you can define field-level updates and apply them to all visible records with a single action—saving time and reducing manual errors.
+
+<Callout type="warning">Bulk updates are irreversible. Ensure you review the changes before confirming the update.</Callout>
 
 ## Updating Records
 Follow these steps to update multiple records in a table:
@@ -20,23 +25,16 @@ Follow these steps to update multiple records in a table:
 6. Click the **Update Records** button to apply the changes.
 7. A confirmation dialog will display the number of fields and records to be updated. Review the details and click **Confirm Update** to proceed.
 
-![Bulk Update](/img/v2/extensions/bulk-update.png)
+![Bulk Update](/img/v2/extensions/bulk-update/bulk-update.png)
 
 You can add multiple actions to update different fields in the table. 
 
+Bulk updates affect all records within the current view, including those not visible on the screen. These updates are limited to the selected view and do not impact records outside of it or in other views.
+
 ## Managing Actions
-The actions added are listed in the **Actions** section. You can:
+The Update work items added are listed in the **Actions** section. You can:
 - **Edit** an action by clicking on the action item in the list & making the necessary changes.
 - **Delete** an action by clicking on the delete icon next to the action item.
 - **Disable** an action by toggling the switch next to the action item. Disabling an action will prevent it from being applied to the records.
-
-<Callout type="warning">
-Bulk updates are irreversible. Ensure you review the changes before confirming the update.
-</Callout>
-
-<Callout type="info">
-- Bulk updates are applied to all records in the view, including those not visible on the current page.
-- Bulk updates are specific to the view and are not applied to the entire table.
-</Callout>
 
 For any configured bulk update extension, you can reuse the **Update Records** button to repeat the batch update process. This is particularly useful when you need to apply the same changes across multiple records in the future.

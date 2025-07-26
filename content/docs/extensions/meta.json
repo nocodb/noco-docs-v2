@@ -3,7 +3,9 @@
     "data-exporter",
     "upload-data-from-csv",
     "url-preview",
-    "world-clock"
+    "world-clock",
+    "bulk-update",
+    "page-designer"
   ],
   "title": "Extensions ☁",
   "icon": "extension"

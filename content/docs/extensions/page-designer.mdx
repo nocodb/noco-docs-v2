@@ -1,0 +1,106 @@
+---
+title: 'Page Designer'
+description: 'Create printable and shareable layouts from your database records'
+tags: ['Extensions', 'Page Designer', 'Document Design', 'Printable Layouts', 'Visual Layouts']
+keywords: ['Page Designer', 'Document Design', 'Printable Layouts', 'Visual Layouts', 'Database Records']
+---
+
+## Overview
+
+![Page Designer](/img/v2/extensions/page-designer/overview.png)
+
+The **Page Designer** extension allows users to create printable and shareable (PDF) visual layouts from their database records. Common use cases include generating invoices, reports, certificates, and summaries—by combining text, images, and dynamic field data in a freeform design canvas.
+
+This feature is ideal for teams who want to convert structured table data into branded, formatted documents directly within NocoDB.
+
+
+## Key Features
+* **Drag-and-drop Builder**: Add text, images, tables, and dividers to customize your page layout.
+* **Record-specific Rendering**: Auto-populates fields dynamically from the selected record.
+* **Supports Linked Records**: Render data from related tables in a tabular, list, or inline format.
+* **Full Design Control**: Modify font, alignment, borders, colors, and more for each element.
+* **Print & PDF Export**: Preview your design and export directly to PDF.
+
+
+## How to Access
+
+To get started:
+1. Open **Page Designer** from the **Extensions** menu in your NocoDB instance.
+2. Choose the target **table** and **view** from which records will be pulled.
+3. Select a specific **record** to preview and design the layout interactively.
+
+
+## Designing Your Page
+
+The canvas on the left shows a preview of your document layout. Use the sidebar on the right to add and arrange elements.
+
+### Add Elements
+
+Add components to your layout by dragging them onto the canvas:
+
+| Element   | Description                                          |
+|-----------|------------------------------------------------------|
+| 🅰️ Text  | Add static or dynamic text (linked to table fields). |
+| 🖼️ Image | Add image blocks, such as logos or banners.          |
+| ➖ Divider | Insert horizontal lines for visual separation.       |
+
+
+### Bind Field Data
+
+Under **Field Elements**, you can drag and drop database fields onto the canvas. Once dropped into the canvas, these fields will auto-populate with values from the selected record. You can also format these fields using the sidebar options (font size, color, alignment, etc.).
+
+##### Field Configuration
+
+For most field types, you can configure:
+
+| Setting          | Description                                         |
+|------------------|-----------------------------------------------------|
+| Font settings    | Customize font family, size, line height, and color |
+| Alignment        | Set horizontal and vertical alignment               |
+| Border & Radius  | Add borders and set corner radius                   |
+| Background color | Set background color for the field                  |
+
+
+### Linked Records
+
+The **Linked Records** section allows you to display related table data using three formats:
+
+* **Inline**: Display as plain text.
+* **List**: Show entries in a vertical list.
+* **Table** : Render fields from the related table as a structured table with columns and rows.
+
+For linked records displayed in tabluar format, you can choose which fields to display and customize their visibility.
+
+##### Table Configuration
+
+| Column                | Options                                             |
+|-----------------------|-----------------------------------------------------|
+| Enable/Disable fields | Toggle visibility per field                         |
+| Font settings         | Customize font family, size, line height, and color |
+| Table Header styling  | Set separate font size and line height for headers  |
+| Background color      | Set background color for the table                  |
+
+
+## Record Preview
+
+Use the **Record selector** in the sidebar to toggle between different records and preview how the design looks with real data.
+
+
+## Page Settings
+
+* **Page Name**: Customize the name of your page for easy reference. This name will be used when exporting or printing.
+* **Print / Export**: Use the print icon in the top-right corner to generate PDFs or physical printouts.
+
+## Key Use Cases
+
+* 🧾 Invoices & Quotes
+* 📄 Client Reports & Status Sheets
+* 🎓 Certificates & Badges
+* 📊 Internal Summaries for review meetings
+
+
+## Limitations (Beta)
+
+* The Page Designer is currently in **Beta**—minor rendering issues may occur in some browsers. Help us improve by reporting any bugs you encounter and any suggestions you have to improve the experience.
+
+---
