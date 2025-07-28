@@ -28,7 +28,7 @@ import Linkedin from '@/components/icons/Linkedin';
 import Extension from '@/components/icons/Extension';
 import Sparkle from '@/components/icons/Sparkle';
 import Chart from '@/components/icons/Chart';
-
+import Legal from '@/components/icons/Legal';
 
 const iconMap = {
     alertCircle: AlertCircle,
@@ -61,6 +61,7 @@ const iconMap = {
     extension: Extension,
     sparkle: Sparkle,
     chart: Chart,
+    legal: Legal,
 } as const;
 
 type IconNameType = keyof typeof iconMap;
