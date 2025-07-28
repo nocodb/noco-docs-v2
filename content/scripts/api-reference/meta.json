@@ -12,6 +12,7 @@
       "session",
       "collaborator",
       "script-settings",
+      "workflow",
       "input",
       "output",
       "fetch"

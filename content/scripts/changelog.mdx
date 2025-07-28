@@ -1,0 +1,55 @@
+---
+title: 'Changelog'
+description: 'NocoDB Scripts API changelog and version history'
+icon: 'clock'
+---
+
+This page documents all changes to the NocoDB Scripts API, including new features, improvements, bug fixes, and breaking changes.
+
+## July 28, 2025
+
+
+#### Workflow Steps API
+- **Added `workflow` object** - New global object for creating visual workflow steps
+- **`workflow.step(config)`** - Create and start workflow steps with rich customization options
+  - Support for titles, descriptions, icons, and colors
+  - Automatic step management (previous step ends when new step starts)
+  - String shorthand: `workflow.step('Step Title')` or full config object
+- **`workflow.clear()`** - Manually end the current workflow step
+- **`workflow.colors`** - Predefined color constants (red, blue, green, yellow, purple, orange, gray)
+- **`workflow.icons`** - Comprehensive icon library with 100+ icons across different categories. 
+
+
+#### Improvements
+- Increased script timeout to 30 Minutes
+
+---
+
+## June 30, 2025
+
+#### Initial Scripts Release
+- **`base` object** - Access to base metadata and configuration
+- **`table` object** - Create, Read operations on tables
+- **`record` object** - Rich record manipulation capabilities
+- **`field` object** - Field metadata and validation
+- **`input` object** - User input collection methods
+- **`output` object** - Rich output formatting options
+- **`fetch` function** - HTTP requests to external APIs
+- **`session` object** - Script execution context and state
+
+#### Core Functionality
+- **JavaScript runtime** - Full ES6+ support
+- **Async/await support** - Modern asynchronous programming
+- **Error handling** - Comprehensive error reporting
+- **Type safety** - TypeScript definitions for all APIs
+
+---
+
+## Support and Resources
+
+- **Documentation**: [Scripts API Reference](/docs/scripts/api-reference)
+- **Examples**: [Script Examples](/docs/scripts/examples)
+- **Community**: [NocoDB Discord](https://discord.gg/5RgZmkW)
+- **Issues**: [GitHub Issues](https://github.com/nocodb/nocodb/issues)
+
+For questions about specific API changes or migration help, please reach out to our community or support team.
