@@ -15,11 +15,13 @@ keywords: ['Fields', 'Field types', 'Links based types', 'Rollup', 'Create rollu
 4. Select the link field from the dropdown. This is the field that links the current table to the related table.
 5. Select the field for display from the dropdown. This is the field that will be displayed in the current table.
 6. Select the aggregation function from the dropdown. This is the function that will be used to aggregate the data.
-7. Click on `Save Field` button.
+7. Set the **Precision** (Optional) to number of decimal places to display for numeric aggregation functions.
+8. Enable the **Thousand Separator** (Optional) to format the number with a thousand separator.
+9. Click on `Save Field` button.
 
 ![image](/img/v2/fields/types/rollup.png)
 
-### Aggregation Functions
+### Aggregation functions
 Here's a table with brief descriptions for each of the aggregation functions supported by NocoDB:
 
 | Aggregation Function | Description                                             |
@@ -32,6 +34,21 @@ Here's a table with brief descriptions for each of the aggregation functions sup
 | Count Distinct       | Counts the number of distinct values in a dataset.      |
 | Sum Distinct         | Adds up all the distinct values in a dataset.           |
 | Average Distinct     | Calculates the average of distinct values in a dataset. |
+
+
+### Rollup count as link
+
+When using a rollup field with the **Count** function, you can enable the **"Show count as links"** option to make the displayed count clickable. This allows users to directly access and view the underlying linked records that contribute to the count. Once enabled, the rollup field becomes editable, allowing you to add or modify records in the linked table directly from the rollup field.
+
+![image](/img/v2/fields/types/rollup-count-as-link.png)
+
+Additionally, you can configure "Singular label" & "Plural label" for the rollup field. These labels will be used to display the count in a more user-friendly manner, such as "1 record" or "5 records".
+
+Rollup count as link is available only for the `Count` aggregation function & with `ID` field type selected as the related table field during rollup creation.
+
+<Callout type="info">
+API response for rollup field will always return the count as a number, regardless of whether the "Show count as links" option is enabled or not. If you need to retrieve the linked records, you can use associated `LinkToAnotherRecord` field type instead.
+</Callout>
 
 ## Similar links-based fields
 - [Links](/docs/product-docs/fields/field-types/links-based/links)
