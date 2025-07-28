@@ -1,18 +1,17 @@
 ---
-title: 'Workflow Steps Example'
-description: 'Example demonstrating how to use workflow steps to create visual progress tracking in scripts'
-icon: 'workflow'
+title: 'Script Steps Example'
+description: 'Example demonstrating how to use script steps to create visual progress tracking in scripts'
 ---
 
-This example demonstrates how to use the workflow API to create visual progress tracking for a data processing script. The workflow steps provide users with clear feedback about what the script is doing at each stage.
+This example demonstrates how to use the script API to create visual progress tracking for a data processing script. The script steps provide users with clear feedback about what the script is doing at each stage.
 
 
 ```javascript
-// Data Processing Script with Workflow Steps
+// Data Processing Script with Script Steps
 // This script processes customer data and generates a summary report
 
-// Step 1: Initialize the workflow
-workflow.step({
+// Step 1: Initialize the script step
+script.step({
   title: 'Initializing Data Processing',
   description: 'Setting up the data processing pipeline',
   icon: 'database',
@@ -24,7 +23,7 @@ const customerTable = await input.tableAsync('Select the customer table to proce
 const orderTable = await input.tableAsync('Select the orders table:');
 
 // Step 2: Data validation
-workflow.step({
+script.step({
   title: 'Validating Data Structure',
   description: 'Checking table structure and field compatibility',
   icon: 'checkCircle',
@@ -46,7 +45,7 @@ const missingOrderFields = requiredOrderFields.filter(field =>
 );
 
 if (missingCustomerFields.length > 0 || missingOrderFields.length > 0) {
-  workflow.step({
+  script.step({
     title: 'Validation Failed',
     description: 'Required fields are missing from the selected tables',
     icon: 'xCircle',
@@ -64,7 +63,7 @@ if (missingCustomerFields.length > 0 || missingOrderFields.length > 0) {
 }
 
 // Step 3: Fetch customer data
-workflow.step({
+script.step({
   title: 'Loading Customer Data',
   description: 'Retrieving all customer records from the database',
   icon: 'users',
@@ -79,7 +78,7 @@ const customers = await customerTable.selectRecordsAsync({
 output.text(`📊 Loaded ${customers.records.length} customer records`);
 
 // Step 4: Fetch order data
-workflow.step({
+script.step({
   title: 'Loading Order Data',
   description: 'Retrieving order history for analysis',
   icon: 'package',
@@ -94,7 +93,7 @@ const orders = await orderTable.selectRecordsAsync({
 output.text(`📦 Loaded ${orders.records.length} order records`);
 
 // Step 5: Process and analyze data
-workflow.step({
+script.step({
   title: 'Analyzing Customer Data',
   description: 'Calculating customer metrics and order statistics',
   icon: 'analytics',
@@ -127,7 +126,7 @@ const customerAnalysis = customers.records.map(customer => {
 });
 
 // Step 6: Generate insights
-workflow.step({
+script.step({
   title: 'Generating Insights',
   description: 'Creating summary statistics and identifying trends',
   icon: 'lightbulb',
@@ -146,7 +145,7 @@ const topCustomers = customerAnalysis
   .slice(0, 5);
 
 // Step 7: Generate report
-workflow.step({
+script.step({
   title: 'Generating Report',
   description: 'Creating formatted summary report',
   icon: 'fileText',
@@ -177,7 +176,7 @@ output.table(topCustomers.map(customer => ({
 })));
 
 // Step 8: Completion
-workflow.step({
+script.step({
   title: 'Analysis Complete',
   description: 'Customer data analysis has been successfully completed',
   icon: 'checkCircle',
@@ -194,7 +193,7 @@ const shouldExport = await input.buttonsAsync(
 );
 
 if (shouldExport) {
-  workflow.step({
+  script.step({
     title: 'Exporting Data',
     description: 'Preparing CSV export of customer analysis',
     icon: 'download',
@@ -207,8 +206,8 @@ if (shouldExport) {
   output.code(JSON.stringify(customerAnalysis.slice(0, 3), null, 2), 'json');
 }
 
-// Clear the workflow
-workflow.clear();
+// Clear the script steps 
+script.clear();
 
 output.markdown(`
 ---

@@ -9,15 +9,15 @@ This page documents all changes to the NocoDB Scripts API, including new feature
 ## July 28, 2025
 
 
-#### Workflow Steps API
-- **Added `workflow` object** - New global object for creating visual workflow steps
-- **`workflow.step(config)`** - Create and start workflow steps with rich customization options
+#### Script Steps API
+- **Added `script` object** - New global object for creating visual steps
+- **`script.step(config)`** - Create and start steps with rich customization options
   - Support for titles, descriptions, icons, and colors
   - Automatic step management (previous step ends when new step starts)
-  - String shorthand: `workflow.step('Step Title')` or full config object
-- **`workflow.clear()`** - Manually end the current workflow step
-- **`workflow.colors`** - Predefined color constants (red, blue, green, yellow, purple, orange, gray)
-- **`workflow.icons`** - Comprehensive icon library with 100+ icons across different categories. 
+  - String shorthand: `script.step('Step Title')` or full config object
+- **`script.clear()`** - Manually end the current step
+- **`script.colors`** - Predefined color constants (red, blue, green, yellow, purple, orange, gray)
+- **`script.icons`** - Comprehensive icon library with 100+ icons across different categories. 
 
 
 #### Improvements

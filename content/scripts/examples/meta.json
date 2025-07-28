@@ -12,7 +12,7 @@
     "save-view-ordering",
     "link-records-by-field",
     "unique-field-values-summary",
-    "workflow-steps",
+    "script-steps",
     "import-csv"
   ]
 }
