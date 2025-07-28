@@ -5,15 +5,9 @@ tags: ['Fields', 'Field types', 'Links based types', 'Lookup']
 keywords: ['Fields', 'Field types', 'Links based types', 'Lookup', 'Create lookup field']
 ---
 
-
 `Lookup` fields help bring additional field information from related table into the current table. This is useful when you want to display additional information about a record in a table. For example, if you have a table of `Orders` and a table of `Customers`, you can use a `Lookup` field to display the customer's name and address in the `Orders` table.
 
-
-<Callout type="note">
-- Lookup fields are read-only. You cannot edit the values in a lookup field.
-- Lookup fields are available only for `Belongs-to` relational links in hosted cloud version. The additional processing complexity for `Has-many` and `Many-to-many` relational links outweighs the benefits of having lookup fields for these links. OSS will continue to support lookup fields for all relational links.
-</Callout>
-
+<Callout type="note">Lookup fields are read-only. You cannot edit the values in a lookup field.</Callout>
 
 ## Create a Lookup Field
 
@@ -26,6 +20,26 @@ keywords: ['Fields', 'Field types', 'Links based types', 'Lookup', 'Create looku
 
 ![image](/img/v2/fields/types/lookup.png)
 
+
+## Conditional Lookup
+
+By default, a Lookup field pulls in **all** linked records from the related table. However, in many cases, you may want to display only a subset of those records — for example, only recent entries or records above a certain threshold.
+
+To achieve this, you can enable the option:
+**Only include linked records that meet specific conditions**
+
+<img src="/img/v2/fields/types/lookup-filter.png" style={{ width: "75%" }} />
+
+This option allows you to filter the linked records based on criteria defined from fields in the related table. It helps tailor the Lookup field to show only the data that’s most relevant to your use case.
+
+### Applying filters
+
+1. Toggle ON **Only include linked records that meet specific conditions**.
+2. Click **Add filter** to define one or more conditions using fields from the related table.
+3. Use **Add filter group** to combine filters with AND/OR logic.
+4. Click **Save Field** to apply.
+
 ## Similar links-based fields
+
 - [Links](/docs/product-docs/fields/field-types/links-based/links)
 - [Rollup](/docs/product-docs/fields/field-types/links-based/rollup)

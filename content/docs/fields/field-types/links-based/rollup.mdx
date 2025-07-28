@@ -33,6 +33,26 @@ Here's a table with brief descriptions for each of the aggregation functions sup
 | Sum Distinct         | Adds up all the distinct values in a dataset.           |
 | Average Distinct     | Calculates the average of distinct values in a dataset. |
 
+
+
+## Conditional Rollup
+
+Rollup fields are used to perform calculations—such as sum, average, count—on linked records from a related table. By default, the rollup includes **all** linked records. However, you can fine-tune the results by including only those records that meet specific criteria.
+
+To do this, enable the option:
+**Only include linked records that meet specific conditions**
+
+<img src="/img/v2/fields/types/rollup-filter.png" style={{ width: "75%" }} />
+
+This option allows you to apply filters to the linked records before the rollup calculation is performed. It’s particularly useful when you want to aggregate values conditionally—like summing revenue for a specific period or counting items that meet a threshold.
+
+### Applying filters
+
+1. Toggle ON **Only include linked records that meet specific conditions**.
+2. Click **Add filter** to define the condition(s) using fields from the related table.
+3. Use **Add filter group** to combine filters using AND/OR logic.
+4. Click **Save Field** to apply.
+
 ## Similar links-based fields
 - [Links](/docs/product-docs/fields/field-types/links-based/links)
 - [Lookup](/docs/product-docs/fields/field-types/links-based/lookup)
