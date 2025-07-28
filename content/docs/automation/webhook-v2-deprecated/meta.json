@@ -1,7 +1,6 @@
 {
   "title": "Webhook v2 (deprecated)",
   "pages": [
-    "index",
     "create-webhook",
     "actions-on-webhook"
   ]
