@@ -29,7 +29,7 @@ Follow these steps to update multiple records in a table:
 
 You can add multiple actions to update different fields in the table. 
 
-Bulk updates affect all records within the current view, including those not visible on the screen. These updates are limited to the selected view and do not impact records outside of it or in other views.
+Bulk updates affect all records within the current view, including those not visible on the screen. Since views are just filtered representations of the same underlying data, any record that appears in multiple views will also reflect the update. These updates apply only to records in the selected view and do not impact records outside of it or in unrelated views.
 
 ## Managing Actions
 The Update work items added are listed in the **Actions** section. You can:
