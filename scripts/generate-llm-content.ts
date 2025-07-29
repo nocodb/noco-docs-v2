@@ -24,7 +24,7 @@ interface StructuredContent {
 class LLMContentGenerator {
   private siteUrl: string;
   private outputFile: string;
-  private maxConcurrent: number = 10; // Increased since we're only extracting metas
+  private batchSize: number = 50; // Process files in batches
 
   constructor(siteUrl: string, outputFile: string = 'llms.txt') {
     this.siteUrl = siteUrl;
@@ -70,11 +70,26 @@ class LLMContentGenerator {
     const htmlFiles = await this.findHtmlFiles(buildDir);
     console.log(`📄 Found ${htmlFiles.length} HTML files`);
     
-    for (const filePath of htmlFiles) {
-      const urlData = await this.extractMetaFromFile(filePath, buildDir);
-      if (urlData) {
-        results.push(urlData);
+    // Process files in batches to manage memory
+    for (let i = 0; i < htmlFiles.length; i += this.batchSize) {
+      const batch = htmlFiles.slice(i, i + this.batchSize);
+      console.log(`🔄 Processing batch ${Math.floor(i / this.batchSize) + 1}/${Math.ceil(htmlFiles.length / this.batchSize)} (${batch.length} files)`);
+      
+      const batchResults = await Promise.all(
+        batch.map(filePath => this.extractMetaFromFile(filePath, buildDir))
+      );
+      
+      // Filter out null results and add to main results
+      const validResults = batchResults.filter(result => result !== null) as SitemapUrl[];
+      results.push(...validResults);
+      
+      // Force garbage collection between batches if available
+      if (global.gc) {
+        global.gc();
       }
+      
+      // Small delay to allow memory cleanup
+      await new Promise(resolve => setTimeout(resolve, 100));
     }
     
     return results;

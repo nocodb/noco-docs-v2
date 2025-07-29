@@ -13,7 +13,7 @@
     "generate-llm-content": "tsx scripts/generate-llm-content.ts",
     "validate-links": "tsx scripts/validateLinks.ts",
     "lint": "next lint && npm run validate-links",
-    "postbuild": "next-sitemap && npm run generate-blog-sitemap && npm run generate-llm-content"
+    "postbuild": "next-sitemap && npm run generate-blog-sitemap && NODE_OPTIONS='--max-old-space-size=4096' npm run generate-llm-content"
   },
   "dependencies": {
     "@radix-ui/react-collapsible": "^1.1.8",
