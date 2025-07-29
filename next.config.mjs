@@ -134,12 +134,6 @@ const config = {
         destination: '/docs/product-docs/fields/field-types/custom-types/rating',
         permanent: true,
       },
-      // QR code case change
-      {
-        source: '/docs/product-docs/fields/field-types/custom-types/qr-code',
-        destination: '/docs/product-docs/fields/field-types/custom-types/QR-code',
-        permanent: true,
-      },
       // Developer resources webhook moved to automation
       {
         source: '/docs/product-docs/developer-resources/webhook/:path*',
