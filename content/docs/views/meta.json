@@ -3,6 +3,7 @@
   "pages": [
     "create-view",
     "expand-view",
+    "share-view",
     "view-types",
     "actions-on-view"
   ],
