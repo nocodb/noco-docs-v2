@@ -27,6 +27,7 @@ import Facebook from '@/components/icons/Facebook';
 import Linkedin from '@/components/icons/Linkedin';
 import Extension from '@/components/icons/Extension';
 import Sparkle from '@/components/icons/Sparkle';
+import Chart from '@/components/icons/Chart';
 
 
 const iconMap = {
@@ -59,6 +60,7 @@ const iconMap = {
     linkedin: Linkedin,
     extension: Extension,
     sparkle: Sparkle,
+    chart: Chart,
 } as const;
 
 type IconNameType = keyof typeof iconMap;
