@@ -1,37 +1,44 @@
 ---
-title: 'Numbers'
-description: 'Add and configure number widgets to display key metrics in your dashboard'
+title: 'Number'
+description: 'Configure number widgets to display key metrics in your dashboard'
 ---
 
+The section here details various configuration options available for the **Number** widget in NocoDB dashboards. This widget is designed to display key performance indicators (KPIs) and metric summaries in a clear, concise format.
 
-# Number Widget
+## Title & description
+- **Title**: Enter a title for the number widget. This will be displayed prominently at the top of the widget.
+- **Description**: Optionally, add a description to provide context or details about the metric being displayed. This will appear below the title.
 
-## Adding a Number Widget
+![Title](/img/v2/dashboards/widget-number-title.png)
 
-1. Click **Number** from the widget bar.
-2. A metric widget appears on the dashboard.
-3. Use the right panel to configure it.
+## Data source
+- **Table**: Select the table from which you want to pull data for the number widget. This is the primary source of records for the metric.
+- **Record**: Select records from the chosen table to be included in the metric calculation. You can choose from:
+    - **All Records**: Displays the total count of records in the selected table.
+    - **Records from a view**: Allows you to filter records based on a specific view, enabling focused metrics. You need to select a view from the dropdown.
+    - **Specific Records**: Apply filters to select specific records for the metric. This is useful for showing metrics based on certain criteria. You can add multiple filters to refine the selection.
 
-## Data Setup
+<div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+    <img src="/img/v2/dashboards/widget-number-source-1.png" alt="Number Widget Config 1" style={{ width: "30%", minWidth: "240px", borderRadius: "8px", border: "1px solid #ddd" }} />
+    <img src="/img/v2/dashboards/widget-number-source-2.png" alt="Number Widget Config 2" style={{ width: "30%", minWidth: "240px", borderRadius: "8px", border: "1px solid #ddd" }} />
+</div>
 
-* **Source Table**: Choose a table (e.g., `Financial Sample`)
-* **Records**:
+## Display
+- **Record Count**: Displays the total number of records in the selected source.
+- **Field Summary**: Shows the sum, average, minimum, maximum, or count of a specific field across the selected records. Available options vary based on the field type.
 
-* All Records
-* View-specific records
-* Filtered records
-* **Calculation**:
+![Field Summary](/img/v2/dashboards/widget-number-display.png)
 
-* Record count
-* Field summary (Sum, Avg, Max, Min, etc.)
-* **Currency Display**:
+## Appearance
 
-* Enable currency symbol (₹, \$, etc.) if the field is numeric
+**Number Format**: Choose how the number is displayed, such as:
 
-## Display Options
+  - **Default**: Standard numeric format.
+  - **Filled**: Displays the number with a filled background.
+  - **Coloured Text**: Uses color to highlight the number, making it stand out.
 
-* **Label**: Customize widget label (e.g., *"Total Revenue"*)
-* **Decimal Places**: Control number formatting
-* **Size**: Small / Medium / Large
+  ![Appearance](/img/v2/dashboards/widget-number-default.png)
 
-> Example: Number widget with `$19,418,950` as total revenue from the dataset.
+  ![Appearance](/img/v2/dashboards/widget-number-filled.png)
+
+  ![Appearance](/img/v2/dashboards/widget-number-coloured-text.png)
