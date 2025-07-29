@@ -1,0 +1,70 @@
+---
+title: 'Dashboards ☁'
+description: 'Create and share dashboards with your team'
+---
+
+The Dashboard feature in NocoDB enables you to visualize data from your tables using charts, graphs, and metric widgets. Dashboards help present key insights to stakeholders through an interactive, configurable interface.
+
+<Callout type="info">Dashboards are currently in Beta and available on **Plus** and **Business** plans in Cloud.</Callout>
+
+## Getting Started
+
+### Creating a Dashboard
+
+1. Click on **Create New** in the left sidebar.
+2. Select **Dashboard** from the dropdown.
+3. Enter a name for your dashboard. (Optional, Defaults to "Dashboard")
+4. Click **Create Dashboard** to open the dashboard editor.
+5. Click on **Edit Dashboard** to start adding widgets.
+
+![Create a new dashboard](/img/v2/dashboards/create-dashboard-1.png)
+![Create a new dashboard](/img/v2/dashboards/create-dashboard-2.png)
+![Create a new dashboard](/img/v2/dashboards/create-dashboard-3.png)
+
+
+### Managing Dashboards
+
+Use the dashboard context menu to perform actions like:
+
+- **Rename dashboard**: Change the dashboard name
+- **Edit description**: Add or update the dashboard description. This description will appear on hover over the `i` icon in the dashboard header.
+- **Duplicate dashboard**: Create a copy of the dashboard
+- **Delete dashboard**: Remove the dashboard
+
+![Dashboard context menu](/img/v2/dashboards/dashboard-context-menu.png)
+
+### Sharing Dashboards
+
+To share a dashboard publicly, click the **Share** button in the top navigation bar, enable the `Enable Public Viewing` option, and copy the generated link. Anyone with this link will be able to view the dashboard without requiring a NocoDB account.
+
+![Share dashboard](/img/v2/dashboards/share-dashboard.png)
+
+Additional options include:
+
+* Configuring a custom URL for your dashboard.
+* Setting a password to control access.
+
+Dashboard sharing works similarly to view sharing. Learn more about [sharing views](/docs/product-docs/views/share-view).
+
+---
+
+## Dashboard Layout
+
+1. **Top Navigation Bar**: Navigation breadcrumbs and dashboard-level actions. Toggle between dashboard **View** and **Edit** modes. You can also **Share** the dashboard with team members.
+2. **Widget Bar**: Toolbar at the top with available widget types to add to the dashboard.
+3. **Dashboard Canvas**: Main area where widgets are arranged. NocoDB supports a flexible grid layout, allowing you to drag and drop widgets to position them as needed.
+4. **Widget Configuration Panel**: Right panel for configuring selected widget properties.
+
+![Dashboard layout](/img/v2/dashboards/dashboard-layout.png)
+
+## Widgets
+NocoDB dashboards support various widget types to visualize data effectively. You can add widgets from the widget bar at the top of the dashboard editor.
+
+The following widget types are available:
+| Widget Type     | Description                            |
+|-----------------|----------------------------------------|
+| **[Number](/docs/product-docs/dashboards/widgets/number)**      | Displays KPIs and metric summaries     |
+| **[Pie Chart](/docs/product-docs/dashboards/widgets/pie-chart)**   | Visualizes parts of a whole            |
+| **[Donut Chart](/docs/product-docs/dashboards/widgets/donut-chart)** | Pie chart variant with a hollow center |
+
+---
