@@ -12,6 +12,7 @@
       "session",
       "collaborator",
       "script-settings",
+      "script-steps",
       "input",
       "output",
       "fetch"

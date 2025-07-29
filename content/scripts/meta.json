@@ -2,6 +2,7 @@
   "pages": [
     "index",
     "api-reference",
-    "examples"
+    "examples",
+    "changelog"
   ]
 }

@@ -1,0 +1,209 @@
+---
+title: 'Script Steps'
+description: 'Visually guide users through your script with clear subsections'
+---
+
+Script Steps let your users see what’s happening while your script runs—making complex operations easier to follow with clear, real-time visual subsections.
+
+Instead of a blank screen, users get progress feedback through titled steps, icons, colors, and descriptions—bringing transparency, trust, and a polished experience.
+
+<img src="/img/v2/scripts/steps.png" alt="script steps" style={{ width: "50%" }} />
+
+
+### Basic Step
+
+Add a step with just a title:
+
+```js
+script.step('Loading your data...');
+```
+
+<img src="/img/v2/scripts/simple-step.png" alt="script steps" style={{ width: "50%" }} />
+
+### Detailed Step
+
+Enhance the step with optional visuals:
+
+```js
+script.step({
+  title: 'Getting Latest Data',
+  description: 'Fetching records from your selected table',
+  color: 'blue',
+  icon: 'download'
+});
+```
+
+<img src="/img/v2/scripts/detailed-step.png" alt="detailed step" style={{ width: "50%" }} />
+
+
+## Customization Options
+
+### Colors
+
+Use colors to indicate the type of action:
+
+| Color    | Use Case                         |
+|----------|----------------------------------|
+| `blue`   | General info, loading data       |
+| `green`  | Success, completed actions       |
+| `yellow` | Validation, warnings             |
+| `red`    | Errors, critical issues          |
+| `purple` | Special or custom operations     |
+| `orange` | Updates or changes               |
+| `gray`   | Background or neutral operations |
+
+### Icons
+
+Suggested icons for common use cases:
+
+| Icon          | Meaning                     |
+|---------------|-----------------------------|
+| `download`    | Fetching or retrieving data |
+| `upload`      | Sending or submitting data  |
+| `database`    | Interacting with tables     |
+| `sync`        | Updating or syncing         |
+| `checkCircle` | Completion or success       |
+| `settings`    | Configuration steps         |
+| `mail`        | Email-related actions       |
+
+
+## Full Example
+
+Here’s a complete example that guides the user through an import process:
+
+```js
+// Step 1: Start import
+script.step({
+  title: 'Starting Import',
+  description: 'Preparing to import customer data',
+  color: 'blue',
+  icon: 'database'
+});
+
+const sourceTable = await input.tableAsync('Which table has your customer data?');
+const targetTable = await input.tableAsync('Which table should we import to?');
+
+// Step 2: Validate data
+script.step({
+  title: 'Checking Your Data',
+  description: 'Making sure the data will import correctly',
+  color: 'yellow',
+  icon: 'checkCircle'
+});
+
+const sourceRecords = await sourceTable.selectRecordsAsync();
+if (sourceRecords.length === 0) {
+  output.text('No records found to import!');
+  return;
+}
+
+// Step 3: Import records
+script.step({
+  title: 'Importing Records',
+  description: `Moving ${sourceRecords.length} customer records`,
+  color: 'purple',
+  icon: 'sync'
+});
+
+const newRecords = sourceRecords.map(record => ({
+  'Customer Name': record.getCellValue('Name'),
+  'Email': record.getCellValue('Email'),
+  'Import Date': new Date()
+}));
+
+await targetTable.createRecordsAsync(newRecords);
+
+// Step 4: Finish
+script.step({
+  title: 'Import Complete',
+  description: `Successfully imported ${newRecords.length} customers`,
+  color: 'green',
+  icon: 'checkCircle'
+});
+
+script.clear();
+output.text(`✅ Done! Imported ${newRecords.length} customer records.`);
+```
+
+
+## Advanced Usage
+
+### Manually Clear a Step
+
+Steps auto-clear when a new one starts, but you can also clear them explicitly:
+
+```js
+script.step('Processing...');
+await someAsyncTask();
+script.clear();
+```
+
+### Handling Errors Gracefully
+
+Show errors in context to keep users informed:
+
+```js
+script.step({
+  title: 'Sending Emails',
+  description: 'Notifying customers about their orders',
+  color: 'blue',
+  icon: 'mail'
+});
+
+try {
+  await sendEmails();
+
+  script.step({
+    title: 'Emails Sent',
+    description: 'All customers have been notified',
+    color: 'green',
+    icon: 'checkCircle'
+  });
+} catch (err) {
+  script.step({
+    title: 'Email Error',
+    description: 'Could not send some emails – check your settings',
+    color: 'red',
+    icon: 'alert'
+  });
+}
+```
+
+
+## Best practices
+
+### Step Titles
+
+Use descriptive, action-based titles:
+
+| ✅ Do                    | 🚫 Avoid     |
+|-------------------------|--------------|
+| "Loading customer data" | "Step 1"     |
+| "Sending invoices"      | "Processing" |
+| "Updating inventory"    | "Working"    |
+
+### When to Use Steps
+
+Use script steps to improve clarity in:
+
+* Long-running operations (API calls, imports, etc.)
+* Multi-phase workflows (setup → validate → process → complete)
+* Any place where user feedback improves trust
+
+Avoid steps for very fast or trivial operations that don’t need explanation.
+
+### How Many Steps?
+
+* **3–7 steps** is ideal for most scripts
+* Too few → lack of visibility
+* Too many → unnecessary noise
+
+### Step Descriptions
+
+Explain **what’s happening**, not **how it’s implemented**:
+
+| ✅ Good                                   | 🚫 Avoid                            |
+|------------------------------------------|-------------------------------------|
+| "Fetching latest orders from your store" | "Calling API endpoint with headers" |
+
+---

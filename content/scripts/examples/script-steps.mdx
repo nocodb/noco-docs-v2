@@ -1,0 +1,222 @@
+---
+title: 'Script Steps Example'
+description: 'Example demonstrating how to use script steps to create visual progress tracking in scripts'
+---
+
+This example demonstrates how to use the script API to create visual progress tracking for a data processing script. The script steps provide users with clear feedback about what the script is doing at each stage.
+
+
+```javascript
+// Data Processing Script with Script Steps
+// This script processes customer data and generates a summary report
+
+// Step 1: Initialize the script step
+script.step({
+  title: 'Initializing Data Processing',
+  description: 'Setting up the data processing pipeline',
+  icon: 'database',
+  color: 'blue'
+});
+
+// Get user input for which table to process
+const customerTable = await input.tableAsync('Select the customer table to process:');
+const orderTable = await input.tableAsync('Select the orders table:');
+
+// Step 2: Data validation
+script.step({
+  title: 'Validating Data Structure',
+  description: 'Checking table structure and field compatibility',
+  icon: 'checkCircle',
+  color: 'yellow'
+});
+
+// Validate required fields exist
+const requiredCustomerFields = ['Name', 'Email', 'Status'];
+const requiredOrderFields = ['Customer ID', 'Order Date', 'Total'];
+
+const customerFields = customerTable.fields.map(f => f.name);
+const orderFields = orderTable.fields.map(f => f.name);
+
+const missingCustomerFields = requiredCustomerFields.filter(field => 
+  !customerFields.includes(field)
+);
+const missingOrderFields = requiredOrderFields.filter(field => 
+  !orderFields.includes(field)
+);
+
+if (missingCustomerFields.length > 0 || missingOrderFields.length > 0) {
+  script.step({
+    title: 'Validation Failed',
+    description: 'Required fields are missing from the selected tables',
+    icon: 'xCircle',
+    color: 'red'
+  });
+  
+  output.text('❌ Validation failed!');
+  if (missingCustomerFields.length > 0) {
+    output.text(`Missing customer fields: ${missingCustomerFields.join(', ')}`);
+  }
+  if (missingOrderFields.length > 0) {
+    output.text(`Missing order fields: ${missingOrderFields.join(', ')}`);
+  }
+  return;
+}
+
+// Step 3: Fetch customer data
+script.step({
+  title: 'Loading Customer Data',
+  description: 'Retrieving all customer records from the database',
+  icon: 'users',
+  color: 'blue'
+});
+
+const customers = await customerTable.selectRecordsAsync({
+  fields: ['Name', 'Email', 'Status', 'Created Date'],
+  sorts: [{ field: 'Created Date', direction: 'desc' }]
+});
+
+output.text(`📊 Loaded ${customers.records.length} customer records`);
+
+// Step 4: Fetch order data
+script.step({
+  title: 'Loading Order Data',
+  description: 'Retrieving order history for analysis',
+  icon: 'package',
+  color: 'blue'
+});
+
+const orders = await orderTable.selectRecordsAsync({
+  fields: ['Customer ID', 'Order Date', 'Total', 'Status'],
+  sorts: [{ field: 'Order Date', direction: 'desc' }]
+});
+
+output.text(`📦 Loaded ${orders.records.length} order records`);
+
+// Step 5: Process and analyze data
+script.step({
+  title: 'Analyzing Customer Data',
+  description: 'Calculating customer metrics and order statistics',
+  icon: 'analytics',
+  color: 'purple'
+});
+
+// Create customer analysis
+const customerAnalysis = customers.records.map(customer => {
+  const customerOrders = orders.records.filter(order => 
+    order.getCellValue('Customer ID') === customer.id
+  );
+  
+  const totalSpent = customerOrders.reduce((sum, order) => 
+    sum + (order.getCellValue('Total') || 0), 0
+  );
+  
+  const orderCount = customerOrders.length;
+  const avgOrderValue = orderCount > 0 ? totalSpent / orderCount : 0;
+  
+  return {
+    name: customer.getCellValue('Name'),
+    email: customer.getCellValue('Email'),
+    status: customer.getCellValue('Status'),
+    orderCount,
+    totalSpent,
+    avgOrderValue,
+    lastOrderDate: customerOrders.length > 0 ? 
+      customerOrders[0].getCellValue('Order Date') : null
+  };
+});
+
+// Step 6: Generate insights
+script.step({
+  title: 'Generating Insights',
+  description: 'Creating summary statistics and identifying trends',
+  icon: 'lightbulb',
+  color: 'orange'
+});
+
+// Calculate summary statistics
+const totalCustomers = customerAnalysis.length;
+const activeCustomers = customerAnalysis.filter(c => c.status === 'Active').length;
+const totalRevenue = customerAnalysis.reduce((sum, c) => sum + c.totalSpent, 0);
+const avgCustomerValue = totalRevenue / totalCustomers;
+
+// Find top customers
+const topCustomers = customerAnalysis
+  .sort((a, b) => b.totalSpent - a.totalSpent)
+  .slice(0, 5);
+
+// Step 7: Generate report
+script.step({
+  title: 'Generating Report',
+  description: 'Creating formatted summary report',
+  icon: 'fileText',
+  color: 'green'
+});
+
+// Display summary statistics
+output.markdown(`
+# Customer Analysis Report
+
+## Summary Statistics
+- **Total Customers**: ${totalCustomers}
+- **Active Customers**: ${activeCustomers} (${Math.round(activeCustomers/totalCustomers*100)}%)
+- **Total Revenue**: $${totalRevenue.toLocaleString()}
+- **Average Customer Value**: $${avgCustomerValue.toFixed(2)}
+
+## Top 5 Customers by Revenue
+`);
+
+// Display top customers table
+output.table(topCustomers.map(customer => ({
+  'Customer Name': customer.name,
+  'Email': customer.email,
+  'Orders': customer.orderCount,
+  'Total Spent': `$${customer.totalSpent.toLocaleString()}`,
+  'Avg Order': `$${customer.avgOrderValue.toFixed(2)}`,
+  'Status': customer.status
+})));
+
+// Step 8: Completion
+script.step({
+  title: 'Analysis Complete',
+  description: 'Customer data analysis has been successfully completed',
+  icon: 'checkCircle',
+  color: 'green'
+});
+
+// Optional: Ask user if they want to export the data
+const shouldExport = await input.buttonsAsync(
+  'Would you like to export the detailed analysis?',
+  [
+    { label: 'Yes, export to CSV', value: true, variant: 'primary' },
+    { label: 'No, just view results', value: false, variant: 'secondary' }
+  ]
+);
+
+if (shouldExport) {
+  script.step({
+    title: 'Exporting Data',
+    description: 'Preparing CSV export of customer analysis',
+    icon: 'download',
+    color: 'blue'
+  });
+  
+  // Here you would typically create and download a CSV file
+  // For this example, we'll just show the data structure
+  output.text('📄 Export data structure:');
+  output.code(JSON.stringify(customerAnalysis.slice(0, 3), null, 2), 'json');
+}
+
+// Clear the script steps 
+script.clear();
+
+output.markdown(`
+---
+✅ **Analysis completed successfully!**
+
+The customer data has been processed and analyzed. You can use these insights to:
+- Identify high-value customers for special promotions
+- Reach out to inactive customers with re-engagement campaigns  
+- Optimize your product offerings based on order patterns
+- Set customer service priorities based on customer value
+`);
+```
