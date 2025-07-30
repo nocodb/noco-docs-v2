@@ -3,7 +3,9 @@
   "pages": [
     "attachment",
     "button",
-    "qr-code",
+    "checkbox",
+    "rating",
+    "QR-code",
     "barcode",
     "geometry",
     "specific-db-type",
