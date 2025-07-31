@@ -1,45 +1,52 @@
 ---
-title: "Display value"
-description: 'This article explains how to set display value for a table & its use.'
+
+title: "Display Value"
+description: "This article explains how to set the display value for a table and its significance."
 tags: ['Fields', 'Display Value']
-keywords : ['display value', 'display value in nocoDB', 'display value in nocoDB']
+keywords: ['display value', 'display value in NocoDB']
 ---
 
-The `Display Value`, as its name suggests, serves as the primary or main value within a record of a table, and it is typically the attribute by which we identify or associate that specific record. While it is advisable for the display value to be linked to a field with unique identifiers, such as a primary key, it's important to note that this uniqueness is not always enforced at the database level.
+The **Display Value** serves as the primary visual identifier for a record within a table. It helps users quickly recognize and associate records across views and linked tables. While it is often recommended to set a display value based on a field with unique identifiers (like a primary key), uniqueness is not enforced at the database level.
 
-<center>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/GAPAec6zXQ8?si=G_61hrI3gV_xYTrt?&start=13" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen ></iframe>
-</center>
+<div style={{ textAlign: 'center' }}>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/GAPAec6zXQ8?start=13" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+</div>
+
+---
 
 ## Use of Display Value
-- Within a spreadsheet, `Display Value` are always highlighted so that it is easier to recognise what record we are working with.
-- And when `Links` are created between two tables - it is the Display Value that appears in `Linked records` modal.
 
-Example: 
-Display Value highlighted in Actor table
+* In the spreadsheet view, the display value is visually emphasized to make it easier to identify the record you’re working with.
+* When creating **Links** between tables, the display value is shown in the **Linked Records** modal, making cross-table relationships more readable and intuitive.
 
+**Example: Display Value highlighted in the Actor table**
 ![display value](/img/v2/fields/display-value.png)
 
-Display Value associated when Links field  
-The value shown in `Link Records` modal when adding a new link is associated records `Display value`  
-  
+**Example: Display Value shown in a Links field.**
+The value shown in the **Link Records** modal is pulled from the related table's display value.
 ![display value- links field](/img/v2/fields/display-value-in-linked-record.png)
 
+---
 
 ## Set Display Value
-Click dropdown icon (🔽) in the target field. Click `Set as Display Value`.  
-  
-![display value set](/img/v2/fields/set-as-display-value.png)
+
+To set a field as the display value:
+
+1. Click the dropdown icon (🔽) next to the desired field.
+2. Select **Set as display value** from the menu.
+
+<div style={{ textAlign: 'center' }}>
+    <img src="/img/v2/fields/set-as-display-value.png" alt="Set as display value" style={{ width: '80%', maxWidth: '480px' }} />
+</div>
+
+---
 
 ## FAQ
 
-**How is Display Value identified for existing database tables?**
+**How is the Display Value determined for existing database tables?**
+For tables connected from external databases, NocoDB automatically selects the display value based on the table structure. By default, it picks the first non-numeric field after the primary key. If no non-numeric field is found, it selects the next field after the primary key.
 
-    For existing database tables, NocoDB automatically selects the Display Value based on the structure of the table. By default, it chooses the first non-numeric field after the primary key. If no such field exists, the field immediately following the primary key is used instead.
-
-**Can I change the Display Value to another field within tables?**
-
-    Yes. Find details [here](/docs/product-docs/fields/display-value#set-display-value).
+**Can I change the Display Value later?**
+Yes. You can change the display value at any time by using the context menu on the target field. [Learn more →](/docs/product-docs/fields/display-value#set-display-value)
 
 ---
-
