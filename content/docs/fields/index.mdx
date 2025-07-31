@@ -38,6 +38,20 @@ To add a new field to your table:
 
 Depending on the field type selected, additional options or configurations may be required—such as allowed values, precision, formulas, or linked table settings. Refer to the documentation for each field type for detailed guidance.
 
+## Field Default Value
+
+You can set a default value when creating a field. This value is automatically applied to new records created after the field is set. It does not affect existing records. The default can be a fixed value (e.g., "N/A", "Unknown") or, for some field types, a dynamic value such as the current date, time, or user ID. Refer [Set default value](/docs/product-docs/fields/actions-on-field#change-default-value) for more details on how to configure default values.
+
+## Field Description
+
+![Field description](/img/v2/fields/field-description.png)
+
+Adding a description to a field provides context and guidance for users interacting with the table. This is especially useful in collaborative environments where multiple users may access the same data. The description can include details about the field's purpose, expected values, or any specific instructions for data entry. It appears as a tooltip when users hover over `i` icon next to the field name in the table header. For more details, refer to [Add/Edit Field Description](/docs/product-docs/fields/actions-on-field#add--edit-field-description).
+
+<Callout type="info">You can also search for fields using their names or descriptions. This helps quickly locate specific fields, especially in larger tables with many columns.</Callout>
+
+![Field search](/img/v2/fields/field-search.png)
+
 ## Field Types
 
 NocoDB offers a wide range of field types to help you structure your data effectively. From basic text and numeric fields to more advanced options like linked records, formulas, and custom types, each field serves a specific purpose. The table below provides an overview of all available field types along with brief descriptions to help you choose the right one for your use case.
