@@ -2,57 +2,74 @@
 title: 'Fields'
 description: 'This article discusses various field types that NocoDB offers.'
 tags: ['Fields', 'Overview']
-keywords : ['NocoDB fields', 'fields overview', 'field administration', 'field organization']
+keywords: ['NocoDB fields', 'fields overview', 'field administration', 'field organization']
 icon: "type"
 ---
 
+Fields define the structure and type of data stored in each record of a table. They are the building blocks of your database, determining how information is entered, displayed, and interpreted. Whether you're capturing names, numbers, dates, selections, or calculated values—fields provide the necessary flexibility to model your data accurately.
 
-- [Primary Key](/docs/product-docs/fields/primary-key)
-- [Display Value](/docs/product-docs/fields/display-value)
+This section will guide you through the different types of fields available, their configurations, and best practices for choosing the right field type based on your use case. By understanding how fields work, you can design more effective tables and ensure consistent, meaningful data across your workspace.
 
-### Text based
-- [Single line text](/docs/product-docs/fields/field-types/text-based/single-line-text)
-- [Long text](/docs/product-docs/fields/field-types/text-based/long-text)
-- [Email](/docs/product-docs/fields/field-types/text-based/email)
-- [Phone](/docs/product-docs/fields/field-types/text-based/phonenumber)
-- [URL](/docs/product-docs/fields/field-types/text-based/url)
+![image](/img/v2/fields/fields-intro.png)
 
-### Numerical
-- [Number](/docs/product-docs/fields/field-types/numerical/number)
-- [Decimal](/docs/product-docs/fields/field-types/numerical/decimal)
-- [Percentage](/docs/product-docs/fields/field-types/numerical/percent)
-- [Currency](/docs/product-docs/fields/field-types/numerical/currency)
- 
-### Date and time
-- [Date](/docs/product-docs/fields/field-types/date-time-based/date)
-- [Time](/docs/product-docs/fields/field-types/date-time-based/time)
-- [Date and time](/docs/product-docs/fields/field-types/date-time-based/date-time)
-- [Duration](/docs/product-docs/fields/field-types/date-time-based/duration)
+Among all fields in a table, two hold special significance: the **[primary key](/docs/product-docs/fields/primary-key)** and the **[display value](/docs/product-docs/fields/display-value)**. The **primary key** is a technical identifier that uniquely distinguishes each record and is essential for backend operations like updates, deletions, and maintaining data integrity. It is always unique and typically hidden from end users. On the other hand, the **display value** is a human-readable label—such as a name or title—used in the interface to help users quickly identify and associate records. While it’s recommended to use a field with unique values as the display value, strict uniqueness is not enforced. In essence, the primary key ensures consistent record management, while the display value improves usability and context.
 
-### Select based
-- [Single select](/docs/product-docs/fields/field-types/select-based/single-select)
-- [Multi select](/docs/product-docs/fields/field-types/select-based/multi-select)
 
-### Link based
-- [Links](/docs/product-docs/fields/field-types/links-based/links)
-- [Lookup](/docs/product-docs/fields/field-types/links-based/lookup)
-- [Rollup](/docs/product-docs/fields/field-types/links-based/rollup)
 
-### Custom types
-- [Attachment](/docs/product-docs/fields/field-types/custom-types/attachment)
-- [Barcode](/docs/product-docs/fields/field-types/custom-types/barcode)
-- [QR-code](/docs/product-docs/fields/field-types/custom-types/QR-code)
-- [Geometry](/docs/product-docs/fields/field-types/custom-types/geometry)
-- [Specific DB type](/docs/product-docs/fields/field-types/custom-types/specific-db-type)
-- [JSON](/docs/product-docs/fields/field-types/custom-types/json)
-- [Checkbox](/docs/product-docs/fields/field-types/custom-types/checkbox)
-- [Rating](/docs/product-docs/fields/field-types/custom-types/rating)
+## Field Types
 
-### Formula
-- [Formula](/docs/product-docs/fields/field-types/formula/formula)
-  - [Operators](/docs/product-docs/fields/field-types/formula/operators)
-  - [Numeric Functions](/docs/product-docs/fields/field-types/formula/numeric-functions)
-  - [String Functions](/docs/product-docs/fields/field-types/formula/string-functions)
-  - [Date Functions](/docs/product-docs/fields/field-types/formula/date-functions)
-  - [Conditional Expressions](/docs/product-docs/fields/field-types/formula/conditional-expressions)
+NocoDB offers a wide range of field types to help you structure your data effectively. From basic text and numeric fields to more advanced options like linked records, formulas, and custom types, each field serves a specific purpose. The table below provides an overview of all available field types along with brief descriptions to help you choose the right one for your use case.
+
+
+| Field Type       | Name                                                                                                      | Description                                              |
+|------------------|-----------------------------------------------------------------------------------------------------------|----------------------------------------------------------|
+| **Text based**   | [Single line text](https://nocodb.com/docs/product-docs/fields/field-types/text-based/single-line-text)   | For short text entries like names or titles.             |
+|                  | [Long text](https://nocodb.com/docs/product-docs/fields/field-types/text-based/long-text)                 | Suitable for paragraphs or detailed notes.               |
+|                  | [Email](https://nocodb.com/docs/product-docs/fields/field-types/text-based/email)                         | Stores and validates email addresses.                    |
+|                  | [Phone](https://nocodb.com/docs/product-docs/fields/field-types/text-based/phonenumber)                   | For storing phone numbers.                               |
+|                  | [URL](https://nocodb.com/docs/product-docs/fields/field-types/text-based/url)                             | Stores website or web resource links.                    |
+| **Numerical**    | [Number](https://nocodb.com/docs/product-docs/fields/field-types/numerical/number)                        | Whole numbers, positive or negative.                     |
+|                  | [Decimal](https://nocodb.com/docs/product-docs/fields/field-types/numerical/decimal)                      | Numbers with decimal precision.                          |
+|                  | [Percentage](https://nocodb.com/docs/product-docs/fields/field-types/numerical/percent)                   | Represents numeric values as percentages.                |
+|                  | [Currency](https://nocodb.com/docs/product-docs/fields/field-types/numerical/currency)                    | Stores monetary values with currency symbol.             |
+| **Date & Time**  | [Date](https://nocodb.com/docs/product-docs/fields/field-types/date-time-based/date)                      | Captures calendar dates.                                 |
+|                  | [Time](https://nocodb.com/docs/product-docs/fields/field-types/date-time-based/time)                      | Stores time of day.                                      |
+|                  | [Date and time](https://nocodb.com/docs/product-docs/fields/field-types/date-time-based/date-time)        | Stores both date and time in one field.                  |
+|                  | [Duration](https://nocodb.com/docs/product-docs/fields/field-types/date-time-based/duration)              | Measures length of time (e.g., hours or days).           |
+| **Select based** | [Single select](https://nocodb.com/docs/product-docs/fields/field-types/select-based/single-select)       | Allows choosing one option from a list.                  |
+|                  | [Multi select](https://nocodb.com/docs/product-docs/fields/field-types/select-based/multi-select)         | Allows selecting multiple options from a list.           |
+| **Link based**   | [Links](https://nocodb.com/docs/product-docs/fields/field-types/links-based/links)                        | Creates relationships between tables.                    |
+|                  | [Lookup](https://nocodb.com/docs/product-docs/fields/field-types/links-based/lookup)                      | Pulls data from linked records.                          |
+|                  | [Rollup](https://nocodb.com/docs/product-docs/fields/field-types/links-based/rollup)                      | Aggregates values from related records.                  |
+| **Custom types** | [Attachment](https://nocodb.com/docs/product-docs/fields/field-types/custom-types/attachment)             | Upload and store files or images.                        |
+|                  | [Barcode](https://nocodb.com/docs/product-docs/fields/field-types/custom-types/barcode)                   | Stores and displays barcodes.                            |
+|                  | [QR-code](https://nocodb.com/docs/product-docs/fields/field-types/custom-types/QR-code)                   | Stores and displays QR codes.                            |
+|                  | [Geometry](https://nocodb.com/docs/product-docs/fields/field-types/custom-types/geometry)                 | For geographic or spatial data.                          |
+|                  | [Specific DB type](https://nocodb.com/docs/product-docs/fields/field-types/custom-types/specific-db-type) | Maps directly to native DB field types.                  |
+|                  | [JSON](https://nocodb.com/docs/product-docs/fields/field-types/custom-types/json)                         | Stores structured data in JSON format.                   |
+|                  | [Checkbox](https://nocodb.com/docs/product-docs/fields/field-types/custom-types/checkbox)                 | Boolean toggle for true/false values.                    |
+|                  | [Rating](https://nocodb.com/docs/product-docs/fields/field-types/custom-types/rating)                     | Displays star-based or numeric rating.                   |
+| **Formula**      | [Formula](https://nocodb.com/docs/product-docs/fields/field-types/formula/formula)                        | Computes values using expressions based on other fields. |
+
+---
+
+## Field Actions
+
+Beyond selecting the right field type, you can also perform various actions to customize how fields behave and appear in your tables. These actions are accessible from the field’s context menu & toolbar menu and include:
+
+* [Rename a field](/docs/product-docs/fields/actions-on-field#rename-field)
+* [Change field type](/docs/product-docs/fields/actions-on-field#change-field-type)
+* [Set default value](/docs/product-docs/fields/actions-on-field#change-default-value)
+* [Adjust field width](/docs/product-docs/fields/actions-on-field#change-field-width)
+* [Hide or unhide fields](/docs/product-docs/fields/actions-on-field#hide-field)
+* [Set as display value](/docs/product-docs/fields/actions-on-field#set-as-display-value)
+* [Sort by field (ascending/descending)](/docs/product-docs/fields/actions-on-field#sort-ascending)
+* [Duplicate a field](/docs/product-docs/fields/actions-on-field#duplicate-field)
+* [Insert new field before or after](/docs/product-docs/fields/actions-on-field#insert-before-a-field)
+* [Delete a field](/docs/product-docs/fields/actions-on-field#delete-field)
+* [Add or edit field description](/docs/product-docs/fields/actions-on-field#add--edit-field-description)
+
+For step-by-step instructions and visuals, refer to the full guide on [Actions on Field](/docs/product-docs/fields/actions-on-field).
+
+---
 

@@ -5,8 +5,6 @@ tags: ['Fields', 'Display Value']
 keywords : ['display value', 'display value in nocoDB', 'display value in nocoDB']
 ---
 
-# Display Value
-
 The `Display Value`, as its name suggests, serves as the primary or main value within a record of a table, and it is typically the attribute by which we identify or associate that specific record. While it is advisable for the display value to be linked to a field with unique identifiers, such as a primary key, it's important to note that this uniqueness is not always enforced at the database level.
 
 <center>
@@ -33,12 +31,15 @@ Click dropdown icon (🔽) in the target field. Click `Set as Display Value`.
   
 ![display value set](/img/v2/fields/set-as-display-value.png)
 
-<Callout type="info">
-    How is Display Value identified for existing database tables ?
-- It is usually the first field after the primary key which is not a number.
-- If there is no field which is not a number then the field adjacent to primary key is chosen.
+## FAQ
 
-Can I change the Display Value to another field within tables ?
-- Yes, you can use the same way mentioned above to set Display Value.
-</Callout>
+**How is Display Value identified for existing database tables?**
+
+    For existing database tables, NocoDB automatically selects the Display Value based on the structure of the table. By default, it chooses the first non-numeric field after the primary key. If no such field exists, the field immediately following the primary key is used instead.
+
+**Can I change the Display Value to another field within tables?**
+
+    Yes. Find details [here](/docs/product-docs/fields/display-value#set-display-value).
+
+---
 
