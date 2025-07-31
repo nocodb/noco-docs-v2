@@ -15,6 +15,28 @@ This section will guide you through the different types of fields available, the
 Among all fields in a table, two hold special significance: the **[primary key](/docs/product-docs/fields/primary-key)** and the **[display value](/docs/product-docs/fields/display-value)**. The **primary key** is a technical identifier that uniquely distinguishes each record and is essential for backend operations like updates, deletions, and maintaining data integrity. It is always unique and typically hidden from end users. On the other hand, the **display value** is a human-readable label—such as a name or title—used in the interface to help users quickly identify and associate records. While it’s recommended to use a field with unique values as the display value, strict uniqueness is not enforced. In essence, the primary key ensures consistent record management, while the display value improves usability and context.
 
 
+## Create a Field
+
+To add a new field to your table:
+
+1. Click on the ➕ icon in the table header where you'd like to insert the new field.
+2. In the **New Field** panel:
+    * Enter the field name (optional at first).
+    * Select the appropriate **field type** from the list (e.g., Single line text, Number, Lookup, etc.).
+3. Configure additional settings such as default value and description as needed.
+4. Click **Save Field** to finalize the creation.
+
+<div style={{ textAlign: 'center' }}>
+    <img src="/img/v2/fields/create-field-1.png" alt="Create new field - select type" style={{ width: '90%', maxWidth: '800px' }} />
+</div>
+
+<div style={{ textAlign: 'center', marginTop: '1rem' }}>
+    <img src="/img/v2/fields/create-field-2.png" alt="Configure field details" style={{ width: '90%', maxWidth: '400px' }} />
+</div>
+
+<Callout type="note">You can edit the field name, type, default value, or description anytime using the field’s context menu.</Callout>
+
+Depending on the field type selected, additional options or configurations may be required—such as allowed values, precision, formulas, or linked table settings. Refer to the documentation for each field type for detailed guidance.
 
 ## Field Types
 
