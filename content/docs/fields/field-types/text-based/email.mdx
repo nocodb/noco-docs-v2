@@ -5,31 +5,24 @@ tags: ['Fields', 'Field types', 'Text based types', 'Email']
 keywords: ['Fields', 'Field types', 'Text based types', 'Email', 'Create email field']
 ---
 
+The **Email** field is a text-based field designed specifically to store email addresses. It is a specialized version of the `Single line text` field, offering:
 
-`Email` field is text based field custom-built for storing E-mail IDs. It is a special type of `Single line text` field with
-- Optional validation for Email ID
-- Cell display as clickable link
+- Optional validation to ensure proper email format
+- Display of values as clickable **mailto:** links
 
-## Create an `Email` field
-1. Click on `+` icon to the right of `Fields header`
-2. On the dropdown modal, enter the field name (Optional).
-3. Select the field type as `Email` from the dropdown.
-4. Enable validation by toggling the `Validate Email` checkbox (Optional).
-5. Set default value for the field (Optional).
-6. Click on `Save Field` button.
+## Create an email field
 
-![image](/img/v2/fields/types/email.png)
+1. Click on the `+` icon next to the last field in your table.
+2. Enter a name for the field.
+3. Select `Email` from the list of field types.
+4. Optionally, you can enable validation by toggling the `Validate email` checkbox.
+5. Optionally, you can set a default value for the field & add a description.
+6. Click on `Save field` to add the field to your table.
 
-<Callout type="note">
-- Specify default value without quotes.
-- Validation only ensures that the value entered is a valid email ID. It does not check if the email ID exists.
-</Callout>
+Refer here for generic guidelines on [creating a field](/docs/product-docs/fields#create-a-field).
 
-## Similar text based fields
-Following are the other text based fields available in NocoDB, custom-built for specific use cases.
-- [Single line text](/docs/product-docs/fields/field-types/text-based/single-line-text)
-- [Long text](/docs/product-docs/fields/field-types/text-based/long-text)
-- [URL](/docs/product-docs/fields/field-types/text-based/url)
-- [Phone](/docs/product-docs/fields/field-types/text-based/phonenumber)
+<Callout type="note">Validation checks only the format of the email. It does not verify if the email address exists.</Callout>
+
+---
 
 
