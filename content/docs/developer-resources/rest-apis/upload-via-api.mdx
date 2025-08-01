@@ -42,7 +42,7 @@ const fs = require('fs');
     };
 
     // Upload the file
-    const uploadResponse = await axios.post(`${baseURL}/api/v1/db/storage/upload`, formData, {
+    const uploadResponse = await axios.post(`${baseURL}/api/v2/storage/upload`, formData, {
         headers: uploadHeaders,
     });
 
@@ -80,7 +80,7 @@ TITLE_VALUE="New Name"              # Optional: text value
 
 # Step 1: Upload the file
 echo "Uploading file..."
-UPLOAD_RESPONSE=$(curl -s -X POST "${BASE_URL}/api/v1/db/storage/upload" \
+UPLOAD_RESPONSE=$(curl -s -X POST "${BASE_URL}/api/v2/storage/upload" \
   -H "xc-token: ${API_TOKEN}" \
   -F "file=@${FILE_PATH}")
 
@@ -144,7 +144,7 @@ const uploadAndInsert = async (): Promise<void> => {
     };
 
     try {
-        const uploadResponse = await axios.post(`${baseURL}/api/v1/db/storage/upload`, formData, {
+        const uploadResponse = await axios.post(`${baseURL}/api/v2/storage/upload`, formData, {
             headers: uploadHeaders,
         });
 
@@ -213,7 +213,7 @@ with open(FILE_PATH, 'rb') as file:
 
     print("Uploading file...")
     upload_response = requests.post(
-        f"{BASE_URL}/api/v1/db/storage/upload",
+        f"{BASE_URL}/api/v2/storage/upload",
         headers=headers,
         files=files
     )
@@ -273,7 +273,7 @@ TABLE_ID = 'YOUR_TABLE_ID'
 FILE_PATH = './photo.png'
 
 # Step 1: Upload the file
-uri = URI("#{BASE_URL}/api/v1/db/storage/upload")
+uri = URI("#{BASE_URL}/api/v2/storage/upload")
 
 file = File.open(FILE_PATH)
 mime_type = MIME::Types.type_for(FILE_PATH).first.to_s
@@ -368,7 +368,7 @@ public class NocoDBUploaderOkHttp {
                 .build();
 
         Request uploadRequest = new Request.Builder()
-                .url(BASE_URL + "/api/v1/db/storage/upload")
+                .url(BASE_URL + "/api/v2/storage/upload")
                 .header("xc-token", API_TOKEN)
                 .post(multipartBody)
                 .build();
@@ -450,7 +450,7 @@ const path = require('path');
         };
 
         try {
-            const uploadResponse = await axios.post(`${baseURL}/api/v1/db/storage/upload`, formData, {
+            const uploadResponse = await axios.post(`${baseURL}/api/v2/storage/upload`, formData, {
                 headers: uploadHeaders,
             });
 
