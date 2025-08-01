@@ -8,32 +8,37 @@ keywords: ['Fields', 'Field types', 'Text based types', 'Long text', 'Create lon
 
 `Long Text` field is text based field that allows text in multiple lines. It is useful for storing lengthy text like description, notes, etc.
 
-## Create a `Long Text` field
-1. Click on `+` icon to the right of `Fields header`
-2. On the dropdown modal, enter the field name (Optional).
-3. Select the field type as `Long text` from the dropdown.
-4. Set default value for the field (Optional).
-5. Click on `Save Field` button.
+<Callout type="warning">Limit: 100,000 characters</Callout>
 
-![image](/img/v2/fields/types/longtext.png)
+## Create a single line text field
 
-:::note
-- Specify default value without quotes.
-- Use `Enter` key to add new line.
-:::
+1. Click on the `+` icon next to the last field in your table.
+2. Enter a name for the field.
+3. Select `Long text` from the list of field types.
+4. Optionally, you can set a default value for the field & add a description.
+5. Click on `Save field` to add the field to your table.
+
+Refer here for generic guidelines on [creating a field](/docs/product-docs/fields#create-a-field).
+
+<Callout type="info">To add a new line while editing a cell, press **Shift + Enter**. When using the expanded modal, you can use either **Shift + Enter** or **Enter**.</Callout>
 
 ### Cell display
-`Long Text` field is displayed as a single line text field in the table view. Click on the expand icon in the cell to view the full text.
 
-![image](/img/v2/fields/long-text-expand.png)
-![image](/img/v2/fields/long-text-expand-2.png)
+The `Long Text` field appears as a single-line preview in the table view to maintain a compact layout. To view the full content, click the expand icon within the cell. Alternatively, use the keyboard shortcut **Shift + Space** to open the expanded modal view.
 
+<div style={{ textAlign: 'center' }}>
+    <img src="/img/v2/fields/long-text-expand.png" alt="Long Text Expand Icon" />
+    <img src="/img/v2/fields/long-text-expand-2.png" alt="Expanded Modal View" />
+</div>
 
-## Similar text based fields
-Following are the other text based fields available in NocoDB, custom-built for specific use cases.
-- [Single line text](/docs/product-docs/fields/field-types/text-based/single-line-text)
-- [URL](/docs/product-docs/fields/field-types/text-based/url)
-- [Email](/docs/product-docs/fields/field-types/text-based/email)
-- [Phone](/docs/product-docs/fields/field-types/text-based/phonenumber)
+To make quick edits, you can also select the cell and press **Enter** to edit the text inline.
 
+<div style={{ textAlign: 'center', marginTop: '1rem' }}>
+    <img src="/img/v2/fields/long-text-expand-3.png" alt="Inline Edit for Long Text" />
+</div>
 
+<Callout type="info">On both input methods — inline edit and expanded modal — you can use the drag handle at the bottom-right corner of the text area to resize it and better accommodate your content.</Callout>
+
+For rich text editing capabilities, you can use the [Rich text](/docs/product-docs/fields/field-types/text-based/rich-text) field type instead.
+
+---
