@@ -13,5 +13,5 @@ const typesenseClient = new Client({
 });
 
 export default function NcSearchDialog(props: SharedProps) {
-    return <SearchDialog typesenseClient={typesenseClient} typesenseCollection="noco-docs-v2" {...props} />;
+    return <SearchDialog typesenseClient={typesenseClient} typesenseCollection="noco-docs-v3" {...props} />;
 }
