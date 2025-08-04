@@ -85,7 +85,7 @@ importers:
         version: 3.1.0
       shiki:
         specifier: ^3.8.0
-        version: 3.9.1
+        version: 3.9.2
       tailwind-merge:
         specifier: ^3.3.1
         version: 3.3.1
@@ -5648,7 +5648,7 @@ snapshots:
       remark-gfm: 4.0.1
       remark-rehype: 11.1.2
       scroll-into-view-if-needed: 3.1.0
-      shiki: 3.9.1
+      shiki: 3.9.2
       unist-util-visit: 5.0.0
     optionalDependencies:
       '@types/react': 19.1.9
