@@ -26,12 +26,22 @@ export function Navbar() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
                         <DropdownMenuItem className="h-[44px] cursor-pointer !hover:bg-nc-background-grey-extra-light">
-                            <Link href="https://data-apis-v2.nocodb.com/">
+                            <Link href="https://nocodb.com/apis/v3/data">
+                                Data APIs <span className="text-fd-muted-foreground">(v3)</span>
+                            </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="h-[44px] cursor-pointer !hover:bg-nc-background-grey-extra-light">
+                            <Link href="https://nocodb.com/apis/v3/meta">
+                                Meta APIs <span className="text-fd-muted-foreground">(v3)</span>
+                            </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="h-[44px] cursor-pointer !hover:bg-nc-background-grey-extra-light">
+                            <Link href="https://nocodb.com/apis/v2/data">
                                 Data APIs <span className="text-fd-muted-foreground">(v2)</span>
                             </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem className="h-[44px] cursor-pointer !hover:bg-nc-background-grey-extra-light">
-                            <Link href="https://meta-apis-v2.nocodb.com/">
+                            <Link href="https://nocodb.com/apis/v2/meta">
                                 Meta APIs <span className="text-fd-muted-foreground">(v2)</span>
                             </Link>
                         </DropdownMenuItem>
