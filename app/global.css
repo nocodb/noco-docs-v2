@@ -517,7 +517,7 @@
     --color-fd-card-foreground: var(--color-grey-900);
     --color-fd-border: var(--color-grey-300);
     --color-fd-primary-foreground: var(--color-base-black);
-    --color-fd-secondary: var(--color-grey-200);
+    --color-fd-secondary: var(--color-grey-100);
     --color-fd-secondary-foreground: var(--color-grey-900);
     --color-fd-accent-foreground: var(--color-base-black);
     --color-fd-ring: var(--color-brand-500);
@@ -585,6 +585,17 @@
 
 
 .nc-docs-layout {
+    [role="tablist"] {
+        button:is([role="tab"]):is([aria-selected="true"]) {
+            color: var(--color-brand-500) !important;
+            border-color: var(--color-brand-500) !important;
+        }
+
+        button:is([role="tab"]):is([aria-selected="false"]) {
+            font-weight: 400 !important;
+        }
+    }
+
     .prose {
         h1 {
             @apply text-nc-content-grey-emphasis text-[40px] leading-16 font-semibold;
