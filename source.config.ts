@@ -30,6 +30,10 @@ export const changelog = defineDocs({
     dir: 'content/changelog',
 })
 
+export const legalDocs = defineDocs({
+    dir: 'content/legal',
+})
+
 export default defineConfig({
   mdxOptions: {
       remarkPlugins: [remarkAdmonition],
