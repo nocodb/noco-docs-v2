@@ -26,6 +26,8 @@ async function checkLinks() {
   // Read changelog files
   const changelogFiles = await readFiles('content/changelog/**/*.{md,mdx}');
 
+  const legalDocsFiles = await readFiles('content/legal/**/*.{md,mdx}');
+
   const scanned = await scanURLs({
     populate: {
       // Blog routes
@@ -43,6 +45,17 @@ async function checkLinks() {
       // Main docs routes
       'docs/product-docs/[[...slug]]': docsFiles.map((file) => {
         const info = parseFilePath(path.relative('content/docs', file.path));
+        
+        return {
+          value: getSlugs(info),
+          hashes: getTableOfContents(file.content).map((item) =>
+            item.url.slice(1),
+          ),
+        };
+      }),
+
+      'docs/legal/[[...slug]]': legalDocsFiles.map((file) => {
+        const info = parseFilePath(path.relative('content/legal', file.path));
         
         return {
           value: getSlugs(info),

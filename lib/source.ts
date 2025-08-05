@@ -1,4 +1,4 @@
-import {blog, docs, scripts, selfHosting, changelog} from '@/.source';
+import {blog, docs, scripts, selfHosting, changelog, legalDocs} from '@/.source';
 import {loader} from 'fumadocs-core/source';
 import {createMDXSource} from "fumadocs-mdx";
 import {iconMap, IconNameType} from "@/lib/iconMap";
@@ -44,4 +44,10 @@ export const selfHostingSource = loader({
 export const changelogSource = loader({
     baseUrl: '/docs/changelog',
     source: changelog.toFumadocsSource(),
+})
+
+
+export const legalDocsSource = loader({
+    baseUrl: '/docs/legal',
+    source: legalDocs.toFumadocsSource(),
 })
