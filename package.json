@@ -27,7 +27,7 @@
     "clsx": "^2.1.1",
     "fumadocs-core": "15.6.9",
     "fumadocs-mdx": "11.7.3",
-    "fumadocs-ui": "15.6.8",
+    "fumadocs-ui": "15.6.9",
     "jsdom": "^26.1.0",
     "lucide-react": "^0.536.0",
     "nc-analytics": "^0.0.9",
