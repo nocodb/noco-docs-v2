@@ -1,0 +1,18 @@
+{
+  "title": "Legal",
+  "pages": [
+    "privacy",
+    "terms-of-service",
+    "aup",
+    "msa",
+    "sla",
+    "ai-terms",
+    "third-party-provider-ai-terms",
+    "dsa-disclosures",
+    "subprocessors",
+    "copyright",
+    "cookie-policy",
+    "trademark-guidelines"
+  ],
+  "icon": "legal"
+}
