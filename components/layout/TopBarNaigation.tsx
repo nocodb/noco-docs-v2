@@ -3,6 +3,7 @@
 import {useEffect, useRef, useState} from "react"
 import {clsx} from "clsx";
 import Link from "next/link";
+import {usePathname} from "next/navigation";
 
 const tabs = [{
     title: 'Product Docs',
@@ -18,15 +19,28 @@ const tabs = [{
 {
     title: 'Changelog (EE)',
     href: '/docs/changelog',
+},
+{
+    title: 'Legal',
+    href: '/docs/legal',
 }
 ]
 
 export default function TopBarNaigation() {
+    const pathname = usePathname()
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
     const [activeIndex, setActiveIndex] = useState(-1)
     const [hoverStyle, setHoverStyle] = useState({})
     const [activeStyle, setActiveStyle] = useState({left: "0px", width: "0px"})
     const tabRefs = useRef<(HTMLDivElement | null)[]>([])
+    
+    // Filter tabs based on current path - only show Legal if we're on /docs/legal
+    const visibleTabs = tabs.filter(tab => {
+        if (tab.href === '/docs/legal') {
+            return pathname === '/docs/legal' || pathname.startsWith('/docs/legal/')
+        }
+        return true
+    })
 
     useEffect(() => {
         if (hoveredIndex !== null) {
@@ -52,14 +66,11 @@ export default function TopBarNaigation() {
         }
     }, [activeIndex])
 
-    // Determine which tab should be active based on the current path when component mounts
+    // Determine which tab should be active based on the current path
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const path = window.location.pathname;
-            const activeTabIndex = tabs.findIndex(tab => path.startsWith(tab.href));
-            setActiveIndex(activeTabIndex !== -1 ? activeTabIndex : 0);
-        }
-    }, []);
+        const activeTabIndex = visibleTabs.findIndex(tab => pathname.startsWith(tab.href));
+        setActiveIndex(activeTabIndex !== -1 ? activeTabIndex : 0);
+    }, [pathname, visibleTabs]);
     
     // Apply active style whenever activeIndex changes or after the component has mounted
     useEffect(() => {
@@ -95,7 +106,7 @@ export default function TopBarNaigation() {
 
                 {/* Tabs */}
                 <div className="relative flex gap-3 items-center">
-                    {tabs.map((tab, index) => (
+                    {visibleTabs.map((tab, index) => (
                         <Link key={index} href={tab.href}>
                             <div
                                 ref={(el) => { tabRefs.current[index] = el; }}
