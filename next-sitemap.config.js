@@ -37,7 +37,9 @@ module.exports = {
     '/favicon.ico',
     '/manifest.json',
     // Development/testing paths
-    '/.well-known/*'
+    '/.well-known/*',
+    // exclude root url since it's part of main sitemap
+    '/',
   ],
   robotsTxtOptions: {
     policies: [
