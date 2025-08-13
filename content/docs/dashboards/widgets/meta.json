@@ -1,6 +1,7 @@
 {
   "pages": [
     "number",
+    "text",
     "pie-chart",
     "donut-chart"
   ],
