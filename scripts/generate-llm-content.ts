@@ -461,6 +461,11 @@ class LLMContentGenerator {
     }
     output += '\n';
 
+    // Additional API v3 documentation URLs
+    output += `## API v3 Documentation\n\n`;
+    output += `- [NocoDB API v3 - Data](https://nocodb.com/apis/v3/data): Comprehensive documentation for NocoDB API v3 data operations including CRUD operations, filtering, sorting, and data manipulation endpoints\n`;
+    output += `- [NocoDB API v3 - Meta](https://nocodb.com/apis/v3/meta): Comprehensive documentation for NocoDB API v3 metadata operations including base definitions, table definitions, field definitions, and other metadata endpoints\n\n`;
+
     // Blog section
     if (content.blog.length > 0) {
       output += `## Blog\n\n`;
