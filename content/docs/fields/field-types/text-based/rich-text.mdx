@@ -5,33 +5,36 @@ tags: ['Fields', 'Field types', 'Text based types', 'Rich text']
 keywords: ['Fields', 'Field types', 'Text based types', 'Rich text', 'Create rich text field']
 ---
 
+**Rich Text** is a text-based field type that extends the capabilities of the **Long Text** field by allowing text formatting. It supports formatting options such as bold, italic, underline, strikethrough, horizontal rule, ordered and unordered lists, inline code, block quotes, and more—enabling better structure and emphasis in your content.
 
-`Rich Text` field is text based field & is extension of `Long text` that allows you to add formatting to the text. You can add text formatting like bold, italic, underline, strikethrough, horizontal rule, ordered list, unordered list, code, quote, etc.
+<Callout type="warning">Limit: 100,000 characters</Callout>
 
-## Create a `Rich Text` field
-1. Click on `+` icon to the right of `Fields header`
-2. On the dropdown modal, enter the field name (Optional).
-3. Select the field type as `Long text` from the dropdown.
-4. Enable `Rich Text` toggle field.
-5. Set default value for the field (Optional).
-6. Click on `Save Field` button.
+## Create a single line text field
 
-![image](/img/v2/fields/types/richtext.png)
+1. Click on the `+` icon next to the last field in your table.
+2. Enter a name for the field.
+3. Select `Long text` from the list of field types.
+4. Toggle the `Enable rich text` option to enable rich text formatting.
+5. Optionally, you can set a default value for the field & add a description.
+6. Click on `Save field` to add the field to your table.
 
-:::note
-- Specify default value without quotes.
-- Use `Enter` key to add new line.
-:::
+Refer here for generic guidelines on [creating a field](/docs/product-docs/fields#create-a-field).
+
+<Callout type="info">Rich text editing is supported only via the expanded modal view. You can use either **Shift + Enter** or **Enter** to add a new line in the expanded modal.</Callout>
 
 ### Cell display
-`Rich Text` field is displayed as a single line text field in the table view. Click on the expand icon in the cell to view the full text.
 
-![image](/img/v2/fields/long-text-expand.png)
-![image](/img/v2/fields/long-text-expand-2.png)
+The `Rich Text` field appears as a single-line preview in the table view to maintain a compact layout. To view the full content, click the expand icon within the cell. Alternatively, use the keyboard shortcut **Shift + Space** to open the expanded modal view.
 
+<div style={{ textAlign: 'center' }}>
+    <img src="/img/v2/fields/long-text-expand.png" alt="Long Text Expand Icon" />
+    <img src="/img/v2/fields/rich-text-expand.png" alt="Expanded Modal View" />
+</div>
+
+<Callout type="info">Use the drag handle at the bottom-right corner of the text area to resize it and better accommodate your content.</Callout>
 
 ## Formatting options
-NocoDB supports markdown syntax for formatting the text. Following are the supported formatting options.
+NocoDB supports Markdown syntax for formatting text. Below are the supported formatting options you can use inside the **Rich Text** field.
 
 ### Heading
 To create a heading, prefix `#` symbol preceding your heading text. The number of # symbols employed will dictate the heading's hierarchy level and typeface size. Three levels of headings are supported.
@@ -47,12 +50,15 @@ To create a heading, prefix `#` symbol preceding your heading text. The number o
 ### Text formatting
 You can emphasise text with bold, italic, strikethrough or underline formatting options. Table below shows syntax, keyboard shortcut, example & output for each formatting option.
 
-| Style | Syntax | Keyboard shortcut | Example | Output |
-| --- | --- | --- | --- | --- |
-| Bold | `**bold text**` | `Ctrl/Cmd + B` | `**This is bold text**` | **This is bold text** |
-| Italic | `*italicized text*` | `Ctrl/Cmd + I` | `*This is italicized text*` | *This is italicized text* |
-| Strikethrough | `~~strikethrough text~~` | `Ctrl/Cmd + Shift + X` | `~~This is strikethrough text~~` | ~~This is strikethrough text~~ |
-| Underline |  | `Ctrl/Cmd + U` | `This is underlined text` | <u>This is underlined text</u> |
+
+
+| Formatting (Shortcut)                        | Syntax                   | Output                 |
+|----------------------------------------------|--------------------------|------------------------|
+| Bold<br></br>`Ctrl/Cmd + B`                  | `**bold text**`          | **bold text**          |
+| Italic<br></br>`Ctrl/Cmd + I`                | `*italicized text*`      | *italicized text*      |
+| Strikethrough<br></br>`Ctrl/Cmd + Shift + X` | `~~strikethrough text~~` | ~~strikethrough text~~ |
+| Underline<br></br>`Ctrl/Cmd + U`             | `<u>underlined text</u>` | <u>underlined text</u> |
+
 
 ### Quote block
 You can quote text with a `>`
@@ -104,9 +110,8 @@ You can create unordered list by using `Bulleted list` menu option in the rich t
 * Item 1
 * Item 2
 
-:::note
-You can create nested lists by using `tab` key & `shift + tab` key to indent & outdent the list items.
-:::
+<Callout type="info">Create nested lists by using `tab` key & `shift + tab` key to indent & outdent the list items.</Callout>
+
 
 ### Numbered List
 You can create ordered list by using `Numbered list` menu option in the rich text toolbar or by preceding the text with `1.` symbol.
@@ -126,12 +131,4 @@ You can create task lists by using `Task list` menu option in the rich text tool
 - [ ] Item 1
 - [x] Item 2
 
-
-## Similar text based fields
-Following are the other text based fields available in NocoDB, custom-built for specific use cases.
-- [Single line text](/docs/product-docs/fields/field-types/text-based/single-line-text)
-- [URL](/docs/product-docs/fields/field-types/text-based/url)
-- [Email](/docs/product-docs/fields/field-types/text-based/email)
-- [Phone](/docs/product-docs/fields/field-types/text-based/phonenumber)
-
-
+---

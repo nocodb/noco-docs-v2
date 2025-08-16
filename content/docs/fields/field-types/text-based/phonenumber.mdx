@@ -1,33 +1,24 @@
 ---
 title: 'Phone Number'
-description: 'This article explains how to create & work with a Phone number field.'
-tags: ['Fields', 'Field types', 'Text based types', 'Phone number']
-keywords: ['Fields', 'Field types', 'Text based types', 'Phone number', 'Create phone number field']
+description: 'This article explains how to create & work with a Phone Number field.'
+tags: ['Fields', 'Field types', 'Text based types', 'Phone Number']
+keywords: ['Fields', 'Field types', 'Text based types', 'Phone Number', 'Create phone field']
 ---
 
+The **Phone Number** field is a text-based field designed specifically to store phone numbers. It is a specialized version of the `Single line text` field, offering:
 
-`Phone number` field is text based field that allows you to store phone numbers. It also allows you to validate the phone number.
+- Optional validation to ensure proper phone number format
+- Display of values as clickable **tel:** links
 
-## Create a `Phone number` field
-1. Click on `+` icon to the right of `Fields header`
-2. On the dropdown modal, enter the field name (Optional).
-3. Select the field type as `Phonenumber` from the dropdown.
-4. Enable validation by toggling the `Validate Phonenumber` checkbox (Optional).
-5. Set default value for the field (Optional).
-6. Click on `Save Field` button.
+## Create a phone number field
 
-![image](/img/v2/fields/types/phonenumber.png)
+1. Click on the `+` icon next to the last field in your table.
+2. Enter a name for the field.
+3. Select `Phone Number` from the list of field types.
+4. Optionally, you can enable validation by toggling the `Validate phone number` checkbox.
+5. Optionally, you can set a default value for the field & add a description.
+6. Click on `Save field` to add the field to your table.
 
-<Callout type="note">
-- Specify default value without quotes.
-- Validation only ensures that the value entered is a valid phone number. It does not check if the phone number exists.
-</Callout>
+Refer here for generic guidelines on [creating a field](/docs/product-docs/fields#create-a-field).
 
-## Similar text based fields
-Following are the other text based fields available in NocoDB, custom-built for specific use cases.
-- [Single line text](/docs/product-docs/fields/field-types/text-based/single-line-text)
-- [Long text](/docs/product-docs/fields/field-types/text-based/long-text)
-- [URL](/docs/product-docs/fields/field-types/text-based/url)
-- [Email](/docs/product-docs/fields/field-types/text-based/email)
-
-
+<Callout type="note">Validation when enabled checks only the format of the phone number. It does not verify if the number is reachable or in service.</Callout>
