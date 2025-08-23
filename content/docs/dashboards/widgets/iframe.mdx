@@ -1,0 +1,65 @@
+---
+title: 'iFrame'
+description: 'Embed external content securely inside your dashboard using the iFrame widget'
+---
+
+The **iFrame** widget in NocoDB allows you to embed external web pages, applications, or dashboards directly inside your NocoDB dashboard. This is useful for integrating third-party tools, live reports, charts, or any web resource you want to monitor alongside your database data.
+
+![iframe-widget](/img/v2/dashboards/widget-iframe.png)
+
+
+## Configuration
+
+- **URL**
+Enter the web page URL you want to embed.
+> ⚠️ Only a limited set of **whitelisted domains** are supported. If the URL does not belong to a whitelisted domain, it cannot be embedded.
+
+- **Parameters**
+You can pass query parameters to control the embedded page. For example:
+```
+https://app.nocodb.com/sharedViewID?disableTopbar=true&disableToolbar=false
+```
+
+## Supported Whitelisted Domains
+The following domains other than NocoDB are supported for embedding:
+
+- Airtable
+- Canva
+- ClickUp
+- CodePen
+- DBdiagram
+- Diagrams.net
+- Descript
+- Dropbox
+- Figma
+- Framer
+- GitHub Gist
+- GitLab Snippet
+- Gliffy
+- Google (Maps, Drawings, Drive, Docs, Sheets, Slides, Calendar, Forms, Looker Studio)
+- Grist
+- Instagram
+- Loom
+- Lucidchart
+- Marvel
+- MindMeister
+- Miro
+- Prezi
+- Scribe
+- Spotify
+- Tldraw
+- Trello
+- Typeform
+- Valtown
+- Vimeo
+- Pinterest
+- Whimsical
+- YouTube
+
+## Use Cases
+
+- Embedding analytics dashboards (e.g., Metabase, Grafana, Superset).
+- Displaying Google Docs, Sheets, or Slides within NocoDB.
+- Showing interactive charts or visualizations from allowed external apps.
+- Integrating custom internal tools from whitelisted domains.
+
