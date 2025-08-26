@@ -29,7 +29,7 @@
     "fumadocs-mdx": "11.7.5",
     "fumadocs-ui": "15.6.12",
     "jsdom": "^26.1.0",
-    "lucide-react": "^0.541.0",
+    "lucide-react": "^0.542.0",
     "nc-analytics": "^0.0.9",
     "next": "15.5.0",
     "next-recaptcha-v3": "^1.5.2",
