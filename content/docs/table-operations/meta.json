@@ -1,5 +1,5 @@
 {
   "title": "Table operations",
-  "pages": ["field-operations", "filter", "sort", "group-by", "record-colouring","row-height", "search", "download"],
+  "pages": ["field-operations", "filter", "sort", "group-by", "record-colouring","row-height", "full-screen","search", "download"],
   "icon": "sliders"
 }
