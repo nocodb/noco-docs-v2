@@ -27,7 +27,6 @@ import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
    - **Record** - Triggers when a record is inserted, updated, or deleted, or for all actions if “Send me everything” is selected.
    - **Manual Trigger / Button Trigger**  - Trigger runs when a user manually clicks a webhook configured button.
 
-
 3. Select **Trigger Event** type : Refer table [here](#trigger-source-and-event) for available events for each source
 4. [Optional] **Trigger based on condition** : details [here](#webhook-with-conditions)
     > Conditions are not applicable for Manual Trigger webhook
@@ -39,24 +38,35 @@ import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
     > This is only applicable for `After Update` event.
    - Select the fields for which webhook should be triggered.
    - If no field is selected, any field update will trigger webhook
-6. **Method & URL** : Specify the endpoint that the webhook will call when triggered. You can choose from the following HTTP methods: GET, POST, PUT, DELETE, PATCH, and HEAD.
-7. [Optional] **Headers & Parameters** : Configure Request headers & parameters
-8. [Optional] **Body** : Configure request body. You can use [handlebar syntax](https://handlebarsjs.com/guide/#simple-expressions) to access and manipulate the data easily. For example, `{{ json event }}` will give you the complete event data (default behaviour if body not configured).
-9. [Optional] Click **Test** webhook button to verify if parameter are configured appropriately (with sample payload)
-10. Click **Create Webhook** button to complete webhook creation
+
+6. [Optional] **Trigger only when specific form submitted**: details [here](/docs/automation/webhook/form-submission-webhook)
+   > This is only applicable for `After Insert` event.
+   - Select the form for which webhook should be triggered.
+
+7. **Webhook Action** : Select the action to be performed when webhook is triggered. Action can be one of the following:
+   - **HTTP Request** : Send an HTTP request to a specified URL. You can configure the HTTP method, headers, parameters, and body of the request.
+        - **Method & URL** : Specify the endpoint that the webhook will call when triggered. You can choose from the following HTTP methods: GET, POST, PUT, DELETE, PATCH, and HEAD.
+        - **Headers & Parameters** : Configure Request headers & parameters
+        - **Body** : Configure request body. You can use [handlebar syntax](https://handlebarsjs.com/guide/#simple-expressions) to access and manipulate the data easily. For example, `{{ json event }}` will give you the complete event data (default behaviour if body not configured).
+
+   - **Run Script** : Run a custom script using NocoDB's built-in scripting engine. You can write JavaScript code to perform various actions when the webhook is triggered.
+        - **Script** : Select the script to be executed when the webhook is triggered. You can create and manage scripts in the `Scripts` tab in the left sidebar.
+
+8. [Optional] Click **Test** webhook button to verify if parameter are configured appropriately (with sample payload)
+9. Click **Create Webhook** button to complete webhook creation
 
 
 ### Trigger Source and Event
 
 Webhooks in NocoDB can be configured based on the source of the trigger and the type of event. The table below outlines the available combinations:
 
-| **Trigger Source** | **Trigger Event**  | **Description**                                     |
-| ------------------ | ------------------ | --------------------------------------------------- |
+| **Trigger Source** | **Trigger Event**  | **Description**                                            |
+|--------------------|--------------------|------------------------------------------------------------|
 | Record             | Send Me Everything | Triggers on any record insert, update, or delete operation |
-|                    | After Insert       | Triggers after one or more records are inserted     |
-|                    | After Update       | Triggers after one or more records are updated      |
-|                    | After Delete       | Triggers after one or more records are deleted      |
-| Button Trigger     | —                  | Triggers when a button field is clicked             |
+|                    | After Insert       | Triggers after one or more records are inserted            |
+|                    | After Update       | Triggers after one or more records are updated             |
+|                    | After Delete       | Triggers after one or more records are deleted             |
+| Button Trigger     | —                  | Triggers when a button field is clicked                    |
 
 > For more details on using **Button Trigger** webhooks with the **Button** field, see the [Button field documentation](/docs/product-docs/fields/field-types/custom-types/button).
 
@@ -71,20 +81,56 @@ A webhook will only be triggered if the condition transitions from **not met** t
 
 **In short**, a webhook is triggered only when the condition changes from **false** (old record) to **true** (new record).
 
-<Callout type="note">
-**Note:** Conditions are not applicable for Manual Trigger webhook.
-</Callout>
+<Callout type="note">Conditions are not applicable for Manual Trigger webhook.</Callout>
 
 ### Webhook on field changes ☁
 
-<Callout type="note">
-**Note:** This feature is only available in the paid plans, in both cloud & self-hosted.
-</Callout>
+<Callout type="note">This feature is only available in the paid plans, in both cloud & self-hosted.</Callout>
 
 For **After Update** event, you can configure webhook to trigger only when **certain fields are updated**. For example, trigger webhook only when `Status` is updated. You can also configure multiple fields.
 
 ![Webhook on field changes](/img/v2/webhook/create-webhook-field-changes.png)
-  
+
+
+### Webhook on specific form submission ☁
+<Callout type="note">This feature is only available in the paid plans, in both cloud & self-hosted.</Callout>
+
+For **After Insert** event, you can configure webhook to trigger only when a **specific form is submitted**. For example, if you have multiple forms for a table, you can choose to trigger webhook only when `Form A` is submitted.
+
+![Webhook on specific form submission](/img/v2/webhook/create-webhook-form-submission.png)
+
+
+### Webhook with custom payload ☁
+
+<Callout type="note">
+    This feature is only available in the paid plans, in both cloud & self-hosted.
+</Callout>
+
+In the enterprise edition, you can set up a personalized payload for your webhook. Just head to the `Body` tab to make the necessary configurations. Users can utilize [handlebar syntax](https://handlebarsjs.com/guide/#simple-expressions), which allows you to access and manipulate the data easily.
+
+Use `{{ json event }}` to access the event data. Sample response is as follows
+```json
+{
+  "type": "records.after.insert",
+  "id": "0698517a-d83a-4e72-bf7a-75f46b704ad1",
+  "version": "v3",
+  "data": {
+    "table_id": "m969t01blwprpef",
+    "table_name": "Table-2",
+    "view_id": "vwib3bvfxdqgymun",
+    "view_name": "Table-2",
+    "rows": [
+      {
+        "Id": 1,
+        "Tags": "Sample Text",
+        "CreatedAt": "2024-04-11T10:40:20.998Z",
+        "UpdatedAt": "2024-04-11T10:40:20.998Z"
+      }
+    ]
+  }
+}
+```
+
 
 ### Webhook response sample
 
@@ -208,38 +254,6 @@ For **After Update** event, you can configure webhook to trigger only when **cer
 
 </Tab>
 </Tabs>
-
-
-### Webhook with custom payload ☁
-
-<Callout type="note">
-This feature is only available in the paid plans, in both cloud & self-hosted.
-</Callout>
-
-In the enterprise edition, you can set up a personalized payload for your webhook. Just head to the `Body` tab to make the necessary configurations. Users can utilize [handlebar syntax](https://handlebarsjs.com/guide/#simple-expressions), which allows you to access and manipulate the data easily.
-
-Use `{{ json event }}` to access the event data. Sample response is as follows
-```json
-{
-  "type": "records.after.insert",
-  "id": "0698517a-d83a-4e72-bf7a-75f46b704ad1",
-  "version": "v3",
-  "data": {
-    "table_id": "m969t01blwprpef",
-    "table_name": "Table-2",
-    "view_id": "vwib3bvfxdqgymun",
-    "view_name": "Table-2",
-    "rows": [
-      {
-        "Id": 1,
-        "Tags": "Sample Text",
-        "CreatedAt": "2024-04-11T10:40:20.998Z",
-        "UpdatedAt": "2024-04-11T10:40:20.998Z"
-      }
-    ]
-  }
-}
-```
 
 
 #### Discord Webhook
