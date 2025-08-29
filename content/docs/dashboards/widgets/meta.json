@@ -2,6 +2,8 @@
   "pages": [
     "number",
     "text",
+    "bar-chart",
+    "line-chart",
     "pie-chart",
     "donut-chart",
     "iframe"
