@@ -19,11 +19,22 @@ Follow the steps below to create API Token
 3. Enter the name for the API Token
 4. Click on `Save` button to save the changes
 5. Copy the API Token by clicking on `Copy` button displayed under `Actions` menu
-6. Use the API Token in the services that require it to authenticate as `xc-token` in the headers.  
+6. Use the API Token in the services that require it to authenticate. You can use either the `xc-token` header or the `Authorization` header with bearer token format.
+
+**Option 1: Using xc-token header**
 ```json
 {
   "headers": {
     "xc-token": "Copied API token here under quotes"
+  }
+}
+```
+
+**Option 2: Using Authorization header (since v0.264.7)**
+```json
+{
+  "headers": {
+    "Authorization": "Bearer Copied API token here under quotes"
   }
 }
 ```
@@ -32,11 +43,37 @@ Follow the steps below to create API Token
   
 ![Create API Token](/img/v2/account-settings/api-token-2.png)
 
-<Callout type="info">API Token does not expire, but can be deleted anytime</Callout>
+<Callout type="info">API Token does not expire, but can be deleted anytime. Both `xc-token` and `Authorization: Bearer` header formats are supported for authentication.</Callout>
 
 API Token created will get added to the list. Copy API token by clicking on `Copy` button displayed under `Actions` menu
   
 ![Create API Token](/img/v2/account-settings/api-token-3.png)
+
+## Authentication Methods
+
+NocoDB supports two methods for API token authentication:
+
+### Method 1: xc-token Header
+Use the `xc-token` header with your API token value directly:
+```json
+{
+  "headers": {
+    "xc-token": "your_api_token_here"
+  }
+}
+```
+
+### Method 2: Authorization Header (since v0.264.7)
+Use the standard `Authorization` header with Bearer token format:
+```json
+{
+  "headers": {
+    "Authorization": "Bearer your_api_token_here"
+  }
+}
+```
+
+Both methods are equivalent and provide the same level of security. Choose the one that best fits your application's authentication patterns.
 
 ## Delete API Token
 <Callout type="warn">
