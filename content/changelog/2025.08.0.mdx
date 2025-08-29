@@ -5,14 +5,11 @@ description: 'Feature release : Introducing Realtime Canvas Grid, Charts, and mo
 
 ![Image](/img/changelog/20250800/release.png)
 
-# **Realtime Canvas Grid**: Seamless collaboration with live updates
+# **Realtime Collaboration**: Seamless collaboration with live updates
 
 > Work together without missing a beat. With Realtime Canvas Grid, every change made to your data is instantly reflected for all collaborators—no refresh needed.
 
-Whether you’re editing tasks in a project board, updating sales leads, or managing operations data, the grid now syncs changes across your team in real time. This makes collaboration faster and more transparent.
-
-Updates to records, fields, and layouts appear immediately, so everyone sees the latest version of the data as it happens. No more conflicting edits or waiting to reload the page.
-
+Few months ago, we introduced the first ever canvas based grid on a no-code database rivaling google spreadsheet. Now we are layering realtime collaboration layer on top of it. Updates to records, fields, and layouts appear immediately, so everyone sees the latest version of the data as it happens. No more waiting to reload the page.
 
 **Example use cases**
 
@@ -23,17 +20,17 @@ Updates to records, fields, and layouts appear immediately, so everyone sees the
 
 Realtime Canvas Grid keeps your entire team aligned, reduces duplicate effort, and turns NocoDB into a truly collaborative workspace.
 
-*Realtime Canvas Grid is available now across all NocoDB Cloud* ***Plus*** *and* ***Business*** *plans, and in self-hosted* ***Enterprise*** *plans.*
+
+*Realtime Canvas Grid is available now across all paid* *plans in Cloud and Enterprise.*
 
 
 ---
 
 # **New Dashboard Widgets**: Bar Chart, Line Chart, iFrame & Markdown Text
 
-> Dashboards just got more powerful. With four new widgets—**Bar Chart, Line Chart, iFrame, and Markdown Text**—you can visualise data in new ways, embed external tools, and add context directly into your dashboards.
+> Dashboards just got more powerful. With four new widgets—Bar Chart, Line Chart, iFrame, and Markdown Text—you can visualise data in new ways, embed external pages, and add context directly into your dashboards.
 
 These additions make dashboards more flexible, helping you move from raw data to clear, actionable insights while keeping everything in one place.
-
 
 ---
 
@@ -50,7 +47,7 @@ The **Bar Chart** widget lets you highlight differences, trends, and distributio
 Key capabilities:
 
 * Compare one or more numeric fields side by side
-* Apply filters and summaries (Sum, Avg, Min, Max)
+* Apply filters and summaries (Sum, Average, Min, Max)
 * Sort categories by label or value
 
 ---
@@ -71,6 +68,8 @@ Key capabilities:
 * Smooth lines, highlight points, and adjust legend placement
 * Start Y-axis at zero for accuracy
 
+> Do not miss the smooth animations here
+
 ---
 
 ### 🌐 iFrame — Embed external content
@@ -82,7 +81,7 @@ Key capabilities:
 />
 
 
-Bring third-party tools and live content directly into your dashboards with the **iFrame** widget. Useful for integrating analytics, reports, design boards, or media alongside your NocoDB data.
+Bring third-party pages and live content directly into your dashboards with the **iFrame** widget. Useful for integrating analytics, reports, design boards, or media alongside your NocoDB data.
 
 Supported embeds include Google Docs, Figma, Loom, Miro, YouTube, Spotify, Canva, Trello, and many more whitelisted domains.
 
@@ -117,8 +116,28 @@ Key capabilities:
 
 With these four new widgets, dashboards in NocoDB become not just a reporting layer, but a collaborative space for **data, context, and external insights**—all in one view.
 
+*All four widgets are available today on NocoDB Cloud* *plans* *and in self-hosted* **Enterprise** *plans.*
+
 Learn how to set them up in our [documentation here](/docs/product-docs/dashboards/widgets).
 
+
+---
+
+# **Button Triggered Scripts**: 1-click automation for your records
+
+> Streamline repetitive workflows with buttons that run custom scripts directly on your data.
+
+**We've supercharged our Button field capabilities.** While buttons could previously open custom URLs or invoke external APIs, we've now taken this functionality to the next level with direct script execution. This powerful upgrade transforms buttons for not just external automation triggers but for more extensive internal automations too.
+
+The current record's details are automatically available through the `cursor` variable, giving you direct access to its fields inside your script.
+
+**Example use cases**
+
+* **Task Management**: Mark a task as complete or update its status instantly
+* **Notifications**: Trigger an email, Slack message, or webhook when a button is pressed
+* **Data Operations**: Apply transformations or calculations to one or multiple records
+
+Button Triggered Scripts bring automation directly into your tables, reducing manual steps and making workflows more interactive. Learn more [here](/docs/product-docs/fields/field-types/custom-types/button)
 
 ---
 
@@ -142,9 +161,9 @@ Learn more about new set of APIs in the API documentation here: [Views](https://
 
 
 
-# Other changes
+# Other Changes
 
-* **Fullscreen Mode** A new toolbar button lets you expand any view area to fullscreen. This hides navigation menus and other interface elements, helping you focus entirely on your data. Learn more in the documentation here.
+* **Fullscreen Mode** A new toolbar button lets you expand any view area to fullscreen. This hides navigation menus and other interface elements, helping you focus entirely on your data. Learn more in the documentation [here](/docs/product-docs/table-operations/full-screen).
 
 <img
     src="/img/changelog/20250800/full-screen.png"
@@ -154,7 +173,7 @@ Learn more about new set of APIs in the API documentation here: [Views](https://
 
 
 * **Authorization Header Support**
-Support for the standard `Authorization` header with Bearer token format has been introduced. This can be used as an alternative to the existing `xc-token` header for API authentication.
+Support for the standard `Authorization` header with Bearer token format has been introduced. This can be used as an alternative to the existing `xc-token` header for API authentication. Learn more [here](https://nocodb.com/docs/product-docs/account-settings/api-tokens)
 
 ```json
 {
@@ -164,9 +183,9 @@ Support for the standard `Authorization` header with Bearer token format has bee
 }
 ```
 
-* **Script Trigger from Buttons** Execute a custom script directly from a button field. Scripts can perform operations on the current record or the entire table. The current record’s details can be accessed using the **row** variable in the script. Learn more in the documentation here.
+* Ability to [disable the support chat system](https://nocodb.com/docs/self-hosting/environment-variables#support-chat) within the on-premise enterprise version.
 
 
-* **Webhook Trigger on Specific Form Submission** Configure webhooks to trigger only when a specific form is submitted, enabling precise automation workflows and integrations.  Learn more in the documentation here.
+* **Webhook Trigger on Specific Form Submission** Configure webhooks to trigger only when a specific form is submitted, enabling precise automation workflows and integrations.  Learn more in the documentation [here](/docs/product-docs/automation/webhook/create-webhook#webhook-on-specific-form-submission-).
 
 ---
