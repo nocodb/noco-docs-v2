@@ -54,4 +54,31 @@ Created webhook can be accessed by using the [Webhook](/docs/product-docs/automa
 <Callout type="note">Deleting a webhook will remove it from all Button fields that reference it, whereas deleting a Button field will not affect the associated webhook. A single webhook can also be reused across multiple Button fields.</Callout>
 
 ### Button Script
+
 ![image](/img/v2/fields/types/button/run-script.png)
+
+Also termed as "Row Actions", Button Scripts let you trigger pre-configured actions directly from a record in Grid / Kanban / Gallery views. Instead of manually editing fields to update values like status or stage, you can now perform repetitive updates in a single click.
+
+Each button is configured to execute a Frontend Script that updates the record or performs other automated actions. When a user clicks the button, the configured script runs in the context of that record.
+
+Sample Script to update a field value:
+```javascript
+const recordID = cursor?.row?.id;
+const table = await base.getTable("Table-1");
+
+if(recordID) {
+    // Perform operations if recordID is valid
+    console.log(`Record ID is: ${recordID}`);
+
+    // You can add more logic here based on your requirements
+    await table.updateRecordAsync(recordID, {
+        "Status": "Completed",
+        "Title": "Default Title"
+    })
+} else {
+    // Handle the case where recordID is undefined or null
+    console.error('Record ID is not defined');
+}
+```
+
+
