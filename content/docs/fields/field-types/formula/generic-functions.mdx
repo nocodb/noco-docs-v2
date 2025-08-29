@@ -21,4 +21,30 @@ RECORD_ID()
 RECORD_ID() => 1
 ```
 
----
+## LAST_MODIFIED_TIME
+
+<Callout type="note">This feature is only available for the tables created by using NocoDB interface.</Callout>
+
+Returns the most recent timestamp when a record was updated.
+
+* By default, it reflects any change made to the record.
+* Optionally, you can specify one or more editable fields as arguments. In that case, the function only returns the last time any of those specified fields were updated.
+
+<Callout type="note">Field-level tracking support was introduced on September 1, 2025. For updates prior to this date, historical information at the field level does not exist and will be returned as null. This does not affect default record-level tracking.</Callout>
+
+**Return type:** Date/Time
+
+#### Syntax
+
+```plaintext
+LAST_MODIFIED_TIME()
+LAST_MODIFIED_TIME([Status], [Owner])
+```
+
+#### Sample
+```plaintext
+LAST_MODIFIED_TIME() => 2023-10-05 14:30:00
+LAST_MODIFIED_TIME([Status], [Owner]) => 2023-10-05 14:30:00
+```
+
+
