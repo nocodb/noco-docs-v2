@@ -1,0 +1,172 @@
+---
+title: '2025.08.0'
+description: 'Feature release : Introducing Realtime Canvas Grid, Charts, and more!'
+---
+
+![Image](/img/changelog/20250800/release.png)
+
+# **Realtime Canvas Grid**: Seamless collaboration with live updates
+
+> Work together without missing a beat. With Realtime Canvas Grid, every change made to your data is instantly reflected for all collaborators—no refresh needed.
+
+Whether you’re editing tasks in a project board, updating sales leads, or managing operations data, the grid now syncs changes across your team in real time. This makes collaboration faster and more transparent.
+
+Updates to records, fields, and layouts appear immediately, so everyone sees the latest version of the data as it happens. No more conflicting edits or waiting to reload the page.
+
+
+**Example use cases**
+
+* **Project Management**: Teammates update task owners and statuses simultaneously without collisions
+* **Sales Teams**: Ensure pipeline data is always up-to-date during meetings
+* **Operations**: Track changing order or inventory information in real time
+* **Product Teams**: Monitor bug reports and feature statuses as they are updated live
+
+Realtime Canvas Grid keeps your entire team aligned, reduces duplicate effort, and turns NocoDB into a truly collaborative workspace.
+
+*Realtime Canvas Grid is available now across all NocoDB Cloud* ***Plus*** *and* ***Business*** *plans, and in self-hosted* ***Enterprise*** *plans.*
+
+
+---
+
+# **New Dashboard Widgets**: Bar Chart, Line Chart, iFrame & Markdown Text
+
+> Dashboards just got more powerful. With four new widgets—**Bar Chart, Line Chart, iFrame, and Markdown Text**—you can visualise data in new ways, embed external tools, and add context directly into your dashboards.
+
+These additions make dashboards more flexible, helping you move from raw data to clear, actionable insights while keeping everything in one place.
+
+
+---
+
+### 📊 Bar Chart — Compare values across categories
+
+<img
+    src="/img/changelog/20250800/widget-barchart.png"
+    alt="Bar Chart"
+    style={{ width: "80%" }}
+/>
+
+The **Bar Chart** widget lets you highlight differences, trends, and distributions between categories. Perfect for showing sales by region, task counts by status, or performance by team.
+
+Key capabilities:
+
+* Compare one or more numeric fields side by side
+* Apply filters and summaries (Sum, Avg, Min, Max)
+* Sort categories by label or value
+
+---
+
+### 📈 Line Chart — Visualise trends over time
+
+<img
+    src="/img/changelog/20250800/widget-linechart.png"
+    alt="Line Chart"
+    style={{ width: "80%" }}
+/>
+
+The **Line Chart** widget helps track changes, patterns, and comparisons across time or categories. Great for monitoring growth, performance, or usage over weeks, months, or years.
+
+Key capabilities:
+
+* Plot multiple metrics on the same chart
+* Smooth lines, highlight points, and adjust legend placement
+* Start Y-axis at zero for accuracy
+
+---
+
+### 🌐 iFrame — Embed external content
+
+<img
+    src="/img/changelog/20250800/widget-iframe.png"
+    alt="iFrame"
+    style={{ width: "80%" }}
+/>
+
+
+Bring third-party tools and live content directly into your dashboards with the **iFrame** widget. Useful for integrating analytics, reports, design boards, or media alongside your NocoDB data.
+
+Supported embeds include Google Docs, Figma, Loom, Miro, YouTube, Spotify, Canva, Trello, and many more whitelisted domains.
+
+Example use cases:
+
+* Add Google Sheets or Docs for team reference
+* Embed Figma or Miro boards for design reviews
+* Show live analytics from Grafana or Metabase
+* Include training videos or presentations
+
+---
+
+### 📝 Text — Add notes, instructions & context
+
+<img
+    src="/img/changelog/20250800/widget-text.png"
+    alt="widget-text"
+    style={{ width: "80%" }}
+/>
+
+
+The **Text** widget makes dashboards more informative and user-friendly by letting you add static content. Use it for explanations, disclaimers, instructions, or motivational notes.
+
+Key capabilities:
+
+* Support for Markdown formatting
+* Inline text editor for styling (bold, italics, alignment, colours)
+* Font, size, weight, and line-height customisation
+* Perfect for adding team instructions, KPIs, or compliance notes
+
+---
+
+With these four new widgets, dashboards in NocoDB become not just a reporting layer, but a collaborative space for **data, context, and external insights**—all in one view.
+
+Learn how to set them up in our [documentation here](/docs/product-docs/dashboards/widgets).
+
+
+---
+
+
+# **Enhanced API Support**: Manage collaborators & views with more flexibility
+
+> NocoDB’s API layer is now more powerful. You can programmatically manage **workspace & base member collaboration** and perform full **CRUD operations on views**—across Grid, Gallery, Canvas, and Kanban.
+
+This opens up new automation and integration workflows, giving developers fine-grained control over how teams collaborate and how data is presented.
+
+**What’s new:**
+
+* **Workspace & Base Members**: Add, update, or remove collaborators via API
+* **Views**: Create, read, update, and delete Grid, Gallery, Canvas, and Kanban views
+
+These enhancements make it easier to integrate NocoDB with external systems, automate team onboarding, or build custom apps powered by NocoDB data.
+
+ℹ️ Support for **Form view CRUD APIs** will be added soon.
+
+Learn more about new set of APIs in the API documentation here: [Views](https://nocodb.com/apis/v3/meta#tag/Views), [Workspace members](https://nocodb.com/apis/v3/meta#tag/Workspace-Members), [Base members](https://nocodb.com/apis/v3/meta#tag/Base-Members)
+
+
+
+# Other changes
+
+* **Fullscreen Mode** A new toolbar button lets you expand any view area to fullscreen. This hides navigation menus and other interface elements, helping you focus entirely on your data. Learn more in the documentation here.
+
+<img
+    src="/img/changelog/20250800/full-screen.png"
+    alt="Full screen"
+    style={{ width: "80%" }}
+/>
+
+
+* **Authorization Header Support**
+Support for the standard `Authorization` header with Bearer token format has been introduced. This can be used as an alternative to the existing `xc-token` header for API authentication.
+
+```json
+{
+  "headers": {
+    "Authorization": "Bearer your_api_token_here"
+  }
+}
+```
+
+* **Script Trigger from Buttons** Execute a custom script directly from a button field. Scripts can perform operations on the current record or the entire table. The current record’s details can be accessed using the **row** variable in the script. Learn more in the documentation here.
+
+
+* **Webhook Trigger on Specific Form Submission** Configure webhooks to trigger only when a specific form is submitted, enabling precise automation workflows and integrations.  Learn more in the documentation here.
+
+---
