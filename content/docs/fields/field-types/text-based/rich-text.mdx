@@ -28,7 +28,21 @@ In the table view, the **Rich text** field appears as a single-line cell. To vie
 ![image](/img/v2/fields/types/long-text/rich-text-expand.png)
 
 
-### Formatting options
+## Formatting options
+NocoDB supports Markdown syntax for formatting the text. Sections below explain various formatting options available in the rich text editor.
+
+### Heading
+To create a heading, prefix `#` symbol preceding your heading text. The number of # symbols employed will dictate the heading's hierarchy level and typeface size. Three levels of headings are supported.
+
+```
+# Heading 1
+## Heading 2
+### Heading 3
+```
+
+![image](/img/v2/fields/types/richtext-heading.png)
+
+### Text formatting
 You can emphasise text with bold, italic, strikethrough or underline formatting options. Table below shows syntax, keyboard shortcut, example & output for each formatting option.
 
 | Style         | Syntax                   | Keyboard shortcut      | Output                         |
@@ -133,3 +147,5 @@ You can create task lists using the **Task list** option in the toolbar or with 
 
 - [ ] Item 1
 - [x] Item 2
+
+---
