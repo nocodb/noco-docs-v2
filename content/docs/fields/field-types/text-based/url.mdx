@@ -1,36 +1,26 @@
 ---
 title: 'URL'
-description: 'This article explains how to create & work with an URL field.'
+description: 'This article explains how to create and use a URL field.'
 tags: ['Fields', 'Field types', 'Text based types', 'URL']
 keywords: ['Fields', 'Field types', 'Text based types', 'URL', 'Create URL field']
 ---
 
+The **URL** field is a text-based field designed specifically for storing web addresses. It is a specialized version of the **Single line text** field with the following enhancements:
 
-`URL` field is text based field custom-built for storing URLs. It is a special type of `Single line text` field with
-  - Optional validation for URL 
-  - Cell display as clickable link
+- Optional validation to ensure values follow a valid URL format
+- Display of values as clickable links
 
-## Create an `URL` field
-1. Click on `+` icon to the right of `Fields header`
-2. On the dropdown modal, enter the field name (Optional).
-3. Select the field type as `URL` from the dropdown.
-4. Enable validation by toggling the `Validate URL` checkbox (Optional).
-5. Set default value for the field (Optional).
-6. Click on `Save Field` button.
+## Create a URL field
 
+1. Click the `+` icon next to the last field in your table.
+2. Enter a name for the field.
+3. Select **URL** as the field type.
+4. (Optional) Enable validation by toggling the **Validate URL** option.
+5. (Optional) Set a default value for the field and add a description.
+6. Click **Save field** to add it to your table.
 
-![image](/img/v2/fields/types/url.png)
+Refer to the general guidelines on [creating a field](/docs/product-docs/fields#create-a-field).
 
-<Callout type="note">
-- Specify default value without quotes.
-- Validation only ensures that the value entered is a valid URL. It does not check if the URL exists.
-</Callout>
+<Callout type="note">Validation only ensures the format is a valid URL; it does not verify whether the URL exists</Callout>
 
-## Similar text based fields
-Following are the other text based fields available in NocoDB, custom-built for specific use cases.
-- [Single line text](/docs/product-docs/fields/field-types/text-based/single-line-text)
-- [Long text](/docs/product-docs/fields/field-types/text-based/long-text)
-- [Email](/docs/product-docs/fields/field-types/text-based/email)
-- [Phone](/docs/product-docs/fields/field-types/text-based/phonenumber)
-
-
+---
