@@ -1,29 +1,31 @@
 ---
 title: 'Number'
-description: 'This article explains how to create & work with a Number field.'
+description: 'This article explains how to create and use a Number field.'
 tags: ['Fields', 'Field types', 'Numerical types', 'Number']
 keywords: ['Fields', 'Field types', 'Numerical types', 'Number', 'Create number field']
 ---
 
+The **Number** field is a numerical field used to store integer values. It is commonly used for data such as age, salary, price, or quantity.
 
-`Number` field type is used to store numerical values. Use cases include storing `age`, `salary`, `price`, `quantity`, etc.
+<Callout type="warning">Supported range (JavaScript): -9,007,199,254,740,991 to 9,007,199,254,740,991</Callout>
 
-## Create a number field
-1. Click on `+` icon to the right of `Fields header`
-2. On the dropdown modal, enter the field name (Optional).
-3. Select the field type as `Number` from the dropdown.
-4. Set default value for the field (Optional).
-5. Click on `Save Field` button.
+## Create a Number field
 
-![image](/img/v2/fields/types/number.png)
+1. Click the `+` icon next to the last field in your table.
+2. Enter a name for the field.
+3. Select **Number** from the list of field types.
+4. (Optional) Toggle **Show thousands separator** to format large numbers with a thousand separator (e.g., 1,000 instead of 1000).
+5. (Optional) Set a default value for the field and add a description.
+6. Click **Save field** to add the field to your table.
 
-<Callout type="note">
-- This field type can hold both positive and negative numbers.
-- Supported range (JavaScript): -9007199254740991 to 9007199254740991
-</Callout>
+Refer to the general guidelines on [creating a field](/docs/product-docs/fields#create-a-field).
 
-## Similar numerical fields
-Following are the other numerical fields available in NocoDB, with some custom add-on features.
-- [Decimal](/docs/product-docs/fields/field-types/numerical/decimal)
-- [Percent](/docs/product-docs/fields/field-types/numerical/percent)
-- [Currency](/docs/product-docs/fields/field-types/numerical/currency)
+<Callout type="info">The Number field supports both positive and negative values.</Callout>
+
+## Cell display
+
+The **Number** field appears as a numeric cell in the table. Its display aligns to the right by default for clarity and consistency when handling numerical data. If the **Show thousands separator** option is enabled, large numbers will be formatted with a comma as the thousand separator.
+
+![Number field cell display](/img/v2/fields/types/numerical/number.png)
+
+---
