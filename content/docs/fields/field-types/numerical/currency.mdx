@@ -1,35 +1,42 @@
 ---
 title: 'Currency'
-description: 'This article explains how to create & work with a Currency field.'
+description: 'This article explains how to create and use a Currency field.'
 tags: ['Fields', 'Field types', 'Numerical types', 'Currency']
 keywords: ['Fields', 'Field types', 'Numerical types', 'Currency', 'Create currency field']
 ---
 
+The **Currency** field is a numerical field used to store monetary values. It provides additional options to configure the currency locale and symbol for display.
 
-`Currency` field type is used to store currency values. It is a numerical field with additional provision to set the currency symbol in display.
+<Callout type="warning">Currency formatting is applied only for display. The stored value remains numerical for calculations and formulas.</Callout>
 
-## Create field
-1. Click on `+` icon to the right of `Fields header`
-2. On the dropdown modal, enter the field name (Optional).
-3. Select the field type as `Currency` from the dropdown.
-4. Configure `Currency Locale` : defaults to `en-US`
-5. Configure `Currency Symbol` : defaults to `$`
-6. Set default value for the field (Optional).
-7. Click on `Save Field` button.
+## Create a Currency field
 
-![image](/img/v2/fields/types/currency.png)
+1. Click the `+` icon next to the last field in your table.
+2. Enter a name for the field.
+3. Select **Currency** from the list of field types.
+4. Configure **Currency Locale** (defaults to `en-US`).
+5. Configure **Currency Symbol** (defaults to `$`).
+6. (Optional) Set a default value for the field and add a description.
+7. Click **Save field** to add the field to your table.
 
-### Cell display
-![image](/img/v2/fields/currency-cell-display.png)
+Refer to the general guidelines on [creating a field](/docs/product-docs/fields#create-a-field).
 
-### Supported locales
-https://www.npmjs.com/package/locale-codes#locale-list
 
-<Callout type="note">
-NocoDB adheres to ISO639-1 standard for locale codes.
-</Callout>
+## Cell display
 
-### Supported currencies
+The **Currency** field appears as a numeric cell with the configured currency symbol and formatting.
+
+![Cell display](/img/v2/fields/types/numerical/currency-display.png)
+
+## Supported locales
+
+NocoDB supports locale codes based on the [ISO639-1 standard](https://www.npmjs.com/package/locale-codes#locale-list).
+
+<Callout type="info">Ensure the correct locale is selected to apply region-specific number formatting (e.g., **en-US**, **fr-FR**).</Callout>
+
+## Supported currencies
+
+The **Currency** field supports a wide range of ISO 4217 currency codes, including but not limited to:
 
 |     |     |     |     |     |     |
 |-----|-----|-----|-----|-----|-----|
@@ -65,10 +72,4 @@ NocoDB adheres to ISO639-1 standard for locale codes.
 | XPD | XPF | XPT | XTS | XXX | YER |
 | ZAR | ZMK | ZWD |     |     |     |
 
-
-
-## Similar numerical fields
-Following are the other numerical fields available in NocoDB, with some custom add-on features.
-- [Number](/docs/product-docs/fields/field-types/numerical/number)
-- [Decimal](/docs/product-docs/fields/field-types/numerical/decimal)
-- [Percent](/docs/product-docs/fields/field-types/numerical/percent)
+---

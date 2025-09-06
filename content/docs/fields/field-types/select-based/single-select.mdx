@@ -1,55 +1,57 @@
 ---
-title: 'Single Select'
-description: 'This article explains how to create & work with a Single select field.'
+title: 'Single select'
+description: 'This article explains how to create and use a Single select field.'
 tags: ['Fields', 'Field types', 'Select based types', 'Single select']
 keywords: ['Fields', 'Field types', 'Select based types', 'Single select', 'Create single select field']
 ---
 
+The **Single select** field allows you to choose one option from a predefined list. It is useful for fields like status, priority, or category.
 
-`Single select` fields allow you to select a single option from a list of options. The options can be defined in the field configuration.
+## Create a Single select field
 
-## Create a single select field
-1. Click on `+` icon to the right of `Fields header`
-2. On the dropdown modal, enter the field name (Optional).
-3. Select the field type as `SingleSelect` from the dropdown.
-4. Click on `Add option` button to add options.
-5. Set default value for the field. The options are populated in the dropdown (Optional).
-6. Click on `Save Field` button.
+1. Click the `+` icon next to the last field in your table.
+2. Enter a name for the field.
+3. Select **Single select** from the list of field types.
+4. Click **Add option** to define available options.
+5. (Optional) Set a default value for the field from the defined options.
+6. Click **Save field** to add the field to your table.
 
-![image](/img/v2/fields/types/singleselect.png)
+Refer to the general guidelines on [creating a field](/docs/product-docs/fields#create-a-field).
+
+![image](/img/v2/fields/types/select-based/single-select.png)
+
+<Callout type="note"> `✨✨✨` **NocoAI** can assist in generating options for your Single select field. Click the **Auto Suggest** button to get AI-generated suggestions based on your field name & existing options.</Callout>
 
 ## Edit options
 
 ### Rename options
-You can rename options by clicking on the associated option text box. Click on `Save Field` button to save the changes.
+Click on the option text box to rename an option. Save changes using **Save field**.
 
-### Configure color for options
-You can re-configure background color for each option. This is useful when you want to highlight certain options. For example, you can configure `High` option to have `red` background color.
-To configure, click on the `color` icon next to the option. Select the color from the color picker and click on `Save Field` button.
+### Configure colors
+Assign background colors to options to visually distinguish them. For example, mark `High` as red to highlight urgency.
+Click the **color** icon next to an option, select a color, and save changes.
 
-![image](/img/v2/fields/types/options-change-colour.png)
+![image](/img/v2/fields/types/select-based/options-colour.png)
 
-### Re-order options
-You can re-order options by dragging and dropping the options. To re-order, click on the `drag` icon next to the option and drag it to the desired position. Click on `Save Field` button to save the order.
+### Reorder options
+Drag and drop options using the **drag** icon to reorder them. The new order is reflected in the dropdown inside cells.
 
-![image](/img/v2/fields/types/options-reorder.png)
+![image](/img/v2/fields/types/select-based/options-reorder.png)
 
-<Callout>
-The order defined for the options will be used in cells dropdown as well.
-</Callout>
-
-### Edit options
-You can rename options by clicking on the associated option text box. Click on `Save Field` button to save the changes.
+<Callout type="info">The order you define for options is preserved in the cell dropdown list.</Callout>
 
 ### Delete options
-You can delete options by clicking on the `x` icon next to the option. You can undo the delete by clicking on the `undo` icon next to the option. Click on `Save Field` button to save the changes.
+Click the `x` icon to delete an option. Deleted options can be restored using the **undo** icon before saving.
 
-<Callout type="note">
-- On removing an option, the option value will be removed from all the cells.
-- If the option value is set as default value for the field, then the default value will be removed.
-</Callout>
+![image](/img/v2/fields/types/select-based/options-remove.png)
 
-![image](/img/v2/fields/types/options-remove.png)
+<Callout type="warning"> Removing an option clears it from all cells where it was selected. If the deleted option was set as the default value, the default will be cleared. </Callout>
 
-## Similar select based fields
-- [Multi select](/docs/product-docs/fields/field-types/select-based/multi-select)
+## Cell display
+
+The **Single select** field displays as a dropdown in table cells, showing the configured options with their respective colors. Only one option can be selected at a time.
+
+<img src="/img/v2/fields/types/select-based/display.png" alt="display" style={{width: "80%"}} />
+
+
+---
