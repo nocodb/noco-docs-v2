@@ -20,41 +20,67 @@ You can pass query parameters to control the embedded page. For example:
 https://app.nocodb.com/sharedViewID?disableTopbar=true&disableToolbar=false
 ```
 
-## Supported Whitelisted Domains
-The following domains other than NocoDB are supported for embedding:
+## NocoDB iFrame Whitelist
 
-- Airtable
-- Canva
-- ClickUp
-- CodePen
-- DBdiagram
-- Diagrams.net
-- Descript
-- Dropbox
-- Figma
-- Framer
-- GitHub Gist
-- GitLab Snippet
-- Gliffy
-- Google (Maps, Drawings, Drive, Docs, Sheets, Slides, Calendar, Forms, Looker Studio)
-- Grist
-- Instagram
-- Loom
-- Lucidchart
-- Marvel
-- MindMeister
-- Miro
-- Prezi
-- Scribe
-- Spotify
-- Tldraw
-- Trello
-- Typeform
-- Valtown
-- Vimeo
-- Pinterest
-- Whimsical
-- YouTube
+The following domains are whitelisted for embedding in NocoDB iFrames.
+
+
+| Analytics & Business Intelligence | Automation & Workflow | Calendar & Scheduling |
+|-----------------------------------|-----------------------|-----------------------|
+| datawrapper.de                    | make.com              | cal.com               |
+| looker.com                        | n8n.io                | calendly.com          |
+| metabase.com                      | zapier.com            | tidycal.com           |
+| powerbi.microsoft.com             |                       |                       |
+| tableau.com                       |                       |                       |
+
+
+| Cloud Storage & File Sharing | Communication & Collaboration | Database & Data Management |
+|------------------------------|-------------------------------|----------------------------|
+| dropbox.com                  | loom.com                      | airtable.com               |
+| google.com                   | mural.co                      | getgrist.com               |
+|                              | pitch.com                     | nocodb.com                 |
+|                              | sli.do                        |                            |
+|                              | slido.com                     |                            |
+
+
+| Design & Prototyping | Developer Tools & Code | Diagramming & Mind Mapping |
+|----------------------|------------------------|----------------------------|
+| canva.com            | codepen.io             | dbdiagram.io               |
+| figma.com            | codesandbox.io         | diagrams.net               |
+| framer.com           | gist.github.com        | draw.io                    |
+| invisionapp.com      | github.com             | gliffy.com                 |
+| marvelapp.com        | gitlab.com             | lucid.co                   |
+| penpot.app           | jsfiddle.net           | lucidchart.com             |
+| sketch.com           | postman.com            | mindmeister.com            |
+| zeplin.io            | replit.com             | miro.com                   |
+|                      | swagger.io             | tldraw.com                 |
+|                      | val.town               | whimsical.com              |
+
+
+| Documentation & Knowledge Management | Forms & Surveys  | Media & Entertainment |
+|--------------------------------------|------------------|-----------------------|
+| atlassian.com                        | forms.gle        | instagram.com         |
+| descript.com                         | jotform.com      | pinterest.com         |
+| gitbook.com                          | surveymonkey.com | spotify.com           |
+| notion.so                            | tally.so         | vimeo.com             |
+| obsidian.md                          | typeform.com     | youtu.be              |
+| scribehow.com                        |                  | youtube.com           |
+| slab.com                             |                  |                       |
+
+
+| Project Management |
+|--------------------|
+| asana.com          |
+| basecamp.com       |
+| clickup.com        |
+| coda.io            |
+| linear.app         |
+| monday.com         |
+| trello.com         |
+
+
+> **Note**: All domains include both the root domain and wildcard subdomains (e.g., `example.com` and `*.example.com`) in the whitelist configuration.
+
 
 ## Use Cases
 
