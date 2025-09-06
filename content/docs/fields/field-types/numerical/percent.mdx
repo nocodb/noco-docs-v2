@@ -1,24 +1,32 @@
 ---
 title: 'Percent'
-description: 'This article explains how to create & work with a Percent field.'
+description: 'This article explains how to create and use a Percent field.'
 tags: ['Fields', 'Field types', 'Numerical types', 'Percent']
 keywords: ['Fields', 'Field types', 'Numerical types', 'Percent', 'Create percent field']
 ---
 
+The **Percent** field is a numerical field used to store percentage values. It is useful for data such as completion rates, discount percentages, or performance metrics.
 
-`Percent` field type is used to store percentage values. Use cases include storing `discount`, `tax`, etc.
+<Callout type="warning">Values are entered as whole numbers and displayed with a percentage sign (e.g., **75** is shown as **75%**).</Callout>
 
-## Create a percent field
-1. Click on `+` icon to the right of `Fields header`
-2. On the dropdown modal, enter the field name (Optional).
-3. Select the field type as `Percent` from the dropdown.
-4. Set default value for the field (Optional).
-5. Click on `Save Field` button.
+## Create a Percent field
 
-![image](/img/v2/fields/types/percent.png)
+1. Click the `+` icon next to the last field in your table.
+2. Enter a name for the field.
+3. Select **Percent** from the list of field types.
+4. (Optional) Enable **Display as progress** to show the percentage as a progress bar.
+5. (Optional) Set a default value for the field and add a description.
+6. Click **Save field** to add the field to your table.
 
-## Similar numerical fields
-Following are the other numerical fields available in NocoDB, with some custom add-on features.
-- [Number](/docs/product-docs/fields/field-types/numerical/number)
-- [Decimal](/docs/product-docs/fields/field-types/numerical/decimal)
-- [Currency](/docs/product-docs/fields/field-types/numerical/currency)
+Refer to the general guidelines on [creating a field](/docs/product-docs/fields#create-a-field).
+
+<Callout type="info"> The **Percent** field does not include a `Show thousand separator` option.</Callout>
+
+## Cell display
+
+The **Percent** field appears as a numeric cell in the table, right-aligned by default.
+
+- When **Display as progress** is enabled, the value is represented as a progress bar.
+- Without progress display, the value appears as a standard percentage.
+
+![Cell display](/img/v2/fields/types/numerical/percent-display.png)

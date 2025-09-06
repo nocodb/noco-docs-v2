@@ -1,29 +1,34 @@
 ---
 title: 'Decimal'
-description: 'This article explains how to create & work with a Decimal field.'
+description: 'This article explains how to create and use a Decimal field.'
 tags: ['Fields', 'Field types', 'Numerical types', 'Decimal']
 keywords: ['Fields', 'Field types', 'Numerical types', 'Decimal', 'Create decimal field']
 ---
 
+The **Decimal** field is a numerical field used to store decimal values. It is commonly used for data such as salary, price, or other values requiring fractional precision.
 
-`Decimal` field type is used to store decimal values. Use cases include storing `salary`, `price`, etc. NocoDB supports precision of upto 8 digits.
+<Callout type="warning">NocoDB supports up to 8 digits of precision.</Callout>
 
-## Create a decimal field
-1. Click on `+` icon to the right of `Fields header`
-2. On the dropdown modal, enter the field name (Optional).
-3. Select the field type as `Decimal` from the dropdown.
-4. Configure `Precision`- NocoDB supports upto 8 digits of precision.
-5. Set default value for the field (Optional).
-6. Click on `Save Field` button.
+## Create a Decimal field
 
-![image](/img/v2/fields/types/decimal.png)
+1. Click the `+` icon next to the last field in your table.
+2. Enter a name for the field.
+3. Select **Decimal** from the list of field types.
+4. Configure the **Precision** setting (up to 8 digits).
+5. Toggle **Show thousands separator** to format large numbers with a thousand separator (e.g., 1,000.00 instead of 1000.00).
+6. (Optional) Set a default value for the field and add a description.
+7. Click **Save field** to add the field to your table.
 
-<Callout type="note">
-Default decimal precision is 1 digit
-</Callout>
+Refer to the general guidelines on [creating a field](/docs/product-docs/fields#create-a-field).
 
-## Similar numerical fields
-Following are the other numerical fields available in NocoDB, with some custom add-on features.
-- [Number](/docs/product-docs/fields/field-types/numerical/number)
-- [Percent](/docs/product-docs/fields/field-types/numerical/percent)
-- [Currency](/docs/product-docs/fields/field-types/numerical/currency)
+
+<Callout type="info">The default precision is set to 1 digit.</Callout>
+
+## Cell display
+
+The **Decimal** field appears as a numeric cell in the table, right-aligned for readability. Values are displayed with the configured number of decimal places. If the **Show thousands separator** option is enabled, large numbers will be formatted with a comma as the thousand separator.
+
+![Number field cell display](/img/v2/fields/types/numerical/decimal-display.png)
+
+---
+
