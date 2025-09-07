@@ -67,7 +67,7 @@ importers:
         version: 0.4.6(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       next-validate-link:
         specifier: ^1.5.2
-        version: 1.5.2
+        version: 1.6.0
       react:
         specifier: ^19.1.0
         version: 19.1.1
@@ -2699,8 +2699,8 @@ packages:
       react: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
       react-dom: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
 
-  next-validate-link@1.5.2:
-    resolution: {integrity: sha512-BMGyo0qJqscSJw0gSCUy3gDrF7LEID6qkVhHtLSIdPPtOYONq0+fidWvLteUzEUqHeKz1GBI9QN3bpfT6Me42A==}
+  next-validate-link@1.6.0:
+    resolution: {integrity: sha512-isVW6DEuKU1H6pVQmzvA5Sqz9YR8BSTx31ZjbPUQIlp5i6JTNlHJMuT4lbZ7lRXJbYGn6bQCpt5/OxNb5R8sCA==}
 
   next@15.5.2:
     resolution: {integrity: sha512-H8Otr7abj1glFhbGnvUt3gz++0AF1+QoCXEBmd/6aKbfdFwrn0LpA836Ed5+00va/7HQSDD+mOoVhn3tNy3e/Q==}
@@ -6427,7 +6427,7 @@ snapshots:
       react: 19.1.1
       react-dom: 19.1.1(react@19.1.1)
 
-  next-validate-link@1.5.2:
+  next-validate-link@1.6.0:
     dependencies:
       fast-glob: 3.3.3
       gray-matter: 4.0.3
