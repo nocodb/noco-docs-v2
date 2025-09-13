@@ -22,3 +22,29 @@ RECORD_ID() => 1
 ```
 
 ---
+
+## JSON_EXTRACT
+
+The `JSON_EXTRACT` function extracts a value from a JSON string using a jq-like syntax.
+
+#### Syntax
+
+```plaintext
+JSON_EXTRACT(json_string, path)
+```
+
+#### Sample
+
+```plaintext
+JSON_EXTRACT('{"a": {"b": "c"}}', '.a.b') => "c"
+JSON_EXTRACT({json_column}, '.key')
+```
+
+#### Remark
+
+* `json_string` must be a valid JSON string.
+* `path` follows jq-like dot notation (e.g., `.a.b` to access nested values).
+* Returns the extracted value as a string.
+
+
+---
