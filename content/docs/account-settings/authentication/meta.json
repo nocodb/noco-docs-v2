@@ -4,6 +4,7 @@
     "authentication",
     "google-oauth",
     "saml-sso",
-    "oidc-sso"
+    "oidc-sso",
+    "FAQs"
   ]
 }
