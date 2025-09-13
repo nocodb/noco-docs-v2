@@ -1,7 +1,6 @@
 ---
 title: 'SSO FAQs'
 description: 'Frequently asked questions about Single Sign-On (SSO) in NocoDB.'
-icon: "helpCircle"
 ---
 
 ## Why do I see the error "SSO is not configured for this domain" when trying to sign in?
@@ -11,15 +10,17 @@ This error means that the email address you are using does not belong to a domai
 ## How do I verify my domain for SSO?
 
 **For NocoDB Cloud (Both Business and Enterprise Plans):**
-1. **Business Plan**: Navigate to **Workspace Settings** > **Authentication** > **Domain Verification**
-2. **Enterprise Plan**: Navigate to **Account Settings** > **Authentication** > **Domain Verification**
-3. Add your domain (e.g., `example.com`)
-4. Copy the provided TXT record from NocoDB
-5. Add the TXT record to your domain's DNS settings through your domain registrar or DNS provider
-6. Wait for DNS propagation (this may take a few minutes to several hours)
-7. Click the verification button in NocoDB to confirm domain ownership
+1. Access the domain verification section: 
+   - **Business Plan**: Navigate to **Workspace Settings** > **Authentication** > **Domain Verification**
+   - **Enterprise Plan**: Navigate to **Account Settings** > **Authentication** > **Domain Verification**
+2. Enter your domain (e.g., `example.com`)
+3. Copy the TXT record provided by NocoDB
+4. Add the TXT record to your domain’s DNS via your registrar/DNS provider.
+5. Wait for DNS propagation (this may take a few minutes to several hours)
+6. Click **Verify** button in NocoDB to confirm domain ownership
 
-**For NocoDB Self-hosted/On-prem:** Domain verification is not required. You can configure SSO providers without verifying your domain via DNS.
+**For NocoDB Self-hosted/On-prem:** Domain verification is not required. Configure SSO providers directly without DNS verification.
+
 
 ## Do I need to verify my domain when setting up SSO (e.g., Google OAuth)?
 
@@ -46,7 +47,7 @@ DNS propagation can take time to complete. After adding the TXT record to your d
 - **Check propagation**: Use online DNS lookup tools to verify the TXT record is visible
 - **Retry verification**: If verification fails, wait a few minutes and try again
 
-If verification continues to fail after 24 hours, double-check that the TXT record was added correctly and contact your DNS provider for assistance.
+If verification fails after 24 hours, ensure the TXT record was added correctly. If issues persist, contact your DNS provider.
 
 ## Why do I get a redirection/callback URL or URI error when setting up SSO?
 
