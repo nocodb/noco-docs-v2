@@ -9,6 +9,7 @@
     "array-functions",
     "conditional-expressions",
     "generic-functions",
+    "json-functions",
     "formula-result-formatting"
   ]
 }
