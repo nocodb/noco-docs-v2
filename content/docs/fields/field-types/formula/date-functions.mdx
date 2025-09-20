@@ -27,28 +27,37 @@ This function compares two dates and returns the difference in the specified uni
 ---
 
 ## DATEADD
+
 The DATEADD function adds a specified value to a date or datetime.
 
 #### Syntax
+
 ```plaintext
-DATEADD(date | datetime, value, ["day" | "week" | "month" | "year"])
+DATEADD(date | datetime, value, ["second" | "minute" | "hour" | "day" | "week" | "month" | "year"])
 ```
 
 #### Sample
+
 ```plaintext
-DATEADD('2022-03-14', 1, 'day')     => 2022-03-15
-DATEADD('2022-03-14', 1, 'week')    => 2022-03-21
-DATEADD('2022-03-14', 1, 'month')   => 2022-04-14
-DATEADD('2022-03-14', 1, 'year')    => 2023-03-14
+DATEADD('2022-03-14 10:00:00', 30, 'second')  => 2022-03-14 10:00:30
+DATEADD('2022-03-14 10:00:00', 15, 'minute')  => 2022-03-14 10:15:00
+DATEADD('2022-03-14 10:00:00', 2, 'hour')     => 2022-03-14 12:00:00
+DATEADD('2022-03-14', 1, 'day')               => 2022-03-15
+DATEADD('2022-03-14', 1, 'week')              => 2022-03-21
+DATEADD('2022-03-14', 1, 'month')             => 2022-04-14
+DATEADD('2022-03-14', 1, 'year')              => 2023-03-14
 ```
 
 #### Conditional Example
+
 ```plaintext
-IF(NOW() < DATEADD(date, 10, 'day'), "true", "false") => If the current date is less than the specified date plus 10 days, it returns true. Otherwise, it returns false.
+IF(NOW() < DATEADD(date, 10, 'day'), "true", "false")
+=> If the current date is less than the specified date plus 10 days, it returns true. Otherwise, it returns false.
 ```
 
 #### Remark
-This function supports date and datetime fields and can handle negative values.
+
+This function supports date and datetime fields, can handle negative values, and works with units down to seconds.
 
 ---
 
