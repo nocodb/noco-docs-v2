@@ -139,7 +139,9 @@ Use `{{ json event }}` to access the event data. Sample response is as follows
 
 ### Webhook response sample
 
-<Tabs items={['After Insert', 'After Update', 'After Delete', "Manual Trigger"]}>
+#### Record trigger
+
+<Tabs items={['After Insert', 'After Update', 'After Delete']}>
 <Tab value="After Insert">
 
 ```bash
@@ -229,14 +231,171 @@ Use `{{ json event }}` to access the event data. Sample response is as follows
 ```
 
 </Tab>
+</Tabs>
 
-<Tab value="Manual Trigger">
+#### View trigger
 
+<Tabs items={['After Create', 'After Update', 'After Delete']}>
+    <Tab value="After Create">
+```bash
+{
+  "type": "view.after.create",
+  "id": "2f62c921-4dcc-4f37-8e3d-fd3612aaf269",
+  "version": "v3",
+  "data": {
+    "table_id": "ma334932sjnwp3e",
+    "table_name": "AllTypes",
+    "views": [
+      {
+        "id": "vw45okb4letthls6",
+        "table_id": "ma334932sjnwp3e",
+        "title": "Grid-1",
+        "type": "grid",
+        "lock_type": "collaborative",
+        "created_at": "2025-09-22 06:51:13+00:00",
+        "updated_at": "2025-09-22 06:51:13+00:00",
+        "description": "Grid view sample description",
+        "created_by": "usq6o3vavwf0twzr",
+        "fields": [
+          {
+              "field_id": "cc5i4wkzktyqedh",
+              "show": true
+          },
+          {
+              "field_id": "ct41ytilwlxf7u3",
+              "show": true
+          },
+          {
+              "field_id": "cmbcaa8aoxtpdr9",
+              "show": true
+          }
+        ],
+        "options": {
+          "row_height": "short"
+        }
+      }
+    ]
+  }
+}
+```
+    </Tab>
+    <Tab value="After Update">
+
+```bash
+{
+  "type": "view.after.update",
+  "id": "08faf0d1-6c02-4f66-8851-2e6405c6c76b",
+  "version": "v3",
+  "data": {
+    "table_id": "ma334932sjnwp3e",
+    "table_name": "AllTypes",
+    "previous_views": [
+      {
+        "id": "vw45okb4letthls6",
+        "table_id": "ma334932sjnwp3e",
+        "title": "Grid-1",
+        "type": "grid",
+        "lock_type": "collaborative",
+        "created_at": "2025-09-22 06:51:13+00:00",
+        "updated_at": "2025-09-22 06:51:13+00:00",
+        "description": "",
+        "created_by": "usq6o3vavwf0twzr",
+        "fields": [
+          {
+            "field_id": "cc5i4wkzktyqedh",
+            "show": true
+          },
+          {
+            "field_id": "ct41ytilwlxf7u3",
+            "show": true
+          }
+        ],
+        "options": {
+          "row_height": "short"
+        }
+      }
+    ],
+    "views": [
+      {
+        "id": "vw45okb4letthls6",
+        "table_id": "ma334932sjnwp3e",
+        "title": "Grid-1 Renamed",
+        "type": "grid",
+        "lock_type": "collaborative",
+        "created_at": "2025-09-22 06:51:13+00:00",
+        "updated_at": "2025-09-22 07:08:29+00:00",
+        "description": "",
+        "created_by": "usq6o3vavwf0twzr",
+        "fields": [
+          {
+            "field_id": "cc5i4wkzktyqedh",
+            "show": true
+          },
+          {
+            "field_id": "ct41ytilwlxf7u3",
+            "show": true
+          }
+        ],
+        "options": {
+          "row_height": "short"
+        }
+      }
+    ]
+  }
+}
+```
+
+    </Tab>
+    <Tab value="After Delete">
+```bash
+{
+  "type": "view.after.delete",
+  "id": "af6a6298-91e9-4642-a729-93fb0eae9d61",
+  "version": "v3",
+    "data": {
+    "table_id": "ma334932sjnwp3e",
+    "table_name": "AllTypes",
+    "views": [
+      {
+        "id": "vw45okb4letthls6",
+        "table_id": "ma334932sjnwp3e",
+        "title": "Grid-1 Renamed",
+        "type": "grid",
+        "lock_type": "collaborative",
+        "created_at": "2025-09-22 06:51:13+00:00",
+        "updated_at": "2025-09-22 07:08:29+00:00",
+        "description": "",
+        "created_by": "usq6o3vavwf0twzr",
+        "fields": [
+          {
+            "field_id": "cc5i4wkzktyqedh",
+            "show": true
+          },
+          {
+            "field_id": "ct41ytilwlxf7u3",
+            "show": true
+          }
+        ],
+        "options": {
+          "row_height": "short"
+        }
+      }
+    ]
+  }
+}
+```
+    </Tab>
+</Tabs>
+
+#### Manual trigger
+
+<Tabs items={["Manual Trigger"]}>
+    <Tab value="Manual Trigger">
 ```bash
 {
   "type": "records.manual.trigger",
   "id": "551a2010-d658-4185-a050-cf3fca56a5a9",
-  "version": "v3",  
+  "version": "v3",
   "data": {
     "table_id": "mzo4r3zrbcph43i",
     "table_name": "Features",
@@ -256,9 +415,10 @@ Use `{{ json event }}` to access the event data. Sample response is as follows
   }
 }
 ```
-
-</Tab>
+    </Tab>
 </Tabs>
+
+
 
 
 #### Discord Webhook
