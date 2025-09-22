@@ -3,7 +3,7 @@ title: 'REST APIs v3 where clause'
 description: 'NocoDB REST API v3 where clause'
 ---
 
-This is a detailed information on v3 where clause, accessed during [rest api](/docs/developer-resources/rest-apis) call.
+The v3 `where` clause in NocoDB REST API calls offers enhanced flexibility and robustness for querying data, particularly when dealing with complex conditions and special characters. This document provides detailed information on its usage, highlighting improvements over previous versions.
 
 ## Comparison Operators
 
@@ -19,9 +19,20 @@ See [rest api](/docs/developer-resources/rest-apis#logical-operators)
 
 ## Wrapping with Quotes
 
-v3 where clause can be wrapped with quotes in order to use special characters that can break older version where clause.
-For example: `("My Field", like, "Let's come home, and go straight to bed")` search value is now valid to use.
+The v3 `where` clause allows values to be wrapped with quotes to safely use special characters that might otherwise break older version `where` clauses. This is particularly useful for strings containing commas, parentheses, or other delimiters.
+
+**Example:** Searching for a phrase with special characters:
+`("My Field", "like", "Let's come home, and go straight to bed")`
+
+**Another Example:** Searching for a value that includes a comma:
+`("Product Name", "=", "Laptop, 15-inch")`
 
 ## Usage on v2 API
 
-v3 where clause can be utilized when using v2 api, by prepending the where clause with `@` sign. For example: `@(Title,not,blank)` will utilize v3 where clause.
+The v3 `where` clause can also be utilized when using the v2 API by prepending the `where` clause with an `@` sign. This allows you to leverage the advanced capabilities of the v3 `where` clause even in v2 API calls.
+
+**Example:** Using a v3 `where` clause to check for non-blank titles in a v2 API call:
+`@("Title", "not", "blank")`
+
+**Another Example:** Combining multiple conditions with special characters in a v2 API call:
+`@("and", ("Category", "=", "Electronics"), ("Description", "like", "High-performance, water-resistant"))`
