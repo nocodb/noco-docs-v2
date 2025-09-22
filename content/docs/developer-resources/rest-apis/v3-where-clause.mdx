@@ -19,13 +19,16 @@ See [rest api](/docs/developer-resources/rest-apis#logical-operators)
 
 ## Wrapping with Quotes
 
-The v3 `where` clause allows values to be wrapped with quotes to safely use special characters that might otherwise break older version `where` clauses. This is particularly useful for strings containing commas, parentheses, or other delimiters.
+The v3 `where` clause allows values to be wrapped with quotes (double quotes, single quotes, or backticks) to safely use special characters that might otherwise break older version `where` clauses. This is particularly useful for strings containing commas, parentheses, or other delimiters.
 
 **Example:** Searching for a phrase with special characters:
 `("My Field", "like", "Let's come home, and go straight to bed")`
 
 **Another Example:** Searching for a value that includes a comma:
 `("Product Name", "=", "Laptop, 15-inch")`
+
+**Example:** Using single quotes for a value:
+`('City', '=', 'New York')`
 
 ## Usage on v2 API
 
