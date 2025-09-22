@@ -97,10 +97,10 @@ For `isWithin` in `Date` and `DateTime` columns, the different set of sub-operat
 When calling v3 data api, the where clause has a slight difference with the previous versions. It allows values to be wrapped with quotes (double quotes, single quotes, or backticks) to safely use special characters that might otherwise break older version `where` clauses. This is particularly useful for strings containing commas, parentheses, or other delimiters.
 
 **Example:** Searching for a phrase with special characters:
-`("My Field", "like", "Let's come home, and go straight to bed")`
+`("My Field", like, "Let's come home, and go straight to bed")`
 
 **Another Example:** Searching for a value that includes a comma:
-`("Product Name", "=", "Laptop, 15-inch")`
+`("Product Name", eq, "Laptop, 15-inch")`
 
 **Example:** Using single quotes for a value:
 `(City, =, 'New York')`
@@ -113,4 +113,4 @@ The v3 `where` clause can also be utilized when using the v2 API by prepending t
 `@("Title", not, blank)`
 
 **Another Example:** Combining multiple conditions with special characters in a v2 API call:
-`@("Description", "like", "High-performance, water-resistant")`
+`@("Description", like, "High-performance, water-resistant")`
