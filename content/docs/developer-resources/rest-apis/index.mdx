@@ -91,3 +91,26 @@ For `isWithin` in `Date` and `DateTime` columns, the different set of sub-operat
 | ~or       | (checkNumber,eq,JM555205)~or((amount,gt,200)~and(amount,lt,2000))  |
 | ~and      | (checkNumber,eq,JM555205)~and((amount,gt,200)~and(amount,lt,2000)) |
 | ~not      | ~not(checkNumber,eq,JM555205)                                      |
+
+## v3 Where Query Parameter
+
+When calling v3 data api, the where clause has a slight difference with the previous versions. It allows values to be wrapped with quotes (double quotes, single quotes, or backticks) to safely use special characters that might otherwise break older version `where` clauses. This is particularly useful for strings containing commas, parentheses, or other delimiters.
+
+**Example:** Searching for a phrase with special characters:
+`("My Field", "like", "Let's come home, and go straight to bed")`
+
+**Another Example:** Searching for a value that includes a comma:
+`("Product Name", "=", "Laptop, 15-inch")`
+
+**Example:** Using single quotes for a value:
+`(City, =, 'New York')`
+
+### Usage on v2 API
+
+The v3 `where` clause can also be utilized when using the v2 API by prepending the `where` clause with an `@` sign. This allows you to leverage the advanced capabilities of the v3 `where` clause even in v2 API calls.
+
+**Example:** Using a v3 `where` clause to check for non-blank titles in a v2 API call:
+`@("Title", not, blank)`
+
+**Another Example:** Combining multiple conditions with special characters in a v2 API call:
+`@("Description", "like", "High-performance, water-resistant")`
