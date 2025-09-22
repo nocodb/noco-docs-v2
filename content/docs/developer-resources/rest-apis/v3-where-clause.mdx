@@ -1,0 +1,27 @@
+---
+title: 'REST APIs v3 where clause'
+description: 'NocoDB REST API v3 where clause'
+---
+
+This is a detailed information on v3 where clause, accessed during [rest api](/docs/developer-resources/rest-apis) call.
+
+## Comparison Operators
+
+See [rest api](/docs/developer-resources/rest-apis#comparison-operators)
+
+## Comparison Sub-Operators
+
+See [rest api](/docs/developer-resources/rest-apis#comparison-sub-operators)
+
+## Logical Operators
+
+See [rest api](/docs/developer-resources/rest-apis#logical-operators)
+
+## Wrapping with Quotes
+
+v3 where clause can be wrapped with quotes in order to use special characters that can break older version where clause.
+For example: `("My Field", like, "Let's come home, and go straight to bed")` search value is now valid to use.
+
+## Usage on v2 API
+
+v3 where clause can be utilized when using v2 api, by prepending the where clause with `@` sign. For example: `@(Title,not,blank)` will utilize v3 where clause.
