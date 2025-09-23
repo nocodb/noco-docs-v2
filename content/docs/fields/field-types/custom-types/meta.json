@@ -8,7 +8,6 @@
     "QR-code",
     "barcode",
     "geometry",
-    "specific-db-type",
     "json"
   ]
 }
