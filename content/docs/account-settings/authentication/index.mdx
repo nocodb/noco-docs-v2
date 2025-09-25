@@ -77,3 +77,24 @@ For users on the Enterprise plan, the SSO configuration menu is located in the *
 
 Alternatively, you can directly access the SSO configuration screen using the URL:
 `https://your-domain/#/account/authentication`
+
+### Domain Verification
+
+For **NocoDB Cloud** users (both Business and Enterprise plans), domain verification is required before configuring SSO providers. This ensures that only users with email addresses from your verified domain can access the workspace through SSO.
+
+**Domain Verification Process:**
+1. Access the domain verification section:
+ - **Business Plan**: Navigate to **Workspace Settings** > **Authentication** > **Domain Verification**
+ - **Enterprise Plan**: Navigate to **Account Settings** > **Authentication** > **Domain Verification**
+2. Enter your domain (e.g., `example.com`)
+3. Copy the TXT record provided by NocoDB
+4. Add the TXT record to your domain’s DNS via your registrar/DNS provider.
+5. Wait for DNS propagation (this may take a few minutes to several hours)
+6. Click **Verify** button in NocoDB to confirm domain ownership
+
+Once verified, only users with email addresses under your verified domain(s) will be able to sign in via SSO. For example, if you've verified `example.com`, only users with emails like `user@example.com` will be allowed to sign in through the SSO page.
+
+
+<Callout type="info">**On-premise deployments** do not require domain verification. Configure SSO providers directly without DNS verification.</Callout>
+
+---
