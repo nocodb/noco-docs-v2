@@ -6,6 +6,7 @@
     "share-base",
     "snapshots",
     "private-base",
-    "actions-on-base"],
+    "actions-on-base"
+  ],
   "icon": "baseOutlineLogo"
 }
