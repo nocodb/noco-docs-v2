@@ -1,0 +1,97 @@
+---
+title: MCP Server
+description: Connect NocoDB to Large Language Models (LLMs) via the Model Context Protocol (MCP).
+tags: ["MCP", "LLM", "AI", "Claude", "Cursor", "Windsurf"]
+keywords: ["MCP", "Model Context Protocol", "NocoDB MCP", "LLM Integration", "Claude", "Cursor", "Windsurf"]
+---
+
+## Getting Started
+
+The **Model Context Protocol (MCP) Server** lets you connect NocoDB with LLMs that support MCP, such as Claude, Cursor, or Windsurf. With this integration, LLMs can interact directly with your NocoDB workspace to create, query, update, and manage records.
+
+Each MCP endpoint in NocoDB provides a secure URL that can be linked to an MCP-compatible client.
+Once configured, the LLM can execute database operations in your workspace through natural language prompts.
+
+<Callout type="info"> The MCP integration currently works only with desktop clients that support MCP. Support for web based clients is coming soon. </Callout>
+
+MCP server exposes standard CRUD operations. These can be triggered conversationally, without writing SQL or scripts.
+
+| Action | Purpose              | Sample Prompt                                                 |
+|--------|----------------------|---------------------------------------------------------------|
+| Create | Add new records      | Create a task named ‘Review Documentation’                    |
+| Read   | Look up information  | Show me all projects with deadlines this week                 |
+| Update | Change existing data | Mark the status of Project X as completed & re-assign to John |
+| Delete | Remove records       | Remove all tasks assigned to John                             |
+
+
+## Server Configuration (NocoDB)
+
+1. Click on the **Overview** button in the left sidebar.
+2. Select the **Settings** tab.
+3. Select the **Model Context Protocol**
+4. Click on the **New MCP Endpoint** to create a new MCP config JSON for your base.
+5. Provide a name for the MCP endpoint
+6. Click **Create** to generate the MCP Config JSON.
+7. Copy the generated JSON configuration. This will be used in your LLM client configuration.
+
+![MCP Config](/img/v2/mcp/server-configuration.png)
+
+![MCP Config](/img/v2/mcp/server-configuration-2.png)
+
+
+## Client Configuration
+
+### Claude
+
+1. Open **Claude Desktop Preferences** (`⌘+,`).
+2. Under **Develop**, click **Edit Config**.
+3. Insert the JSON block copied [here](#server-configuration-nocodb) as `claude_desktop_config.json`.
+4. Save the file and restart Claude Desktop.
+
+
+### Cursor
+
+1. Go to **Cursor Settings** (`⇧+⌘+J`).
+2. Open the **MCP** tab and select **Add Custom MCP**.
+3. Paste the JSON block copied [here](#server-configuration-nocodb). Save.
+
+<Callout type="info"> On success, you will see `11 tools enabled` below the MCP Server just installed. If you see an error, double-check the JSON configuration. </Callout>
+
+![Cursor MCP Settings](/img/v2/mcp/cursor-mcp.png)
+
+
+### Windsurf
+
+1. Open **Windsurf Settings** (`⌘+,`).
+2. In the **Cascade** section > `Plugins (MCP Server)` > Click **Manage Plugins**
+3. Paste the JSON block copied [here](#server-configuration-nocodb). Save.
+
+![Windsurf MCP Settings](/img/v2/mcp/windsurf-mcp-1.png)
+
+![Windsurf MCP Settings](/img/v2/mcp/windsurf-mcp-2.png)
+
+
+## JSON Example
+
+```json
+{
+  "mcpServers": {
+    "NocoDB MCP": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://your-domain.com/mcp/<ncId>",
+        "--header",
+        "xc-mcp-token: <ncToken>"
+      ]
+    }
+  }
+}
+
+````
+
+<Callout type="warning"> Your MCP configurations generated above functions as a set of access credentials, granting full control over your NocoDB base. Ensure it remains confidential, never include it in source control, and store it only in secure, protected locations.</Callout>
+
+---
+
+
