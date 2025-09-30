@@ -5,35 +5,59 @@ description: 'Feature release : Introducing MCP Server, Field & View Webhook Tri
 
 ![Image](/img/changelog/20250900/release.png)
 
-## MCP Server: Connect NocoDB with AI Assistants
 
-> Use NocoDB directly inside AI-powered developer tools like Claude Desktop, Cursor, and Windsurf.
+## MCP Server : Connect NocoDB with AI assistants
 
-We’ve introduced support for **Model Context Protocol (MCP)**, making it possible to bring your NocoDB base into popular LLM integrations. With this, developers can query, explore, and automate their databases using natural language and scripts, right from their editor.
+> *Example query : Show me all customers who haven't paid their invoices in the last 30 days*
+
+**That's it. No clicking through filters. No navigating views. No remembering which dropdown has what option. Just ask your AI assistant in Claude and get instant results from your NocoDB database.**
+
+NocoDB users know this pain: you're building something amazing with your no-code database, but every time you need specific data, you're clicking through endless UI elements, setting up filters, switching between views, and losing your flow. What if your database could just answer when you ask?
+
+**Introducing MCP Server for NocoDB** : We're releasing Model Context Protocol (MCP) with NocoDB, bringing your no-code database directly into AI-powered tools like Claude Desktop, Cursor, and Windsurf. Now your data is as accessible as having a conversation.
 
 ![MCP Logo](/img/changelog/20250900/nocodb-mcp.png)
 
-Please note, MCP integration works **only with desktop clients** of Claude, Cursor, or Windsurf.
+**From This Reality:**
 
-**Example use cases**
 
-* **Create**: Insert a new customer record into your table using natural language
-* **Read**: Query a table for all overdue invoices and summarise them in natural language
-* **Update**: Update task statuses in bulk for filtered records
-* **Delete**: Remove test or duplicate records from a table available
+1. Navigate to the right table
+2. Set up multiple filters
+3. Sort and configure view
+4. Scroll through results
+5. Export or copy data
+6. Switch back to your work
+7. Repeat for the next query
 
-![MCP Example](/img/changelog/20250900/claude-mcp.png)
+**To This:** "Find all users who signed up this week and show their subscription status"
 
-Learn more about using MCP in NocoDB with different desktop LLM clients [here](https://nocodb.com/docs/product-docs/mcp).
+[//]: # (![MCP Example]&#40;/img/changelog/20250900/claude-mcp.png&#41;)
+
+---
+
+**Other example use cases**
+
+* **Instant insights**: "Show me the last 10 support tickets with customer details"
+* **Data analysis**: "How many new leads did we get each day this month?"
+* **Bulk operations**: "Update all pending orders from last week to processing"
+* **Quick cleanup**: "Find duplicate customer records and show their details"
+
+Works with only **Claude Desktop, Cursor, and Windsurf desktop clients**. Your existing NocoDB workspace connects seamlessly - no setup required.
+
+**This Is Just The Beginning :** Consider this your first taste of NocoDB's MCP magic. Much bigger things are just around the corner.
+
+[Get started with MCP integration →](https://nocodb.com/docs/product-docs/mcp)
+
+*Finally, your no-code database speaks your language.*
+
 
 ---
 
 ## Field & View Webhooks: Schema-level triggers for your database
 
-> Automate actions when your database structure changes. With Field and View webhooks, any creation, update, or deletion of fields and views can trigger workflows instantly.
+> If your database structure changed. All stakeholders should know about it instantly.
 
-Previously, webhooks in NocoDB primarily focused on **record-level events**. Now, schema changes—like adding a new field, renaming a view, or deleting a field—can trigger webhooks in real time.
-
+Previously, NocoDB webhooks allowed **record-level change events**. Now, any structural changes to table or view —like adding a new field, renaming a view, or deleting a field—can trigger webhooks in real time.
 ![Field & View Webhooks](/img/changelog/20250900/view-webhook.png)
 
 **Example use cases**
@@ -45,8 +69,6 @@ Previously, webhooks in NocoDB primarily focused on **record-level events**. Now
 
 These schema-level webhooks complement **record-level triggers** and manual button triggers, giving you full control over your database automation.
 
-> Field and View webhooks are **only for schema changes**. They do **not** respond to record-level events.
-
 **Available triggers**
 
 | **Trigger Source** | **Trigger Event**              |
@@ -57,28 +79,25 @@ These schema-level webhooks complement **record-level triggers** and manual butt
 
 *Field & View webhooks are available now on **Cloud and self-hosted Enterprise plans.***
 
-Learn how to set them up in our [documentation here](https://docs.nocodb.com/product-docs/webhooks/create-webhook).
+[Learn how to set them up in our documentation here →.](https://docs.nocodb.com/product-docs/webhooks/create-webhook)
 
 ---
 
-## **Migration Note**
-
-As part of this release, we’ve performed a quick migration to unify **Dashboards** and **Tables** into a single section. Dashboards and tables that previously appeared in separate sections in the left sidebar will now appear together, making navigation faster and more intuitive. This change helps users access related dashboards and tables from a single place, improving workflow efficiency and reducing clicks.
-
----
 
 ## Other updates
 
-* **Readable URLs with SLUG:** URLs now include a human-readable slug, composed of the table name and view name, making links easier to interpret and share.
-* **Realtime Updates for Multiple Views:** Gallery, Kanban, and Calendar views are now fully realtime, syncing changes instantly—building on the Realtime Canvas Grid introduced in the previous release.
-* **File drag drop**: Attachments can now be dragged and dropped directly into canvas mode attachment cells, making file uploads faster and more intuitive.
-* **Persistent GroupBy**: Group state (expanded/collapsed) is maintained locally per view. Switching between views does not automatically collapse previously expanded groups.
-* **Base ID**: Added **Base ID copy** functionality to the base menu, following the same pattern as table, view, and field ID copying—providing quick access for API usage.
-* **Responsive Mobile View Editor:** Mobile view editor operations are now improved, ensuring a better usage experience across devices.
-* **German Date Format Support:** Added support for German date formats: DD.MM.YYYY and DD.MM.YY, enabling proper display and input of dates in local conventions.
-* **Enhanced** **DATEADD** **Formula:** DATEADD formula now supports adding hours, minutes, and seconds, enabling more precise date-time calculations.
-* **Expanded iFrame Whitelist for Dashboards:** More external domains are now supported in dashboard iFrames, enabling greater flexibility for embedding third-party content directly into your dashboards.
+* **Dashboards and Tables Now in One Place**
+We've combined Dashboards and Tables into a single sidebar section. Instead of switching between separate sections, you'll now find all your dashboards and tables together in one place. This means fewer clicks, faster navigation, and easier access to related content when working on your data.
+* **Only IDs based view URLs made it hard to navigate to them in browser:** Your browser remembers full URLs for frequently visited tables and views, but the URLs only contained cryptic IDs instead of readable names. Now all view URLs include the table and view name, making it easy to type `top leads` in your browser to quickly navigate to views containing "top leads" in the table or column name.
+> Before: [https://app.nocodb.com/#/wqb1x/pab8e/mozv1/vwlks5i/](https://app.nocodb.com/#/w21dqb1x/pebmxfnjokaxu8e/m6t6dzxibod7zv1/vwlkj791kjsizr5i/product-roadmap)
+
+> After:    [https://app.nocodb.com/#/wqb1x/pab8e/mozv1/vwlks5i/product-roadmap](https://app.nocodb.com/#/w21dqb1x/pebmxfnjokaxu8e/m6t6dzxibod7zv1/vwlkj791kjsizr5i/product-roadmap)
+* **File uploads needed a lot clicks:** Adding attachments required multiple clicks and navigation steps. Now attachments can be dragged and dropped directly into attachment cells, making file uploads faster and more intuitive.
+* **Group states would reset when switching views:** Previously expanded groups would automatically collapse when you switched between views, forcing you to re-expand them repeatedly. Now group state (expanded/collapsed) is maintained locally per view, preserving your organization preferences.
+* **No easy way to copy Base IDs for API usage:** Developers needed Base IDs for API integration but had no quick way to access them. Added **Base ID copy** functionality to the base menu, following the same pattern as table, view, and field ID copying—providing quick access for API usage.
+* **Mobile view editor was difficult to use:** Mobile operations in form view has been improved, ensuring a better usage experience across all devices.
+* **German users couldn't use local date formats:** The system didn't support standard German date conventions. Added German Date Format Support for `DD.MM.YYYY` and `DD.MM.YY`, enabling proper display and input of dates in local conventions.
+* **DATEADD formula was limited to days only:** Time-based calculations requiring hours, minutes, or seconds weren't possible. Enhanced DATEADD formula now supports adding hours, minutes, and seconds, enabling more precise date-time calculations.
+* **Dashboard iFrames had limited external domain support:** Many useful external tools couldn't be embedded in dashboards. Expanded iFrame whitelist for dashboards now supports more external domains for greater integration flexibility. ([Refer to](https://nocodb.com/docs/self-hosting/environment-variables)`[NC_IFRAME_WHITELIST_DOMAINS](https://nocodb.com/docs/self-hosting/environment-variables)`)
 
 ---
-
-
