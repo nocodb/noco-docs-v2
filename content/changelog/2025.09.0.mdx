@@ -1,0 +1,84 @@
+---
+title: '2025.09.0'
+description: 'Feature release : Introducing MCP Server, Field & View Webhook Triggers'
+---
+
+![Image](/img/changelog/20250900/release.png)
+
+## MCP Server: Connect NocoDB with AI Assistants
+
+> Use NocoDB directly inside AI-powered developer tools like Claude Desktop, Cursor, and Windsurf.
+
+We’ve introduced support for **Model Context Protocol (MCP)**, making it possible to bring your NocoDB base into popular LLM integrations. With this, developers can query, explore, and automate their databases using natural language and scripts, right from their editor.
+
+![MCP Logo](/img/changelog/20250900/nocodb-mcp.png)
+
+Please note, MCP integration works **only with desktop clients** of Claude, Cursor, or Windsurf.
+
+**Example use cases**
+
+* **Create**: Insert a new customer record into your table using natural language
+* **Read**: Query a table for all overdue invoices and summarise them in natural language
+* **Update**: Update task statuses in bulk for filtered records
+* **Delete**: Remove test or duplicate records from a table available
+
+![MCP Example](/img/changelog/20250900/claude-mcp.png)
+
+Learn more about using MCP in NocoDB with different desktop LLM clients [here](https://nocodb.com/docs/product-docs/mcp).
+
+---
+
+## Field & View Webhooks: Schema-level triggers for your database
+
+> Automate actions when your database structure changes. With Field and View webhooks, any creation, update, or deletion of fields and views can trigger workflows instantly.
+
+Previously, webhooks in NocoDB primarily focused on **record-level events**. Now, schema changes—like adding a new field, renaming a view, or deleting a field—can trigger webhooks in real time.
+
+![Field & View Webhooks](/img/changelog/20250900/view-webhook.png)
+
+**Example use cases**
+
+* **Product Management**: Notify downstream systems when a new column is added or updated in a table.
+* **Reporting & Analytics**: Trigger dashboard refreshes or ETL pipelines whenever a view is modified.
+* **Operations**: Automate cleanup tasks when fields are removed or renamed.
+* **Team Notifications**: Send alerts via Slack, Discord, or email when key fields or views are updated.
+
+These schema-level webhooks complement **record-level triggers** and manual button triggers, giving you full control over your database automation.
+
+> Field and View webhooks are **only for schema changes**. They do **not** respond to record-level events.
+
+**Available triggers**
+
+| **Trigger Source** | **Trigger Event**              |
+|--------------------|--------------------------------|
+| Field              | After Create / Update / Delete |
+| View               | After Create / Update / Delete |
+
+
+*Field & View webhooks are available now on **Cloud and self-hosted Enterprise plans.***
+
+Learn how to set them up in our [documentation here](https://docs.nocodb.com/product-docs/webhooks/create-webhook).
+
+---
+
+## **Migration Note**
+
+As part of this release, we’ve performed a quick migration to unify **Dashboards** and **Tables** into a single section. Dashboards and tables that previously appeared in separate sections in the left sidebar will now appear together, making navigation faster and more intuitive. This change helps users access related dashboards and tables from a single place, improving workflow efficiency and reducing clicks.
+
+---
+
+## Other updates
+
+* **Readable URLs with SLUG:** URLs now include a human-readable slug, composed of the table name and view name, making links easier to interpret and share.
+* **Realtime Updates for Multiple Views:** Gallery, Kanban, and Calendar views are now fully realtime, syncing changes instantly—building on the Realtime Canvas Grid introduced in the previous release.
+* **File drag drop**: Attachments can now be dragged and dropped directly into canvas mode attachment cells, making file uploads faster and more intuitive.
+* **Persistent GroupBy**: Group state (expanded/collapsed) is maintained locally per view. Switching between views does not automatically collapse previously expanded groups.
+* **Base ID**: Added **Base ID copy** functionality to the base menu, following the same pattern as table, view, and field ID copying—providing quick access for API usage.
+* **Responsive Mobile View Editor:** Mobile view editor operations are now improved, ensuring a better usage experience across devices.
+* **German Date Format Support:** Added support for German date formats: DD.MM.YYYY and DD.MM.YY, enabling proper display and input of dates in local conventions.
+* **Enhanced** **DATEADD** **Formula:** DATEADD formula now supports adding hours, minutes, and seconds, enabling more precise date-time calculations.
+* **Expanded iFrame Whitelist for Dashboards:** More external domains are now supported in dashboard iFrames, enabling greater flexibility for embedding third-party content directly into your dashboards.
+
+---
+
+
