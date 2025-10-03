@@ -6,6 +6,26 @@ icon: 'clock'
 
 This page documents all changes to the NocoDB Scripts API, including new features, improvements, bug fixes, and breaking changes.
 
+## October 03, 2025
+
+#### Input Methods Enhancement
+- **Default Values for `input.textAsync()`** - Added optional `defaultValue` parameter in options object
+  - Example: `await input.textAsync('Enter name:', {defaultValue: 'Anonymous'})`
+  - Pre-fills the input field with a default value that users can accept or modify
+- **Default Values for `input.selectAsync()`** - Added optional `defaultValue` parameter
+  - Example: `await input.selectAsync('Select option:', options, defaultValue)`
+  - Pre-selects an option in the dropdown menu
+
+#### External Package Imports
+- **Dynamic Import Support** - Scripts can now import external JavaScript packages from CDN using dynamic imports
+  - Use `await import('package-name')` syntax to load external libraries
+  - Example: `const _ = await import('lodash')` or `const dayjs = await import('dayjs')`
+  - Supports popular CDNs: esm.sh (default), unpkg, skypack, jsdelivr
+  - Enables use of libraries like lodash, dayjs, axios, etc.
+  - **Note:** Only dynamic imports are supported; static imports are not available
+
+---
+
 ## July 28, 2025
 
 

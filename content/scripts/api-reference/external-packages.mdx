@@ -1,0 +1,106 @@
+---
+title: 'External Packages'
+description: 'Documentation for the external packages in NocoDB Scripts'
+icon: 'code'
+---
+
+NocoDB Scripts supports importing external JavaScript packages using **dynamic imports**, allowing you to leverage NPM libraries in your scripts.
+
+<Callout type="info">
+External packages are only available in browser environment and does not work in Webhook Scripts.
+</Callout>
+
+<Callout type="warning">
+**Important:** Only dynamic imports using `import()` are supported. Static imports (e.g., `import _ from 'lodash'`) are not supported.
+</Callout>
+
+### Which type of imports are supported?
+
+Only dynamic imports using `import()` are supported. Static imports (`import ... from '...'`) will not work.
+
+### Can I import any NPM package?
+
+Not all packages will work.
+
+✅ **Works:** Pure JavaScript/ESM libraries (e.g., lodash, dayjs, uuid, zod, axios).
+
+❌ **Doesn't work:** Packages that require DOM (react-dom, jquery, chart.js) or Node.js APIs (fs, net, crypto Node module, express, sharp).
+
+**Tip:** If it runs inside a Web Worker, it will usually work in NocoDB Scripts.
+
+### Why do some packages fail in NocoDB Scripts?
+
+Scripts run in a Web Worker sandbox. This environment:
+- Has no DOM (`document`, `window`, `HTMLElement`).
+- Has no Node APIs (`fs`, `process`, `child_process`, native addons).
+- Disallows synchronous browser storage (`localStorage`, `document.cookie`).
+
+### How do I import multiple packages?
+
+Use separate dynamic imports:
+```javascript
+const _ = (await import('lodash')).default;
+const dayjs = (await import('dayjs')).default;
+```
+
+### Do I need .default after import?
+
+Many CDN-transpiled packages expose the default export at `.default`. If you see `undefined`, try:
+```javascript
+const dayjs = (await import('dayjs')).default;
+```
+
+### How do I pin a specific package version?
+
+Include a version or semver tag in the CDN URL to avoid breaking changes.
+```javascript
+const _ = (await import('https://esm.sh/lodash@4.17.21')).default;
+```
+
+### Common gotchas & troubleshooting
+
+- **Named vs default exports:** Check the package's docs; you might need named imports:
+  ```javascript
+  const { nanoid } = await import('nanoid');
+  const { z } = await import('zod');
+  ```
+- **Tree-shaking:** Import subpaths when available for smaller bundles (e.g., lodash-es functions).
+
+### Examples that work well
+
+- lodash / lodash-es
+- dayjs
+- zod
+- uuid
+- axios (uses fetch in browsers)
+
+### Examples that won't work
+
+- react-dom, jquery, chart.js, leaflet (DOM-bound)
+- express, fs-extra, sharp, sqlite3 (Node-only)
+- js-cookie (needs document.cookie)
+
+### Security considerations
+
+- Prefer pinned versions.
+- Review package reputation; avoid importing untrusted code at runtime.
+- Validate and sanitize any data flowing into third‑party libs.
+
+### Example: Full flow
+
+```javascript
+// Load external libs
+const _ = (await import('https://esm.sh/lodash@4.17.21')).default;
+const dayjs = (await import('https://esm.sh/dayjs@1')).default;
+
+// Query data
+const customers = base.getTable('Customers');
+const recordQueryResult = await customers.selectRecordsAsync();
+
+// Group and format
+const groupedByStatus = _.groupBy(recordQueryResult.records, r => r.getCellValue('Status'));
+for (const [status, customers] of Object.entries(groupedByStatus)) {
+  output.text(`${status}: ${recordQueryResult.records.length} customers`);
+}
+output.text(`Report generated on: ${dayjs().format('MMMM D, YYYY')}`);
+```
