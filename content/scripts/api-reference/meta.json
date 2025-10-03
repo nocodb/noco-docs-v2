@@ -15,6 +15,7 @@
       "script-steps",
       "input",
       "output",
-      "fetch"
+      "fetch",
+      "external-packages"
     ]
   }
