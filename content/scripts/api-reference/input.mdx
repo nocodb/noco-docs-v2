@@ -25,6 +25,8 @@ Prompts the user to enter text.
 
 **Parameters:**
 - `label` (`string`): The prompt text to display to the user
+- `options` (`object`, optional): Additional options for the text input
+  - `defaultValue` (`string`, optional): Default value for the text input
 
 **Returns:** `Promise<string>` - A promise that resolves to the text entered by the user
 
@@ -34,9 +36,13 @@ Prompts the user to enter text.
 const name = await input.textAsync('What is your name?');
 output.text(`Hello, ${name}!`);
 
-// Ask for an email subject
-const subject = await input.textAsync('Enter email subject:');
+// Ask for an email subject with a default value
+const subject = await input.textAsync('Enter email subject:', {defaultValue: 'Monthly Newsletter'});
 output.text(`Email subject: ${subject}`);
+
+// Ask for user's name with a default
+const userName = await input.textAsync('What is your name?', {defaultValue: 'Anonymous'});
+output.text(`Hello, ${userName}!`);
 ```
 
 **Output:**
@@ -99,6 +105,7 @@ Presents a dropdown menu of options for the user to choose from.
 **Parameters:**
 - `label` (`string`): The prompt text to display to the user
 - `options` (`Array<string | { label: string, value: any }>`): An array of options, either as strings or objects with label and value properties
+- `defaultValue` (any, optional): Default selected value
 
 **Returns:** `Promise<any>` - A promise that resolves to the value of the selected option
 
@@ -110,6 +117,14 @@ const department = await input.selectAsync(
   ['Marketing', 'Sales', 'Engineering', 'Customer Support', 'Finance', 'HR']
 );
 output.text(`Selected department: ${department}`);
+
+// Ask user to select a department with a default value
+const dept = await input.selectAsync(
+  'Select a department:',
+  ['Marketing', 'Sales', 'Engineering', 'Customer Support', 'Finance', 'HR'],
+  'Engineering' // default value
+);
+output.text(`Selected department: ${dept}`);
 ```
 
 **Output:**
@@ -127,6 +142,18 @@ const priority = await input.selectAsync(
   ]
 );
 output.text(`Selected priority level: ${priority}`);
+
+// Ask user to select a priority level with a default value
+const priorityLevel = await input.selectAsync(
+  'Select priority level:',
+  [
+    { label: 'High (Urgent)', value: 3 },
+    { label: 'Medium (Normal)', value: 2 },
+    { label: 'Low (When time permits)', value: 1 }
+  ],
+  2 // default value (Medium)
+);
+output.text(`Selected priority level: ${priorityLevel}`);
 ```
 
 **Output:**
