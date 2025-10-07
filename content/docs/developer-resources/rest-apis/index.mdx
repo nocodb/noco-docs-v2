@@ -18,6 +18,15 @@ Additional information on the REST APIs is provided below.
 
 - When querying using v3 apis, see [v3 Where Clause](/docs/product-docs/developer-resources/rest-apis#v3-where-query-parameter) for a slight difference between the two version's where clause.
 
+
+## Rate Limits
+NocoDB APIs are rate-limited to ensure fair usage and optimal performance for all users. The default rate limit is set to **5 requests per second per user**. These limits are the same across all plans.
+
+If these limits are exceeded, the API will return a 429 status code (Too Many Requests). You’ll need to wait 30 seconds before sending additional requests.
+
+NocoDB may adjust these limits or introduce additional rate tiers based on pricing plans to maintain optimal service performance.
+
+
 ## Query params
 
 | **Name**                       | **Alias**                  | **Use case**                                                 | **Default value** | **Example value**                                                                                                                                                 |

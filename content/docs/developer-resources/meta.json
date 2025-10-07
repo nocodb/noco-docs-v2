@@ -1,8 +1,8 @@
 {
-  "title": "Developer resources",
+  "title": "Developer",
   "pages": [
     "rest-apis",
-    "webhook"
+    "mcp"
   ],
   "icon": "code"
 }
