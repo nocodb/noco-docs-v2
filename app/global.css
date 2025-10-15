@@ -578,6 +578,11 @@
 [id="nd-home-layout"] {
     padding-top: 18px !important;
 }
+[id="nd-toc"] {
+    right: 0 !important;
+    inset-inline-end: 0 !important;
+}
+
 
 .grecaptcha-badge {
     @apply hidden;

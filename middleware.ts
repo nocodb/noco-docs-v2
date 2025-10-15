@@ -1,7 +1,18 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { isMarkdownPreferred } from 'fumadocs-core/negotiation';
 
 export function middleware(request: NextRequest) {
+  // Handle AI agents requesting markdown via Accept header
+  if (isMarkdownPreferred(request)) {
+    const pathname = request.nextUrl.pathname;
+    // Rewrite /docs/* to /llms.mdx/*
+    if (pathname.startsWith('/docs/')) {
+      const newPath = pathname.replace('/docs/', '/llms.mdx/');
+      return NextResponse.rewrite(new URL(newPath, request.nextUrl));
+    }
+  }
+  
   const response = NextResponse.next();
   
   response.headers.set('x-current-path', request.nextUrl.pathname);
@@ -18,7 +29,8 @@ export function middleware(request: NextRequest) {
       if (refererUrl.origin === currentUrl.origin) {
         response.headers.set('x-internal-referer', refererUrl.pathname);
       }
-    } catch (error) {
+    } catch {
+      // Invalid referer URL, ignore
     }
   }
   
