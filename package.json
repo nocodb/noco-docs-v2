@@ -11,8 +11,8 @@
     "generate-blog-sitemap": "tsx scripts/generate-blog-sitemap.ts",
     "generate-overview": "tsx scripts/generate-llm-content.ts",
     "generate-llm-content": "tsx scripts/generate-llm-content.ts",
-    "validate-links": "tsx scripts/validateLinks.ts",
-    "lint": "next lint && npm run validate-links",
+    "validate-links": "tsx -C import scripts/validateLinks.ts",
+    "lint": "eslint . && npm run validate-links",
     "postbuild": "next-sitemap && npm run generate-blog-sitemap && npm run generate-llm-content"
   },
   "dependencies": {
@@ -50,6 +50,7 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
     "@tailwindcss/postcss": "^4.1.10",
     "@types/mdx": "^2.0.13",
     "@types/node": "22.18.6",
@@ -60,7 +61,7 @@
     "eslint-config-next": "15.5.5",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.10",
-    "tsx": "^4.20.3",
+    "tsx": "^4.20.6",
     "typescript": "^5.8.3"
   }
 }

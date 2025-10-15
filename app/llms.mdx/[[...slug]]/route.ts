@@ -28,11 +28,16 @@ export async function GET(
   
   if (!page) notFound();
   
-  return new Response(await getLLMText(page), {
-    headers: {
-      'Content-Type': 'text/markdown',
-    },
-  });
+  try {
+    return new Response(await getLLMText(page), {
+      headers: {
+        'Content-Type': 'text/markdown',
+      },
+    });
+  } catch (error) {
+    console.error('Failed to generate LLM text:', error);
+    return new Response('Error generating markdown content', { status: 500 });
+  }
 }
 
 export function generateStaticParams() {

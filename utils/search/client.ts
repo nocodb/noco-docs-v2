@@ -55,7 +55,7 @@ export async function searchDocs(
     tag?: string,
 ): Promise<SortedResult[]> {
     // Define search parameters based on Typesense capabilities
-    const searchParams: any = {
+    const searchParams: Record<string, unknown> = {
         q: query,
         query_by: 'title,section,content',
         query_by_weights: '6,4,1',  // Give even higher weight to title

@@ -81,13 +81,13 @@ function formatDate(date: string | Date): string {
       return new Date().toISOString().split('T')[0];
     }
     return d.toISOString().split('T')[0];
-  } catch (error) {
+  } catch {
     console.warn(`⚠️  Error parsing date: ${date}, using current date`);
     return new Date().toISOString().split('T')[0];
   }
 }
 
-function parseFrontmatter(content: string): { frontmatter: any; content: string } {
+function parseFrontmatter(content: string): { frontmatter: Record<string, string>; content: string } {
   const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;
   const match = content.match(frontmatterRegex);
   
@@ -99,7 +99,7 @@ function parseFrontmatter(content: string): { frontmatter: any; content: string 
   const bodyContent = match[2];
   
   // Simple YAML parser for frontmatter
-  const frontmatter: any = {};
+  const frontmatter: Record<string, string> = {};
   const lines = frontmatterStr.split('\n');
   
   for (const line of lines) {
