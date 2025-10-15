@@ -20,6 +20,7 @@ import type { z } from "zod";
 import { DefaultChatTransport } from "ai";
 import { Markdown } from "./markdown";
 import { Presence } from "@radix-ui/react-presence";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 const Context = createContext<{
   open: boolean;
@@ -75,8 +76,13 @@ function SearchAIActions() {
 function SearchAIInput(props: ComponentProps<"form">) {
   const { status, sendMessage, stop } = useChatContext();
   const [input, setInput] = useState("");
+  const {trackEvent} = useAnalytics();
   const isLoading = status === "streaming" || status === "submitted";
   const onStart = (e?: SyntheticEvent) => {
+    trackEvent({
+      event: "ai_search",
+      query: input,
+    });
     e?.preventDefault();
     void sendMessage({ text: input });
     setInput("");

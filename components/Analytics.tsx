@@ -1,18 +1,18 @@
 'use client';
 
 import {useEffect} from 'react';
+import {useAnalytics} from '@/hooks/useAnalytics';
 
 export default function ClientAnalytics() {
+    const { trackEvent } = useAnalytics();
+
     useEffect(() => {
         // @ts-expect-error no types for this package
-        import('nc-analytics').then(({init, push}) => {
+        import('nc-analytics').then(({init}) => {
             init();
 
-            push({
-                event: "page_view",
-                $current_url: window.location.href,
-                path: window.location.pathname,
-                hash: window.location.hash
+            trackEvent({
+                event: "page_view"
             });
 
             const clickListener = (
@@ -29,11 +29,8 @@ export default function ClientAnalytics() {
                 }
 
                 if (target && target.tagName === 'A') {
-                    push({
+                    trackEvent({
                         event: "link_clicked",
-                        $current_url: window.location.href,
-                        path: window.location.pathname,
-                        hash: window.location.hash,
                         link_url: (target as HTMLAnchorElement).href || "",
                         link_text: (target.innerText || "").trim(),
                     });
@@ -46,7 +43,7 @@ export default function ClientAnalytics() {
                 document.body.removeEventListener("click", clickListener, true);
             };
         });
-    }, []);
+    }, [trackEvent]);
 
     return null;
 }
