@@ -1,10 +1,5 @@
-import Image from 'next/image'
 import Link from 'next/link'
-import {getCategoryColor} from "@/lib/categoryColor";
-import {calculateReadingTime} from "@/lib/timeToRead";
-import {StructuredData} from "fumadocs-core/mdx-plugins";
-import {blogSource} from "@/lib/source";
-
+import {ArrowRight} from 'lucide-react'
 
 interface BlogCardProps {
     post: {
@@ -17,50 +12,68 @@ interface BlogCardProps {
             author: string
         },
         slugs: string[],
-        structuredData?: StructuredData,
         url: string
     }
 }
 
 export default function BlogCard({post}: BlogCardProps) {
-    const color = getCategoryColor(post.data?.category)
-    const t = blogSource.getPage(post.slugs)
-    const readingTime = calculateReadingTime(t?.data?.structuredData)
-
     return (
-        <div className="relative group rounded-t-lg w-full bg-nc-background-grey-light/90 border-1 border-nc-border-grey-medium hover:bg-nc-background-grey-light/80 hover:shadow-sm transition-colors rounded-3xl">
-            <Link href={post.url}>
-                <div className="relative w-full overflow-hidden rounded-t-lg aspect-video">
-                    <Image className="h-full rounded-t-lg transition-transform object-cover"
-                           src={post.data.image} alt={post.data.title} fill/>
-                </div>
-                <div className="p-4">
-                    <div className="flex justify-between mt-5">
-                        <div style={{backgroundColor: color}}
-                             className="rounded-[6px] text-[14px] leading-5 px-1 text-nc-content-grey-default ">
-                            {post.data?.category}
-                        </div>
-                        <div className="text-nc-content-grey-muted font-[500] text-[13px] leading-4.5">
-                            {readingTime}
-                        </div>
+        <Link href={post.url} className="group block">
+            <div className="relative w-full border-b border-dashed border-nc-border-grey-medium py-6 md:py-8 hover:bg-white transition-all duration-300">
+                {/* Mobile: Category and Date on top */}
+                <div className="flex items-center justify-between mb-4 md:hidden">
+                    <div className="text-sm text-nc-content-grey-muted-2 uppercase tracking-wide">
+                        [{post.data.category}]
                     </div>
-                    <h2 className="text-[20px] mt-3 text-nc-content-grey-default line-clamp-2 group-hover:underline leading-8 font-bold">{post.data.title}</h2>
-                    <p className="text-nc-content-grey-default text-sm font-[400] mt-3 leading-5 line-clamp-2">{post.data.description}</p>
+                    <div className="text-sm text-nc-content-grey-muted-2 uppercase tracking-wide">
+                        {new Date(post.data.date).toLocaleDateString("en-US", {
+                            month: "short",
+                            day: "2-digit",
+                        })}
+                    </div>
+                </div>
 
-                    <div className="flex text-sm text-nc-content-grey-subtle-2 text-[13px] font-[500] leading-3.5 justify-between mt-6">
-                        <div className="text-left">
-                            {post.data?.author}
+                {/* Desktop Layout */}
+                <div className="hidden md:flex items-start px-4 justify-between gap-8">
+                    {/* Content */}
+                    <div className="flex-1">
+                        <div className="text-base text-nc-content-grey-subtle font-normal mb-3 transition-all">
+                            {post.data.title}
                         </div>
-                        <div className="text-right">
+                        
+                        <p className="text-nc-content-grey-subtle-2 text-md leading-6 mb-4 line-clamp-2 transition-all">
+                            {post.data.description}
+                        </p>
+                    </div>
+                    
+                    {/* Right side: Date, Category, Arrow */}
+                    <div className="flex items-start gap-6 flex-shrink-0">
+                        <div className="text-sm text-nc-content-grey-muted-2 uppercase tracking-wide w-16 text-right">
                             {new Date(post.data.date).toLocaleDateString("en-US", {
                                 month: "short",
-                                day: "numeric",
-                                year: "numeric",
+                                day: "2-digit",
                             })}
                         </div>
+                        
+                        <div className="text-sm text-nc-content-grey-muted-2 uppercase tracking-wide w-32 text-right">
+                            [{post.data.category}]
+                        </div>
+                        
+                        <ArrowRight className="w-5 h-5 text-nc-content-grey-muted-2 group-hover:text-nc-content-brand-default group-hover:translate-x-1 transition-all flex-shrink-0" />
                     </div>
                 </div>
-            </Link>
-        </div>
+
+                {/* Mobile: Title and Description */}
+                <div className="md:hidden">
+                    <div className="text-lg text-nc-content-grey-subtle line-clamp-2 font-normal mb-3 transition-all">
+                        {post.data.title}
+                    </div>
+                    
+                    <p className="text-nc-content-grey-subtle-2 text-md leading-6 line-clamp-3 transition-all">
+                        {post.data.description}
+                    </p>
+                </div>
+            </div>
+        </Link>
     )
 }

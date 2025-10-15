@@ -312,6 +312,7 @@
     --color-nc-content-grey-subtle: var(--color-grey-700);
     --color-nc-content-grey-subtle-2: var(--color-grey-600);
     --color-nc-content-grey-muted: var(--color-grey-500);
+    --color-nc-content-grey-muted-2: var(--color-grey-400);
 
     --color-nc-content-brand-default: var(--color-brand-500);
     --color-nc-content-brand-hover: var(--color-grey-300);

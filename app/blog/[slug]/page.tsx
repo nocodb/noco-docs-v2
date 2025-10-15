@@ -12,6 +12,7 @@ import BlogCard from "@/components/blog/BlogCard";
 import {getCategoryColor} from "@/lib/categoryColor";
 import Subscribe from "@/components/blog/Subscribe";
 import ShareDropdown from "@/components/blog/ShareDropdown";
+import SignUp from "@/components/blog/SignUp";
 
 export async function generateMetadata(props: {
     params: Promise<{ slug?: string }>;
@@ -52,20 +53,6 @@ export default async function page(props: {
     return (
         <>
             <div className="container pt-[40px] lg:px-10 pb-10">
-                <div className="flex justify-between items-center">
-                    <Link className="text-sm font-normal" href="/blog">
-                        <Button className="cursor-pointer hover:underline underline-red" variant="none">
-                            <div className="flex text-nc-content-grey-subtle items-center gap-2">
-                                <ArrowLeft/>
-                                Back
-                            </div>
-                        </Button>
-                    </Link>
-                    <ShareDropdown
-                        url={`https://nocodb.com/blog/${params.slug}`}
-                        title={page.data.title}
-                    />
-                </div>
                 <div className="my-8 flex flex-col gap-3">
                     <div
                         className="text-nc-content-grey-emphasis text-2xl lg:text-[40px] font-bold leading-9 lg:leading-[64px]">
@@ -95,16 +82,11 @@ export default async function page(props: {
                 </div>
             </div>
 
-            <div className="container mx-auto">
-                <div className="relative w-full aspect-video">
-                    <Image className="w-full object-cover" src={page.data.image} alt={page.data.title} fill/>
-                </div>
-            </div>
-
             <article className="container py-10 mx-auto">
                 <div className="flex nc-blog-layout relative gap-8">
-                    <div className="sticky hidden lg:block h-48 top-8">
+                    <div className="sticky hidden lg:block top-8 self-start space-y-8">
                         <CustomToc toc={page.data.toc}/>
+                        <SignUp />
                     </div>
                     <div className="prose min-w-0 flex-1">
                         <page.data.body components={defaultMdxComponents}/>

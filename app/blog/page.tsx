@@ -2,7 +2,6 @@ import {blogSource} from "@/lib/source";
 import BlogCard from "@/components/blog/BlogCard";
 import {Separator} from "@/components/ui/separator";
 import Link from "next/link";
-import {CategoryTabs} from "@/components/blog/Category";
 import Subscribe from "@/components/blog/Subscribe";
 import {SearchInput} from "@/components/blog/SearchInput";
 import Image from "next/image";
@@ -49,8 +48,8 @@ export default async function BlogPage({searchParams}: {
     const hasMorePosts = endIndex < searchFilteredPosts.length;
     const nextPage = currentPage + 1;
     return (
-        <main className="py-8 w-full md:py-12">
-            <div className="container py-10 lg:pt-16 lg:pb-8">
+        <main className="w-full bg-[#fafafb]">
+            <div className="container py-10">
                 <h1 className="text-nc-content-grey-emphasis text-[40px] font-semibold leading-15.5">
                     Blog
                 </h1>
@@ -62,16 +61,9 @@ export default async function BlogPage({searchParams}: {
                 </div>
             </div>
 
-            
-            <div className="container mt-5">
-                
-                <CategoryTabs categories={Array.from(categories)} selectedCategory={selectedCategory} searchQuery={searchQuery}/>
-                <Separator className="border-nc-border-grey-medium"/>
-            </div>
-
-            <div className="container py-8 lg:pt-15 lg:pb-20 gap-8 lg:gap-16 grid grid-cols-1 lg:grid-cols-3">
+            <div className="container">
                 {displayedPosts.length === 0 ? (
-                    <div className="col-span-full flex flex-col items-center justify-center py-16">
+                    <div className="flex flex-col items-center justify-center py-16">
                         <Image
                             src="/img/no-search-result-found.png"
                             alt="No results found"
@@ -91,9 +83,11 @@ export default async function BlogPage({searchParams}: {
                         </p>
                     </div>
                 ) : (
-                    displayedPosts.map((post) => (
-                        <BlogCard post={post} key={post.url}/>
-                    ))
+                    <div className="flex flex-col">
+                        {displayedPosts.map((post) => (
+                            <BlogCard post={post} key={post.url}/>
+                        ))}
+                    </div>
                 )}
             </div>
 
@@ -115,9 +109,8 @@ export default async function BlogPage({searchParams}: {
                     </Link>
                 </div>
             )}
-
             <Subscribe/>
-            <Separator/>
+            <Separator className="mb-12"/>
         </main>
     );
 }
