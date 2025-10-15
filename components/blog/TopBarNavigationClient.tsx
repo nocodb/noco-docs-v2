@@ -21,7 +21,7 @@ export default function TopBarNavigationClient({categories}: TopBarNavigationCli
     const searchQuery = searchParams.get('search') || undefined;
 
     return (
-        <div className="border-b border-nc-border-grey-medium bg-nc-background-default/80 backdrop-blur-sm sticky top-18 z-5">
+        <div className="border-b border-nc-border-grey-medium bg-nc-background-default/50 backdrop-blur-sm sticky top-18 z-5">
             <TopBarNavigation 
                 categories={categories} 
                 selectedCategory={selectedCategory} 

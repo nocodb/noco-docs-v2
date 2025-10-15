@@ -27,7 +27,7 @@ import { Button } from "@/components/ui/button";
 
 export function Navbar() {
   return (
-    <div className="h-18 flex items-center py-3 pr-3 pl-4 z-4 border-1 border-[#e7e7e9] sticky top-0 bg-white/80 backdrop-blur-sm">
+    <div className="h-18 flex items-center py-3 pr-3 pl-4 z-4 border-1 border-[#e7e7e9] sticky top-0 bg-white/50 backdrop-blur-sm">
       <div className="flex items-center justify-between container mx-auto">
         <Link href="https://nocodb.com">
           <Image

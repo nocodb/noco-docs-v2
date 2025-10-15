@@ -2,16 +2,12 @@ import {blogSource} from "@/lib/source";
 import Link from "next/link";
 import {notFound} from "next/navigation";
 import {metadataImage} from "@/lib/metadata";
-import {Button} from "@/components/ui/button";
-import {ArrowLeft} from "lucide-react";
 import {calculateReadingTime} from "@/lib/timeToRead";
-import Image from "next/image";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import CustomToc from "@/components/blog/CustomToc";
 import BlogCard from "@/components/blog/BlogCard";
 import {getCategoryColor} from "@/lib/categoryColor";
 import Subscribe from "@/components/blog/Subscribe";
-import ShareDropdown from "@/components/blog/ShareDropdown";
 import SignUp from "@/components/blog/SignUp";
 
 export async function generateMetadata(props: {
@@ -51,38 +47,48 @@ export default async function page(props: {
     }).slice(0, 2);
 
     return (
-        <>
-            <div className="container pt-[40px] lg:px-10 pb-10">
-                <div className="my-8 flex flex-col gap-3">
-                    <div
-                        className="text-nc-content-grey-emphasis text-2xl lg:text-[40px] font-bold leading-9 lg:leading-[64px]">
-                        {page.data?.title}
+        <div className="relative w-full bg-gradient-to-b from-blue-50/50 via-purple-50/30 via-30% to-white to-60%">
+            {/* Decorative background elements */}
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-400/10 rounded-full blur-3xl -z-10" />
+            <div className="absolute top-[40%] left-0 w-[400px] h-[400px] bg-purple-400/10 rounded-full blur-3xl -z-10" />
+            
+            {/* Hero Section */}
+            <div className="container pt-12 pb-8 lg:pt-16 lg:pb-12">
+                {/* Category Badge */}
+                <Link className="inline-block mb-6" href={`/blog?category=${page.data?.category}`}>
+                    <div 
+                        style={{backgroundColor: getCategoryColor(page?.data?.category)}}
+                        className="rounded-lg px-3 py-1.5 text-sm font-medium text-nc-content-grey-default hover:opacity-80 transition-opacity"
+                    >
+                        {page.data?.category}
                     </div>
-                    <Link className="w-[fit-content]" href={`/blog?category=${page.data?.category}`}>
-                        <div style={{backgroundColor: getCategoryColor(page?.data?.category)}}
-                             className="rounded-[6px] px-2 text-nc-content-grey-default">
-                            {page.data?.category}
+                </Link>
+                
+                {/* Title */}
+                <h1 className="text-nc-content-grey-emphasis text-3xl lg:text-5xl font-bold leading-tight lg:leading-tight mb-6 max-w-4xl">
+                    {page.data?.title}
+                </h1>
+                
+                {/* Metadata */}
+                <div className="flex flex-wrap items-center gap-4 text-nc-content-grey-subtle-2">
+                    <div className="flex items-center gap-2">
+                        <div className="w-10 h-10 rounded-full bg-nc-background-grey-light flex items-center justify-center text-nc-content-grey-emphasis font-semibold">
+                            {page?.data?.author?.charAt(0).toUpperCase()}
                         </div>
-                    </Link>
-                </div>
-                <div className="flex justify-center items-center leading-6 text-nc-content-grey-subtle-2">
-                    <div className="flex-1">
-                        <span className="mr-3">
-                            {page?.data?.author}
-                        </span>
-                        |
-                        <span className="mx-3">
-                            {new Date(page.data.date).toLocaleDateString("en-US", {})}
-                        </span>
+                        <span className="font-medium">{page?.data?.author}</span>
                     </div>
-
-                    <div>
-                        {calculateReadingTime(page?.data?.structuredData)}
-                    </div>
+                    <span className="text-nc-content-grey-muted">•</span>
+                    <span>{new Date(page.data.date).toLocaleDateString("en-US", {
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric"
+                    })}</span>
+                    <span className="text-nc-content-grey-muted">•</span>
+                    <span>{calculateReadingTime(page?.data?.structuredData)}</span>
                 </div>
             </div>
 
-            <article className="container py-10 mx-auto">
+            <article className="container py-10 lg:py-16 mx-auto">
                 <div className="flex nc-blog-layout relative gap-8">
                     <div className="sticky hidden lg:block top-8 self-start space-y-8">
                         <CustomToc toc={page.data.toc}/>
@@ -97,19 +103,20 @@ export default async function page(props: {
 
             {
                 related?.length === 2 ? (
-                    <div className="container mx-auto">
-                        <h1 className="text-nc-content-grey-emphasis leading-[62px] font-bold text-[40px]">
-                            Related
-                        </h1>
-                        <div className="pt-15 gap-8 lg:gap-10 grid grid-cols-1 lg:grid-cols-2 pb-20">
-                            {related.map((post) => (
-                                <BlogCard post={post} key={post.url}/>
-                            ))}
+                    <div className="bg-nc-background-grey-extra-light/30 py-16">
+                        <div className="container mx-auto">
+                            <h2 className="text-nc-content-grey-emphasis text-3xl lg:text-4xl font-bold mb-8">
+                                Related Articles
+                            </h2>
+                            <div className="flex flex-col gap-0">
+                                {related.map((post) => (
+                                    <BlogCard post={post} key={post.url}/>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 ) : (<div className="py-10"></div>)
             }
-
-        </>
+        </div>
     );
 }
