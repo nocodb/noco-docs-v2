@@ -3,13 +3,21 @@ import { SearchDocsToolSchema, searchAndFetchDocs } from '@/lib/ai-tools/search-
 import { createOpenAI } from '@ai-sdk/openai';
 import { convertToModelMessages, stepCountIs, streamText } from 'ai';
 import { systemPrompt } from '@/lib/searchPrompt';
+import {validateRateLimit} from '@/utils/rateLimit';
 
 const openai = createOpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
 export async function POST(req: Request) {
-  const reqJson = await req.json();
+  const rateLimitError = validateRateLimit(req);
+  if (rateLimitError) return rateLimitError;
+  let reqJson;
+  try {
+    reqJson = await req.json();
+  } catch {
+    return new Response('Invalid request', { status: 400 });
+  }
 
   const result = streamText({
     model: openai('gpt-4.1-2025-04-14'),

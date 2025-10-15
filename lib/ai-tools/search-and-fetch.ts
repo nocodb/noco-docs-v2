@@ -6,10 +6,10 @@ import { getLLMText } from '@/lib/get-llm-txt';
 
 // Initialize Typesense client for server-side use
 const typesenseClient = new Client({
-  apiKey: process.env.TYPESENSE_API_KEY || 'lNKDTZdJrE76Sg8WEyeN9mXT29l1xq7Q',
+  apiKey: 'lNKDTZdJrE76Sg8WEyeN9mXT29l1xq7Q',
   nodes: [
     {
-      host: process.env.TYPESENSE_HOST || 'rqf5uvajyeczwt3xp-1.a1.typesense.net',
+      host: 'rqf5uvajyeczwt3xp-1.a1.typesense.net',
       port: 443,
       protocol: 'https',
     },
@@ -116,7 +116,8 @@ export async function searchAndFetchDocs(
           linkIndex++;
         } else {
         }
-      } catch {
+      } catch(e) {
+        console.error(e);
         // Continue with next page
       }
     }
@@ -129,7 +130,8 @@ export async function searchAndFetchDocs(
     }
 
     return { markdown, links };
-  } catch {
+  } catch (e) {
+    console.error(e);
     return {
       markdown: 'An error occurred while searching the documentation.',
       links: [],
