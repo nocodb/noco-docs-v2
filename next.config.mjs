@@ -5,6 +5,30 @@ const withMDX = createMDX();
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
+  async rewrites() {
+    return [
+      {
+        source: '/docs/product-docs/:path*.mdx',
+        destination: '/llms.mdx/product-docs/:path*',
+      },
+      {
+        source: '/docs/scripts/:path*.mdx',
+        destination: '/llms.mdx/scripts/:path*',
+      },
+      {
+        source: '/docs/self-hosting/:path*.mdx',
+        destination: '/llms.mdx/self-hosting/:path*',
+      },
+      {
+        source: '/docs/changelog/:path*.mdx',
+        destination: '/llms.mdx/changelog/:path*',
+      },
+      {
+        source: '/docs/legal/:path*.mdx',
+        destination: '/llms.mdx/legal/:path*',
+      },
+    ];
+  },
   async redirects() {
     return [
       // Redirects for renamed webhook pages

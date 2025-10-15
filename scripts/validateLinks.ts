@@ -3,7 +3,6 @@ import {
   readFiles,
   scanURLs,
   validateFiles,
-  type ValidateConfig,
 } from 'next-validate-link';
 import { getSlugs, parseFilePath } from 'fumadocs-core/source';
 import { getTableOfContents } from 'fumadocs-core/server';

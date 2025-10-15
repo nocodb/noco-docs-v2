@@ -1,9 +1,16 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {defineDocs, defineConfig, defineCollections, frontmatterSchema} from 'fumadocs-mdx/config';
 import { remarkAdmonition } from 'fumadocs-core/mdx-plugins';
 import {z} from 'zod'
 // Options: https://fumadocs.vercel.app/docs/mdx/collections#define-docs
 export const docs = defineDocs({
   dir: 'content/docs',
+  docs: {
+    // @ts-ignore - postprocess is supported
+    postprocess: {
+      includeProcessedMarkdown: true,
+    },
+  },
 });
 
 export const blog = defineCollections({
@@ -20,18 +27,42 @@ export const blog = defineCollections({
 
 export const scripts = defineDocs({
     dir: 'content/scripts',
+    docs: {
+        // @ts-ignore - postprocess is supported
+        postprocess: {
+            includeProcessedMarkdown: true,
+        },
+    },
 })
 
 export const selfHosting = defineDocs({
     dir: 'content/self-hosting',
+    docs: {
+        // @ts-ignore - postprocess is supported
+        postprocess: {
+            includeProcessedMarkdown: true,
+        },
+    },
 })
 
 export const changelog = defineDocs({
     dir: 'content/changelog',
+    docs: {
+        // @ts-ignore - postprocess is supported
+        postprocess: {
+            includeProcessedMarkdown: true,
+        },
+    },
 })
 
 export const legalDocs = defineDocs({
     dir: 'content/legal',
+    docs: {
+        // @ts-ignore - postprocess is supported
+        postprocess: {
+            includeProcessedMarkdown: true,
+        },
+    },
 })
 
 export default defineConfig({

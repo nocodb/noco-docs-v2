@@ -107,9 +107,9 @@ function toIndex(page: DocumentRecord): BaseIndex[] {
     let relatedTopicsFound = false;
 
     // Get heading level (h1, h2, etc.)
-    function getHeadingLevel(heading: any): number {
+    function getHeadingLevel(heading: Record<string, unknown>): number {
         if (!heading || !heading.depth) return 0;
-        return heading.depth;
+        return heading.depth as number;
     }
 
     function createIndex(
@@ -178,7 +178,7 @@ function toIndex(page: DocumentRecord): BaseIndex[] {
         if (heading && !scannedHeadings.has(heading.id)) {
             scannedHeadings.add(heading.id);
             // Add heading level as a field to improve search relevance
-            const headingLevel = getHeadingLevel(heading);
+            const headingLevel = getHeadingLevel(heading as unknown as Record<string, unknown>);
             // Root page headings (h1) should get higher priority
             const isRootHeading = headingLevel === 1 || heading.content === page.title;
             indexes.push(createIndex(heading.content, heading.id, heading.content, {

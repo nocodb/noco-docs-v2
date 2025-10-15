@@ -11,6 +11,7 @@ import {cn} from "@/lib/utils";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger,} from "@/components/ui/collapsible";
 import {ScrollArea, ScrollViewport} from "@/components/ui/scroll-area";
 import {useOnChange} from "fumadocs-core/utils/use-on-change";
+import { ncIsObject } from "@/utils/is";
 
 interface FolderContextType {
     open: boolean;
@@ -109,7 +110,6 @@ function SidebarItem({item, children, level,}: {
         }
     };
 
-
     if (item.type === "page") {
         return (
             <Link
@@ -122,7 +122,7 @@ function SidebarItem({item, children, level,}: {
                 href={item.url}
                 onClick={handleLinkClick}
             >
-                {item.icon}
+                {ncIsObject(item.icon) ? item.icon  : ''}
                 {item.name}
             </Link>
         );
@@ -131,7 +131,7 @@ function SidebarItem({item, children, level,}: {
     if (item.type === "separator") {
         return (
             <p className="text-fd-muted-foreground mt-6 mb-2 first:mt-0">
-                {item.icon}
+                {ncIsObject(item.icon) ? item.icon  : ''}
                 {item.name}
             </p>
         );
@@ -152,7 +152,7 @@ function SidebarItem({item, children, level,}: {
                             href={item.index.url}
                             onClick={handleLinkClick}
                         >
-                            {item.index.icon}
+                            {ncIsObject(item.index.icon) ? item.index.icon  : ''}
                             {item.index.name}                        
                         </Link>
                     </div>
@@ -165,7 +165,7 @@ function SidebarItem({item, children, level,}: {
                                 active? "text-nc-content-grey-subtle-2 font-[600]" : ""
                             )}
                         >
-                            {item.icon}
+                            {ncIsObject(item.icon) ? item.icon  : ''}
                             {item.name}
                         </div>
                     </SidebarFolderTrigger>

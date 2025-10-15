@@ -1,6 +1,6 @@
 import {blog, docs, scripts, selfHosting, changelog, legalDocs} from '@/.source';
 import {loader} from 'fumadocs-core/source';
-import {createMDXSource} from "fumadocs-mdx";
+import {createMDXSource} from 'fumadocs-mdx/runtime/next';
 import {iconMap, IconNameType} from "@/lib/iconMap";
 import {createElement} from "react";
 
@@ -28,7 +28,7 @@ export const source = loader({
 
 export const blogSource = loader({
     baseUrl: '/blog',
-    source: createMDXSource(blog, []),
+    source: createMDXSource(blog),
 })
 
 export const scriptsSource = loader({
