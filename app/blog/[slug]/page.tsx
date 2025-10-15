@@ -53,7 +53,7 @@ export default async function page(props: {
             <div className="absolute top-[40%] left-0 w-[400px] h-[400px] bg-purple-400/10 rounded-full blur-3xl -z-10" />
             
             {/* Hero Section */}
-            <div className="container pt-12 pb-8 lg:pt-16 lg:pb-12">
+            <div className="container py-4 lg:py-12">
                 {/* Category Badge */}
                 <Link className="inline-block mb-6" href={`/blog?category=${page.data?.category}`}>
                     <div 
