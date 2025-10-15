@@ -21,6 +21,7 @@ import { DefaultChatTransport } from "ai";
 import { Markdown } from "./markdown";
 import { Presence } from "@radix-ui/react-presence";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { toast } from "sonner";
 
 const Context = createContext<{
   open: boolean;
@@ -274,6 +275,10 @@ export function AISearchTrigger() {
     transport: new DefaultChatTransport({
       api: "/api/chat",
     }),
+    onError: (error) => {
+      toast.error("Something went wrong! Please try again later");
+      console.error(error);
+    },
   });
 
   const onKeyPress = (e: KeyboardEvent) => {

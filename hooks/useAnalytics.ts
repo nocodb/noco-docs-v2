@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 
 type AnalyticsEvent = {
     event: string;
@@ -22,7 +22,7 @@ export function useAnalytics() {
         });
     }, []);
 
-    const trackEvent = (event: AnalyticsEvent) => {
+    const trackEvent = useCallback((event: AnalyticsEvent) => {
         if (pushRef.current) {
             pushRef.current({
                 $current_url: window.location.href,
@@ -31,7 +31,7 @@ export function useAnalytics() {
                 ...event,
             });
         }
-    };
+    }, []);
 
     return { trackEvent };
 }

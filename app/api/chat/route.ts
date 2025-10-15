@@ -20,7 +20,7 @@ export async function POST(req: Request) {
   }
 
   const result = streamText({
-    model: openai('gpt-4.1-2025-04-14'),
+    model: openai(process.env.OPENAI_MODEL ?? 'gpt-4.1-2025-04-14'),
     tools: {
       searchDocs: {
         description: 'Search the NocoDB documentation and retrieve full page content. After calling this, you MUST read the returned content and write a comprehensive answer for the user based on that content.',
