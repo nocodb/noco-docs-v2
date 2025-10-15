@@ -69,7 +69,7 @@ export default async function BlogPage({searchParams}: {
                 <Separator className="border-nc-border-grey-medium"/>
             </div>
 
-            <div className="container py-8 lg:pt-15 lg:pb-20 gap-8 lg:gap-16 grid grid-cols-1 lg:grid-cols-2">
+            <div className="container py-8 lg:pt-15 lg:pb-20 gap-8 lg:gap-16 grid grid-cols-1 lg:grid-cols-3">
                 {displayedPosts.length === 0 ? (
                     <div className="col-span-full flex flex-col items-center justify-center py-16">
                         <Image
