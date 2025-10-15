@@ -37,19 +37,19 @@ importers:
         version: 2.1.1
       fumadocs-core:
         specifier: 15.8.5
-        version: 15.8.5(@types/react@19.1.13)(lucide-react@0.544.0(react@19.1.1))(next@15.5.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+        version: 15.8.5(@types/react@19.1.13)(lucide-react@0.545.0(react@19.1.1))(next@15.5.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       fumadocs-mdx:
         specifier: 12.0.3
-        version: 12.0.3(fumadocs-core@15.8.5(@types/react@19.1.13)(lucide-react@0.544.0(react@19.1.1))(next@15.5.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(next@15.5.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react@19.1.1)
+        version: 12.0.3(fumadocs-core@15.8.5(@types/react@19.1.13)(lucide-react@0.545.0(react@19.1.1))(next@15.5.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(next@15.5.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react@19.1.1)
       fumadocs-ui:
         specifier: 15.8.5
-        version: 15.8.5(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(lucide-react@0.544.0(react@19.1.1))(next@15.5.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(tailwindcss@4.1.14)
+        version: 15.8.5(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(lucide-react@0.545.0(react@19.1.1))(next@15.5.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(tailwindcss@4.1.14)
       jsdom:
         specifier: ^27.0.0
         version: 27.0.0(postcss@8.5.6)
       lucide-react:
-        specifier: ^0.544.0
-        version: 0.544.0(react@19.1.1)
+        specifier: ^0.545.0
+        version: 0.545.0(react@19.1.1)
       nc-analytics:
         specifier: ^0.0.9
         version: 0.0.9
@@ -2481,8 +2481,8 @@ packages:
     resolution: {integrity: sha512-F9ODfyqML2coTIsQpSkRHnLSZMtkU8Q+mSfcaIyKwy58u+8k5nvAYeiNhsyMARvzNcXJ9QfWVrcPsC9e9rAxtg==}
     engines: {node: 20 || >=22}
 
-  lucide-react@0.544.0:
-    resolution: {integrity: sha512-t5tS44bqd825zAW45UQxpG2CvcC4urOwn2TrwSH8u+MjeE+1NnWl6QqeQ/6NdjMqdOygyiT9p3Ev0p1NJykxjw==}
+  lucide-react@0.545.0:
+    resolution: {integrity: sha512-7r1/yUuflQDSt4f1bpn5ZAocyIxcTyVyBBChSVtBKn5M+392cPmI5YJMWOJKk/HUWGm5wg83chlAZtCcGbEZtw==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
@@ -5411,7 +5411,7 @@ snapshots:
   fsevents@2.3.3:
     optional: true
 
-  fumadocs-core@15.8.5(@types/react@19.1.13)(lucide-react@0.544.0(react@19.1.1))(next@15.5.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1):
+  fumadocs-core@15.8.5(@types/react@19.1.13)(lucide-react@0.545.0(react@19.1.1))(next@15.5.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1):
     dependencies:
       '@formatjs/intl-localematcher': 0.6.2
       '@orama/orama': 3.1.16
@@ -5433,21 +5433,21 @@ snapshots:
       unist-util-visit: 5.0.0
     optionalDependencies:
       '@types/react': 19.1.13
-      lucide-react: 0.544.0(react@19.1.1)
+      lucide-react: 0.545.0(react@19.1.1)
       next: 15.5.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       react: 19.1.1
       react-dom: 19.1.1(react@19.1.1)
     transitivePeerDependencies:
       - supports-color
 
-  fumadocs-mdx@12.0.3(fumadocs-core@15.8.5(@types/react@19.1.13)(lucide-react@0.544.0(react@19.1.1))(next@15.5.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(next@15.5.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react@19.1.1):
+  fumadocs-mdx@12.0.3(fumadocs-core@15.8.5(@types/react@19.1.13)(lucide-react@0.545.0(react@19.1.1))(next@15.5.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(next@15.5.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react@19.1.1):
     dependencies:
       '@mdx-js/mdx': 3.1.1
       '@standard-schema/spec': 1.0.0
       chokidar: 4.0.3
       esbuild: 0.25.10
       estree-util-value-to-estree: 3.4.0
-      fumadocs-core: 15.8.5(@types/react@19.1.13)(lucide-react@0.544.0(react@19.1.1))(next@15.5.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      fumadocs-core: 15.8.5(@types/react@19.1.13)(lucide-react@0.545.0(react@19.1.1))(next@15.5.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       js-yaml: 4.1.0
       lru-cache: 11.2.2
       mdast-util-to-markdown: 2.1.2
@@ -5465,7 +5465,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  fumadocs-ui@15.8.5(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(lucide-react@0.544.0(react@19.1.1))(next@15.5.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(tailwindcss@4.1.14):
+  fumadocs-ui@15.8.5(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(lucide-react@0.545.0(react@19.1.1))(next@15.5.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(tailwindcss@4.1.14):
     dependencies:
       '@radix-ui/react-accordion': 1.2.12(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@radix-ui/react-collapsible': 1.1.12(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -5478,7 +5478,7 @@ snapshots:
       '@radix-ui/react-slot': 1.2.3(@types/react@19.1.13)(react@19.1.1)
       '@radix-ui/react-tabs': 1.1.13(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       class-variance-authority: 0.7.1
-      fumadocs-core: 15.8.5(@types/react@19.1.13)(lucide-react@0.544.0(react@19.1.1))(next@15.5.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      fumadocs-core: 15.8.5(@types/react@19.1.13)(lucide-react@0.545.0(react@19.1.1))(next@15.5.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       lodash.merge: 4.6.2
       next-themes: 0.4.6(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       postcss-selector-parser: 7.1.0
@@ -6003,7 +6003,7 @@ snapshots:
 
   lru-cache@11.2.2: {}
 
-  lucide-react@0.544.0(react@19.1.1):
+  lucide-react@0.545.0(react@19.1.1):
     dependencies:
       react: 19.1.1
 
