@@ -48,8 +48,12 @@ export default async function BlogPage({searchParams}: {
     const hasMorePosts = endIndex < searchFilteredPosts.length;
     const nextPage = currentPage + 1;
     return (
-        <main className="w-full bg-[#fafafb]">
-            <div className="container py-10">
+        <main className="w-full bg-gradient-to-b from-blue-50/50 via-purple-50/30 to-white">
+            <div className="container py-10 relative">
+                {/* Decorative background elements */}
+                <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-400/10 rounded-full blur-3xl -z-10" />
+                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-400/10 rounded-full blur-3xl -z-10" />
+                
                 <h1 className="text-nc-content-grey-emphasis text-[40px] font-semibold leading-15.5">
                     Blog
                 </h1>
@@ -60,6 +64,7 @@ export default async function BlogPage({searchParams}: {
                     <SearchInput />
                 </div>
             </div>
+            <Separator className="mb-12" />
 
             <div className="container">
                 {displayedPosts.length === 0 ? (
