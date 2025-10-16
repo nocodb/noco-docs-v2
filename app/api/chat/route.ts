@@ -1,13 +1,10 @@
 import { ProvideLinksToolSchema } from '@/lib/ai-tools/inkeep-qa-schema';
 import { SearchDocsToolSchema, searchAndFetchDocs } from '@/lib/ai-tools/search-and-fetch';
-import { createOpenAI } from '@ai-sdk/openai';
 import { convertToModelMessages, stepCountIs, streamText } from 'ai';
 import { systemPrompt } from '@/lib/searchPrompt';
-import {validateRateLimit} from '@/utils/rateLimit';
+import { validateRateLimit } from '@/utils/rateLimit';
+import { createModel } from '@/lib/ai-models';
 
-const openai = createOpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
 
 export async function POST(req: Request) {
   const rateLimitError = validateRateLimit(req);
@@ -20,21 +17,21 @@ export async function POST(req: Request) {
   }
 
   const result = streamText({
-    model: openai(process.env.OPENAI_MODEL ?? 'gpt-4.1-2025-04-14'),
+    model: createModel(),
     tools: {
       searchDocs: {
         description: 'Search the NocoDB documentation and retrieve full page content. After calling this, you MUST read the returned content and write a comprehensive answer for the user based on that content.',
         inputSchema: SearchDocsToolSchema,
         execute: async ({ query }: { query: string }) => {
           const { markdown, links } = await searchAndFetchDocs(query, 3);
-          return {markdown, links};
+          return { markdown, links };
         },
       },
       provideLinks: {
         inputSchema: ProvideLinksToolSchema,
       },
     },
-   system: systemPrompt,
+    system: systemPrompt,
     messages: convertToModelMessages(reqJson.messages, {
       ignoreIncompleteToolCalls: true,
     }),
