@@ -60,9 +60,6 @@ export default async function BlogPage({searchParams}: {
                 <h5 className="text-nc-content-grey-subtle mt-6 lg:mt-2 text-base leading-6 font-medium">
                     Insights, tutorials, and updates from the team building the future of no-code databases.
                 </h5>
-                <div className="mt-6">
-                    <SearchInput />
-                </div>
             </div>
             <Separator className="mb-12" />
 
@@ -88,7 +85,7 @@ export default async function BlogPage({searchParams}: {
                         </p>
                     </div>
                 ) : (
-                    <div className="flex flex-col">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0">
                         {displayedPosts.map((post) => (
                             <BlogCard post={post} key={post.url}/>
                         ))}

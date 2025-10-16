@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import {ArrowRight} from 'lucide-react'
 import Image from 'next/image'
 
 interface BlogCardProps {
@@ -20,79 +19,41 @@ interface BlogCardProps {
 export default function BlogCard({post}: BlogCardProps) {
     return (
         <Link href={post.url} className="group block">
-            <div className="relative w-full border-b border-dashed border-nc-border-grey-medium py-6 md:py-8 hover:bg-white/50 transition-all duration-300">
-                {/* Mobile: Category and Date on top */}
-                <div className="flex items-center justify-between mb-4 md:hidden">
-                    <div className="text-sm text-nc-content-grey-muted-2 uppercase tracking-wide">
-                        [{post.data.category}]
-                    </div>
-                    <div className="text-sm text-nc-content-grey-muted-2 uppercase tracking-wide">
-                        {new Date(post.data.date).toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "2-digit",
-                        })}
-                    </div>
+            <div className="relative w-full bg-white hover:bg-gray-50 border border-gray-200 -ml-[1px] -mt-[1px] transition-colors duration-200">
+                {/* Thumbnail */}
+                <div className="relative w-full h-56 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 overflow-hidden">
+                    <Image 
+                        src={post.data.image} 
+                        alt={post.data.title}
+                        fill
+                        className="object-cover"
+                    />
                 </div>
-
-                {/* Desktop Layout */}
-                <div className="hidden md:flex items-start px-4 justify-between gap-8">
-                    {/* Thumbnail */}
-                    <div className="relative w-32 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-nc-background-grey-light">
-                        <Image 
-                            src={post.data.image} 
-                            alt={post.data.title}
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                    </div>
+                
+                {/* Content */}
+                <div className="p-6">
+                    {/* Title */}
+                    <h3 className="text-xl font-semibold text-gray-900 mb-3 line-clamp-2">
+                        {post.data.title}
+                    </h3>
                     
-                    {/* Content */}
-                    <div className="flex-1">
-                        <div className="text-base text-nc-content-grey-subtle font-normal mb-2 transition-all group-hover:text-nc-content-grey-emphasis">
-                            {post.data.title}
+                    {/* Description */}
+                    <p className="text-gray-600 text-sm leading-relaxed line-clamp-2 mb-4">
+                        {post.data.description}
+                    </p>
+                    
+                    {/* Author and Date */}
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                        <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center text-xs font-medium">
+                            {post.data.author.charAt(0).toUpperCase()}
                         </div>
-                        
-                        <p className="text-nc-content-grey-subtle-2 text-sm leading-6 line-clamp-2 transition-all">
-                            {post.data.description}
-                        </p>
-                    </div>
-                    
-                    {/* Right side: Date, Category, Arrow */}
-                    <div className="flex items-start gap-6 flex-shrink-0">
-                        <div className="text-sm text-nc-content-grey-muted-2 uppercase tracking-wide w-16 text-right">
+                        <span>
                             {new Date(post.data.date).toLocaleDateString("en-US", {
-                                month: "short",
-                                day: "2-digit",
+                                month: "long",
+                                day: "numeric",
+                                year: "numeric"
                             })}
-                        </div>
-                        
-                        <div className="text-sm text-nc-content-grey-muted-2 uppercase tracking-wide w-32 text-right">
-                            [{post.data.category}]
-                        </div>
-                        
-                        <ArrowRight className="w-5 h-5 text-nc-content-grey-muted-2 group-hover:text-nc-content-brand-default group-hover:translate-x-1 transition-all flex-shrink-0" />
-                    </div>
-                </div>
-
-                {/* Mobile: Thumbnail and Content */}
-                <div className="md:hidden flex gap-4">
-                    <div className="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-nc-background-grey-light">
-                        <Image 
-                            src={post.data.image} 
-                            alt={post.data.title}
-                            fill
-                            className="object-cover"
-                        />
-                    </div>
-                    
-                    <div className="flex-1">
-                        <div className="text-base text-nc-content-grey-subtle line-clamp-2 font-normal mb-2 transition-all">
-                            {post.data.title}
-                        </div>
-                        
-                        <p className="text-nc-content-grey-subtle-2 text-sm leading-5 line-clamp-2 transition-all">
-                            {post.data.description}
-                        </p>
+                        </span>
                     </div>
                 </div>
             </div>
