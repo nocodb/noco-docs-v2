@@ -2,13 +2,13 @@ import { ProvideLinksToolSchema } from '@/lib/ai-tools/inkeep-qa-schema';
 import { SearchDocsToolSchema, searchAndFetchDocs } from '@/lib/ai-tools/search-and-fetch';
 import { convertToModelMessages, stepCountIs, streamText } from 'ai';
 import { systemPrompt } from '@/lib/searchPrompt';
-import { validateRateLimit } from '@/utils/rateLimit';
 import { createModel } from '@/lib/ai-models';
-
+import { validateRateLimit } from '@/utils/rateLimit';
 
 export async function POST(req: Request) {
   const rateLimitError = validateRateLimit(req);
   if (rateLimitError) return rateLimitError;
+  
   let reqJson;
   try {
     reqJson = await req.json();
