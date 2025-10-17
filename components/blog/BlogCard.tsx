@@ -1,10 +1,5 @@
-import Image from 'next/image'
 import Link from 'next/link'
-import {getCategoryColor} from "@/lib/categoryColor";
-import {calculateReadingTime} from "@/lib/timeToRead";
-import {StructuredData} from "fumadocs-core/mdx-plugins";
-import {blogSource} from "@/lib/source";
-
+import Image from 'next/image'
 
 interface BlogCardProps {
     post: {
@@ -17,50 +12,51 @@ interface BlogCardProps {
             author: string
         },
         slugs: string[],
-        structuredData?: StructuredData,
         url: string
     }
 }
 
 export default function BlogCard({post}: BlogCardProps) {
-    const color = getCategoryColor(post.data?.category)
-    const t = blogSource.getPage(post.slugs)
-    const readingTime = calculateReadingTime(t?.data?.structuredData)
-
     return (
-        <div className="relative group rounded-t-xl w-full rounded-3xl">
-            <Link href={post.url}>
-                <div className="relative w-full overflow-hidden rounded-xl aspect-video">
-                    <Image className="h-full rounded-xl group-hover:scale-[1.15] transition-transform object-cover"
-                           src={post.data.image} alt={post.data.title} fill/>
+        <Link href={post.url} className="group block">
+            <div className="relative w-full bg-white hover:bg-gray-50 border border-gray-200 -ml-[1px] -mt-[1px] transition-colors duration-200">
+                {/* Thumbnail */}
+                <div className="relative w-full h-56 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 overflow-hidden">
+                    <Image 
+                        src={post.data.image} 
+                        alt={post.data.title}
+                        fill
+                        className="object-cover"
+                    />
                 </div>
-                <div>
-                    <div className="flex justify-between mt-5">
-                        <div style={{backgroundColor: color}}
-                             className="rounded-[6px] text-[14px] leading-5 px-1 text-nc-content-grey-default ">
-                            {post.data?.category}
+                
+                {/* Content */}
+                <div className="p-6">
+                    {/* Title */}
+                    <h3 className="text-xl font-semibold text-gray-900 mb-3 line-clamp-2">
+                        {post.data.title}
+                    </h3>
+                    
+                    {/* Description */}
+                    <p className="text-gray-600 text-sm leading-relaxed line-clamp-2 mb-4">
+                        {post.data.description}
+                    </p>
+                    
+                    {/* Author and Date */}
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                        <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center text-xs font-medium">
+                            {post.data.author.charAt(0).toUpperCase()}
                         </div>
-                        <div className="text-nc-content-grey-muted font-[500] text-[13px] leading-4.5">
-                            {readingTime}
-                        </div>
-                    </div>
-                    <h2 className="text-[20px] mt-3 text-nc-content-grey-default line-clamp-1 leading-8 font-bold">{post.data.title}</h2>
-                    <p className="text-nc-content-grey-default text-sm font-[400] mt-3 leading-5 line-clamp-2">{post.data.description}</p>
-
-                    <div className="flex text-sm text-nc-content-grey-subtle-2 text-[13px] font-[500] leading-3.5 justify-between mt-3">
-                        <div className="text-left">
-                            By {post.data?.author}
-                        </div>
-                        <div className="text-right">
+                        <span>
                             {new Date(post.data.date).toLocaleDateString("en-US", {
-                                month: "short",
+                                month: "long",
                                 day: "numeric",
-                                year: "numeric",
+                                year: "numeric"
                             })}
-                        </div>
+                        </span>
                     </div>
                 </div>
-            </Link>
-        </div>
+            </div>
+        </Link>
     )
 }

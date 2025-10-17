@@ -5,6 +5,7 @@ import ClientAnalytics from "@/components/Analytics";
 import NcSearchDialog from "@/components/layout/Search";
 import {CustomThemeProvider} from "@/app/ThemeProvider";
 import {RootProvider} from "fumadocs-ui/provider";
+import { Toaster } from "sonner";
 
 const inter = Inter({
     subsets: ['latin'],
@@ -20,6 +21,7 @@ export default function Layout({children}: { children: ReactNode }) {
                     </CustomThemeProvider>
                 </RootProvider>
                 <ClientAnalytics/>
+                <Toaster />
             </body>
         </html>
     );

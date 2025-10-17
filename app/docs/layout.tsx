@@ -2,6 +2,7 @@ import type {ReactNode} from "react";
 import Navbar from "@/components/layout/Navbar";
 import TopBarNaigation from "@/components/layout/TopBarNaigation";
 import { DocsNavigationProvider } from "./DocsNavigationProvider";
+import { AISearchTrigger } from "@/components/search";
 
 /**
  * Layout component for rendering the main structure of the documentation page.
@@ -22,6 +23,8 @@ export default function Layout({children}: { children: ReactNode }) {
                 </div>
                 {children}
             </DocsNavigationProvider>
+            <AISearchTrigger />
+
         </main>
     )
 }

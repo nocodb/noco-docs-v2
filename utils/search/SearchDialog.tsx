@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useOnChange } from "fumadocs-core/utils/use-on-change";
 import { useTypesenseSearch } from "@/utils/search/useTypesenseSearch";
 import { SearchDialog, SearchDialogClose, SearchDialogContent, SearchDialogHeader, SearchDialogIcon, SearchDialogInput, SearchDialogList, SearchDialogOverlay, SharedProps, } from "fumadocs-ui/components/dialog/search";
 import { Client } from "typesense";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 interface TypesenseSearchDialogProps extends SharedProps {
     typesenseClient: Client;
@@ -22,6 +23,8 @@ function TypesenseSearchDialog({
     ...rest
 }: TypesenseSearchDialogProps) {
     const [tag, setTag] = useState(defaultTag);
+    const { trackEvent } = useAnalytics();
+    const contentRef = useRef<HTMLDivElement>(null);
     const { search, setSearch, query } = useTypesenseSearch(
         typesenseClient,
         typesenseCollection,
@@ -34,15 +37,54 @@ function TypesenseSearchDialog({
         setTag(v);
     });
 
+    const handleSearchSubmit = () => {
+        if (search.trim()) {
+            trackEvent({
+                event: "search_submitted",
+                query: search,
+                action: "enter_pressed",
+            });
+        }
+    };
+
+    useEffect(() => {
+        const handleClick = (e: MouseEvent) => {
+            const target = e.target as HTMLElement;
+            const link = target.closest('a');
+            
+            if (link && search.trim()) {
+                trackEvent({
+                    event: "search_result_clicked",
+                    query: search,
+                    action: "clicked",
+                    result_url: link.href,
+                    result_title: link.textContent?.trim() || '',
+                });
+            }
+        };
+
+        const contentElement = contentRef.current;
+        if (contentElement) {
+            contentElement.addEventListener('click', handleClick);
+            return () => {
+                contentElement.removeEventListener('click', handleClick);
+            };
+        }
+    }, [search, trackEvent]);
+
     return (
         <div style={{ fontFamily: 'Inter' }}>
             <SearchDialog search={search} onSearchChange={setSearch}
                 isLoading={query.isLoading} {...rest} >
                 <SearchDialogOverlay className="bg-black/30" />
-                <SearchDialogContent className="bg-nc-background-default">
+                <SearchDialogContent className="bg-nc-background-default" ref={contentRef}>
                     <SearchDialogHeader>
                         <SearchDialogIcon />
-                        <SearchDialogInput />
+                        <SearchDialogInput onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                handleSearchSubmit();
+                            }
+                        }} />
                         <SearchDialogClose />
                     </SearchDialogHeader>
                     <SearchDialogList items={query.data !== 'empty' ? query.data : null} />
