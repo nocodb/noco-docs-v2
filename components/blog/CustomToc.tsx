@@ -7,7 +7,7 @@ export default function CustomToc({toc}: { toc: TableOfContents }) {
     const containerRef = useRef<HTMLDivElement>(null);
     const minDepth = Math.min(...toc.map((item) => item.depth));
     return (
-        <div className="h-48 top-0 w-64 toc-container" ref={containerRef}>
+        <div className="top-0 w-64 toc-container" ref={containerRef}>
             <div className="text-nc-content-grey-emphasis font-bold leading-6 mb-8 text-base">
                 In this Blog
             </div>

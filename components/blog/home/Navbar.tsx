@@ -12,11 +12,9 @@ import {
   ChevronDown,
   Database,
   Code,
-  MessageSquare,
 } from "lucide-react";
 import {
   SiDiscord,
-  SiDiscordHex,
   SiDiscourse,
   SiGithub,
   SiReddit,

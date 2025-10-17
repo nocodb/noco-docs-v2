@@ -3,7 +3,6 @@ import BlogCard from "@/components/blog/BlogCard";
 import {Separator} from "@/components/ui/separator";
 import Link from "next/link";
 import Subscribe from "@/components/blog/Subscribe";
-import {SearchInput} from "@/components/blog/SearchInput";
 import Image from "next/image";
 
 export const metadata = {
