@@ -83,6 +83,36 @@ Webhooks in NocoDB can be configured based on the source of the trigger and the 
 
 For more details on using **Button Trigger** webhooks with the **Button** field, see the [Button field documentation](/docs/product-docs/fields/field-types/custom-types/button).
 
+---
+### Run Script action ☁
+
+<Callout type="note">This feature is only available in the paid plans, in both cloud & self-hosted.</Callout>
+
+The **Run Script** action enables you to execute custom JavaScript code directly within NocoDB whenever a webhook is triggered. It is ideal for use cases where data needs to be processed or transformed internally. When triggered, the associated script runs within NocoDB’s secure scripting engine and automatically receives an `event` object (see example below) containing the webhook context, such as record creation, update, or deletion details.
+
+```javascript
+/*
+  Update record on trigger; This script updates the 'Department' and 'Employment Status' fields when a new record is inserted. Note the usage of `cursor.row` to access the record that triggered the webhook.
+*/
+
+const record = cursor.row;
+
+// Exit if no record found (safeguard)
+if(!record) {
+  return
+}
+
+// Get the table
+const table1 = base.getTable("Employee")
+
+// Update the record
+await table1.updateRecordAsync(record.id, {
+  "Department": "New Hire",
+  "Employment Status": "Active"
+})
+```
+
+Refer to the [Scripts documentation](/docs/scripts#getting-started) for detailed guide on creating and managing scripts. Note that, scripts that seek explicit user input (such as `input.textAsync()`) cannot be used in webhook context, since webhooks run in the background without user interaction.
 
 ### Webhook with conditions
 
