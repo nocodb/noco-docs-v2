@@ -27,6 +27,7 @@ module.exports = {
     // Admin/internal pages
     '/_next/*',
     '/_vercel/*',
+    '/*llms.mdx/*',
     // Error pages
     '/404',
     '/500',
