@@ -13,14 +13,10 @@ import {
 import { Loader2, RefreshCw, SearchIcon, Send, X } from "lucide-react";
 import { cn } from "../lib/cn";
 import { buttonVariants } from "./ui/button";
-import Link from "fumadocs-core/link";
 import { type UIMessage, useChat, type UseChatHelpers } from "@ai-sdk/react";
-import type { ProvideLinksToolSchema } from "../lib/ai-tools/inkeep-qa-schema";
-import type { z } from "zod";
 import { DefaultChatTransport } from "ai";
 import { Markdown } from "./markdown";
 import { Presence } from "@radix-ui/react-presence";
-import { useAnalytics } from "@/hooks/useAnalytics";
 import { toast } from "sonner";
 
 const Context = createContext<{
@@ -77,15 +73,18 @@ function SearchAIActions() {
 function SearchAIInput(props: ComponentProps<"form">) {
   const { status, sendMessage, stop } = useChatContext();
   const [input, setInput] = useState("");
-  const {trackEvent} = useAnalytics();
   const isLoading = status === "streaming" || status === "submitted";
   const onStart = (e?: SyntheticEvent) => {
-    trackEvent({
-      event: "ai_search",
-      query: input,
-    });
     e?.preventDefault();
-    void sendMessage({ text: input });
+    const clientId = typeof window !== 'undefined' ? window.ncClientId || window.localStorage.getItem('nc_id') : null;
+    void sendMessage(
+      { text: input },
+      {
+        body: {
+          clientId,
+        },
+      }
+    );
     setInput("");
   };
 
@@ -222,16 +221,11 @@ function Message({
   ...props
 }: { message: UIMessage } & ComponentProps<"div">) {
   let markdown = "";
-  let links: z.infer<typeof ProvideLinksToolSchema>["links"] = [];
 
   for (const part of message.parts ?? []) {
     if (part.type === "text") {
       markdown += part.text;
       continue;
-    }
-
-    if (part.type === "tool-provideLinks" && part.input) {
-      links = (part.input as z.infer<typeof ProvideLinksToolSchema>).links;
     }
   }
 
@@ -248,22 +242,6 @@ function Message({
       <div className="prose text-sm">
         <Markdown text={markdown} />
       </div>
-      {links && links.length > 0 ? (
-        <div className="mt-2 flex flex-row flex-wrap items-center gap-1">
-          {links.map((item, i) => (
-            <Link
-              key={i}
-              href={item.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block text-xs bg-nc-background-grey-light rounded-lg border p-3 hover:bg-nc-background-grey-medium hover:text-fd-accent-foreground"
-            >
-              <p className="font-medium">{item.title}</p>
-              <p className="text-fd-muted-foreground">Reference {item.label}</p>
-            </Link>
-          ))}
-        </div>
-      ) : null}
     </div>
   );
 }

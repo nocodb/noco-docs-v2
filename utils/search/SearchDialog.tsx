@@ -40,9 +40,8 @@ function TypesenseSearchDialog({
     const handleSearchSubmit = () => {
         if (search.trim()) {
             trackEvent({
-                event: "search_submitted",
+                event: "a:docs:search",
                 query: search,
-                action: "enter_pressed",
             });
         }
     };
@@ -54,9 +53,8 @@ function TypesenseSearchDialog({
             
             if (link && search.trim()) {
                 trackEvent({
-                    event: "search_result_clicked",
+                    event: "a:docs:search",
                     query: search,
-                    action: "clicked",
                     result_url: link.href,
                     result_title: link.textContent?.trim() || '',
                 });
