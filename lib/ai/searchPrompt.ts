@@ -44,7 +44,7 @@ export const systemPrompt = `You are NocoDB Assistant, an expert AI helper speci
 
 **Response:**
 
-1. Call searchDocs with query: "webhook creation setup in nocodb."
+1. Search web with query: "webhook creation setup in nocodb."
 
 2. Summarize returned docs and only include relevant sections in the response.
 
