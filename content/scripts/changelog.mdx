@@ -6,6 +6,19 @@ icon: 'clock'
 
 This page documents all changes to the NocoDB Scripts API, including new features, improvements, bug fixes, and breaking changes.
 
+## October 22, 2025
+
+#### New Input Method
+- **`input.uploadFileAsync()`** - New method for uploading files
+  - Returns an array of `NocoDbFile` objects with file metadata
+  - Supports multiple file uploads simultaneously
+  - File type validation via `allowedFileTypes` option (MIME types, extensions, or wildcards)
+  - Example: `await input.uploadFileAsync("Upload images", {allowedFileTypes: ['image/*']})`
+  - Ideal for storing files in attachment fields.
+  - Complements existing `input.fileAsync()` which focuses on parsing file contents
+
+---
+
 ## October 03, 2025
 
 #### Input Methods Enhancement
