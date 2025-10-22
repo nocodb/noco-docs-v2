@@ -17,7 +17,7 @@ export async function POST(req: Request) {
 
   try {
   const { model, tools: webSearchTools } = createModel();
-  const clientId = reqJson.clientId || process.env.NC_CLIENT_ID || 'server-side-analytics';
+  const clientId = reqJson.clientId
 
   const tools = {
     ...webSearchTools,
@@ -26,9 +26,10 @@ export async function POST(req: Request) {
   const startTime = Date.now();
   const provider = (process.env.AI_PROVIDER || 'openai') as string;
   const modelId = process.env.AI_MODEL || 'default';
+
+  const textPart = reqJson.messages[reqJson.messages.length - 1].parts.find((part) => part.type === 'text');
   
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const userQuery = (reqJson.messages[reqJson.messages.length - 1] as any)?.content || '';
+  const userQuery = textPart?.text || '';
   
   const result = streamText({
     model,
