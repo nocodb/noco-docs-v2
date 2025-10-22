@@ -31,7 +31,7 @@ export type PayloadType<T extends AnalyticsEventNames> =
   never;
 
 export interface TelemetryRequestBody {
-  clientId: string;
+  clientId?: string;
   events: EventPayload[];
 }
 export interface TelemetryResponse {
@@ -49,7 +49,7 @@ export interface TelemetryResponse {
 export async function trackEvent<T extends AnalyticsEventNames>(
   eventName: T,
   data: PayloadType<T>,
-  clientId: string
+  clientId?: string
 ): Promise<void> {
   try {
     const eventPayload: EventPayload = {
