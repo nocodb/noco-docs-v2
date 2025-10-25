@@ -35,7 +35,7 @@
     "clsx": "^2.1.1",
     "fumadocs-core": "15.8.5",
     "fumadocs-mdx": "12.0.3",
-    "fumadocs-ui": "15.8.5",
+    "fumadocs-ui": "16.0.3",
     "hast": "^1.0.0",
     "hast-util-to-jsx-runtime": "^2.3.6",
     "jsdom": "^27.0.1",
