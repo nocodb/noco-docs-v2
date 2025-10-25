@@ -34,7 +34,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "fumadocs-core": "15.8.5",
-    "fumadocs-mdx": "12.0.3",
+    "fumadocs-mdx": "13.0.1",
     "fumadocs-ui": "15.8.5",
     "hast": "^1.0.0",
     "hast-util-to-jsx-runtime": "^2.3.6",
