@@ -158,6 +158,62 @@ Claude will execute these requests using the enabled NocoDB tools, reading from 
 
 <Callout type="warning">OAuth authorization functions as a set of access credentials granting Claude control over your NocoDB base within the selected workspace. Only authorize access to bases and operations you trust Claude to perform on your behalf.</Callout>
 
+
 ### OpenAI Web
 
-OAuth-based integration allows OpenAI ChatGPT users to access NocoDB databases through the custom actions interface.
+OAuth-based integration enables OpenAI web users (ChatGPT) to securely connect with NocoDB databases through the MCP connector, directly from their browser environment. This provides the same granular access control and eliminates the need for manual configuration or desktop client setup.
+
+#### Prerequisites
+Enable Developer Mode in ChatGPT settings to allow custom connector additions.
+1. Open [ChatGPT Settings](https://chatgpt.com/#settings/Connectors) in a new tab.
+    * Alternatively, click your **Profile Icon** → **Settings** → **Settings** → **Apps & Connectors**).
+2. Click **Advance Settings** & enable **Developer Mode**.
+
+#### Setup Steps
+1. Open [ChatGPT Settings](https://chatgpt.com/#settings/Connectors) in a new tab.
+    * Alternatively, click your **Profile Icon** → **Settings** → **Settings** → **Apps & Connectors**).
+2. Click **Create** button in top right corner of the **Connectors** modal.
+3. In the "New connector" dialog:
+    - Provide a connector name of your choice. Optionally, add a description / icon.
+    - Enter the MCP Server URL: `https://app.nocodb.com/mcp`
+    - Check the box for **I trust this application**.
+    - Click `Create`
+4. Authorize Access:
+    * Log in to your NocoDB account if prompted
+    * Select the workspace and base you want to connect
+    * Review and confirm the permissions being requested:
+        * Access to the selected base
+        * Read / create / update / delete records
+        * Act on your behalf within the selected resources
+    * Click **Authorize**
+
+Once authorization completes, you will see a confirmation message in ChatGPT Web indicating the NocoDB connector is now connected.
+
+<Callout type="note">For on-prem enterprise users, replace `https://app.nocodb.com` with your NocoDB instance URL.</Callout>
+
+#### Configure Tool Permissions
+
+By default, all tools provided by NocoDB are enabled. You can customize which tools are active.
+1. Open NocoDB connector from [ChatGPT Settings](https://chatgpt.com/#settings/Connectors) in a new tab.
+2. All tools are listed under **Actions**. Use the toggles to enable or disable specific tools as needed.
+
+To confirm which workspaces and bases are available, use the **Get Base Info** tool under the NocoDB connector panel.
+
+#### Using NocoDB Tools in OpenAI Web
+
+On the ChatGPT interface, start a new conversation and
+- Click the **+** icon to open the "Tools" menu, enable `Developer Mode` if not already enabled.
+- Use `Add sources` to find and select the NocoDB connector you created. Toggle to enable it.
+
+Once configured, you can query or update your NocoDB data conversationally. For example:
+
+* “List all open support tickets assigned to me”
+* “Add a new contact named ‘Alice Chen’ to the CRM base”
+* “Update the status of Order #2456 to ‘Shipped’”
+* “Summarize total revenue by month from the Sales base”
+
+ChatGPT executes these actions using the connected NocoDB tools according to the permissions granted.
+
+<Callout type="warning">OAuth authorization provides ChatGPT controlled access to your NocoDB base within the selected workspace. Only authorize operations and bases you trust ChatGPT to manage on your behalf.</Callout>
+
+---
