@@ -61,6 +61,55 @@ Description for a view will be visible as a tooltip when hovering over the `info
 
 ![View description](/img/v2/views/view-description.png)
 
+
+## Copy another view's configuration ☁
+
+<Callout type="info">Cloud / On-Premises Enterprise Feature</Callout>
+
+You can copy view configurations from another view to quickly apply the same settings to your current view. This is useful when you want to replicate filters, sorting, field visibility, and other configurations across multiple views.
+
+### Steps to copy view configuration
+
+1. Click on the vertical ellipsis symbol `⋮` in the toolbar.
+2. Select **"Copy another view's configuration"** from the view context menu.
+3. In the modal dialog, select the source view from the **Select view to copy from** dropdown. All the views available in the current table will be listed here.
+4. Check the **configuration(s)** you want to copy:
+    - Field visibility - Copy which fields are visible/hidden
+    - Field order - Copy the column arrangement
+    - Column width - Copy column width settings
+    - Row height - Copy row height settings
+    - Filter condition - Copy applied filters
+    - Group - Copy grouping settings
+    - Sort - Copy sorting settings
+    - Row coloring - Copy row color settings
+5. Click **"Copy configuration"** to apply the selected settings to your current view.
+
+![Copy view configuration](/img/v2/views/copy-from-another-view/toolbar-menu.png)
+![Copy view configuration](/img/v2/views/copy-from-another-view/copy-configuration-modal.png)
+
+Selective "Copy from another view" menu option is also available for various toolbar items like Filter, Group and Sort.
+
+
+<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem'}}>
+    <div>
+        ![Copy view configuration - Filter](/img/v2/views/copy-from-another-view/filter-menu.png)
+    </div>
+</div>
+
+<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', maxWidth: '400px'}}>
+    <div>
+        ![Copy view configuration - Group](/img/v2/views/copy-from-another-view/group-by-menu.png)
+    </div>
+    <div>
+        ![Copy view configuration - Sort](/img/v2/views/copy-from-another-view/sort-menu.png)
+    </div>
+</div>
+
+Note that,
+- When copying configurations, the system will only apply settings that are compatible with the current view type. Incompatible settings will be disabled in the copy configuration modal.
+- Only views from the same table can be selected as source views for copying configurations.
+
+
 ## Views filtered by `Current User` ☁
 NocoDB allows you to filter views based on the currently logged-in user. This is particularly useful for creating personalized views that display records relevant to the user currently logged in. Find more details on how to filter by current user in the [Filtering records by current user](/docs/product-docs/table-operations/filter#filter-by-current-user-) section.
 
