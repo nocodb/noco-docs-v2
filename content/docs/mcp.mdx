@@ -167,7 +167,9 @@ OAuth-based integration enables OpenAI web users (ChatGPT) to securely connect w
 Enable Developer Mode in ChatGPT settings to allow custom connector additions.
 1. Open [ChatGPT Settings](https://chatgpt.com/#settings/Connectors) in a new tab.
     * Alternatively, click your **Profile Icon** → **Settings** → **Settings** → **Apps & Connectors**).
-2. Click **Advance Settings** & enable **Developer Mode**.
+2. Click **Advanced Settings** & enable **Developer Mode**.
+
+![open-connectors](/img/v2/mcp/web-app/chatgpt/developer.png)
 
 #### Setup Steps
 1. Open [ChatGPT Settings](https://chatgpt.com/#settings/Connectors) in a new tab.
@@ -178,6 +180,7 @@ Enable Developer Mode in ChatGPT settings to allow custom connector additions.
     - Enter the MCP Server URL: `https://app.nocodb.com/mcp`
     - Check the box for **I trust this application**.
     - Click `Create`
+![new-connector](/img/v2/mcp/web-app/chatgpt/create-connector.png)
 4. Authorize Access:
     * Log in to your NocoDB account if prompted
     * Select the workspace and base you want to connect
@@ -188,22 +191,16 @@ Enable Developer Mode in ChatGPT settings to allow custom connector additions.
     * Click **Authorize**
 
 Once authorization completes, you will see a confirmation message in ChatGPT Web indicating the NocoDB connector is now connected.
+![connected](/img/v2/mcp/web-app/chatgpt/connected.png)
 
 <Callout type="note">For on-prem enterprise users, replace `https://app.nocodb.com` with your NocoDB instance URL.</Callout>
-
-#### Configure Tool Permissions
-
-By default, all tools provided by NocoDB are enabled. You can customize which tools are active.
-1. Open NocoDB connector from [ChatGPT Settings](https://chatgpt.com/#settings/Connectors) in a new tab.
-2. All tools are listed under **Actions**. Use the toggles to enable or disable specific tools as needed.
-
-To confirm which workspaces and bases are available, use the **Get Base Info** tool under the NocoDB connector panel.
 
 #### Using NocoDB Tools in OpenAI Web
 
 On the ChatGPT interface, start a new conversation and
 - Click the **+** icon to open the "Tools" menu, enable `Developer Mode` if not already enabled.
-- Use `Add sources` to find and select the NocoDB connector you created. Toggle to enable it.
+- Click `More` to find and select the NocoDB connector you created. Toggle to enable it.
+![using-connector](/img/v2/mcp/web-app/chatgpt/using-chat.png)
 
 Once configured, you can query or update your NocoDB data conversationally. For example:
 
