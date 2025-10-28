@@ -30,6 +30,11 @@ const tabs = [
 
 export default function TopBarNaigation() {
   const pathname = usePathname();
+
+  if(pathname.startsWith("/docs/tags")) {
+    return null;
+  }
+
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [activeIndex, setActiveIndex] = useState(-1);
   const [hoverStyle, setHoverStyle] = useState({});
