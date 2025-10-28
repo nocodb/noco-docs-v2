@@ -1,8 +1,7 @@
 "use client";
-import { PageTree } from 'fumadocs-core/server';
+import * as PageTree from 'fumadocs-core/page-tree';
 import { TreeContextProvider as FumadocsTreeProvider } from 'fumadocs-ui/provider';
 import type { ReactNode } from 'react';
-import { SidebarProvider } from 'fumadocs-core/sidebar';
 
 interface TreeProviderProps {
     children: ReactNode;
@@ -12,9 +11,7 @@ interface TreeProviderProps {
 export function TreeContextProvider({ children, tree }: TreeProviderProps) {
     return (
         <FumadocsTreeProvider tree={tree}>
-            <SidebarProvider>
-                {children}
-            </SidebarProvider>
+            {children}
         </FumadocsTreeProvider>
     );
 }

@@ -1,7 +1,7 @@
 "use client";
 import {useRef} from "react";
 import * as Base from 'fumadocs-core/toc';
-import {TableOfContents} from "fumadocs-core/server";
+import {TableOfContents} from "fumadocs-core/toc";
 
 export default function CustomToc({toc}: { toc: TableOfContents }) {
     const containerRef = useRef<HTMLDivElement>(null);

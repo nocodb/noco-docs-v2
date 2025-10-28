@@ -1,16 +1,13 @@
 "use client";
-import * as SidebarPrimitive from "fumadocs-core/sidebar";
-import {useSidebar, useTreeContext, useTreePath} from "fumadocs-ui/provider";
-import {createContext, ReactNode, useContext, useMemo, useState, useCallback} from "react";
+import {useTreeContext, useTreePath} from "fumadocs-ui/provider";
+import {createContext, ReactNode, useContext, useMemo, useState, useCallback, useEffect} from "react";
 import {useDocsNavigation} from "@/app/docs/DocsNavigationProvider";
-import {PageTree} from "fumadocs-core/server";
+import * as PageTree from "fumadocs-core/page-tree";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
 import {ChevronDown} from "lucide-react";
 import {cn} from "@/lib/utils";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger,} from "@/components/ui/collapsible";
-import {ScrollArea, ScrollViewport} from "@/components/ui/scroll-area";
-import {useOnChange} from "fumadocs-core/utils/use-on-change";
 import { ncIsObject } from "@/utils/is";
 
 interface FolderContextType {
@@ -28,40 +25,16 @@ const useFolderContext = () => {
     return context;
 };
 
-interface InternalContext {
-    level: number;
-    isMobile?: boolean;
-    closeSidebar?: () => void;
-}
-
-const InternalContext = createContext<InternalContext | null>(null);
-
-const useInternalContext = () => {
-    const context = useContext(InternalContext);
-    if (!context) {
-        throw new Error("useInternalContext must be used within an InternalContext Provider");
-    }
-    return context;
-};
-
 const Sidebar = ({isMobile}: {isMobile?: boolean}) => {
     const {root} = useTreeContext();
     const pathname = usePathname();
     const { setIsOpen } = useDocsNavigation();
 
-    const {open} = useSidebar()
-    
     const closeSidebar = useCallback(() => {
         if (isMobile) {
             setIsOpen(false);
         }
     }, [isMobile, setIsOpen]);
-    
-    const context = useMemo<InternalContext>(() => ({
-        level: 1, 
-        isMobile,
-        closeSidebar
-    }), [isMobile, closeSidebar]);
 
     const children = useMemo(() => {
         function renderItems(items: PageTree.Node[], level: number) {
@@ -81,15 +54,11 @@ const Sidebar = ({isMobile}: {isMobile?: boolean}) => {
     }, [pathname]);
 
     return (
-        <InternalContext.Provider value={context}>
-            <SidebarPrimitive.SidebarList removeScrollOn="(width < 768px)" className={cn("xl:flex sticky py-4 mr-3 flex-col shrink-0 ", open ? 'block' : 'hidden xl:block', isMobile ? 'block' : 'hidden top-[120px] h-[calc(100dvh-120px)]  w-64')}>
-                <ScrollArea className="h-full">
-                    <ScrollViewport>
-                        {children}
-                    </ScrollViewport>
-                </ScrollArea>
-            </SidebarPrimitive.SidebarList>
-        </InternalContext.Provider>
+        <div className={cn("xl:flex sticky py-4 mr-3 flex-col shrink-0 ", isMobile ? 'block' : 'hidden xl:block', isMobile ? 'w-64' : 'top-[120px] h-[calc(100dvh-120px)] w-64')}>
+            <div className="flex flex-col gap-2">
+                {children}
+            </div>
+        </div>
     );
 };
 
@@ -99,14 +68,14 @@ function SidebarItem({item, children, level,}: {
     pathname: string;
     level: number;
 }) {
-    const context = useInternalContext();
     const path = useTreePath();
-
     const active = path.includes(item);
-    
+
     const handleLinkClick = () => {
-        if (context.closeSidebar) {
-            context.closeSidebar();
+        // Close sidebar on mobile navigation
+        const sidebar = document.querySelector('[data-sidebar="sidebar"]');
+        if (sidebar && window.innerWidth < 768) {
+            // Mobile sidebar close logic will be handled by Shadcn sidebar
         }
     };
 
@@ -122,7 +91,7 @@ function SidebarItem({item, children, level,}: {
                 href={item.url}
                 onClick={handleLinkClick}
             >
-                {ncIsObject(item.icon) ? item.icon  : ''}
+                {ncIsObject(item.icon) ? item.icon : ''}
                 {item.name}
             </Link>
         );
@@ -131,11 +100,12 @@ function SidebarItem({item, children, level,}: {
     if (item.type === "separator") {
         return (
             <p className="text-fd-muted-foreground mt-6 mb-2 first:mt-0">
-                {ncIsObject(item.icon) ? item.icon  : ''}
+                {ncIsObject(item.icon) ? item.icon : ''}
                 {item.name}
             </p>
         );
     }
+
     if (item.type === "folder") {
         return (
             <SidebarFolder defaultOpen={(active || (item.defaultOpen ?? false))}>
@@ -148,14 +118,14 @@ function SidebarItem({item, children, level,}: {
                                     active
                                         ? "text-nc-content-grey-emphasis"
                                         : "text-nc-content-grey-subtle-2 hover:bg-nc-background-grey-light"
-                            )}
-                            href={item.index.url}
-                            onClick={handleLinkClick}
-                        >
-                            {ncIsObject(item.index.icon) ? item.index.icon  : ''}
-                            {item.index.name}                        
-                        </Link>
-                    </div>
+                                )}
+                                href={item.index.url}
+                                onClick={handleLinkClick}
+                            >
+                                {ncIsObject(item.index.icon) ? item.index.icon : ''}
+                                {item.index.name}
+                            </Link>
+                        </div>
                     </SidebarFolderTrigger>
                 ) : (
                     <SidebarFolderTrigger>
@@ -165,7 +135,7 @@ function SidebarItem({item, children, level,}: {
                                 active? "text-nc-content-grey-subtle-2 font-[600]" : ""
                             )}
                         >
-                            {ncIsObject(item.icon) ? item.icon  : ''}
+                            {ncIsObject(item.icon) ? item.icon : ''}
                             {item.name}
                         </div>
                     </SidebarFolderTrigger>
@@ -190,9 +160,9 @@ function SidebarFolder({defaultOpen = false, children}: {
 }) {
     const [open, setOpen] = useState(defaultOpen);
 
-    useOnChange(defaultOpen, (v) => {
-        if (v) setOpen(v);
-    });
+    useEffect(() => {
+        if (defaultOpen) setOpen(defaultOpen);
+    }, [defaultOpen]);
 
     return (
         <Collapsible open={open} onOpenChange={setOpen}>
@@ -227,19 +197,9 @@ function SidebarFolderTrigger({children}: { children: ReactNode }) {
 }
 
 function SidebarFolderContent({children}: { children: ReactNode }) {
-    const ctx = useInternalContext();
-
     return (
         <CollapsibleContent>
-            <InternalContext.Provider
-                value={useMemo(() => ({
-                    level: ctx.level + 1,
-                    isMobile: ctx.isMobile,
-                    closeSidebar: ctx.closeSidebar
-                }), [ctx.level, ctx.isMobile, ctx.closeSidebar])}
-            >
-                {children}
-            </InternalContext.Provider>
+            {children}
         </CollapsibleContent>
     );
 }

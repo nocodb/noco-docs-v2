@@ -7,7 +7,7 @@ import { AnchorProvider } from 'fumadocs-core/toc';
 import { TOCProvider, TOCScrollArea } from 'fumadocs-ui/components/layout/toc';
 import { PageTOC } from 'fumadocs-ui/layouts/docs/page'
 import ClerkTOCItems from 'fumadocs-ui/components/layout/toc-clerk';
-import { getPageTreePeers } from 'fumadocs-core/server';
+import { getPageTreePeers } from 'fumadocs-core/page-tree';
 import { Cards, Card } from 'fumadocs-ui/components/card';
 import TOCMobile from '@/components/layout/TOCMobile';
 

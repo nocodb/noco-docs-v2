@@ -3,7 +3,7 @@ import {Client} from "typesense";
 import {useDebounce} from "@/utils/useDebounce";
 import {useOnChange} from "fumadocs-core/utils/use-on-change";
 import {searchDocs} from "@/utils/search/client";
-import {SortedResult} from "fumadocs-core/server";
+import {SortedResult} from "fumadocs-core/search";
 
 
 export const useTypesenseSearch = (client: Client, typesenseCollection: string, delayMs = 100, allowEmpty = false, locale?: string, tag?: string, key?: string) => {
