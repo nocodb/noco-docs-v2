@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { isMarkdownPreferred } from 'fumadocs-core/negotiation';
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   // Handle AI agents requesting markdown via Accept header
   if (isMarkdownPreferred(request)) {
     const pathname = request.nextUrl.pathname;

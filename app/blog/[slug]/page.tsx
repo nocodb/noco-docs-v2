@@ -1,7 +1,7 @@
 import {blogSource} from "@/lib/source";
 import Link from "next/link";
 import {notFound} from "next/navigation";
-import {metadataImage} from "@/lib/metadata";
+import {getPageImage} from "@/lib/metadata";
 import {calculateReadingTime} from "@/lib/timeToRead";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import CustomToc from "@/components/blog/CustomToc";
@@ -22,14 +22,26 @@ export async function generateMetadata(props: {
     const page = blogSource.getPage([params.slug]);
     if (!page) notFound();
 
+    const imageUrl = getPageImage(page).url;
 
-    return metadataImage.withImage(page.slugs, {
+    return {
         title: page.data.title,
         description: page.data.description,
+        openGraph: {
+            title: page.data.title,
+            description: page.data.description,
+            images: [imageUrl],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: page.data.title,
+            description: page.data.description,
+            images: [imageUrl],
+        },
         icons: {
             icon: '/img/favicon.png',
         }
-    });
+    };
 }
 
 export default async function page(props: {
