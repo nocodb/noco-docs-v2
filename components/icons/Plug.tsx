@@ -1,7 +1,7 @@
-import * as React from "react"
-import { SVGProps } from "react"
+import type { SVGProps } from "react";
+
 const SvgComponent = (props: SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" {...props}>
+  <svg fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
     <g
       stroke="currentColor"
       strokeLinecap="round"
@@ -12,5 +12,5 @@ const SvgComponent = (props: SVGProps<SVGSVGElement>) => (
       <path d="m5.492 2.098 6.588 6.588-2.47 2.47a3.105 3.105 0 0 1-4.393 0L3.021 8.962a3.106 3.106 0 0 1 0-4.392l2.47-2.47ZM13.178 4.294l-2.47 2.47M9.884 1l-2.47 2.47" />
     </g>
   </svg>
-)
-export default SvgComponent
+);
+export default SvgComponent;

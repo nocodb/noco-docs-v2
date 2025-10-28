@@ -1,8 +1,3 @@
 {
-  "pages": [
-    "index",
-    "api-reference",
-    "examples",
-    "changelog"
-  ]
+  "pages": ["index", "api-reference", "examples", "changelog"]
 }

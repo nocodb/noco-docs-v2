@@ -1,21 +1,21 @@
 {
-    "title": "API Reference",
-    "defaultOpen": true,
-    "pages": [
-      "base",
-      "cursor",
-      "table",
-      "view",
-      "field",
-      "record-query-result",
-      "record",
-      "session",
-      "collaborator",
-      "script-settings",
-      "script-steps",
-      "input",
-      "output",
-      "fetch",
-      "external-packages"
-    ]
-  }
+  "title": "API Reference",
+  "defaultOpen": true,
+  "pages": [
+    "base",
+    "cursor",
+    "table",
+    "view",
+    "field",
+    "record-query-result",
+    "record",
+    "session",
+    "collaborator",
+    "script-settings",
+    "script-steps",
+    "input",
+    "output",
+    "fetch",
+    "external-packages"
+  ]
+}

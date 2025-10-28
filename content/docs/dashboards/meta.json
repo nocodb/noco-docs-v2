@@ -1,7 +1,5 @@
 {
-  "pages": [
-    "widgets"
-  ],
+  "pages": ["widgets"],
   "title": "Dashboard ☁",
   "icon": "chart"
 }

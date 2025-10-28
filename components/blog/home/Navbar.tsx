@@ -1,18 +1,3 @@
-import Image from "next/image";
-import Link from "next/link";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
-import {
-  AlignJustify,
-  ChevronDown,
-  Database,
-  Code,
-} from "lucide-react";
 import {
   SiDiscord,
   SiDiscourse,
@@ -21,43 +6,53 @@ import {
   SiX,
   SiYoutube,
 } from "@icons-pack/react-simple-icons";
+import { AlignJustify, ChevronDown, Code, Database } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function Navbar() {
   return (
-    <div className="h-18 flex items-center py-3 pr-3 pl-4 z-4 border-1 border-[#e7e7e9] sticky top-0 bg-white/50 backdrop-blur-sm">
-      <div className="flex items-center justify-between container mx-auto">
+    <div className="sticky top-0 z-4 flex h-18 items-center border-1 border-[#e7e7e9] bg-white/50 py-3 pr-3 pl-4 backdrop-blur-sm">
+      <div className="container mx-auto flex items-center justify-between">
         <Link href="https://nocodb.com">
           <Image
-            src="/img/nocodb-text-logo.svg"
             alt="NocoDB"
-            width={100}
-            height={50}
             className="h-6 w-auto"
+            height={50}
+            src="/img/nocodb-text-logo.svg"
+            width={100}
           />
         </Link>
 
-        <div className="items-center hidden lg:flex">
+        <div className="hidden items-center lg:flex">
           <Link href="https://nocodb.com/#How-it-works">
             <Button
+              className="font-light text-nc-content-grey-subtle"
               variant="ghost"
-              className="text-nc-content-grey-subtle font-light"
             >
               How it works
             </Button>
           </Link>
           <Link href="https://nocodb.com/#Why-NocoDB">
             <Button
+              className="font-light text-nc-content-grey-subtle"
               variant="ghost"
-              className="text-nc-content-grey-subtle font-light"
             >
               Why NocoDB
             </Button>
           </Link>
           <Link href="https://nocodb.com/thousands-of-airtable-bases-imported-to-nocodb-successfuly">
             <Button
+              className="font-light text-nc-content-grey-subtle"
               variant="ghost"
-              className="text-nc-content-grey-subtle font-light"
             >
               Import Airtable
             </Button>
@@ -65,61 +60,61 @@ export function Navbar() {
 
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <div className="flex items-center text-sm px-3 py-2 rounded-md hover:bg-nc-background-grey-light gap-2 text-nc-content-grey-subtle font-light">
+              <div className="flex items-center gap-2 rounded-md px-3 py-2 font-light text-nc-content-grey-subtle text-sm hover:bg-nc-background-grey-light">
                 APIs
-                <ChevronDown className="w-4 h-4" />
+                <ChevronDown className="h-4 w-4" />
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-64 p-2">
-              <DropdownMenuItem className="cursor-pointer hover:bg-nc-background-grey-extra-light rounded-md px-3">
+              <DropdownMenuItem className="cursor-pointer rounded-md px-3 hover:bg-nc-background-grey-extra-light">
                 <Link
+                  className="flex w-full items-center gap-3"
                   href="https://nocodb.com/apis/v2/meta"
-                  className="flex items-center gap-3 w-full"
                 >
-                  <Database className="w-5 h-5" />
+                  <Database className="h-5 w-5" />
                   <span>
                     Meta APIs{" "}
                     <span className="text-muted-foreground">(v2)</span>
                   </span>
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer hover:bg-nc-background-grey-extra-light rounded-md px-3">
+              <DropdownMenuItem className="cursor-pointer rounded-md px-3 hover:bg-nc-background-grey-extra-light">
                 <Link
+                  className="flex w-full items-center gap-3"
                   href="https://nocodb.com/apis/v2/data"
-                  className="flex items-center gap-3 w-full"
                 >
-                  <Code className="w-5 h-5" />
+                  <Code className="h-5 w-5" />
                   <span>
                     Data APIs{" "}
                     <span className="text-muted-foreground">(v2)</span>
                   </span>
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer hover:bg-nc-background-grey-extra-light rounded-md px-3">
+              <DropdownMenuItem className="cursor-pointer rounded-md px-3 hover:bg-nc-background-grey-extra-light">
                 <Link
+                  className="flex w-full items-center gap-3"
                   href="https://nocodb.com/apis/v3/meta"
-                  className="flex items-center gap-3 w-full"
                 >
-                  <Database className="w-5 h-5" />
+                  <Database className="h-5 w-5" />
                   <span>
                     Meta APIs{" "}
                     <span className="text-muted-foreground">(v3)</span>{" "}
-                    <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded">
+                    <span className="rounded bg-blue-100 px-2 py-0.5 text-blue-700 text-xs">
                       Beta
                     </span>
                   </span>
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer hover:bg-nc-background-grey-extra-light rounded-md px-3">
+              <DropdownMenuItem className="cursor-pointer rounded-md px-3 hover:bg-nc-background-grey-extra-light">
                 <Link
+                  className="flex w-full items-center gap-3"
                   href="https://nocodb.com/apis/v3/data"
-                  className="flex items-center gap-3 w-full"
                 >
-                  <Code className="w-5 h-5" />
+                  <Code className="h-5 w-5" />
                   <span>
                     Data APIs{" "}
                     <span className="text-muted-foreground">(v3)</span>{" "}
-                    <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded">
+                    <span className="rounded bg-blue-100 px-2 py-0.5 text-blue-700 text-xs">
                       Beta
                     </span>
                   </span>
@@ -128,59 +123,59 @@ export function Navbar() {
 
               <DropdownMenuSeparator className="my-2" />
 
-              <div className="px-3 py-2 text-xs font-semibold text-muted-foreground tracking-wider">
+              <div className="px-3 py-2 font-semibold text-muted-foreground text-xs tracking-wider">
                 COMMUNITY
               </div>
 
-              <DropdownMenuItem className="cursor-pointer hover:bg-nc-background-grey-extra-light rounded-md px-3">
+              <DropdownMenuItem className="cursor-pointer rounded-md px-3 hover:bg-nc-background-grey-extra-light">
                 <Link
+                  className="flex w-full items-center gap-3"
                   href="https://community.nocodb.com"
-                  className="flex items-center gap-3 w-full"
                 >
                   <SiDiscourse />
                   <span>NocoDB Forum</span>
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer hover:bg-nc-background-grey-extra-light rounded-md px-3">
+              <DropdownMenuItem className="cursor-pointer rounded-md px-3 hover:bg-nc-background-grey-extra-light">
                 <Link
+                  className="flex w-full items-center gap-3"
                   href="https://github.com/nocodb/nocodb"
-                  className="flex items-center gap-3 w-full"
                 >
                   <SiGithub />
                   <span>Github</span>
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer hover:bg-nc-background-grey-extra-light rounded-md px-3">
+              <DropdownMenuItem className="cursor-pointer rounded-md px-3 hover:bg-nc-background-grey-extra-light">
                 <Link
+                  className="flex w-full items-center gap-3"
                   href="https://reddit.com/r/NocoDB"
-                  className="flex items-center gap-3 w-full"
                 >
                   <SiReddit />
                   <span>Reddit</span>
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer hover:bg-nc-background-grey-extra-light rounded-md px-3">
+              <DropdownMenuItem className="cursor-pointer rounded-md px-3 hover:bg-nc-background-grey-extra-light">
                 <Link
+                  className="flex w-full items-center gap-3"
                   href="https://discord.gg/5RgZmkW"
-                  className="flex items-center gap-3 w-full"
                 >
                   <SiDiscord />
                   <span>Discord</span>
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer hover:bg-nc-background-grey-extra-light rounded-md px-3">
+              <DropdownMenuItem className="cursor-pointer rounded-md px-3 hover:bg-nc-background-grey-extra-light">
                 <Link
+                  className="flex w-full items-center gap-3"
                   href="https://twitter.com/nocodb"
-                  className="flex items-center gap-3 w-full"
                 >
                   <SiX />
                   <span>Twitter</span>
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer hover:bg-nc-background-grey-extra-light rounded-md px-3">
+              <DropdownMenuItem className="cursor-pointer rounded-md px-3 hover:bg-nc-background-grey-extra-light">
                 <Link
+                  className="flex w-full items-center gap-3"
                   href="https://youtube.com/@nocodb"
-                  className="flex items-center gap-3 w-full"
                 >
                   <SiYoutube />
                   <span>YouTube</span>
@@ -191,8 +186,8 @@ export function Navbar() {
 
           <Link href="https://nocodb.com/docs/product-docs">
             <Button
+              className="font-light text-nc-content-grey-subtle"
               variant="ghost"
-              className="text-nc-content-grey-subtle font-light"
             >
               Docs
             </Button>
@@ -200,8 +195,8 @@ export function Navbar() {
 
           <Link href="https://nocodb.com/pricing">
             <Button
+              className="font-light text-nc-content-grey-subtle"
               variant="ghost"
-              className="text-nc-content-grey-subtle font-light"
             >
               Pricing
             </Button>
@@ -209,7 +204,7 @@ export function Navbar() {
         </div>
 
         <Link
-          className="bg-nc-content-brand-default h-[40px] font-semibold  hidden lg:block text-white rounded-[12px] px-6 py-2"
+          className="hidden h-[40px] rounded-[12px] bg-nc-content-brand-default px-6 py-2 font-semibold text-white lg:block"
           href="https://app.nocodb.com"
         >
           Go to App

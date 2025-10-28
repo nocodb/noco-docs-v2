@@ -1,8 +1,4 @@
 {
   "title": "Webhook",
-  "pages": [
-    "create-webhook",
-    "actions-on-webhook",
-    "webhook-v2-vs-v3"
-  ]
+  "pages": ["create-webhook", "actions-on-webhook", "webhook-v2-vs-v3"]
 }

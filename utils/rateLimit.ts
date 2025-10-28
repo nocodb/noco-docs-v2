@@ -1,16 +1,16 @@
-interface RateLimitData {
+type RateLimitData = {
   count: number;
   firstRequest: number;
-}
+};
 
-interface RateLimitResult {
+type RateLimitResult = {
   allowed: boolean;
   remaining: number;
   resetAt?: number;
-}
+};
 
 class RateLimiter {
-  private requests: Map<string, RateLimitData>;
+  private readonly requests: Map<string, RateLimitData>;
   private cleanupIntervalId?: NodeJS.Timeout;
 
   constructor() {
@@ -35,16 +35,16 @@ class RateLimiter {
     data.count += 1;
 
     if (data.count > limit) {
-      return { 
-        allowed: false, 
+      return {
+        allowed: false,
         remaining: 0,
-        resetAt: data.firstRequest + interval 
+        resetAt: data.firstRequest + interval,
       };
     }
 
-    return { 
-      allowed: true, 
-      remaining: limit - data.count 
+    return {
+      allowed: true,
+      remaining: limit - data.count,
     };
   }
 
@@ -58,7 +58,10 @@ class RateLimiter {
   }
 
   startCleanup(interval: number): void {
-    this.cleanupIntervalId = setInterval(() => this.cleanup(interval), interval);
+    this.cleanupIntervalId = setInterval(
+      () => this.cleanup(interval),
+      interval
+    );
   }
 
   stopCleanup(): void {
@@ -75,24 +78,24 @@ class RateLimiter {
 }
 
 const rateLimiter = new RateLimiter();
-rateLimiter.startCleanup(60000); 
+rateLimiter.startCleanup(60_000);
 
-interface RateLimitConfig {
+type RateLimitConfig = {
   limit?: number;
   interval?: number;
   identifier?: string;
-}
+};
 
 export function validateRateLimit(
   request: Request,
   config: RateLimitConfig = {}
 ): Response | null {
-  const { limit = 10, interval = 60000, identifier } = config;
+  const { limit = 10, interval = 60_000, identifier } = config;
 
   const ip =
-    request.headers.get('x-forwarded-for')?.split(',')[0] ??
-    request.headers.get('x-real-ip') ??
-    'unknown';
+    request.headers.get("x-forwarded-for")?.split(",")[0] ??
+    request.headers.get("x-real-ip") ??
+    "unknown";
 
   const key = identifier ? `${ip}:${identifier}` : ip;
 
@@ -105,17 +108,17 @@ export function validateRateLimit(
 
     return Response.json(
       {
-        error: 'Too many requests',
-        message: 'Please try again later',
+        error: "Too many requests",
+        message: "Please try again later",
         retryAfter,
       },
       {
         status: 429,
         headers: {
-          'X-RateLimit-Limit': limit.toString(),
-          'X-RateLimit-Remaining': '0',
-          'X-RateLimit-Reset': rateLimit.resetAt?.toString() ?? '',
-          'Retry-After': retryAfter.toString(),
+          "X-RateLimit-Limit": limit.toString(),
+          "X-RateLimit-Remaining": "0",
+          "X-RateLimit-Reset": rateLimit.resetAt?.toString() ?? "",
+          "Retry-After": retryAfter.toString(),
         },
       }
     );
