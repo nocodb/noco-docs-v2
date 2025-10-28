@@ -1,30 +1,35 @@
-import * as React from "react";
-import {iconMap, IconNameType} from "@/lib/iconMap";
+import type * as React from "react";
+import { type IconNameType, iconMap } from "@/lib/iconMap";
 
-interface IconProps {
-    name: IconNameType;
-    color?: string;
-    ariaLabel?: string;
-    className?: string;
-}
+type IconProps = {
+  name: IconNameType;
+  color?: string;
+  ariaLabel?: string;
+  className?: string;
+};
 
-const Icon: React.FC<IconProps> = ({name, color = "currentColor", ariaLabel, className, ...args}) => {
-    const IconComponent = iconMap[name];
+const Icon: React.FC<IconProps> = ({
+  name,
+  color = "currentColor",
+  ariaLabel,
+  className,
+  ...args
+}) => {
+  const IconComponent = iconMap[name];
 
-    if (!IconComponent) {
-        console.warn(`Icon "${name}" not found in iconMap`);
-        return null;
-    }
+  if (!IconComponent) {
+    return null;
+  }
 
-    return (
-        <IconComponent
-            color={color}
-            aria-label={ariaLabel}
-            className={className}
-            role={ariaLabel ? "img" : undefined}
-            {...args}
-        />
-    );
+  return (
+    <IconComponent
+      aria-label={ariaLabel}
+      className={className}
+      color={color}
+      role={ariaLabel ? "img" : undefined}
+      {...args}
+    />
+  );
 };
 
 export default Icon;

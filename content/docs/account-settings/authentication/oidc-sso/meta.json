@@ -1,9 +1,4 @@
 {
   "title": "OpenID Connect",
-  "pages": [
-    "okta",
-    "auth0",
-    "ping-identity",
-    "azure-ad"
-  ]
+  "pages": ["okta", "auth0", "ping-identity", "azure-ad"]
 }

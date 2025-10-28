@@ -1,5 +1,5 @@
-import NotFoundPage from '@/components/NotFoundPage'
+import NotFoundPage from "@/components/NotFoundPage";
 
-export default async function NotFound() {
-  return <NotFoundPage url="/docs/product-docs" />
+export default function NotFound() {
+  return <NotFoundPage url="/docs/product-docs" />;
 }

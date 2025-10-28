@@ -1,9 +1,4 @@
 {
   "title": "Select based",
-  "pages": [
-    "single-select",
-    "checkbox",
-    "multi-select",
-    "rating"
-  ]
+  "pages": ["single-select", "checkbox", "multi-select", "rating"]
 }

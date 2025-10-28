@@ -1,4 +1,13 @@
 {
   "title": "Field types",
-  "pages": ["text-based", "numerical", "select-based", "links-based", "custom-types", "formula", "date-time-based", "user-based"]
+  "pages": [
+    "text-based",
+    "numerical",
+    "select-based",
+    "links-based",
+    "custom-types",
+    "formula",
+    "date-time-based",
+    "user-based"
+  ]
 }

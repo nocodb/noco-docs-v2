@@ -164,4 +164,4 @@ The dashboard will open in the editor mode where you can add widgets to the dash
 * Include real examples.
 * Be transparent about missing info.
 * Never inline links.
-* Stay focused on the user's question—avoid information overload.`
+* Stay focused on the user's question—avoid information overload.`;

@@ -1,10 +1,4 @@
 {
   "title": "Authentication ☁",
-  "pages": [
-    "authentication",
-    "google-oauth",
-    "saml-sso",
-    "oidc-sso",
-    "FAQs"
-  ]
+  "pages": ["authentication", "google-oauth", "saml-sso", "oidc-sso", "FAQs"]
 }

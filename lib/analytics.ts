@@ -1,11 +1,11 @@
-export type AnalyticsEventNames = 'a:docs:ai:search' | 'page_view';
-export interface BasePayload {
+export type AnalyticsEventNames = "a:docs:ai:search" | "page_view";
+export type BasePayload = {
   event: AnalyticsEventNames;
   created_at?: number;
-}
+};
 
 export interface AISearchPayload extends BasePayload {
-  event: 'a:docs:ai:search';
+  event: "a:docs:ai:search";
   query: string;
   response: string;
   all_parts: string;
@@ -16,7 +16,7 @@ export interface AISearchPayload extends BasePayload {
 }
 
 export interface PageViewPayload extends BasePayload {
-  event: 'page_view';
+  event: "page_view";
   page_url: string;
   page_title?: string;
   referrer?: string;
@@ -25,19 +25,21 @@ export interface PageViewPayload extends BasePayload {
 
 export type EventPayload = AISearchPayload | PageViewPayload;
 
-export type PayloadType<T extends AnalyticsEventNames> = 
-  T extends 'a:docs:ai:search' ? Omit<AISearchPayload, 'event'> :
-  T extends 'page_view' ? Omit<PageViewPayload, 'event'> :
-  never;
+export type PayloadType<T extends AnalyticsEventNames> =
+  T extends "a:docs:ai:search"
+    ? Omit<AISearchPayload, "event">
+    : T extends "page_view"
+      ? Omit<PageViewPayload, "event">
+      : never;
 
-export interface TelemetryRequestBody {
+export type TelemetryRequestBody = {
   clientId?: string;
   events: EventPayload[];
-}
-export interface TelemetryResponse {
+};
+export type TelemetryResponse = {
   success: boolean;
   message?: string;
-}
+};
 
 /**
  * Track events to NocoDB telemetry
@@ -63,10 +65,10 @@ export async function trackEvent<T extends AnalyticsEventNames>(
       events: [eventPayload],
     };
 
-    await fetch('https://nocodb.com/api/v1/tele', {
-      method: 'POST',
+    await fetch("https://nocodb.com/api/v1/tele", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
+        "Content-Type": "application/json;charset=UTF-8",
       },
       body: JSON.stringify(requestBody),
     }).catch(() => {});

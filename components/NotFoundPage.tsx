@@ -1,35 +1,38 @@
-import Link from 'next/link'
-import Image from 'next/image'
-interface NotFoundPageProps {
+import Image from "next/image";
+import Link from "next/link";
+
+type NotFoundPageProps = {
   url: string;
   label?: string;
-}
+};
 
 export default function NotFoundPage({ url, label }: NotFoundPageProps) {
   return (
-    <div className="flex flex-col items-center w-full justify-center lg:justify-start min-h-[60vh] lg:my-20 text-center px-4">
-      <Image 
-        src="/img/404.svg" 
-        alt="404 Not Found" 
-        width={640} 
-        height={300} 
+    <div className="flex min-h-[60vh] w-full flex-col items-center justify-center px-4 text-center lg:my-20 lg:justify-start">
+      <Image
+        alt="404 Not Found"
         className="mb-8"
+        height={300}
+        src="/img/404.svg"
+        width={640}
       />
-      <p className="text-lg font-semibold mb-6">Seems like this page does not exist</p>
+      <p className="mb-6 font-semibold text-lg">
+        Seems like this page does not exist
+      </p>
       <div className="flex gap-4">
-        <Link 
-          href={url} 
-          className="px-2 py-1 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+        <Link
+          className="rounded-lg bg-primary px-2 py-1 text-white transition-colors hover:bg-primary/90"
+          href={url}
         >
-          {label || 'Go to Docs Home'}
+          {label || "Go to Docs Home"}
         </Link>
-        <Link 
-          href="https://app.nocodb.com" 
-          className="px-2 py-1 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
+        <Link
+          className="rounded-lg border border-gray-300 px-2 py-1 transition-colors hover:bg-gray-100"
+          href="https://app.nocodb.com"
         >
           Go to App
         </Link>
       </div>
     </div>
-  )
+  );
 }

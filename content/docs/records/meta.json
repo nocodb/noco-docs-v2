@@ -1,9 +1,5 @@
 {
   "title": "Records",
-  "pages": [
-    "create-record",
-    "expand-record",
-    "actions-on-record"
-  ],
+  "pages": ["create-record", "expand-record", "actions-on-record"],
   "icon": "list"
 }

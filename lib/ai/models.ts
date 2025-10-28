@@ -1,15 +1,15 @@
-import { openai, createOpenAI } from '@ai-sdk/openai';
-import { google, createGoogleGenerativeAI } from '@ai-sdk/google';
-import { anthropic, createAnthropic } from '@ai-sdk/anthropic';
-import { createOpenRouter } from '@openrouter/ai-sdk-provider';
-import type { LanguageModel } from 'ai';
+import { anthropic, createAnthropic } from "@ai-sdk/anthropic";
+import { createGoogleGenerativeAI, google } from "@ai-sdk/google";
+import { createOpenAI, openai } from "@ai-sdk/openai";
+import { createOpenRouter } from "@openrouter/ai-sdk-provider";
+import type { LanguageModel } from "ai";
 
-export interface ModelWithTools {
+export type ModelWithTools = {
   model: LanguageModel;
   tools: Record<string, unknown>;
-}
+};
 
-export type ModelProvider = 'openai' | 'google' | 'anthropic' | 'openrouter';
+export type ModelProvider = "openai" | "google" | "anthropic" | "openrouter";
 
 /**
  * Create a model instance based on environment configuration
@@ -22,15 +22,15 @@ export type ModelProvider = 'openai' | 'google' | 'anthropic' | 'openrouter';
  * - OPENROUTER_API_KEY: for OpenRouter provider (required for OpenRouter)
  */
 export function createModel(): ModelWithTools {
-  const provider = (process.env.AI_PROVIDER as ModelProvider) || 'openai';
+  const provider = (process.env.AI_PROVIDER as ModelProvider) || "openai";
   const modelId = process.env.AI_MODEL;
 
   switch (provider) {
-    case 'openai': {
-      const modelName = modelId || 'gpt-4-turbo';
+    case "openai": {
+      const modelName = modelId || "gpt-4-turbo";
       let modelInstance: LanguageModel;
       let openaiProvider: ReturnType<typeof createOpenAI> | typeof openai;
-      
+
       // If custom API key is provided, create custom client
       if (process.env.OPENAI_API_KEY) {
         openaiProvider = createOpenAI({
@@ -41,21 +41,23 @@ export function createModel(): ModelWithTools {
         openaiProvider = openai;
         modelInstance = openai(modelName);
       }
-      
+
       return {
         model: modelInstance,
         tools: {
           web_search: openaiProvider.tools.webSearch({
-            searchContextSize: 'high',
+            searchContextSize: "high",
           }),
         },
       };
     }
-    case 'google': {
-      const modelName = modelId || 'gemini-1.5-pro';
+    case "google": {
+      const modelName = modelId || "gemini-1.5-pro";
       let modelInstance: LanguageModel;
-      let googleProvider: ReturnType<typeof createGoogleGenerativeAI> | typeof google;
-      
+      let googleProvider:
+        | ReturnType<typeof createGoogleGenerativeAI>
+        | typeof google;
+
       // If custom API key is provided, create custom client
       if (process.env.GOOGLE_GENERATIVE_AI_API_KEY) {
         googleProvider = createGoogleGenerativeAI({
@@ -66,7 +68,7 @@ export function createModel(): ModelWithTools {
         googleProvider = google;
         modelInstance = google(modelName);
       }
-      
+
       return {
         model: modelInstance,
         tools: {
@@ -74,11 +76,13 @@ export function createModel(): ModelWithTools {
         },
       };
     }
-    case 'anthropic': {
-      const modelName = modelId || 'claude-3-5-sonnet-20241022';
+    case "anthropic": {
+      const modelName = modelId || "claude-3-5-sonnet-20241022";
       let modelInstance: LanguageModel;
-      let anthropicProvider: ReturnType<typeof createAnthropic> | typeof anthropic;
-      
+      let anthropicProvider:
+        | ReturnType<typeof createAnthropic>
+        | typeof anthropic;
+
       // If custom API key is provided, create custom client
       if (process.env.ANTHROPIC_API_KEY) {
         anthropicProvider = createAnthropic({
@@ -89,7 +93,7 @@ export function createModel(): ModelWithTools {
         anthropicProvider = anthropic;
         modelInstance = anthropic(modelName);
       }
-      
+
       return {
         model: modelInstance,
         tools: {
@@ -99,10 +103,10 @@ export function createModel(): ModelWithTools {
         },
       };
     }
-    case 'openrouter': {
-      const modelName = modelId || 'openai/gpt-4-turbo';
+    case "openrouter": {
+      const modelName = modelId || "openai/gpt-4-turbo";
       const openrouter = createOpenRouter({
-        apiKey: process.env.OPENROUTER_API_KEY || '',
+        apiKey: process.env.OPENROUTER_API_KEY || "",
       });
       return {
         model: openrouter(modelName),
@@ -110,7 +114,9 @@ export function createModel(): ModelWithTools {
       };
     }
     default:
-      throw new Error(`Unsupported AI provider: ${provider}. Use 'openai', 'google', 'anthropic', or 'openrouter'.`);
+      throw new Error(
+        `Unsupported AI provider: ${provider}. Use 'openai', 'google', 'anthropic', or 'openrouter'.`
+      );
   }
 }
 
@@ -124,10 +130,10 @@ export function createCustomModel(
   apiKey?: string
 ): ModelWithTools {
   switch (provider) {
-    case 'openai': {
+    case "openai": {
       let openaiProvider: ReturnType<typeof createOpenAI> | typeof openai;
       let modelInstance: LanguageModel;
-      
+
       if (apiKey) {
         openaiProvider = createOpenAI({ apiKey });
         modelInstance = openaiProvider(modelId);
@@ -135,20 +141,22 @@ export function createCustomModel(
         openaiProvider = openai;
         modelInstance = openai(modelId);
       }
-      
+
       return {
         model: modelInstance,
         tools: {
           web_search: openaiProvider.tools.webSearch({
-            searchContextSize: 'high',
+            searchContextSize: "high",
           }),
         },
       };
     }
-    case 'google': {
-      let googleProvider: ReturnType<typeof createGoogleGenerativeAI> | typeof google;
+    case "google": {
+      let googleProvider:
+        | ReturnType<typeof createGoogleGenerativeAI>
+        | typeof google;
       let modelInstance: LanguageModel;
-      
+
       if (apiKey) {
         googleProvider = createGoogleGenerativeAI({ apiKey });
         modelInstance = googleProvider(modelId);
@@ -156,7 +164,7 @@ export function createCustomModel(
         googleProvider = google;
         modelInstance = google(modelId);
       }
-      
+
       return {
         model: modelInstance,
         tools: {
@@ -164,10 +172,12 @@ export function createCustomModel(
         },
       };
     }
-    case 'anthropic': {
-      let anthropicProvider: ReturnType<typeof createAnthropic> | typeof anthropic;
+    case "anthropic": {
+      let anthropicProvider:
+        | ReturnType<typeof createAnthropic>
+        | typeof anthropic;
       let modelInstance: LanguageModel;
-      
+
       if (apiKey) {
         anthropicProvider = createAnthropic({ apiKey });
         modelInstance = anthropicProvider(modelId);
@@ -175,7 +185,7 @@ export function createCustomModel(
         anthropicProvider = anthropic;
         modelInstance = anthropic(modelId);
       }
-      
+
       return {
         model: modelInstance,
         tools: {
@@ -185,9 +195,9 @@ export function createCustomModel(
         },
       };
     }
-    case 'openrouter': {
+    case "openrouter": {
       const openrouter = createOpenRouter({
-        apiKey: apiKey || process.env.OPENROUTER_API_KEY || '',
+        apiKey: apiKey || process.env.OPENROUTER_API_KEY || "",
       });
       return {
         model: openrouter(modelId),

@@ -1,114 +1,122 @@
+import path from "node:path";
+import { getTableOfContents } from "fumadocs-core/content/toc";
+import { getSlugs } from "fumadocs-core/source";
 import {
   printErrors,
   readFiles,
   scanURLs,
   validateFiles,
-} from 'next-validate-link';
-import { getSlugs } from 'fumadocs-core/source';
-import { getTableOfContents } from 'fumadocs-core/content/toc';
-import path from 'node:path';
-
+} from "next-validate-link";
 
 async function checkLinks() {
   // Read all documentation files
-  const docsFiles = await readFiles('content/docs/**/*.{md,mdx}');
-  
-  // Read blog files
-  const blogFiles = await readFiles('content/blog/**/*.{md,mdx}');
-  
-  // Read self-hosting files
-  const selfHostingFiles = await readFiles('content/self-hosting/**/*.{md,mdx}');
-  
-  // Read scripts files
-  const scriptsFiles = await readFiles('content/scripts/**/*.{md,mdx}');
-  
-  // Read changelog files
-  const changelogFiles = await readFiles('content/changelog/**/*.{md,mdx}');
+  const docsFiles = await readFiles("content/docs/**/*.{md,mdx}");
 
-  const legalDocsFiles = await readFiles('content/legal/**/*.{md,mdx}');
+  // Read blog files
+  const blogFiles = await readFiles("content/blog/**/*.{md,mdx}");
+
+  // Read self-hosting files
+  const selfHostingFiles = await readFiles(
+    "content/self-hosting/**/*.{md,mdx}"
+  );
+
+  // Read scripts files
+  const scriptsFiles = await readFiles("content/scripts/**/*.{md,mdx}");
+
+  // Read changelog files
+  const changelogFiles = await readFiles("content/changelog/**/*.{md,mdx}");
+
+  const legalDocsFiles = await readFiles("content/legal/**/*.{md,mdx}");
 
   const scanned = await scanURLs({
     populate: {
       // Blog routes
-      '(home)/blog/[slug]': blogFiles.map((file) => {
-        const relativePath = path.relative('content/blog', file.path);
-        
+      "(home)/blog/[slug]": blogFiles.map((file) => {
+        const relativePath = path.relative("content/blog", file.path);
+
         return {
           value: getSlugs(relativePath)[0],
           hashes: getTableOfContents(file.content).map((item) =>
-            item.url.slice(1),
+            item.url.slice(1)
           ),
         };
       }),
-      
+
       // Main docs routes
-      'docs/product-docs/[[...slug]]': docsFiles.map((file) => {
-        const relativePath = path.relative('content/docs', file.path);
-        
+      "docs/product-docs/[[...slug]]": docsFiles.map((file) => {
+        const relativePath = path.relative("content/docs", file.path);
+
         return {
           value: getSlugs(relativePath),
           hashes: getTableOfContents(file.content).map((item) =>
-            item.url.slice(1),
+            item.url.slice(1)
           ),
         };
       }),
 
-      'docs/legal/[[...slug]]': legalDocsFiles.map((file) => {
-        const relativePath = path.relative('content/legal', file.path);
-        
+      "docs/legal/[[...slug]]": legalDocsFiles.map((file) => {
+        const relativePath = path.relative("content/legal", file.path);
+
         return {
           value: getSlugs(relativePath),
           hashes: getTableOfContents(file.content).map((item) =>
-            item.url.slice(1),
+            item.url.slice(1)
           ),
         };
       }),
-      
+
       // Self-hosting docs routes
-      'docs/self-hosting/[[...slug]]': selfHostingFiles.map((file) => {
-        const relativePath = path.relative('content/self-hosting', file.path);
-        
+      "docs/self-hosting/[[...slug]]": selfHostingFiles.map((file) => {
+        const relativePath = path.relative("content/self-hosting", file.path);
+
         return {
           value: getSlugs(relativePath),
           hashes: getTableOfContents(file.content).map((item) =>
-            item.url.slice(1),
+            item.url.slice(1)
           ),
         };
       }),
-      
+
       // Scripts docs routes
-      'docs/scripts/[[...slug]]': scriptsFiles.map((file) => {
-        const relativePath = path.relative('content/scripts', file.path);
-        
+      "docs/scripts/[[...slug]]": scriptsFiles.map((file) => {
+        const relativePath = path.relative("content/scripts", file.path);
+
         return {
           value: getSlugs(relativePath),
           hashes: getTableOfContents(file.content).map((item) =>
-            item.url.slice(1),
+            item.url.slice(1)
           ),
         };
       }),
-      
+
       // Changelog routes
-      'docs/changelog/[slug]': changelogFiles.map((file) => {
-        const relativePath = path.relative('content/changelog', file.path);
-        
+      "docs/changelog/[slug]": changelogFiles.map((file) => {
+        const relativePath = path.relative("content/changelog", file.path);
+
         return {
           value: getSlugs(relativePath)[0],
           hashes: getTableOfContents(file.content).map((item) =>
-            item.url.slice(1),
+            item.url.slice(1)
           ),
         };
       }),
     },
   });
 
-  const results = await validateFiles([...docsFiles, ...blogFiles, ...selfHostingFiles, ...scriptsFiles, ...changelogFiles], {
-    scanned,
-    pathToUrl: (file) => {
-      return path.dirname(file);
-    },
-  });
-  
+  const results = await validateFiles(
+    [
+      ...docsFiles,
+      ...blogFiles,
+      ...selfHostingFiles,
+      ...scriptsFiles,
+      ...changelogFiles,
+    ],
+    {
+      scanned,
+      pathToUrl: (file) => path.dirname(file),
+    }
+  );
+
   printErrors(results, true);
 }
 

@@ -1,8 +1,5 @@
 {
   "title": "Developer",
-  "pages": [
-    "rest-apis",
-    "mcp"
-  ],
+  "pages": ["rest-apis", "mcp"],
   "icon": "code"
 }
