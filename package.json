@@ -6,7 +6,6 @@
     "build": "next build",
     "dev": "next dev",
     "start": "next start",
-    "postinstall": "fumadocs-mdx",
     "syncIndex": "tsx scripts/syncIndex.ts",
     "generate-blog-sitemap": "tsx scripts/generate-blog-sitemap.ts",
     "generate-overview": "tsx scripts/generate-llm-content.ts",
