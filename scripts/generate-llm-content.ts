@@ -165,6 +165,11 @@ class LLMContentGenerator {
         return null;
       }
 
+      // Skip tags URLs
+      if (url.includes("/docs/tags")) {
+        return null;
+      }
+
       console.log(`📖 Processing: ${url}`);
 
       // Categorize URL

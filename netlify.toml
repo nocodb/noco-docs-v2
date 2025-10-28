@@ -1,5 +1,0 @@
-[[redirects]]
-  from = "/*"
-  to = "https://nocodb.com/blog/:splat"
-  status = 301
-  force = true
