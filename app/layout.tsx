@@ -4,7 +4,7 @@ import type {ReactNode} from 'react';
 import ClientAnalytics from "@/components/Analytics";
 import NcSearchDialog from "@/components/layout/Search";
 import {CustomThemeProvider} from "@/app/ThemeProvider";
-import {RootProvider} from "fumadocs-ui/provider";
+import {RootProvider} from "fumadocs-ui/provider/next";
 import { Toaster } from "sonner";
 
 const inter = Inter({

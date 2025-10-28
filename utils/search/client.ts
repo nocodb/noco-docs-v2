@@ -1,5 +1,5 @@
 import {SearchResponseHit} from "typesense/lib/Typesense/Documents";
-import {SortedResult} from "fumadocs-core/server";
+import {SortedResult} from "fumadocs-core/search";
 import {Client} from "typesense";
 import {BaseIndex} from "@/utils/search/typesense";
 

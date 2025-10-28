@@ -4,8 +4,8 @@ import {
   scanURLs,
   validateFiles,
 } from 'next-validate-link';
-import { getSlugs, parseFilePath } from 'fumadocs-core/source';
-import { getTableOfContents } from 'fumadocs-core/server';
+import { getSlugs } from 'fumadocs-core/source';
+import { getTableOfContents } from 'fumadocs-core/content/toc';
 import path from 'node:path';
 
 
@@ -31,10 +31,10 @@ async function checkLinks() {
     populate: {
       // Blog routes
       '(home)/blog/[slug]': blogFiles.map((file) => {
-        const info = parseFilePath(path.relative('content/blog', file.path));
+        const relativePath = path.relative('content/blog', file.path);
         
         return {
-          value: getSlugs(info)[0],
+          value: getSlugs(relativePath)[0],
           hashes: getTableOfContents(file.content).map((item) =>
             item.url.slice(1),
           ),
@@ -43,10 +43,10 @@ async function checkLinks() {
       
       // Main docs routes
       'docs/product-docs/[[...slug]]': docsFiles.map((file) => {
-        const info = parseFilePath(path.relative('content/docs', file.path));
+        const relativePath = path.relative('content/docs', file.path);
         
         return {
-          value: getSlugs(info),
+          value: getSlugs(relativePath),
           hashes: getTableOfContents(file.content).map((item) =>
             item.url.slice(1),
           ),
@@ -54,10 +54,10 @@ async function checkLinks() {
       }),
 
       'docs/legal/[[...slug]]': legalDocsFiles.map((file) => {
-        const info = parseFilePath(path.relative('content/legal', file.path));
+        const relativePath = path.relative('content/legal', file.path);
         
         return {
-          value: getSlugs(info),
+          value: getSlugs(relativePath),
           hashes: getTableOfContents(file.content).map((item) =>
             item.url.slice(1),
           ),
@@ -66,10 +66,10 @@ async function checkLinks() {
       
       // Self-hosting docs routes
       'docs/self-hosting/[[...slug]]': selfHostingFiles.map((file) => {
-        const info = parseFilePath(path.relative('content/self-hosting', file.path));
+        const relativePath = path.relative('content/self-hosting', file.path);
         
         return {
-          value: getSlugs(info),
+          value: getSlugs(relativePath),
           hashes: getTableOfContents(file.content).map((item) =>
             item.url.slice(1),
           ),
@@ -78,10 +78,10 @@ async function checkLinks() {
       
       // Scripts docs routes
       'docs/scripts/[[...slug]]': scriptsFiles.map((file) => {
-        const info = parseFilePath(path.relative('content/scripts', file.path));
+        const relativePath = path.relative('content/scripts', file.path);
         
         return {
-          value: getSlugs(info),
+          value: getSlugs(relativePath),
           hashes: getTableOfContents(file.content).map((item) =>
             item.url.slice(1),
           ),
@@ -90,10 +90,10 @@ async function checkLinks() {
       
       // Changelog routes
       'docs/changelog/[slug]': changelogFiles.map((file) => {
-        const info = parseFilePath(path.relative('content/changelog', file.path));
+        const relativePath = path.relative('content/changelog', file.path);
         
         return {
-          value: getSlugs(info)[0],
+          value: getSlugs(relativePath)[0],
           hashes: getTableOfContents(file.content).map((item) =>
             item.url.slice(1),
           ),

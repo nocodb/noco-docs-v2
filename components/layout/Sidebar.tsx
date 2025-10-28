@@ -1,9 +1,8 @@
 "use client";
-import * as SidebarPrimitive from "fumadocs-core/sidebar";
 import {useSidebar, useTreeContext, useTreePath} from "fumadocs-ui/provider";
-import {createContext, ReactNode, useContext, useMemo, useState, useCallback} from "react";
+import {createContext, ReactNode, useContext, useMemo, useState, useCallback, ReactElement} from "react";
 import {useDocsNavigation} from "@/app/docs/DocsNavigationProvider";
-import {PageTree} from "fumadocs-core/server";
+import * as PageTree from "fumadocs-core/page-tree";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
 import {ChevronDown} from "lucide-react";
@@ -12,6 +11,8 @@ import {Collapsible, CollapsibleContent, CollapsibleTrigger,} from "@/components
 import {ScrollArea, ScrollViewport} from "@/components/ui/scroll-area";
 import {useOnChange} from "fumadocs-core/utils/use-on-change";
 import { ncIsObject } from "@/utils/is";
+import { RemoveScroll } from "react-remove-scroll";
+import { useMediaQuery } from "@/utils/use-media-query";
 
 interface FolderContextType {
     open: boolean;
@@ -43,6 +44,36 @@ const useInternalContext = () => {
     }
     return context;
 };
+
+
+export const SidebarList = ({
+  as,
+  blockScrollingWidth,
+  removeScrollOn = blockScrollingWidth
+    ? `(width < ${blockScrollingWidth}px)`
+    : undefined,
+  ...props
+}: {
+    as?: string;
+    blockScrollingWidth?: number;
+    removeScrollOn?: string;
+    children: ReactNode;
+} & React.HTMLAttributes<HTMLDivElement>): ReactElement => {
+  const { open } = useSidebar();
+  const isBlocking =
+    useMediaQuery(removeScrollOn ?? '', !removeScrollOn) ?? false;
+
+  return (
+    <RemoveScroll
+      as={as ?? 'aside'}
+      data-open={open}
+      enabled={isBlocking && open}
+      {...props}
+    >
+      {props.children}
+    </RemoveScroll>
+  );
+}
 
 const Sidebar = ({isMobile}: {isMobile?: boolean}) => {
     const {root} = useTreeContext();
@@ -82,13 +113,13 @@ const Sidebar = ({isMobile}: {isMobile?: boolean}) => {
 
     return (
         <InternalContext.Provider value={context}>
-            <SidebarPrimitive.SidebarList removeScrollOn="(width < 768px)" className={cn("xl:flex sticky py-4 mr-3 flex-col shrink-0 ", open ? 'block' : 'hidden xl:block', isMobile ? 'block' : 'hidden top-[120px] h-[calc(100dvh-120px)]  w-64')}>
+            <SidebarList removeScrollOn="(width < 768px)" className={cn("xl:flex sticky py-4 mr-3 flex-col shrink-0 ", open ? 'block' : 'hidden xl:block', isMobile ? 'block' : 'hidden top-[120px] h-[calc(100dvh-120px)]  w-64')}>
                 <ScrollArea className="h-full">
                     <ScrollViewport>
                         {children}
                     </ScrollViewport>
                 </ScrollArea>
-            </SidebarPrimitive.SidebarList>
+            </SidebarList>
         </InternalContext.Provider>
     );
 };
