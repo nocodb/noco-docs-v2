@@ -53,7 +53,7 @@ export async function POST(req: Request) {
         ignoreIncompleteToolCalls: true,
       }),
       stopWhen: stepCountIs(10),
-      onFinish: async ({ text, toolCalls, steps }) => {
+      onFinish: ({ text, toolCalls, steps }) => {
         const duration = Date.now() - startTime;
 
         const allParts = steps.map((step, index) => {
@@ -78,10 +78,7 @@ export async function POST(req: Request) {
               const result = "result" in tr ? tr.result : undefined;
               return {
                 name: tr.toolName,
-                result:
-                  typeof result === "string"
-                    ? result.substring(0, 200)
-                    : result,
+                result,
               };
             });
           }

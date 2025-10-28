@@ -59,7 +59,7 @@ export default async function Page(props: {
   );
 }
 
-export async function generateStaticParams() {
+export function generateStaticParams() {
   return selfHostingSource.generateParams();
 }
 
