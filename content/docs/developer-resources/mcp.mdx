@@ -5,12 +5,12 @@ tags: ["MCP", "LLM", "AI", "Claude", "Cursor", "Windsurf"]
 keywords: ["MCP", "Model Context Protocol", "NocoDB MCP", "LLM Integration", "Claude", "Cursor", "Windsurf"]
 ---
 
-The **Model Context Protocol (MCP) Server** lets you connect NocoDB with LLMs that support MCP, such as Claude, Cursor, or Windsurf. With this integration, LLMs can interact directly with your NocoDB workspace to create, query, update, and manage records.
+The **Model Context Protocol (MCP) Server** lets you connect NocoDB with LLMs that support MCP, such as Claude, Cursor, or Windsurf. With this integration, LLMs can interact directly with your NocoDB base to create, query, update, and manage records.
+
+## Desktop LLM Clients
 
 Each MCP endpoint in NocoDB provides a secure URL that can be linked to an MCP-compatible client.
 Once configured, the LLM can execute database operations in your workspace through natural language prompts.
-
-<Callout type="info"> The MCP integration currently works only with desktop clients that support MCP. Support for web based clients is coming soon. </Callout>
 
 MCP server exposes standard CRUD operations. These can be triggered conversationally, without writing SQL or scripts.
 
@@ -23,7 +23,7 @@ MCP server exposes standard CRUD operations. These can be triggered conversation
 
 <Callout type="note"> NocoDB MCP supports only record-level operations and does not handle table, field, or other metadata changes. </Callout>
 
-## Server Configuration (NocoDB)
+### Server Configuration (NocoDB)
 
 1. Click on the **Overview** button in the left sidebar.
 2. Select the **Settings** tab.
@@ -38,9 +38,9 @@ MCP server exposes standard CRUD operations. These can be triggered conversation
 ![MCP Config](/img/v2/mcp/server-configuration-2.png)
 
 
-## Client Configuration
+### Client Configuration
 
-### Claude
+#### Claude
 
 1. Open **Claude Desktop Preferences** (`⌘+,`).
 2. Under **Develop**, click **Edit Config**.
@@ -48,7 +48,7 @@ MCP server exposes standard CRUD operations. These can be triggered conversation
 4. Save the file and restart Claude Desktop.
 
 
-### Cursor
+#### Cursor
 
 1. Go to **Cursor Settings** (`⇧+⌘+J`).
 2. Open the **MCP** tab and select **Add Custom MCP**.
@@ -59,7 +59,7 @@ MCP server exposes standard CRUD operations. These can be triggered conversation
 ![Cursor MCP Settings](/img/v2/mcp/cursor-mcp.png)
 
 
-### Windsurf
+#### Windsurf
 
 1. Open **Windsurf Settings** (`⌘+,`).
 2. In the **Cascade** section > `Plugins (MCP Server)` > Click **Manage Plugins**
@@ -70,7 +70,7 @@ MCP server exposes standard CRUD operations. These can be triggered conversation
 ![Windsurf MCP Settings](/img/v2/mcp/windsurf-mcp-2.png)
 
 
-## JSON Example
+### JSON Example
 
 ```json
 {
@@ -93,4 +93,123 @@ MCP server exposes standard CRUD operations. These can be triggered conversation
 
 ---
 
+## Web based LLM Clients (OAuth)
 
+Connect NocoDB to web-based LLM applications using OAuth, enabling seamless database access directly from the browser without requiring desktop client setup. This approach grants granular permission controls and eliminates the need for manual JSON configuration.
+
+### Claude Web
+
+OAuth-based integration allows Claude web users to access NocoDB databases through the connectors interface.
+
+#### Setup Steps
+
+1. Click [here](https://claude.ai/settings/connectors) to open Claude Web Settings in a new tab.
+    - Alternatively, navigate to **Settings** > **Connectors** from the Claude Web app.
+2. Click **Add custom connector**.
+![open-connectors](/img/v2/mcp/web-app/claude/open-connectors.png)
+3. In the "Add custom connector" dialog:
+    - Provide a connector name of your choice
+    - Enter the MCP endpoint URL: `https://app.nocodb.com/mcp`
+    - Click `Add`
+![add-connector-dialog](/img/v2/mcp/web-app/claude/add-connector-dialog.png)
+4. NocoDB Connector will now be listed in "Disconnected" state. Click **Connect** to initiate the OAuth authorization flow (Opens in a new tab).
+![add-connector](/img/v2/mcp/web-app/claude/connect.png)
+5. Authorize Access
+    - You will be asked to log in to your NocoDB account (if not already logged in)
+    - Select the workspace and base you want to connect
+    - Confirm the permissions Claude will have
+      - Access the selected base
+      - Read / create / update / delete records in the selected base
+      - Act on your behalf within the selected resources
+    - Click **Authorize** to grant access
+![authorize-access](/img/v2/mcp/web-app/claude/authorize-access.png)
+
+With this, the NocoDB connector will move to "Connected" state in Claude Web. You can now interact with your NocoDB data through Claude web application.
+
+<Callout type="note"> On-prem enterprise users should replace https://app.nocodb.com with their NocoDB instance URL</Callout>
+
+#### Configure Tool Permissions
+By default, all tools are set to "Always ask permission" to ensure you have control over each operation Claude performs. You can modify these settings as needed.
+
+Click [here](https://claude.ai/settings/connectors) to open Claude Web Settings in a new tab. Click **Configure** on the NocoDB connector to manage tool permissions. Set each tool's permission level using the dropdown menu:
+
+- **Always ask permission** — Your approval is required every time Claude uses this tool
+- **Allow unsupervised** — Claude can use this tool without requesting approval
+
+![tool-permissions](/img/v2/mcp/web-app/claude/configure.png)
+![tool-permissions](/img/v2/mcp/web-app/claude/tool-permissions.png)
+
+To retrieve Workspace & Base information that this connector has access to, use the "Get Base Info" tool.
+![get-base-info](/img/v2/mcp/web-app/claude/get-base-info.png)
+
+#### Using NocoDB Tools in Claude Web
+
+Once configured, you can interact with your NocoDB data conversationally. For example:
+
+- "Show me all projects with deadlines this week"
+- "Create a task named 'Review Documentation'"
+- "Mark the status of Project X as completed and reassign to John"
+- "Provide details of our top 3 sponsors"
+
+Claude will execute these requests using the enabled NocoDB tools, reading from and writing to your database based on the permissions you've granted.
+
+![connected-connector](/img/v2/mcp/web-app/claude/demo.png)
+
+<Callout type="warning">OAuth authorization functions as a set of access credentials granting Claude control over your NocoDB base within the selected workspace. Only authorize access to bases and operations you trust Claude to perform on your behalf.</Callout>
+
+
+### OpenAI Web
+
+OAuth-based integration enables OpenAI web users (ChatGPT) to securely connect with NocoDB databases through the MCP connector, directly from their browser environment. This provides the same granular access control and eliminates the need for manual configuration or desktop client setup.
+
+#### Prerequisites
+Enable Developer Mode in ChatGPT settings to allow custom connector additions.
+1. Open [ChatGPT Settings](https://chatgpt.com/#settings/Connectors) in a new tab.
+    * Alternatively, click your **Profile Icon** → **Settings** → **Settings** → **Apps & Connectors**).
+2. Click **Advanced Settings** & enable **Developer Mode**.
+
+![open-connectors](/img/v2/mcp/web-app/chatgpt/developer.png)
+
+#### Setup Steps
+1. Open [ChatGPT Settings](https://chatgpt.com/#settings/Connectors) in a new tab.
+    * Alternatively, click your **Profile Icon** → **Settings** → **Settings** → **Apps & Connectors**).
+2. Click **Create** button in top right corner of the **Connectors** modal.
+3. In the "New connector" dialog:
+    - Provide a connector name of your choice. Optionally, add a description / icon.
+    - Enter the MCP Server URL: `https://app.nocodb.com/mcp`
+    - Check the box for **I trust this application**.
+    - Click `Create`
+![new-connector](/img/v2/mcp/web-app/chatgpt/create-connector.png)
+4. Authorize Access:
+    * Log in to your NocoDB account if prompted
+    * Select the workspace and base you want to connect
+    * Review and confirm the permissions being requested:
+        * Access to the selected base
+        * Read / create / update / delete records
+        * Act on your behalf within the selected resources
+    * Click **Authorize**
+
+Once authorization completes, you will see a confirmation message in ChatGPT Web indicating the NocoDB connector is now connected.
+![connected](/img/v2/mcp/web-app/chatgpt/connected.png)
+
+<Callout type="note">For on-prem enterprise users, replace `https://app.nocodb.com` with your NocoDB instance URL.</Callout>
+
+#### Using NocoDB Tools in OpenAI Web
+
+On the ChatGPT interface, start a new conversation and
+- Click the **+** icon to open the "Tools" menu, enable `Developer Mode` if not already enabled.
+- Click `More` to find and select the NocoDB connector you created. Toggle to enable it.
+![using-connector](/img/v2/mcp/web-app/chatgpt/using-chat.png)
+
+Once configured, you can query or update your NocoDB data conversationally. For example:
+
+* “List all open support tickets assigned to me”
+* “Add a new contact named ‘Alice Chen’ to the CRM base”
+* “Update the status of Order #2456 to ‘Shipped’”
+* “Summarize total revenue by month from the Sales base”
+
+ChatGPT executes these actions using the connected NocoDB tools according to the permissions granted.
+
+<Callout type="warning">OAuth authorization provides ChatGPT controlled access to your NocoDB base within the selected workspace. Only authorize operations and bases you trust ChatGPT to manage on your behalf.</Callout>
+
+---
