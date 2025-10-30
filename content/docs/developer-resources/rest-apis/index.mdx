@@ -19,6 +19,97 @@ Additional information on the REST APIs is provided below.
 - When querying using v3 apis, see [v3 Where Clause](/docs/product-docs/developer-resources/rest-apis#v3-where-query-parameter) for a slight difference between the two version's where clause.
 
 
+## Finding Your API IDs
+
+Before making API calls, you'll need to identify and copy the relevant IDs required for constructing your endpoints. This section walks you through locating each essential identifier.
+
+### Workspace ID
+
+**Workspace ID** is an alphanumeric identifier prefixed with `w` (representing *workspace*) that uniquely identifies your workspace in NocoDB. It appears in the URL bar when viewing any base within the workspace.
+
+You can also find it in the workspace context menu (accessible by clicking the workspace icon in the minibar). Click the ID to copy it to your clipboard.
+
+![Workspace ID](/img/v2/developer/workspace-id-1.png)
+
+Workspace ID can also be retrieved from Workspace settings page.
+
+![Workspace ID](/img/v2/developer/workspace-id-2.png)
+
+### Base ID
+
+**Base ID** is required for metadata APIs and administrative operations. It uniquely identifies a specific database (or base) within your workspace.
+
+The Base ID is an alphanumeric identifier prefixed with `p` (representing *project*), visible in the URL when accessing any table or base-level settings. You can also find it in the base context menu (chevron next to the base name) in the left sidebar, where you can click the ID to copy it to your clipboard.
+
+![Base ID](/img/v2/developer/base-id.png)
+
+### Table ID
+
+**Table ID** is the most commonly used identifier and is required for all data API calls. It uniquely identifies a specific table within your base.
+
+The Table ID is an alphanumeric string prefixed with `m` (representing *model*), visible in the URL immediately after the Base ID when viewing a table. You can also find it in the table context menu (three dots next to the table name) in the left sidebar. Click the ID to copy it to your clipboard.
+
+![Table ID](/img/v2/developer/table-id.png)
+
+### View ID
+**View ID** is used for view-specific API operations, such as fetching records from a particular view. It uniquely identifies a specific view within a table.
+
+The View ID is an alphanumeric string prefixed with `v` (representing *view*), visible in the URL when a specific view is open. You can also find it in the view context menu (three dots next to the view name) in the left sidebar. Click the ID to copy it to your clipboard.
+
+![View ID](/img/v2/developer/view-id-1.png)
+
+View ID can also be retrieved from view toolbar > more actions (3 dots) menu
+
+![View ID](/img/v2/developer/view-id-2.png)
+
+### Field ID
+**Field ID** is used for field-specific API operations, such as updating field properties. It uniquely identifies a specific column within a table.
+
+The Field ID is an alphanumeric string prefixed with `c` (representing *column*), visible in the URL when viewing or editing a field’s settings. You can also find it in the field context menu (chevron next to the field name) in the field header bar. Click the ID to copy it to your clipboard.
+
+![Field ID](/img/v2/developer/field-id-1.png)
+
+Field ID can also be retrieved from `Details` > `Fields` editor
+
+![Field ID](/img/v2/developer/field-id-2.png)
+
+
+### Record ID
+**Record ID** is used for record-specific API operations, such as retrieving or updating an individual record. It uniquely identifies a specific row within a table.
+
+By default, the Record ID is a numeric value starting from 1. You can display the **ID** field (which corresponds to the Record ID) by opening the **Fields** menu in the toolbar and enabling **Show System Fields**.
+
+![Record ID](/img/v2/developer/record-id-1.png)
+
+You can also find it in the URL when viewing a specific record (expanded record view).
+
+![Record ID](/img/v2/developer/record-id-2.png)
+
+You can also access the Record ID in formulas by selecting **ID** from the list of available fields in the formula editor or by using the `RECORD_ID()` function.
+
+![Record ID](/img/v2/developer/record-id-3.png)
+
+### User ID
+**User ID** is used for user-specific API operations, such as retrieving user details. It uniquely identifies a specific user within your workspace or organization.
+
+The User ID is an alphanumeric string prefixed with `u` (representing *user*). You can find it on either the **Workspace Members** page or the **Base Members** page by clicking the three dots menu next to a user’s name. Click the ID to copy it to your clipboard.
+
+![User ID](/img/v2/developer/user-id-1.png)
+
+![User ID](/img/v2/developer/user-id-2.png)
+
+### Data Source ID
+For external data sources connected to NocoDB (such as Postgres or MySQL), the **Data Source ID** is additionally required to perform data API operations.
+
+The Data Source ID is an alphanumeric string that uniquely identifies the connected data source. You can find it in the context menu by clicking the three dots next to the data source name in the left sidebar. Click the ID to copy it to your clipboard.
+
+![Data Source ID](/img/v2/developer/datasource-id-1.png)
+
+You can also find it in the Data Source settings page.
+
+![Data Source ID](/img/v2/developer/datasource-id-2.png)
+
+
 ## Rate Limits
 NocoDB APIs are rate-limited to ensure fair usage and optimal performance for all users. The default rate limit is set to **5 requests per second per user**. These limits are the same across all plans.
 
