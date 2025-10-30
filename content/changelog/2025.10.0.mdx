@@ -1,0 +1,96 @@
+---
+title: '2025.10.0'
+description: 'Feature release : ChatGPT and Claude Can Now Directly Connect to NocoDB with OAuth'
+---
+
+![Image](/img/changelog/20251000/release.png)
+
+## Connect ChatGPT and Claude to NocoDB with OAuth
+
+All of  your favorite AI assistants just got a massive upgrade. **ChatGPT and Claude can now DIRECTLY connect to your NocoDB databases** directly through our new MCP OAuth integration - no technical setup required. But that's just the beginning: **any AI application that supports MCP OAuth connectors** can instantly access your NocoDB data with a simple authentication flow.
+
+#### What This Means for You
+
+**Before:** Limited to desktop apps & technical barrier
+
+* **Fiddling with MCP Server endpoint JSON configurations** - completely unfriendly for business users
+* **Limited to desktop AI applications only** - Even ChatGPT and Claude web/mobile apps couldn't connect
+* Required developer expertise to set up and IT team was a bottleneck.
+
+**After:** One-Click Universal Access
+
+* **Simple OAuth flow** - just like connecting via Slack/Google/Facebook
+* **Works everywhere** - web, mobile, desktop across all ChatGPT and Claude interfaces
+* **Business-user friendly** - no JSON, no servers, no technical knowledge required
+* **10-second setup** from any device, anywhere
+* **Any MCP OAuth-enabled AI app** can connect instantly
+
+How NocoDB MCP Oauth works ?
+
+The OAuth integration allows web-based AI clients to request fine-grained access to your NocoDB workspace. Once authorised, these clients can securely query, summarise, and update your database contextually — just like their desktop counterparts.
+
+#### ChatGPT
+
+[Learn more](https://nocodb.com/docs/product-docs/mcp#chatgpt)
+
+<img src="/img/changelog/20251000/chatgpt-1.png" width="500" alt="ChatGPT 1" />
+<img src="/img/changelog/20251000/chatgpt-2.png" width="600" alt="ChatGPT 2" />
+<img src="/img/changelog/20251000/chatgpt-3.png" width="600" alt="ChatGPT 3" />
+
+#### Claude
+
+[Learn more](https://nocodb.com/docs/product-docs/mcp#claude-web)
+
+<img src="/img/changelog/20251000/claude-1.png" width="600" alt="Claude 1" />
+<img src="/img/changelog/20251000/claude-2.png" width="450" alt="Claude 2" />
+<img src="/img/changelog/20251000/claude-3.png" width="700" alt="Claude 3" />
+
+## Copy Another View’s Configuration
+
+[Read detailed setup steps →](https://nocodb.com/docs/product-docs/views/actions-on-view#copy-another-views-configuration-)
+
+> I just adjusted field widths in one view, and now I have to manually resize them all over again in every other view.
+
+You've perfected a view with specific filters, sorts, groups, and field layouts. Now you need a similar view for a different purpose. You either duplicate the entire view and strip away what you don't need, or manually recreate every configuration from scratch. Either way, you're repeating work you've already done.
+
+Introducing **“Copy another view’s configuration”**. Now you can cherry-pick exactly what you need. Need those filters? Copy them. Love the sorting and grouping? Take just those. Your field widths are perfect? Import only that—no more manual resizing.
+
+Reuse exactly what you need and move forward instantly. Your views now build on each other instead of starting from scratch every time.
+
+![Image](/img/changelog/20251000/copy-another-view.png)
+
+[Read detailed setup steps →](https://nocodb.com/docs/product-docs/views/actions-on-view#copy-another-views-configuration-)
+
+---
+
+# Other updates
+
+
+#### User Experience
+
+* **Personal View Identification** – Personal views in the sidebar now display a user icon suffix, making them & their current owner easier to recognise.
+
+![image](/img/changelog/20251000/personal-view.png)
+
+* **Filter Reordering** – Toolbar filters can now be rearranged via drag-and-drop.
+
+![image](/img/changelog/20251000/filter-reorder.png)
+
+* **Role-Based Toolbar Restrictions** – Toolbar operations are now restricted for Commenter and Viewer roles.
+
+#### Account & Security
+
+* **API Token Access** – API tokens are now available directly from the user menu.
+
+![image](/img/changelog/20251000/api-token.png)
+
+* **MCP Token Management** – Users can now manage all MCP tokens centrally from their account settings.
+
+
+![image](/img/changelog/20251000/mcp-token-management.png)
+
+#### Scripts
+
+* **Scripts PDF Export** – Added option to export script outputs directly to PDF. Learn more [here](https://nocodb.com/docs/product-docs/automation/scripts/actions-on-script#printexport-script-logs-to-pdf).
+
+---
