@@ -27,13 +27,13 @@ Before making API calls, you'll need to identify and copy the relevant IDs requi
 
 The Workspace ID identifies your entire workspace and is used for workspace-level API operations.
 
-Workspace ID is the alphanumeric string with prefix `w` (stands for workspace) that appears in the URL when viewing any base within your workspace. It can also be found in the Workspace context menu (down chevron next to workspace name) in the left sidebar. Click on the ID to copy it to your clipboard.
+Workspace ID is the alphanumeric string with prefix `w` (stands for workspace) that appears in the URL when viewing any base within your workspace. It can also be found in the Workspace context menu (click on workspace icon in minibar). Click on the ID to copy it to your clipboard.
 
-[//]: # (![Workspace ID]&#40;/img/v2/developer/workspace-id.png&#41;)
+![Workspace ID](/img/v2/developer/workspace-id-1.png)
 
 Workspace ID can also be retrieved from Workspace settings.
 
-[//]: # (![Workspace ID]&#40;/img/v2/developer/workspace-id-2.png&#41;)
+![Workspace ID](/img/v2/developer/workspace-id-2.png)
 
 ### Base ID
 
@@ -74,12 +74,30 @@ Field ID can also be retrieved from `Details` > `Fields` editor
 
 ![Field ID](/img/v2/developer/field-id-2.png)
 
+
+### Record ID
+The Record ID is used for record-specific API operations, such as retrieving or updating a particular record. It uniquely identifies a specific row within a table.
+
+Record ID (by default) is a numeric value starting from 1. You can enable "ID" field (corresponds to Record ID) from "Fields" menu in the toolbar by clicking on Show System fields.
+
+![Record ID](/img/v2/developer/record-id-1.png)
+
+You can also find it in the URL when viewing a specific record (expanded record view).
+
+![Record ID](/img/v2/developer/record-id-2.png)
+
+You can also retrieve Record ID when constructing formulas using the formula editor by selecting "ID" from the list of available fields OR by using the `RECORD_ID()` function.
+
+![Record ID](/img/v2/developer/record-id-3.png)
+
 ### User ID
 The User ID is used for user-specific API operations, such as retrieving user details. It uniquely identifies a specific user within your workspace / organization.
 
 User ID is the alphanumeric string with prefix `u` (stands for user). You can retrieve it from either workspace members page or base members page by clicking on the three dots menu associated with user's name. Click on the ID to copy it to your clipboard.
 
-[//]: # (![User ID]&#40;/img/v2/developer/user-id.png&#41;)
+![User ID](/img/v2/developer/user-id-1.png)
+
+![User ID](/img/v2/developer/user-id-2.png)
 
 ### Data Source ID
 For External Data Sources connected to NocoDB (like Postgres / MySQL), the Data Source ID is additionally required to perform data API operations.
