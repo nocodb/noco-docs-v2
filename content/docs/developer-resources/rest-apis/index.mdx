@@ -25,48 +25,47 @@ Before making API calls, you'll need to identify and copy the relevant IDs requi
 
 ### Workspace ID
 
-The Workspace ID identifies your entire workspace and is used for workspace-level API operations.
+**Workspace ID** is an alphanumeric identifier prefixed with `w` (representing *workspace*) that uniquely identifies your workspace in NocoDB. It appears in the URL bar when viewing any base within the workspace.
 
-Workspace ID is the alphanumeric string with prefix `w` (stands for workspace) that appears in the URL when viewing any base within your workspace. It can also be found in the Workspace context menu (click on workspace icon in minibar). Click on the ID to copy it to your clipboard.
+You can also find it in the workspace context menu (accessible by clicking the workspace icon in the minibar). Click the ID to copy it to your clipboard.
 
 ![Workspace ID](/img/v2/developer/workspace-id-1.png)
 
-Workspace ID can also be retrieved from Workspace settings.
+Workspace ID can also be retrieved from Workspace settings page.
 
 ![Workspace ID](/img/v2/developer/workspace-id-2.png)
 
 ### Base ID
 
-The Base ID is required for meta APIs and administrative operations. It identifies a specific database / base within your workspace.
+**Base ID** is required for metadata APIs and administrative operations. It uniquely identifies a specific database (or base) within your workspace.
 
-Base ID is the alphanumeric string with prefix `p` (stands for project) that appears in the URL when viewing any table or base-level settings. It can also be found in the Base context menu (chevron next to base name) in the left sidebar. Click on the ID to copy it to your clipboard.
+The Base ID is an alphanumeric identifier prefixed with `p` (representing *project*), visible in the URL when accessing any table or base-level settings. You can also find it in the base context menu (chevron next to the base name) in the left sidebar, where you can click the ID to copy it to your clipboard.
 
 ![Base ID](/img/v2/developer/base-id.png)
 
 ### Table ID
 
-The Table ID is the most frequently used identifier and is required for all data API calls. It uniquely identifies a specific table within your base.
+**Table ID** is the most commonly used identifier and is required for all data API calls. It uniquely identifies a specific table within your base.
 
-Table ID is the alphanumeric string with prefix `m` (stands for model) that appears after base ID in the URL when viewing a table. It can also be found in Table context menu (three dots next to table name) in the left sidebar. Click on the ID to copy it to your clipboard.
+The Table ID is an alphanumeric string prefixed with `m` (representing *model*), visible in the URL immediately after the Base ID when viewing a table. You can also find it in the table context menu (three dots next to the table name) in the left sidebar. Click the ID to copy it to your clipboard.
 
 ![Table ID](/img/v2/developer/table-id.png)
 
 ### View ID
-The View ID is used for view-specific API operations, such as retrieving records from a particular view. It uniquely identifies a specific view within a table.
+**View ID** is used for view-specific API operations, such as fetching records from a particular view. It uniquely identifies a specific view within a table.
 
-View ID is the alphanumeric string with prefix `v` (stands for view) that appears in the URL when viewing a specific view. It can also be found in the View context menu (three dots next to view name) in the left sidebar. Click on the ID to copy it to your clipboard.
+The View ID is an alphanumeric string prefixed with `v` (representing *view*), visible in the URL when a specific view is open. You can also find it in the view context menu (three dots next to the view name) in the left sidebar. Click the ID to copy it to your clipboard.
 
 ![View ID](/img/v2/developer/view-id-1.png)
 
-View ID can also be retrieved from view toolbar > more actions (...) menu
+View ID can also be retrieved from view toolbar > more actions (3 dots) menu
 
 ![View ID](/img/v2/developer/view-id-2.png)
 
-
 ### Field ID
-The Field ID is used for field-specific API operations, such as updating field properties. It uniquely identifies a specific column within a table.
+**Field ID** is used for field-specific API operations, such as updating field properties. It uniquely identifies a specific column within a table.
 
-Field ID is the alphanumeric string with prefix `c` (stands for column) that appears in the URL when viewing or editing a specific field's settings. It can also be found in the field context menu (chevron next to field name) in field header bar. Click on the ID to copy it to your clipboard.
+The Field ID is an alphanumeric string prefixed with `c` (representing *column*), visible in the URL when viewing or editing a field’s settings. You can also find it in the field context menu (chevron next to the field name) in the field header bar. Click the ID to copy it to your clipboard.
 
 ![Field ID](/img/v2/developer/field-id-1.png)
 
@@ -76,9 +75,9 @@ Field ID can also be retrieved from `Details` > `Fields` editor
 
 
 ### Record ID
-The Record ID is used for record-specific API operations, such as retrieving or updating a particular record. It uniquely identifies a specific row within a table.
+**Record ID** is used for record-specific API operations, such as retrieving or updating an individual record. It uniquely identifies a specific row within a table.
 
-Record ID (by default) is a numeric value starting from 1. You can enable "ID" field (corresponds to Record ID) from "Fields" menu in the toolbar by clicking on Show System fields.
+By default, the Record ID is a numeric value starting from 1. You can display the **ID** field (which corresponds to the Record ID) by opening the **Fields** menu in the toolbar and enabling **Show System Fields**.
 
 ![Record ID](/img/v2/developer/record-id-1.png)
 
@@ -86,23 +85,23 @@ You can also find it in the URL when viewing a specific record (expanded record 
 
 ![Record ID](/img/v2/developer/record-id-2.png)
 
-You can also retrieve Record ID when constructing formulas using the formula editor by selecting "ID" from the list of available fields OR by using the `RECORD_ID()` function.
+You can also access the Record ID in formulas by selecting **ID** from the list of available fields in the formula editor or by using the `RECORD_ID()` function.
 
 ![Record ID](/img/v2/developer/record-id-3.png)
 
 ### User ID
-The User ID is used for user-specific API operations, such as retrieving user details. It uniquely identifies a specific user within your workspace / organization.
+**User ID** is used for user-specific API operations, such as retrieving user details. It uniquely identifies a specific user within your workspace or organization.
 
-User ID is the alphanumeric string with prefix `u` (stands for user). You can retrieve it from either workspace members page or base members page by clicking on the three dots menu associated with user's name. Click on the ID to copy it to your clipboard.
+The User ID is an alphanumeric string prefixed with `u` (representing *user*). You can find it on either the **Workspace Members** page or the **Base Members** page by clicking the three dots menu next to a user’s name. Click the ID to copy it to your clipboard.
 
 ![User ID](/img/v2/developer/user-id-1.png)
 
 ![User ID](/img/v2/developer/user-id-2.png)
 
 ### Data Source ID
-For External Data Sources connected to NocoDB (like Postgres / MySQL), the Data Source ID is additionally required to perform data API operations.
+For external data sources connected to NocoDB (such as Postgres or MySQL), the **Data Source ID** is additionally required to perform data API operations.
 
-Data Source ID is the alphanumeric string. You can retrieve it from the context menu by clicking on the three dots next to data source name in the left sidebar. Click on the ID to copy it to your clipboard.
+The Data Source ID is an alphanumeric string that uniquely identifies the connected data source. You can find it in the context menu by clicking the three dots next to the data source name in the left sidebar. Click the ID to copy it to your clipboard.
 
 ![Data Source ID](/img/v2/developer/datasource-id-1.png)
 
