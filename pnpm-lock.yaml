@@ -190,8 +190,8 @@ importers:
         specifier: ^5.8.3
         version: 5.9.3
       ultracite:
-        specifier: 6.0.5
-        version: 6.0.5(typescript@5.9.3)
+        specifier: 6.1.0
+        version: 6.1.0(typescript@5.9.3)
 
 packages:
 
@@ -2769,8 +2769,8 @@ packages:
     peerDependencies:
       '@babel/runtime': ^7.23.2
 
-  ultracite@6.0.5:
-    resolution: {integrity: sha512-H5OrSBQzZmjxL1qwLgi21cmWI46i9sk0iBIVurb+iGOmr6XdzPANcydpOS3h4dN/dCzDGp29GOCqVaUGHeET1g==}
+  ultracite@6.1.0:
+    resolution: {integrity: sha512-CHdtZbG9MNIcIZ7fCB3SlNbaeH5tmEmOjKThjqongviMsJY5uFxtNBSQhYbj/ExX81mehp1QY2NVKkTiC4CNVA==}
     hasBin: true
 
   undici-types@6.21.0:
@@ -5631,7 +5631,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  ultracite@6.0.5(typescript@5.9.3):
+  ultracite@6.1.0(typescript@5.9.3):
     dependencies:
       '@clack/prompts': 0.11.0
       '@trpc/server': 11.7.0(typescript@5.9.3)
