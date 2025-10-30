@@ -19,6 +19,76 @@ Additional information on the REST APIs is provided below.
 - When querying using v3 apis, see [v3 Where Clause](/docs/product-docs/developer-resources/rest-apis#v3-where-query-parameter) for a slight difference between the two version's where clause.
 
 
+## Finding Your API IDs
+
+Before making API calls, you'll need to identify and copy the relevant IDs required for constructing your endpoints. This section walks you through locating each essential identifier.
+
+### Workspace ID
+
+The Workspace ID identifies your entire workspace and is used for workspace-level API operations.
+
+Workspace ID is the alphanumeric string with prefix `w` (stands for workspace) that appears in the URL when viewing any base within your workspace. It can also be found in the Workspace context menu (down chevron next to workspace name) in the left sidebar. Click on the ID to copy it to your clipboard.
+
+[//]: # (![Workspace ID]&#40;/img/v2/developer/workspace-id.png&#41;)
+
+Workspace ID can also be retrieved from Workspace settings.
+
+[//]: # (![Workspace ID]&#40;/img/v2/developer/workspace-id-2.png&#41;)
+
+### Base ID
+
+The Base ID is required for meta APIs and administrative operations. It identifies a specific database / base within your workspace.
+
+Base ID is the alphanumeric string with prefix `p` (stands for project) that appears in the URL when viewing any table or base-level settings. It can also be found in the Base context menu (chevron next to base name) in the left sidebar. Click on the ID to copy it to your clipboard.
+
+![Base ID](/img/v2/developer/base-id.png)
+
+### Table ID
+
+The Table ID is the most frequently used identifier and is required for all data API calls. It uniquely identifies a specific table within your base.
+
+Table ID is the alphanumeric string with prefix `m` (stands for model) that appears after base ID in the URL when viewing a table. It can also be found in Table context menu (three dots next to table name) in the left sidebar. Click on the ID to copy it to your clipboard.
+
+![Table ID](/img/v2/developer/table-id.png)
+
+### View ID
+The View ID is used for view-specific API operations, such as retrieving records from a particular view. It uniquely identifies a specific view within a table.
+
+View ID is the alphanumeric string with prefix `v` (stands for view) that appears in the URL when viewing a specific view. It can also be found in the View context menu (three dots next to view name) in the left sidebar. Click on the ID to copy it to your clipboard.
+
+![View ID](/img/v2/developer/view-id-1.png)
+
+View ID can also be retrieved from view toolbar > more actions (...) menu
+
+![View ID](/img/v2/developer/view-id-2.png)
+
+
+### Field ID
+The Field ID is used for field-specific API operations, such as updating field properties. It uniquely identifies a specific column within a table.
+
+Field ID is the alphanumeric string with prefix `c` (stands for column) that appears in the URL when viewing or editing a specific field's settings. It can also be found in the field context menu (chevron next to field name) in field header bar. Click on the ID to copy it to your clipboard.
+
+![Field ID](/img/v2/developer/field-id-1.png)
+
+Field ID can also be retrieved from `Details` > `Fields` editor
+
+![Field ID](/img/v2/developer/field-id-2.png)
+
+### User ID
+The User ID is used for user-specific API operations, such as retrieving user details. It uniquely identifies a specific user within your workspace / organization.
+
+User ID is the alphanumeric string with prefix `u` (stands for user). You can retrieve it from either workspace members page or base members page by clicking on the three dots menu associated with user's name. Click on the ID to copy it to your clipboard.
+
+[//]: # (![User ID]&#40;/img/v2/developer/user-id.png&#41;)
+
+### Data Source ID
+For External Data Sources connected to NocoDB (like Postgres / MySQL), the Data Source ID is additionally required to perform data API operations.
+
+Data Source ID is the alphanumeric string with prefix `ds` (stands for data source). You can retrieve it from the context menu by clicking on the three dots next to data source name in the left sidebar. Click on the ID to copy it to your clipboard.
+
+[//]: # (![Data Source ID]&#40;/img/v2/developer/data-source-id.png&#41;)
+
+
 ## Rate Limits
 NocoDB APIs are rate-limited to ensure fair usage and optimal performance for all users. The default rate limit is set to **5 requests per second per user**. These limits are the same across all plans.
 
