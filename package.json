@@ -39,7 +39,7 @@
     "hast": "^1.0.0",
     "hast-util-to-jsx-runtime": "^2.3.6",
     "jsdom": "^27.0.1",
-    "lucide-react": "^0.548.0",
+    "lucide-react": "^0.552.0",
     "nc-analytics": "^0.0.9",
     "next": "16.0.1",
     "next-recaptcha-v3": "^1.5.2",
