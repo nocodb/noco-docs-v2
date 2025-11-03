@@ -1,0 +1,137 @@
+---
+title: Convert Date Text to ISO Format (Interactive Bulk Version)
+description: This script converts date-time text fields in the format "MM/DD/YYYY HH:MM AM/PM" to ISO 8601 format across multiple records in a selected table.
+tags: ['examples', 'text to date', 'date conversion', 'bulk processing', 'ISO format']
+---
+
+## Convert Date Text to ISO Format (Interactive Bulk Version)
+This script allows you to convert date-time text fields in the format "MM/DD/YYYY HH:MM AM/PM" to ISO 8601 format across multiple records in a selected table. You will be prompted to select the table and fields for processing.
+
+
+```javascript
+// ------------------------------------------------------------
+// Script: Convert Date Text to ISO Format (Interactive Bulk Version)
+// ------------------------------------------------------------
+
+// Step 1: Initialization
+script.step({
+    title: 'Initializing Script',
+    description: 'Preparing to convert date-time text fields to ISO format',
+    icon: 'clock',
+    color: 'blue'
+});
+
+// Step 2: Collect user input
+script.step({
+    title: 'Collecting Inputs',
+    description: 'Please select table and fields for processing',
+    icon: 'input',
+    color: 'yellow'
+});
+
+// Ask user to select table and fields
+const table = await input.tableAsync('Select a table to process:');
+const inputField = await input.fieldAsync('Select the input field (MM/DD/YYYY HH:MM AM/PM):', table);
+const outputField = await input.fieldAsync('Select the output field (for ISO format):', table);
+
+// Confirm configuration
+output.markdown(`
+### ⚙️ Configuration
+- **Table:** ${table.name}
+- **Input Field:** ${inputField.name}
+- **Output Field:** ${outputField.name}
+`);
+
+// Step 3: Load records
+script.step({
+    title: 'Loading Records',
+    description: `Fetching all records from "${table.name}"`,
+    icon: 'download',
+    color: 'blue'
+});
+
+const result = await table.selectRecordsAsync({ pageSize: 50 });
+while (result.hasMoreRecords) {
+    await result.loadMoreRecords();
+    output.text(`📥 Loaded ${result.records.length} records...`);
+}
+output.text(`✅ Total records loaded: ${result.records.length}`);
+
+// Step 4: Process records
+script.step({
+    title: 'Processing Records',
+    description: 'Parsing input values and preparing ISO formatted timestamps',
+    icon: 'code',
+    color: 'purple'
+});
+
+const BATCH_SIZE = 10;
+let updates = [];
+let processed = 0;
+let updatedCount = 0;
+let skippedCount = 0;
+
+for (const record of result.records) {
+    processed++;
+
+    const inputValue = record.getCellValue(inputField);
+    if (!inputValue) {
+        skippedCount++;
+        continue;
+    }
+
+    const match = inputValue.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4}) (\d{1,2}):(\d{2}) (AM|PM)$/);
+    if (!match) {
+        skippedCount++;
+        continue;
+    }
+
+    let [, month, day, year, hour, minute, period] = match.map(v => v.trim());
+    hour = parseInt(hour, 10);
+    if (period === "PM" && hour !== 12) hour += 12;
+    if (period === "AM" && hour === 12) hour = 0;
+
+    const iso = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}T${String(hour).padStart(2, "0")}:${minute}:00`;
+
+    updates.push({
+        id: record.id,
+        fields: { [outputField.id]: iso }
+    });
+
+    if (updates.length === BATCH_SIZE) {
+        await table.updateRecordsAsync(updates);
+        updatedCount += updates.length;
+        updates = [];
+        output.text(`💾 Committed ${updatedCount}/${result.records.length} records...`);
+    }
+
+    if (processed % 100 === 0) {
+        output.text(`🔄 Processed ${processed}/${result.records.length} records...`);
+    }
+}
+
+// Step 5: Commit remaining updates
+if (updates.length > 0) {
+    await table.updateRecordsAsync(updates);
+    updatedCount += updates.length;
+}
+
+// Step 6: Completion summary
+script.step({
+    title: 'Conversion Complete',
+    description: 'All applicable records have been processed and updated',
+    icon: 'checkCircle',
+    color: 'green'
+});
+
+output.markdown(`
+✅ **Conversion Summary**
+- **Table:** ${table.name}
+- **Total Records Loaded:** ${result.records.length}
+- **Records Updated:** ${updatedCount}
+- **Skipped (No / Invalid Data):** ${skippedCount}
+
+All valid date values from **${inputField.name}** are now converted to ISO format in **${outputField.name}**.
+`);
+
+```

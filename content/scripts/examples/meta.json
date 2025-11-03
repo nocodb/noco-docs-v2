@@ -13,6 +13,7 @@
     "link-records-by-field",
     "unique-field-values-summary",
     "script-steps",
-    "import-csv"
+    "import-csv",
+    "text-to-date"
   ]
 }
