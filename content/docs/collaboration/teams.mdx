@@ -1,0 +1,143 @@
+---
+title: "Teams"
+description: "Manage groups of users with role-based access to workspaces & bases"
+tags: ["Collaboration", "Teams", "User Management", "Roles & Permissions"]
+keywords: ["NocoDB teams", "user groups", "role-based access", "workspace collaboration", "base permissions"]
+---
+
+<Callout type="info">Availability: **Business** plan onwards in cloud and On-premise **Enterprise** edition</Callout>
+
+## Overview
+
+Teams let you group existing workspace members, so you can assign and manage permissions at scale. Instead of configuring the same role for each person on every base, add users to a team and grant that team a role on one or more bases.
+
+Teams help you to
+- **Organize** members by department, project, or function
+- **Manage permissions** efficiently by assigning roles to teams instead of individuals
+- **Scale access control** without managing individual user permissions
+- **Maintain flexibility** with inheritance and override capabilities
+
+
+## Create Team
+
+1. Navigate to **Workspace Settings** > **Teams** tab.
+2. Click **New Team**.
+3. Enter a team name (Optional).
+4. Click **Create Team**.
+
+![Create Team](/img/v2/collaboration/teams/create-team-1.png)
+![Create Team](/img/v2/collaboration/teams/create-team-2.png)
+
+When a team is created, the creator is automatically added as its first member and designated as the **Team Owner**. Team Owners have full administrative privileges, including adding or removing members, renaming the team, and deleting it when necessary. Multiple owners can be assigned to a team, but each team must always have at least one owner.
+
+## Add Members to a Team
+
+In the **Teams** tab, select the team you want to manage, then follow these steps:
+
+1. Click **Add Members**.
+2. Use the toggle buttons to select existing workspace members to add. Members already part of the team are clearly indicated.
+3. Click **Add Members** again to confirm your selection.
+
+You can search by name or email to quickly locate users. Existing team members have their toggles disabled to avoid duplicate additions. Each member’s workspace role is displayed beside their name for better context.
+
+![Add Members to Team](/img/v2/collaboration/teams/add-member-1.png)
+![Add Members to Team](/img/v2/collaboration/teams/add-member-2.png)
+
+
+## Remove Members from a Team
+
+In the **Teams** tab, select the team you want to manage, then follow these steps:
+
+1. Locate the member you want to remove. Use the search bar if needed and open the **Actions** (three dots) menu beside their name.
+2. Select **Remove Member**.
+3. Confirm the action when prompted.
+
+![Remove Member from Team](/img/v2/collaboration/teams/member-context-menu.png)
+![Confirm Removal](/img/v2/collaboration/teams/remove-selected-2.png)
+
+To remove **multiple members** at once:
+
+1. Use the checkboxes to select the members you want to remove.
+2. Click **Actions** > **Remove from Team** at the top of the member list.
+3. Confirm the action when prompted.
+
+![Select Multiple Members](/img/v2/collaboration/teams/remove-multiple-1.png)
+![Confirm Multiple Removal](/img/v2/collaboration/teams/remove-multiple-2.png)
+
+## Manage Team Owners
+
+A team can have multiple owners, but it must always have at least one.
+
+To add or remove team owners:
+
+1. In the **Teams** tab, select the team you want to manage.
+2. Locate the member whose ownership status you want to change. Use the search bar if necessary and open the **Actions** (three dots) menu beside their name.
+3. To grant ownership, select **Assign as Team Owner**. To revoke ownership, select **Remove as Team Owner**.
+
+![Manage Team Owner](/img/v2/collaboration/teams/team-owner-1.png)
+![Manage Team Owner](/img/v2/collaboration/teams/team-owner-2.png)
+
+
+## Leave Team
+
+Members can leave team on their own if they no longer wish to be part of it (any team member can leave, not just owners -- as long as at least one owner remains).
+
+To leave a team you are a member of:
+1. In the **Teams** tab, open team context menu by clicking the **Actions** (three dots) button beside the team name.
+2. Click the **Leave Team** button from the dropdown menu.
+3. Confirm the action when prompted.
+
+![Leave Team](/img/v2/collaboration/teams/leave-team-1.png)
+![Confirm Leave Team](/img/v2/collaboration/teams/leave-team-2.png)
+
+## Rename Team
+
+In the **Teams** tab, select the team you want to rename. Edit team name as needed, and your changes will be saved automatically.
+
+![Rename Team](/img/v2/collaboration/teams/rename-team.png)
+
+
+## Delete Team
+
+<Callout type="warning">Only Team Owners can delete a team. Deleting a team will not remove its members from the workspace; it only dissolves the team grouping. </Callout>
+
+To delete a team:
+1. In the **Teams** tab, open team context menu by clicking the **Actions** (three dots) button beside the team name.
+2. Click the **Delete Team** button from the dropdown menu.
+3. Confirm the action when prompted.
+
+![Delete Team](/img/v2/collaboration/teams/delete-team-1.png)
+![Confirm Delete Team](/img/v2/collaboration/teams/delete-team-2.png)
+
+## Assign Roles to Teams
+
+You can assign roles to teams at both the workspace and base levels, similar to how you assign roles to individual users. When a team is granted a role, all its members inherit that role according to the effective role resolution rules detailed below.
+
+### Effective Role Resolution
+
+Effective permissions for a user at base level are determined by combining explicit (individual) assignments and team-derived assignments using the following precedence rules:
+
+1. Explicit individual role at Base (highest precedence)
+2. Best (most permissive) role among Team roles assigned at Base
+3. Explicit individual role at Workspace level other than "Inherit"
+4. Best (most permissive) role among Team roles assigned at Workspace
+5. No-access (default)
+
+**Notes**
+- An explicit individual assignment always overrides any team-derived role at the same level.
+- Lower-level roles (Base) override higher-level roles (Workspace) when an explicit assignment exists at the lower level.
+- When multiple team roles apply, the system chooses the most permissive role (for example, between Viewer and Editor it will choose Editor).
+
+## Best Practices
+
+* **Invite all users** to the workspace with the **Inherit** role. This grants no direct permissions but allows users to be included in teams. Note that assigning a **No Access** role at the workspace level overrides and blocks all team-derived permissions.
+* **Organize teams** based on your company’s structure — for example, by departments or project groups.
+* **Assign roles to teams** at the workspace or base level according to access needs.
+* **Use explicit individual roles** only for special cases or exceptions to maintain consistent access control.
+* **Maintain clear naming conventions** for teams (e.g., `Eng - Backend`, `Ops - HR`) to simplify management and improve visibility across large workspaces.
+* **Review team membership regularly** to ensure only active users retain access. Remove members who have left the organization or changed roles.
+* **Assign multiple team owners** to avoid administrative bottlenecks in case one owner is unavailable.
+
+
+
+---
