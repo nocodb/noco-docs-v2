@@ -5,7 +5,7 @@ tags: ['Field', 'Permissions']
 keywords: ['Field permissions', 'NocoDB field permissions', 'NocoDB roles', 'NocoDB permissions', 'NocoDB field permissions overview']
 ---
 
-<Callout type="info">Field permissions are available in NocoDB cloud- Team plan onwards and Self hosted Enterprise plans</Callout>
+<Callout type="info">Available on NocoDB Cloud from the **Team** plan onwards, and in **Self-hosted Enterprise** editions.</Callout>
 
 Field permissions in NocoDB allow you to control who can edit values in specific fields in a table. This feature is particularly useful for managing sensitive data or ensuring that only authorized users can modify certain information.
 
@@ -27,27 +27,29 @@ You can assign different levels of access to each field. The available options a
 |--------------------|----------------------------------------------------------------------|
 | **Editors & up**   | Members with **Editor**, **Creator**, or **Owner** roles *(default)* |
 | **Creators & up**  | Members with **Creator** or **Owner** roles                          |
-| **Specific users** | A custom list of selected members                                    |
+| **Specific users** | Selected members or teams                                            |
 | **Nobody**         | No one can edit this field                                           |
 
 By default, users with **Editor** role and above can edit data in all fields in a table.
 * Select **Creators & up** to prevent editors from editing values in this field.
 * Select **Nobody** to disable editing values for all users in this field.
-* Select **Specific users** to grant access only to selected members.
-> Only members with **Editor**, **Creator**, or **Owner** roles are available for selection in the dropdown for specific user selection.
+* Choose **Specific users** to allow only selected members or teams to edit this field.
+
+<Callout type="info">Only members and teams with **Editor**, **Creator**, or **Owner** roles can be selected for specific access configuration.</Callout>
 
 ![Field permissions](/img/v2/permissions/field-permissions-3.png)
 
-<Callout type="info">
-Additional notes on field permissions:
-- Field permissions do not affect the ability to view records in the table. Users with access can still view all records, but their ability to edit values in specific fields will be restricted based on the permissions set.
-- Field permissions are applied at the field level, meaning they affect all records within that table for the specified field. Cannot be set for individual / selected records.
-- Field permissions are independent of table permissions. You can set field permissions without enabling table permissions, and vice versa.
-- Field permissions also restrict the ability to edit values via API calls and shared forms.
-- Field permissions can be set for all field types except for the following field type, as these fields are calculated / system fields and cannot be edited directly.
-    - formula, rollup, lookup, created-by, last-updated-by, created-at, last-updated-at, button, qr-code, barcode
-- For **LinkToAnotherRecord** field type, only the source table LTAR field permission will suffice to control the ability to edit the field (add / remove links). The related table LTAR field permissions will not be accounted for. For example: Country [has-many] City, if the user has permission to edit the Country table, they will be able to add / remove links to City table records in the Country table, even if they do not have permission to edit the City table related LTAR field.
-</Callout>
+### **Additional Notes on Field Permissions**
+
+* Field permissions **do not control field visibility** — users with access can still view all field data, but their ability to edit values in specific fields depends on the configured permissions.
+* Permissions are applied at the **field level**, affecting all records in the table for that specific field. They cannot be configured for individual or selected records.
+* Field permissions operate **independently** of table permissions. You can configure field permissions without enabling table permissions, and vice versa.
+* Field permissions also apply to **API calls** and **shared forms**, restricting the ability to modify field values through these interfaces.
+* Field permissions can be set for all field types except the following, as these are **calculated or system fields** and cannot be edited directly:
+    * *Formula*, *Rollup*, *Lookup*, *Created By*, *Last Updated By*, *Created At*, *Last Updated At*, *Button*, *QR Code*, *Barcode*
+* For **Link to Another Record (LTAR)** fields, only the source table’s LTAR field permission determines editability (add/remove links). The related table’s LTAR permissions are not considered.
+    * *Example:* If **Country** has many **Cities**, and a user has permission to edit the LTAR field in the **Country** table, they can add or remove links to **City** records from the **Country** table — even if they lack edit permission for the **City** table’s corresponding LTAR field.
+
 
 ## Permissions Overview
 
