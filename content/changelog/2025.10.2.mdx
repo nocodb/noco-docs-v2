@@ -1,14 +1,16 @@
 ---
 title: '2025.10.2'
-description: 'Bugfix release : Update addresses minor issues OpenAPI specification & meta sync.'
+description: 'Bugfix release : Update addresses minor issues related to OpenAPI specification & meta sync.'
 ---
-
+`Updated on: 2025-November-10`
 ![Image](/img/changelog/20251002.png)
+
+
 
 ## Fixes
 
-- Access Control Fix for Shared Resources – Resolved an issue where opening a Shared Base, ERD, or Shared View in a new tab caused unexpected errors to appear. Shared resources now open correctly in guest mode without triggering access-related errors.
-- OpenAPI's specification correction - Resolved an issue where the LastModifiedTime field was not properly marked as nullable in the OpenAPI specification. The field type and format have been updated to correctly reflect that null values are supported.
-- Fixed meta sync failures on back-to-back requestsMeta sync now gracefully handles consecutive requests without errors. The UI prevents back-to-back requests that previously caused synchronization failures, improving reliability during frequent sync operations.
+- **OpenAPI's specification correction** - Resolved an issue where the LastModifiedTime field was not properly marked as nullable in the OpenAPI specification. The field type and format have been updated to correctly reflect that null values are supported.
+- **Fixed meta sync failures on back-to-back requests** - Meta sync now gracefully handles consecutive requests without errors. The UI prevents back-to-back requests that previously caused synchronization failures, improving reliability during frequent sync operations.
+- **Access Control Fix for Shared Resources** – Resolved an issue where opening a Shared Base, ERD, or Shared View in a new tab caused unexpected errors to appear. Shared resources now open correctly in guest mode without triggering access-related errors.
 
 ---
