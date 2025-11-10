@@ -1,16 +1,13 @@
 ---
-
 title: 'Workspace collaboration'
-description: 'Learn how to invite members to your workspace, assign roles, and manage member access.'
-tags: ['Workspaces', 'Collaboration', 'Members', 'Invite', 'Roles', 'Permissions']
-keywords: ['Workspace configuration', 'Invite members', 'Member roles', 'Access permissions', 'Displaying workspace members', 'Modifying member roles', 'Removing workspace members', 'Workspace collaboration', 'Team collaboration', 'Access control', 'Role-based permissions', 'Workspace management', 'User roles', 'Workspace settings', 'Workspace administration', 'Member invitation', 'User access', 'Member management', 'Workspace teamwork', 'Workspace organization']
+description: 'This article explains how to invite members or teams to your workspace, manage their roles, and remove them when needed.'
+tags: ['Collaboration', 'Workspaces', 'Members', 'Teams', 'Invite', 'Roles']
+keywords: ['Invite members', 'Invite teams', 'Member roles', 'Team roles', 'Access permissions', 'Displaying workspace members', 'Displaying workspace teams', 'Modifying roles', 'Removing members', 'Removing teams', 'Workspace collaboration', 'Workspace settings']
 ---
 
-Once your workspace is created, the next step is to collaborate by inviting team members. This guide walks through inviting members, managing roles, and removing users.
-For a complete overview of roles and permissions, refer to the [Roles and Permissions guide](/docs/product-docs/roles-and-permissions).
+<Callout type="info">A comprehensive guide regarding roles and permissions can be accessed [here](/docs/product-docs/roles-and-permissions)</Callout>
 
-## Invite members to workspace
-
+## Invite Members to Workspace
 1. Go to **Team & Settings** in the left minibar.
 2. Open the **Members** tab.
 3. Click **Add Member**.
@@ -18,47 +15,85 @@ For a complete overview of roles and permissions, refer to the [Roles and Permis
 5. Select a role for the invited member(s).
 6. Click **Invite to Workspace**.
 
-<Callout type="info">You can only assign roles equal to or below your own access level.</Callout>
+<Callout type="info">Any user can invite members to the workspace, but they can only assign a role to new members that is at most equal to their own role.</Callout>
 
 ![image](/img/v2/workspace/workspace-collaboration-1.png)
 ![image](/img/v2/workspace/workspace-collaboration-2.png)
 ![image](/img/v2/workspace/workspace-collaboration-3.png)
 
-<Callout type="tip">To invite multiple members, separate email addresses with commas.</Callout>
+<Callout type="info">You have the capability to invite multiple members simultaneously by entering their email addresses, separated by commas.</Callout>
 
-## View workspace members
 
-The **Members** tab displays everyone with access to the workspace.
+## Invite Teams to Workspace
+NocoDB now allows inviting **Teams** to the workspace for simplified collaboration. Teams can be assigned workspace-level access roles, streamlining permissions for all their members.
 
-1. Navigate to **Team & Settings** in the left minibar.
-2. Open the **Members** tab.
+1. Navigate to the `Team & Settings` page and open the `Members` tab.
+2. Click on the `Add Teams` button.
+3. From the dropdown, select one or multiple teams to add.
+4. Choose the appropriate access role from the dropdown menu. Note that,
+- Similar to individual members, you can only assign roles that are at most equal to your own role in the workspace.
+- Teams can't be assigned the **Owner** role.
+5. Click on the `Add Teams` button to complete the process.
 
-<Callout type="info">All workspace members can view the member list.</Callout>
+<Callout type="info">When a team is invited to the workspace, all users under that team inherit the assigned workspace-level role unless overridden by a lower-level permission (explicit workspace role or base-level role).</Callout>
+
+![image](/img/v2/workspace/teams/add-teams-1.png)
+![image](/img/v2/workspace/teams/add-teams-2.png)
+
+To learn more about creating and managing teams, refer to the [Teams documentation](/docs/product-docs/collaboration/teams).
+
+
+## List Workspace Members and Teams
+The `Members` tab displays all users and teams that have access to the workspace.
+
+- Individual members appear with their email addresses.
+- Teams are listed with their name and member count.
+
+<Callout type="info">Members and teams list is accessible to all workspace members.</Callout>
 
 ![image](/img/v2/workspace/workspace-members-list.png)
 
-## Modify workspace member roles
 
-1. Go to **Team & Settings** → **Members** tab.
-2. Use the dropdown next to a member’s name to change their role.
+## Modify Roles for Members or Teams
+Access permissions for both members and teams can be updated directly from the `Members` tab.
 
-<Callout type="info">Only the workspace **owner** or **creator** can update member roles.</Callout>
+1. Click on the access dropdown next to the member or team.
+2. Select a new role from the list of available options.
 
-![image](/img/v2/workspace/workspace-members-role-change.png)
+<Callout type="info">You can only assign roles that are at most equal to your own role in the workspace. Teams cannot be assigned the **Owner** role.</Callout>
 
-## Remove workspace members
+![image](/img/v2/workspace/teams/edit-team-role.png)
 
-1. Go to **Team & Settings** → **Members** tab.
-2. Click the vertical ellipsis `⋮` next to a member’s name.
-3. Select **Remove User**.
 
-<Callout type="info">Only the workspace **owner** or **creator** can remove members.</Callout>
+## Role Precedence
+When a user has multiple role assignments through both team and individual access, NocoDB resolves the final permission using a clear precedence order.
+
+- Individual explicit role takes precedence over team-assigned role.
+- Base-level roles override workspace-level roles.
+- In case of multiple team roles, the **highest** permission applies.
+
+<Callout type="info">This ensures users always retain the most permissive access assigned at their lowest configured level.</Callout>
+
+To learn more about effective role resolution, refer to the [Teams effective role resolution documentation](/docs/product-docs/collaboration/teams#effective-role-resolution).
+
+
+## Remove Members or Teams from Workspace
+You can remove both members and teams from the workspace using the context menu.
+
+1. Click on the vertical ellipses `⋮` beside the member or team entry.
+2. Select the appropriate removal option — `Remove User` or `Remove Team`.
+
+<Callout type="info">Only the workspace **owner** or **creator** can remove members or teams from the workspace.</Callout>
 
 ![image](/img/v2/workspace/workspace-members-remove.png)
+![image](/img/v2/workspace/teams/remove-team.png)
 
-## Related articles
 
-* [Workspace overview](/docs/product-docs/workspaces)
-* [Create workspace](/docs/product-docs/workspaces/create-workspace)
-* [Rename workspace](/docs/product-docs/workspaces/actions-on-workspace#rename-workspace)
-* [Delete workspace](/docs/product-docs/workspaces/actions-on-workspace#delete-workspace)
+## Best Practice
+- Invite all users to the workspace first with the **Inherit** role. This will allow them to access workspaces based on their team or base-level roles.
+- Use teams for departments or functional groups to manage roles efficiently.
+- Adjust team-level permissions instead of managing roles individually for large workspaces.
+
+Learn more [here](/docs/product-docs/collaboration/teams#best-practices).
+
+---

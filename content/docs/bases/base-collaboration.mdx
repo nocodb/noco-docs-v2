@@ -1,48 +1,116 @@
 ---
 title: 'Base collaboration'
-description: 'Invite team members to work on a base'
-tags: ['Bases', 'Collaboration', 'Members', 'Invite', 'Roles', 'Permissions']
-keywords: ['NocoDB base', 'base collaboration']
+description: 'This article explains how to invite members or teams to your base, manage their roles, and remove them when needed.'
+tags: ['Collaboration', 'Bases', 'Members', 'Teams', 'Invite', 'Roles', 'Permissions']
+keywords: ['Invite members', 'Invite teams', 'Member roles', 'Team roles', 'Base access', 'Displaying base members', 'Displaying base teams', 'Modifying roles', 'Removing members', 'Removing teams', 'Base collaboration', 'Base permissions']
 ---
 
-In NocoDB, a member added to a workspace inherits their role-based permissions across all bases within that workspace. If you need to override a member’s permissions for a specific base, follow the steps below:
+<Callout type="info">A comprehensive guide regarding roles and permissions can be accessed [here](/docs/product-docs/roles-and-permissions)</Callout>
+
+## Invite Members to Base
+
+Base-level member management allows you to control granular access to specific bases within your workspace. You can invite individual members directly to a base with specific role assignments.
+
+1. Navigate to the **Overview** > **Members** tab within your base.
+2. Click **Add Members**.
+3. Enter one or more email addresses (comma-separated).
+4. Select a role for the invited member(s) from the dropdown menu.
+5. Click **Invite to Base**.
+
+<Callout type="info">You can only assign roles that are at most equal to your own role on the base.</Callout>
+
+<Callout type="info">You can invite multiple members simultaneously by entering their email addresses separated by commas.</Callout>
+
+![image](/img/v2/collaboration/base/base-add-members-1.png)
+![image](/img/v2/collaboration/base/base-add-members-2.png)
+
+Members added to a workspace inherit the role assigned at the workspace level, unless a specific role is configured at the base level. Alternatively, you can invite users directly to a base with restricted workspace access. This allows you to grant access to a single base without exposing other workspace data — ideal for collaborating with external partners, clients, or temporary contributors in a controlled manner.
 
 
-## Update members role in your base
+## Invite Teams to Base
 
-1. Access `Base Dashboard` from the left sidebar
-2. Navigate to the `Members` tab.
-3. Locate the user whose access you want to change.
-4. Use the dropdown to assign a new role specific to this base.
+You can assign entire teams to a base for streamlined collaboration. Teams inherit the base-level role assigned to them, making it easier to manage access for department-wide or functional group permissions.
 
-![image](/img/v2/base/base-collaboration.png)
+1. Navigate to the **Overview** > **Members** tab within your base.
+2. Click on the **Add Teams** button.
+3. From the dropdown, select one or multiple teams to add to the base. Teams already added to the base will be indicated as disabled in the dropdown.
+4. Choose the appropriate base-level role from the dropdown menu. Note that:
+ - Similar to individual members, you can only assign roles that are at most equal to your own role on the base.
+ - Teams can't be assigned the **Owner** role at the base level.
+5. Click on the **Add Teams** button to complete the process.
+
+<Callout type="info">When a team is invited to the base, all users under that team inherit the assigned base-level role unless overridden by an individual explicit member role.</Callout>
+
+![image](/img/v2/collaboration/base/base-add-teams-1.png)
+![image](/img/v2/collaboration/base/base-add-teams-2.png)
+
+To learn more about creating and managing teams, refer to the [Teams documentation](/docs/product-docs/collaboration/teams).
+
+Teams added to a workspace inherit the role assigned at the workspace level, unless a different role is configured at the base level. Alternatively, you can invite teams directly to a base with restricted workspace access. This allows team members to collaborate on a specific base without access to other workspace data — ideal for engaging external teams, partner organizations, or temporary project groups securely and efficiently.
+
+## List Base Members and Teams
+
+The `Members` tab displays all users and teams that have access to the base.
+
+- Individual members appear with their email addresses and assigned base role.
+- Teams are listed with their name, member count, and assigned base role.
+
+![image](/img/v2/collaboration/base/base-members-list.png)
+
+Inherited roles from workspace-level are displayed with `workspace` suffix to indicate their origin.
 
 
-<Callout type="info"> Any existing user can invite members to the base, but they can only assign roles that are equal to or lower than their own role. Only the base owner / creator can change the role of a base member.</Callout>
+## Modify Roles for Members or Teams
 
-More details about roles & permissions can be found [here](/docs/product-docs/roles-and-permissions).
+Access permissions for both members and teams can be updated directly from the `Members` tab.
 
-## Remove members from your base
-1. Access `Base Dashboard` from the left sidebar
-2. Navigate to the `Members` tab.
-3. Locate the user to remove.
-4. Set their role to No Access using the dropdown.
+1. Click on the role dropdown next to the member or team.
+2. Select a new role from the list of available options.
+3. The role change takes effect immediately.
 
-![image](/img/v2/base/base-collaboration.png)
+![image](/img/v2/collaboration/base/base-edit-roles.png)
 
-<Callout type="info">Removing a member from a base does not delete their account. They can still access other bases in the workspace, unless removed from the workspace entirely.</Callout>
+<Callout type="info">You can only assign roles that are at most equal to your own role on the base. Teams cannot be assigned the **Owner** role at the base level.</Callout>
 
-## Direct base invite
+Learn more about [roles and permissions](/docs/product-docs/roles-and-permissions).
 
-In addition to inviting workspace members to a base, you can invite users directly to a specific base (with restricted workspace access). This is useful when you want to grant someone access to only a single base without exposing the rest of the workspace.
 
-When a user is invited directly to a base:
+## Role Precedence
 
-* They are automatically added to the parent workspace with the **No Access** role.
-* Their access is restricted exclusively to the base they were invited into.
-* They will not be able to view or access any other bases, tables, or data within the same workspace.
-* Their name will still appear in the workspace’s member list, but their visibility and access will be limited.
+When a user has multiple role assignments through both team and individual access at the base level, NocoDB resolves the final permission using a clear precedence order.
 
-This approach is ideal for sharing specific projects with external collaborators, clients, or temporary contributors without compromising workspace-level visibility.
+- Individual explicit role takes precedence over team-assigned role.
+- Base-level roles override workspace-level roles.
+- In case of multiple team roles, the **highest** permission applies.
+
+Learn more about [roles and permissions](/docs/product-docs/collaboration/teams#effective-role-resolution).
+
+## Remove or Revoke Base Access
+There are two ways to manage member or team access to a base:
+
+### Deny Access
+To prevent a user or team from accessing the base:
+- Click on the role dropdown next to the member or team entry.
+- Select `No Access` from the available roles.
+
+The member or team will be blocked from accessing this base, regardless of their workspace or team-level permissions.
+
+### Revoke Explicit Assignment
+To remove an explicit base-level role assignment and allow the user to inherit their workspace or team-level role:
+- Click on the role dropdown next to the member or team entry.
+- Select `Inherit` from the available roles.
+
+The member or team will now access the base based on their workspace-level or team-level permissions, rather than an explicit base-level assignment.
+
+<Callout type="info">Use **No Access** to explicitly block someone from a base. Use **Inherit** to remove the base-level assignment and fall back to workspace or team inheritance.</Callout>
+
+## Best Practice
+
+- Use base-level permissions to restrict access to sensitive data while maintaining broader workspace access.
+- Assign teams to bases for departments or functional groups to manage access efficiently without individual invitations.
+- Start by inviting teams to bases when possible, then add individual members for exceptions.
+- Regularly audit base member lists to ensure access remains appropriate as team compositions change.
+
+Learn more [here](/docs/product-docs/collaboration/teams#best-practices).
 
 ---
