@@ -1,20 +1,18 @@
 ---
 title: 'View'
-description: 'Understanding Views in NocoDB!'
+description: 'Learn about Views in NocoDB.'
 tags: ['Views', 'Overview']
 keywords: ['NocoDB view', 'Overview']
 icon: "view"
 ---
 
-Views within NocoDB not only allow you to tailor the visual presentation to your liking but also provide independent
-control over sorting and filtering of records within each view. Each view maintains its unique configuration for
-filters, data display, and enabled fields, ensuring that modifications of these configuration does not impact any other view. 
-This feature empowers users to efficiently personalize their data visualization while
-maintaining the integrity of other views.
+Views in NocoDB allow you to customize how your data is displayed while maintaining independent control over sorting, filtering, and field visibility. Each view retains its own configuration, ensuring that changes made to one view do not affect any others.
 
-<Callout type="info">View represents data from a table. Any updates to records in a view will be reflected in all other views of the same table</Callout>
+This flexibility enables users to organize and visualize data efficiently, providing tailored perspectives for different workflows or team members.
 
-## View Types Supported
+<Callout type="info">A View represents data from a table. Any updates made to records in one view are reflected across all other views of the same table.</Callout>
+
+## Supported View Types
 
 1. [Grid View](/docs/product-docs/views/view-types/grid)
 2. [Form View](/docs/product-docs/views/view-types/form)
@@ -22,26 +20,60 @@ maintaining the integrity of other views.
 4. [Kanban View](/docs/product-docs/views/view-types/kanban)
 5. [Calendar View](/docs/product-docs/views/view-types/calendar)
 
+View the video below for a quick overview of NocoDB Views:
 <center>
     <iframe width="560" height="315" src="https://www.youtube.com/embed/gVk5ZwMwANU?si=JcUazOp0SFWyJ6a-&start=24" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
 </center>
 
 ## View Permission Types
 
-We can apply permission to each View. By default, views are `Collaborative`. To see or change the view type, expand `view-tool-bar-menu` as shown below.
+Permissions can be applied to each view. By default, all views are **Collaborative**. To view or modify a view’s permission type, open the **View Toolbar Menu** as shown below.
 
-![locked view](/img/v2/views/locked-view.png)
+![Lock / Unlock view](/img/v2/views/lock-view/view-permission-change.png)
 
-### Collaborative Views (default)
-By default, views are set to "Collaborative," allowing members with edit permissions or higher to modify view configurations. In this mode, all members can read and write data to the view. This is the default mode for all views.
+<Callout type="info">All views within a base are visible to every member. Only the ability to edit or modify view configurations can be controlled through view permission type settings.</Callout>
+
+View configurations include the following items in the toolbar:
+* Field visibility
+* Field order
+* Field width
+* Filters
+* Sorts
+* Groups
+* Row Colors
+* Row Height
+
+Toolbar access is determined by the member's role. Members with **Editor**, **Creator**, or **Owner** roles have toolbar access by default. Members with **Commenter** or **Viewer** roles do not have toolbar access.
+
+### Collaborative Views (Default)
+
+By default, views are set to **Collaborative**, allowing members with edit permissions or higher to modify view configurations. In this mode, all members with toolbar access can modify view configurations such as field visibility, order, filters, sorts, groups, colors, and row height.
 
 ### Locked Views
-With "Locked Views," no one can edit the view configurations until they are unlocked. In this mode, all members are restricted to reading data from the view and are unable to make any changes to its settings or content. This mode is useful when you want to share a view with others but don't want them to make any changes to it.
+
+In a **Locked View**, view configurations cannot be edited until the view is unlocked. Members can read data but cannot modify view settings or content. This mode is ideal for sharing consistent data presentations with others while preventing accidental changes.
+
+Learn more about [Locking and Unlocking Views](/docs/product-docs/views/actions-on-view#lock--unlock-view).
 
 ### Personal Views ☁
 
+<Callout type="note">Personal Views are available in NocoDB Cloud and Self-hosted Enterprise editions.</Callout>
 
-<Callout type="note">
-    Personal view are currently available exclusively on Cloud-hosted plans.
-</Callout>
-With "Personal Views" only the view owner can edit view configurations, while all other members have read-only access. This mode is similar to "Locked Views" but provides exclusive control to the owner. Only the view owner can set a view as "Personal" and they can reassign the view to another user if necessary. The base owner or creator also has the authority to reassign the view to another user and change the view’s lock status, switching it back to "Collaborative" or "Locked" as needed. If no specific owner is assigned(older views), the base owner automatically assumes ownership of the view. 
+**Personal Views** give exclusive control over view configurations to the owner, while other members have read-only access to view configurations. This mode is similar to Locked Views but allows only the view owner to make configuration changes.
+
+* The owner can reassign ownership or convert the view to **Collaborative** or **Locked**.
+* The base owner or creator also retains the ability to manage ownership and lock status.
+* For older views without an assigned owner, ownership defaults to the base owner.
+
+Learn more about [Personal Views](/docs/product-docs/views/actions-on-view#personal-views-).
+
+---
+
+## General Notes
+
+* When a table is opened, the default view displayed is the first common (non-personal) view, which can be either **Collaborative** or **Locked**.
+* Each table must contain at least one common (non-personal) view. The last remaining common view cannot be deleted or converted into a personal view.
+* The field display order for linked records is determined by the first common (non-personal) view of the source table.
+
+---
+
