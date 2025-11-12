@@ -137,7 +137,7 @@ NocoDB allows you to filter views based on the currently logged-in user. This is
 
 NocoDB enables users to dynamically filter records using query parameters directly in the URL. This is useful when creating sharable views or automating filtered data access in embedded dashboards or internal workflows.
 
-### Basic Syntax
+**Basic Syntax**
 
 Filtering is controlled using the `where` query parameter in the following format:
 
@@ -145,7 +145,7 @@ Filtering is controlled using the `where` query parameter in the following forma
 ?where=(<field>,<operator>,<value>)
 ```
 
-#### Example
+**Example**
 
 ```plaintext
 https://<your-nocodb-url>/#/workspaceId/baseID/tableID?where=(country,eq,France)
@@ -169,7 +169,7 @@ Multiple conditions can be joined using logical operators:
 * `~and` → logical AND
 * `~or` → logical OR
 
-#### Example
+**Example**
 
 ```plaintext
 ?where=((country,eq,France)~or(country,eq,Germany))
