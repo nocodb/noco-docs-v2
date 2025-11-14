@@ -25,7 +25,7 @@ importers:
         version: 13.8.0(react@19.2.0)
       '@openrouter/ai-sdk-provider':
         specifier: ^1.2.0
-        version: 1.2.1(ai@5.0.90(zod@4.1.12))(zod@4.1.12)
+        version: 1.2.2(ai@5.0.90(zod@4.1.12))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(zod@4.1.12)
       '@radix-ui/react-collapsible':
         specifier: ^1.1.8
         version: 1.1.12(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -938,12 +938,26 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
-  '@openrouter/ai-sdk-provider@1.2.1':
-    resolution: {integrity: sha512-sDc+/tlEM9VTsYlZ3YMwD9AHinSNusdLFGQhtb50eo5r68U/yBixEHRsKEevqSspiX3V6J06hU7C25t4KE9iag==}
+  '@openrouter/ai-sdk-provider@1.2.2':
+    resolution: {integrity: sha512-7D4ki80mX/UUAmuVmg5rFQQreUEDvDs4THide/Z4WPaKUdVs11MpKgQK2ReE0zP3fUcwL5g7DpSsbOUaVcSW7g==}
     engines: {node: '>=18'}
     peerDependencies:
       ai: ^5.0.0
       zod: ^3.24.1 || ^v4
+
+  '@openrouter/sdk@0.1.11':
+    resolution: {integrity: sha512-OuPc8qqidL/PUM8+9WgrOfSR9+b6rKIWiezGcUJ54iPTdh+Gye5Qjut6hrLWlOCMZE7Z853gN90r1ft4iChj7Q==}
+    peerDependencies:
+      '@tanstack/react-query': ^5
+      react: ^18 || ^19
+      react-dom: ^18 || ^19
+    peerDependenciesMeta:
+      '@tanstack/react-query':
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
 
   '@opentelemetry/api@1.9.0':
     resolution: {integrity: sha512-3giAOQvZiH5F9bMlMiv8+GSPMeqg0dbaeo58/0SlA9sxSqZhnUtxzX9/2FzyhS9sWQf5S0GJE0AKBrFqjpeYcg==}
@@ -3601,10 +3615,22 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.19.1
 
-  '@openrouter/ai-sdk-provider@1.2.1(ai@5.0.90(zod@4.1.12))(zod@4.1.12)':
+  '@openrouter/ai-sdk-provider@1.2.2(ai@5.0.90(zod@4.1.12))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(zod@4.1.12)':
     dependencies:
+      '@openrouter/sdk': 0.1.11(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       ai: 5.0.90(zod@4.1.12)
       zod: 4.1.12
+    transitivePeerDependencies:
+      - '@tanstack/react-query'
+      - react
+      - react-dom
+
+  '@openrouter/sdk@0.1.11(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+    dependencies:
+      zod: 4.1.12
+    optionalDependencies:
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
 
   '@opentelemetry/api@1.9.0': {}
 
