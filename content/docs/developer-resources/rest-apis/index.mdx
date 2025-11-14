@@ -3,20 +3,19 @@ title: 'REST APIs'
 description: 'NocoDB REST API Overview'
 ---
 
-Once you've created the schemas, you can manipulate the data or invoke actions using the REST APIs. We provide several types of APIs for different usages. Refer to the following links for more details:
+NocoDB provides a comprehensive set of REST APIs that allow you to interact programmatically with your data, metadata, and workspace resources. These APIs make it possible to integrate NocoDB with external applications, automate workflows, build custom tools, or manage your bases at scale.
 
-- [Meta APIs](https://meta-apis-v2.nocodb.com/)
+Whether you want to query records, update fields, manage tables, or retrieve metadata, NocoDB exposes clear and consistent API surfaces designed for both simple and advanced use cases. This document outlines the available API types, explains how to construct endpoints, and guides you through locating the required IDs for making requests.
 
-- [Data APIs](https://data-apis-v2.nocodb.com/)
+Use this reference as your starting point for building reliable, API-driven integrations with NocoDB.
 
-You will need an API key and endpoint to use the API. The endpoint URL for hosted instances of NocoDB is in the format `https://app.nocodb.com/api/v2/tables/TABLEID/records` and `https://app.nocodb.com/api/v2/meta/bases/BASEID/info`.
+- [Data APIs](https://data-apis-v3.nocodb.com/)
+- [Meta APIs](https://meta-apis-v3.nocodb.com/)
 
-- You can find a TABLEID by going to any table in NocoDB > Details > API Snippets.
-- You can find your BASEID by clicking the menu icon next to any database, rest APIs > and seeing the BASEID in the url.
 
-Additional information on the REST APIs is provided below.
+<Callout type="info">**Advanced** Meta APIs related to Views and Collaboration features are available only on NocoDB Cloud Business+ plans and Self-hosted Enterprise editions.</Callout>
 
-- When querying using v3 apis, see [v3 Where Clause](/docs/product-docs/developer-resources/rest-apis#v3-where-query-parameter) for a slight difference between the two version's where clause.
+When querying using v3 apis, see [v3 Where Clause](/docs/product-docs/developer-resources/rest-apis#v3-where-query-parameter) for a slight difference between the two version's where clause.
 
 
 ## Finding Your API IDs
