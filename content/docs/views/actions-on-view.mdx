@@ -50,6 +50,35 @@ The view context menu provides a set of tools to interact with the view. The vie
 ![image](/img/v2/views/view-context-menu.png)
 ![image](/img/v2/views/delete-view-confirmation.png)
 
+## Lock / Unlock view
+
+Locked views prevent members from modifying view configurations. To lock a view, change the permission type to `Locked` from the view context menu. To unlock a view, change the permission type back to `Collaborative`.
+
+![Lock / Unlock view](/img/v2/views/lock-view/view-permission-change.png)
+
+You can also add a custom message to inform members why the view is locked. This message is visible to all members when they attempt to unlock the view.
+
+![Lock view message](/img/v2/views/lock-view/lock-message.png)
+![Unlock view message](/img/v2/views/lock-view/unlock-message.png)
+
+Locked views in sidebar appears with a `lock` icon next to the view name.
+![Locked view sidebar](/img/v2/views/lock-view/locked-view-in-sidebar.png)
+
+## Personal Views ☁
+<Callout type="note">Personal Views are available in NocoDB Cloud and Self-hosted Enterprise editions.</Callout>
+
+Personal Views give exclusive control over view configurations to the owner, while other members have read-only access to view configurations. To assign a view as Personal View, change the permission type to `Personal` from the view context menu. To revert back to Collaborative or Locked view, change the permission type accordingly.
+
+![Personal view](/img/v2/views/lock-view/view-permission-change.png)
+
+You can also assign or change the owner of a Personal View from the left sidebar view context menu.
+
+![Change personal view owner](/img/v2/views/personal-view/assign-as-personal-view.png)
+![Change personal view owner](/img/v2/views/personal-view/assign-as-personal-view-2.png)
+
+Personal view in sidebar appears with a `user` icon next to the view name.
+![Personal view sidebar](/img/v2/views/personal-view/personal-view-in-sidebar.png)
+
 ## Add / edit view description
 View description can be added by clicking on the `Add Description` button on the view creation modal or by clicking on the `Edit Description` button from the view context menu.
 
@@ -68,7 +97,7 @@ Description for a view will be visible as a tooltip when hovering over the `info
 
 You can copy view configurations from another view to quickly apply the same settings to your current view. This is useful when you want to replicate filters, sorting, field visibility, and other configurations across multiple views.
 
-### Steps to copy view configuration
+**Steps to copy view configuration**
 
 1. Click on the vertical ellipsis symbol `⋮` in the toolbar.
 2. Select **"Copy another view's configuration"** from the view context menu.
@@ -108,7 +137,7 @@ NocoDB allows you to filter views based on the currently logged-in user. This is
 
 NocoDB enables users to dynamically filter records using query parameters directly in the URL. This is useful when creating sharable views or automating filtered data access in embedded dashboards or internal workflows.
 
-### Basic Syntax
+**Basic Syntax**
 
 Filtering is controlled using the `where` query parameter in the following format:
 
@@ -116,7 +145,7 @@ Filtering is controlled using the `where` query parameter in the following forma
 ?where=(<field>,<operator>,<value>)
 ```
 
-#### Example
+**Example**
 
 ```plaintext
 https://<your-nocodb-url>/#/workspaceId/baseID/tableID?where=(country,eq,France)
@@ -140,7 +169,7 @@ Multiple conditions can be joined using logical operators:
 * `~and` → logical AND
 * `~or` → logical OR
 
-#### Example
+**Example**
 
 ```plaintext
 ?where=((country,eq,France)~or(country,eq,Germany))
