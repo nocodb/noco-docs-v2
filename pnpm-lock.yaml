@@ -190,8 +190,8 @@ importers:
         specifier: ^5.8.3
         version: 5.9.3
       ultracite:
-        specifier: 6.3.3
-        version: 6.3.3(typescript@5.9.3)
+        specifier: 6.3.4
+        version: 6.3.4(typescript@5.9.3)
 
 packages:
 
@@ -2040,8 +2040,8 @@ packages:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
     engines: {node: '>= 6'}
 
-  glob@11.0.3:
-    resolution: {integrity: sha512-2Nim7dha1KVkaiF4q6Dj+ngPPMdfvLJEOpZk/jKiUAkqKebpGAWQXAq9z1xu9HKu5lWfqw/FASuccEjyznjPaA==}
+  glob@12.0.0:
+    resolution: {integrity: sha512-5Qcll1z7IKgHr5g485ePDdHcNQY0k2dtv/bjYy0iuyGxQw2qSOiiXUXJ+AYQpg3HNoUMHqAruX478Jeev7UULw==}
     engines: {node: 20 || >=22}
     hasBin: true
 
@@ -2879,9 +2879,6 @@ packages:
     resolution: {integrity: sha512-nt6AMGKW1p/70DF/hGBdJB57B8Tspmbp5gfJ8ilhLnt7kkr2ye7hzD6NVG8GGErk2HWF34igrL2CXmNIkzKqKw==}
     engines: {node: '>=18'}
 
-  tinyexec@1.0.1:
-    resolution: {integrity: sha512-5uC6DDlmeqiOwCPmK9jMSdOuZTh8bU39Ys6yidB+UTt5hfZUPGAypSgFRiEp+jbi9qH40BLDvy85jIU88wKSqw==}
-
   tinyexec@1.0.2:
     resolution: {integrity: sha512-W/KYk+NFhkmsYpuHq5JykngiOCnxeVL8v8dFnqxSD8qEEdRfXk1SDM6JzNqcERbcGYj9tMrDQBYV9cjgnunFIg==}
     engines: {node: '>=18'}
@@ -2962,8 +2959,8 @@ packages:
     peerDependencies:
       '@babel/runtime': ^7.23.2
 
-  ultracite@6.3.3:
-    resolution: {integrity: sha512-B0mDgyqRmEv9oJlN5JLHra/Mb5e5JRc5R4uimmQbnOORJNGV0/ecKoiNNJaw/06wi67qLRBVjqtdswq/m/DmnQ==}
+  ultracite@6.3.4:
+    resolution: {integrity: sha512-paAJhYTOjJjqrsILFQW1e7I52YknebEXEHYNOXeFBBhAYUP72DkRG7V0vclwMuLsDFwSSXDkiXxQNf/TGpmydg==}
     hasBin: true
 
   undici-types@6.21.0:
@@ -4791,7 +4788,7 @@ snapshots:
     dependencies:
       is-glob: 4.0.3
 
-  glob@11.0.3:
+  glob@12.0.0:
     dependencies:
       foreground-child: 3.3.1
       jackspeak: 4.1.1
@@ -5590,7 +5587,7 @@ snapshots:
       consola: 3.4.2
       pathe: 2.0.3
       pkg-types: 2.3.0
-      tinyexec: 1.0.1
+      tinyexec: 1.0.2
 
   oniguruma-parser@0.12.1: {}
 
@@ -5972,8 +5969,6 @@ snapshots:
 
   throttleit@2.1.0: {}
 
-  tinyexec@1.0.1: {}
-
   tinyexec@1.0.2: {}
 
   tinyglobby@0.2.15:
@@ -6032,12 +6027,12 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  ultracite@6.3.3(typescript@5.9.3):
+  ultracite@6.3.4(typescript@5.9.3):
     dependencies:
       '@clack/prompts': 0.11.0
       '@trpc/server': 11.7.1(typescript@5.9.3)
       deepmerge: 4.3.1
-      glob: 11.0.3
+      glob: 12.0.0
       jsonc-parser: 3.3.1
       nypm: 0.6.2
       trpc-cli: 0.12.0(@trpc/server@11.7.1(typescript@5.9.3))(zod@4.1.12)
