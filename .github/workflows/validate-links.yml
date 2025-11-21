@@ -16,7 +16,7 @@ jobs:
   validate-links:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       
       - uses: oven-sh/setup-bun@v2
 
