@@ -13,7 +13,8 @@ Input methods are asynchronous and pause script execution until the user provide
 - Collect text input from users
 - Present users with choices using buttons or dropdown menus
 - Allow users to select tables, views, fields, or records
-- Collect file uploads for data processing
+- Upload and parse files for data processing (`fileAsync`)
+- Upload files for attachments and storage (`uploadFileAsync`)
 
 All input methods return a Promise that resolves to the value provided by the user, so they must be used with `await` to get the result.
 
@@ -194,6 +195,82 @@ if (result && result.parsedContents) {
 
 **Output:**
 ![File Input Example](/img/v2/scripts/input-file-1.png)
+
+### input.uploadFileAsync()
+
+Prompts the user to upload one or more files and returns raw file objects. This method is ideal for storing files in the database.
+
+**Parameters:**
+- `label` (`string`): The prompt text to display to the user
+- `options` (`object`, optional): Additional options for file upload:
+  - `allowedFileTypes` (`Array<string>`): File extensions, MIME types, or wildcard patterns to accept (e.g., `'.pdf'`, `'image/*'`, `'application/json'`)
+
+**Returns:** `Promise<NocoDbFile[]>` - A promise that resolves to an array of file objects
+
+**NocoDbFile Interface:**
+```typescript
+interface NocoDbFile {
+  url?: string;           // File URL
+  title: string;          // File name
+  mimetype: string;       // MIME type
+  size: number;           // File size in bytes
+  signedUrl?: string;     // Signed URL for secure access (preferred)
+  thumbnails?: {          // Available for images
+    tiny: { signedPath: string; signedUrl: string; };
+    small: { signedPath: string; signedUrl: string; };
+    card_cover: { signedPath: string; signedUrl: string; };
+  };
+}
+```
+
+**Example - Basic file upload:**
+```javascript
+// Prompt user to upload any file
+const files = await input.uploadFileAsync("Please upload your document");
+
+console.log(`Uploaded ${files.length} file(s)`);
+files.forEach(file => {
+  console.log(`File: ${file.title}, Size: ${file.size} bytes`);
+});
+```
+
+**Example - Upload images only:**
+```javascript
+// Restrict to image files only
+const images = await input.uploadFileAsync("Upload product images", {
+  allowedFileTypes: ['image/*']
+});
+
+// Process uploaded images
+for (const image of images) {
+  console.log(`Image: ${image.title}`);
+  console.log(`MIME Type: ${image.mimetype}`);
+  console.log(`URL: ${image.signedUrl || image.url}`);
+}
+```
+
+**Example - Upload spreadsheets:**
+```javascript
+// Accept only Excel and CSV files
+const spreadsheets = await input.uploadFileAsync("Upload sales data", {
+  allowedFileTypes: ['.xlsx', '.csv', 'application/vnd.ms-excel']
+});
+
+console.log(`Received ${spreadsheets.length} spreadsheet(s)`);
+```
+
+**Example - Store uploaded files in database:**
+```javascript
+const files = await input.uploadFileAsync("Upload product images");
+
+await table.createRecordAsync({
+  'AttachmentField': files,
+});
+```
+
+**Output:**
+![File Input Example](/img/v2/scripts/input-uploadFileAsync.png)
+
 
 ### input.tableAsync()
 
