@@ -3,6 +3,7 @@
   "pages": [
     "workspace-collaboration",
     "base-collaboration",
+    "teams",
     "share-base",
     "share-view",
     "notifications",
