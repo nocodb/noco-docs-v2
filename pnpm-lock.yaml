@@ -25,7 +25,7 @@ importers:
         version: 13.8.0(react@19.2.0)
       '@openrouter/ai-sdk-provider':
         specifier: ^1.2.0
-        version: 1.2.5(ai@5.0.98(zod@4.1.12))(zod@4.1.12)
+        version: 1.2.5(ai@5.0.99(zod@4.1.12))(zod@4.1.12)
       '@radix-ui/react-collapsible':
         specifier: ^1.1.8
         version: 1.1.12(@types/react-dom@19.2.3(@types/react@19.2.6))(@types/react@19.2.6)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -55,7 +55,7 @@ importers:
         version: 27.0.0
       ai:
         specifier: ^5.0.76
-        version: 5.0.98(zod@4.1.12)
+        version: 5.0.99(zod@4.1.12)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -1567,6 +1567,12 @@ packages:
 
   ai@5.0.98:
     resolution: {integrity: sha512-RpMnwnml68Swblobvk6IdF7HLZrog72Ve6H5J3aN+A/JPg4y5CjCXeQyK1N4wJStyuTa6AoKYfJR5F4e/aVpHQ==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
+  ai@5.0.99:
+    resolution: {integrity: sha512-omnQLLi5yNQWLLJAaQdACsgBSj+c9LTCWwl9z+6albiqlATNF3AGdpr1ZMTJosGkupwswZc6LDIMa3cfHR4x/g==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -3573,10 +3579,10 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.19.1
 
-  '@openrouter/ai-sdk-provider@1.2.5(ai@5.0.98(zod@4.1.12))(zod@4.1.12)':
+  '@openrouter/ai-sdk-provider@1.2.5(ai@5.0.99(zod@4.1.12))(zod@4.1.12)':
     dependencies:
       '@openrouter/sdk': 0.1.23
-      ai: 5.0.98(zod@4.1.12)
+      ai: 5.0.99(zod@4.1.12)
       zod: 4.1.12
 
   '@openrouter/sdk@0.1.23':
@@ -4207,6 +4213,14 @@ snapshots:
   agent-base@7.1.4: {}
 
   ai@5.0.98(zod@4.1.12):
+    dependencies:
+      '@ai-sdk/gateway': 2.0.13(zod@4.1.12)
+      '@ai-sdk/provider': 2.0.0
+      '@ai-sdk/provider-utils': 3.0.17(zod@4.1.12)
+      '@opentelemetry/api': 1.9.0
+      zod: 4.1.12
+
+  ai@5.0.99(zod@4.1.12):
     dependencies:
       '@ai-sdk/gateway': 2.0.13(zod@4.1.12)
       '@ai-sdk/provider': 2.0.0
