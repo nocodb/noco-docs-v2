@@ -1,0 +1,115 @@
+---
+title: 'Ticketing'
+description: 'Bring ticketing data from popular platforms into NocoDB with automated syncs.'
+tags: ['NocoSync', 'Ticketing']
+keywords: ['NocoSync ticketing', 'Ticketing data sync', 'NocoDB ticket integration', 'Automated ticket sync']
+---
+
+Ticketing Sync enables you to import issues, tickets, comments, users, and team information from external platforms such as GitHub, GitLab, Bitbucket, Zendesk, Linear, Freshdesk, and Chatwoot. This category uses a predefined schema that standardizes ticketing data across different systems, ensuring consistency even when naming conventions or field availability differ between sources.
+
+You may choose to sync **all tables** in the Ticketing schema or **only specific tables**. Syncing all tables provides full context and complete relationships, while syncing selected tables helps reduce sync time and resource usage based on your workflow needs.
+
+---
+
+## Available Tables
+
+Each table is mapped to a well-defined set of fields to maintain a unified structure. NocoSync also includes relational fields that connect these tables as required. Ticket and User tables are essential and always included, while Comment and Team tables are optional.
+
+### **Ticket**
+
+Represents a ticket, issue, case, or task from the source platform.
+**Key fields include:**
+
+* **Description** – Summary or full content of the ticket.
+* **Ticket Number** – Unique identifier from the source system.
+* **Due Date** – Target completion date.
+* **Priority** – Indicates urgency such as Low, Medium, High, or platform-specific values.
+* **Status** – Current stage (Open, In Progress, Closed, etc.).
+* **Tags** – Labels or metadata applied to the ticket.
+* **Ticket Type** – Category such as Bug, Feature, Task, Case, etc.
+* **URL** – Direct link to the ticket in the source app.
+* **Is Active?** – Indicates whether the ticket is currently active.
+* **Completed At** – Timestamp when the ticket was closed or resolved.
+
+This table includes links to **Users**, **Teams**, and **Comments**, depending on the structure available in the connected source.
+
+
+### **User**
+
+Represents individuals associated with the ticketing system—such as creators, reporters, agents, assignees, or contributors.
+**Key fields include:**
+
+* **Email** – Email associated with the user.
+* **URL** – Profile link to the user in the external system.
+
+Users are linked to **Tickets** and **Comments** where applicable.
+
+
+### **Comment**
+
+Stores discussion entries, updates, or notes related to Tickets.
+**Key fields include:**
+
+* **Body** – Full comment text.
+* **URL** – Link to the comment in the source system.
+
+Comments are relationally connected to both **Tickets** and **Users**.
+
+
+### **Team**
+
+Represents groups, departments, or squads defined in the external platform.
+**Key fields include:**
+
+* **Description** – Summary or name of the team.
+* **Members** – Users associated with the team.
+
+Teams may be associated with **Tickets** or **Users**, depending on source capabilities.
+
+---
+
+
+## Metadata Fields
+
+Each synced table in the Ticketing category includes a set of metadata fields that track the lifecycle, state, and origin of every record. These fields provide transparency into how data flows from the external source into NocoDB and play an essential role in traceability, debugging, and audit requirements.
+
+These metadata fields are automatically managed by NocoSync and are read-only.
+
+
+* **RemoteID**
+Unique identifier of the record in the external source system.
+
+* **RemoteCreatedAt**
+Timestamp of when the record was originally created in the source.
+
+* **RemoteUpdatedAt**
+Timestamp of the most recent update made in the source.
+
+* **RemoteDeleted**
+Indicates whether the record has been deleted in the source platform.
+This is used especially when the delete behaviour is set to **Ignore**.
+
+* **RemoteDeletedTime**
+Timestamp of when the record was deleted in the source, if applicable.
+
+* **RemoteRaw**
+Stores the raw payload received from the provider for that record.
+Useful for troubleshooting, verification, or advanced integrations.
+
+* **RemoteNamespace**
+Identifies the origin project, workspace, or repository depending on the provider.
+This is valuable for multi-project setups in GitHub, GitLab, Bitbucket, Zendesk groups, etc.
+
+* **RemoteSynchedAt**
+Last timestamp when NocoDB synced this specific record.
+
+* **SyncConfigID**
+Internal reference to the sync configuration used for this record.
+
+* **SyncRunID**
+Identifies the specific sync execution run that last updated this record.
+
+* **SyncProvider**
+Indicates which external service (GitHub, GitLab, Zendesk, etc.) the record originated from.
+
+---
