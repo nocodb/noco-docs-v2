@@ -20,13 +20,15 @@ NocoSync runs on a simple setup, supports scheduled syncs, and ensures high reli
 
 ## How Sync Works
 
-NocoSync is designed around **predefined schemas** for each category, such as Ticketing, ensuring a consistent structure across all supported sources. When a sync is configured, NocoSync automatically creates multiple tables—such as Ticket, User, Comment, and Team—where essential tables are included by default and optional ones can be added based on need. All required relationships between these tables are generated automatically, mirroring the hierarchy and linkages of the connected source system. A sync can be added to any existing base, allowing external data to integrate seamlessly with your existing workspace.
+NocoSync is designed around **predefined schemas** for each category, such as Ticketing, ensuring a consistent structure across all supported sources. When a sync is configured, NocoSync automatically creates multiple tables—such as Ticket, User, Comment, and Team. Essential tables are included by default and optional ones can be added based on need. All required relationships between these tables are generated automatically, mirroring the hierarchy and linkages of the connected source system.
 
-Sync tables created by NocoSync are **read-only**, as the sync operates strictly one-way—from the source system into NocoDB. Fields that originate from the external source are marked with a flash icon and cannot be removed, and sync tables themselves cannot be deleted. While schemas for each sync category are predefined, the actual fields available may vary by source. Different platforms use different naming conventions or may not expose all fields. NocoSync intelligently maps available fields from the source to the predefined schema to maintain consistency.
+Sync table fields created by NocoSync are **read-only**, as the sync operates strictly one-way—from the source system into NocoDB. Fields that originate from the external source are marked with a flash icon and cannot be removed, and sync tables themselves cannot be deleted. While schemas for each sync category are predefined, the actual fields available may vary by source. Different platforms use different naming conventions or may not expose all fields. NocoSync intelligently maps available fields from the source to the predefined schema to maintain consistency.
 
 Users can extend sync tables by adding their own **custom fields** or modifying non-sync fields as needed. Beyond the read-only limitations on synced fields, sync tables behave like regular NocoDB tables. They can be shared with collaborators, used in views, and linked to other tables—allowing you to connect synced data with non-sync data for richer workflows and insights.
 
 Currently, each sync category supports one external source at a time. When multi-source support is introduced, NocoDB will act as a **unified API** layer across all connected systems, allowing you to query, analyze, and build on top of data coming from multiple platforms through a single, consistent interface. This will significantly simplify integrations and expand the power of NocoSync across complex environments.
+
+Standard operations on Sync fields such as filtering, sorting, grouping, and searching are fully supported. You can create views, dashboards, and reports using synced data just like with any other NocoDB table.
 
 ---
 
@@ -82,9 +84,9 @@ To add a new NocoSync integration to your base, follow these steps:
 ![New Sync](/img/v2/noco-sync/new-sync-button.png)
 3. Sync **Setup** : General configurations
     - Sync name: Provide a name for your sync integration.
-    - Sync type: Choose between **Incremental** or **Full** sync modes.
-    - Sync trigger: Select either **Manual** or **Scheduled** sync. If scheduled, choose the desired frequency.
-    - On delete: Choose between **Ignore** or **Delete** to define how deletions from the source are managed.
+    - [Sync type](/docs/product-docs/noco-sync#sync-types): Choose between **Incremental** or **Full** sync modes.
+    - [Sync trigger](/docs/product-docs/noco-sync#sync-trigger): Select either **Manual** or **Scheduled** sync. If scheduled, choose the desired frequency.
+    - [On delete](/docs/product-docs/noco-sync#source-delete-handling): Choose between **Ignore** or **Delete** to define how deletions from the source are managed.
 4. Sync **Setup** : Category & Sync scope
     - Select the **Ticketing** category.
     - Choose to sync **All Tables** or **Select Tables** from the predefined schema. For Ticketing, essential tables like Ticket and User are always included.
