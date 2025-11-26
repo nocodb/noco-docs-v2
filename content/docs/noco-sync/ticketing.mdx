@@ -126,3 +126,153 @@ Identifies the specific sync execution run that last updated this record.
 Indicates which external service (GitHub, GitLab, Zendesk, etc.) the record originated from.
 
 ---
+
+## Source Specific Details
+
+Each supported ticketing platform has unique characteristics and field mappings. Below are some source-specific details to consider when configuring your Ticketing sync.
+
+### GitHub
+
+GitHub integration lets you bring issues, pull requests, and related project activity directly into your NocoDB workspace. Connect your GitHub account, pick the repositories you want to track, and NocoSync keeps your tables updated with the latest data.
+
+After selecting GitHub as the sync source, you can:
+
+* **Connect using an existing GitHub integration**
+Authenticate once and reuse the connection across multiple syncs. Both OAuth and Personal Access Token methods are supported.
+
+* **Choose one or more repositories**
+Pull data from any repo you manage or collaborate on. You can select multiple repositories to consolidate issues and PRs in a single NocoDB base.
+
+* **Include closed issues (optional)**
+Sync both open and closed issues to maintain a complete project history. Closed issues are marked accordingly in the Ticket table.
+
+* **Sync pull requests (optional)**
+Bring in PRs alongside issues to track code reviews, merges, and engineering workflows. PRs are represented as tickets with a distinct type.
+
+![GitHub Ticketing Sync Configuration](/img/v2/noco-sync/github-ticketing-sync-config.png)
+
+---
+
+### GitLab
+
+GitLab integration lets you sync project activity—issues, merge requests, comments, and more—directly into your NocoDB workspace.
+
+After selecting GitLab as your sync source, you can:
+
+* **Connect using an existing GitLab integration**
+Authenticate once and reuse the connection across multiple projects and syncs. Alternatively, you can set up a new connection using OAuth or Personal Access Token methods.
+
+* **Provide a GitLab Project ID**
+Point the sync to any GitLab project you manage or contribute to. NocoDB validates and fetches data from that project automatically.
+
+[Find the Project ID](https://docs.gitlab.com/user/project/working_with_projects/#find-the-project-id)
+
+![project ID](/img/v2/noco-sync/gitlab-retrieve-project-id.png)
+
+
+* **Include closed issues (optional)**
+Sync both open and closed issues to maintain a complete historical record of progress, decisions, and resolutions.
+
+* **Include merge requests (optional)**
+Pull in merge requests alongside issues to track reviews, approvals, and code changes within your workspace.
+
+![GitLab Ticketing Sync Configuration](/img/v2/noco-sync/gitlab-ticketing-sync-config.png)
+
+---
+
+### Zendesk
+
+Zendesk integration brings your support operations into NocoDB, enabling teams to analyze tickets, measure response trends, and connect customer support data with internal workflows. With NocoSync, your Zendesk tickets stay continuously updated in a structured, queryable format.
+
+Once you select Zendesk as your sync source, you can:
+
+* **Connect using an existing Zendesk integration**
+Authenticate once and reuse the connection for multiple sync configurations.
+
+* **Define your integration name**
+Label the sync clearly for your workspace, especially when managing multiple Zendesk accounts or environments.
+
+* **Include closed tickets (optional)**
+Sync both open and closed tickets to maintain a complete historical view of customer conversations, resolutions, and team performance.
+
+Zendesk as a source helps centralize customer support insights—making it easier to audit ticket history, build dashboards, correlate support patterns with product issues, and drive proactive decision-making across teams.
+
+![Zendesk Ticketing Sync Configuration](/img/v2/noco-sync/zendesk-ticketing-sync-config.png)
+
+---
+
+### Linear
+
+Linear sync brings your product, engineering, and project workflows directly into NocoDB—making it easy to analyze issues, track delivery patterns, and build custom reporting on top of your Linear data.
+
+When setting up a Linear sync, you can:
+
+* **Select your Linear connection**
+Authenticate once and reuse the connection across different sync configurations.
+
+* **Specify a team key**
+Provide the Linear team identifier (e.g., *ENG*) to pull issues from a specific team. This helps maintain clear separation of data when working across multiple teams or departments. To find your team key, go to Linear → Settings → Teams → select your team → copy the Team Identifier (e.g., ENG).
+
+* **Configure issue inclusion options**
+
+  * **Include canceled issues**
+Sync canceled issues to maintain a complete historical timeline of project changes and prioritization decisions.
+  * **Include completed issues**
+Sync completed issues for richer analytics on delivery timelines, resolutions, and sprint outcomes.
+
+Linear as a source helps centralize product and engineering operations—allowing teams to correlate progress with other tools, audit issue lifecycle data, and build custom dashboards that reflect true project execution.
+
+![Linear Ticketing Sync Configuration](/img/v2/noco-sync/linear-ticketing-sync-config.png)
+
+---
+
+### Freshdesk
+Freshdesk integration allows you to sync your customer support tickets, agents, and conversations directly into NocoDB. This enables your team to analyze support trends, measure performance, and connect customer data with internal workflows.
+
+When configuring a Freshdesk sync, you can:
+
+* **Connect using an existing Freshdesk integration**
+Authenticate once and reuse the connection for multiple sync configurations. You can also set up a new connection using your Freshdesk domain and API key.
+
+* **Include closed tickets (optional)**
+Sync both open and closed tickets to maintain a complete historical view of customer interactions and resolutions.
+
+![Freshdesk Ticketing Sync Configuration](/img/v2/noco-sync/freshdesk-ticketing-sync-config.png)
+
+---
+
+### Bitbucket
+Bitbucket integration enables you to sync issues, pull requests, and related project activity directly into your NocoDB workspace. This allows your team to track development progress, analyze issue trends, and build custom reports.
+
+When setting up a Bitbucket sync, you can:
+
+* **Connect using an existing Bitbucket integration**
+Authenticate once and reuse the connection across multiple syncs. Both OAuth and App Password methods are supported.
+
+* **Choose one or more repositories**
+Pull data from any repository you manage or collaborate on. You can select multiple repositories to consolidate issues and pull requests in a single NocoDB base.
+
+* **Include closed issues (optional)**
+Sync both open and closed issues to maintain a complete project history. Closed issues are marked accordingly in the Ticket table.
+
+* **Sync pull requests (optional)**
+Bring in pull requests alongside issues to track code reviews, merges, and engineering workflows. Pull requests are represented as tickets with a distinct type.
+
+![Bitbucket Ticketing Sync Configuration](/img/v2/noco-sync/bitbucket-ticketing-sync-config.png)
+
+---
+
+### Chatwoot
+Chatwoot integration allows you to sync conversations, messages, users, and teams directly into NocoDB. This enables your team to analyze customer interactions, measure response trends, and connect communication data with internal workflows.
+
+When configuring a Chatwoot sync, you can:
+
+* **Connect using an existing Chatwoot integration**
+Authenticate once and reuse the connection for multiple sync configurations. You can also set up a new connection using your Chatwoot instance URL and API key.
+
+* **Include resolved conversations (optional)**
+Sync both open and resolved conversations to maintain a complete historical view of customer interactions and resolutions.
+
+![Chatwoot Ticketing Sync Configuration](/img/v2/noco-sync/chatwoot-ticketing-sync-config.png)
+
+---
