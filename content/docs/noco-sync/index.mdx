@@ -8,11 +8,13 @@ keywords: ['NocoSync overview', 'NocoDB data sync', 'no-code data integration', 
 
 <Callout type="info">Available on NocoDB Cloud Business plan onwards and Self-Hosted Enterprise Edition.</Callout>
 
+![NocoSync Banner](/img/v2/noco-sync/sync-banner.png)
+
 **NocoSync** is a built-in integration layer in NocoDB that allows you to bring data from external systems directly into your workspace. It keeps your NocoDB tables continuously updated by syncing records from third-party platforms, eliminating the need for manual imports or custom scripts.
 
-The first release introduces support for the **Ticketing** category, enabling you to connect with platforms such as **GitHub, GitLab, Bitbucket, Zendesk, Linear, Freshdesk, and Chatwoot**. Once connected, NocoSync pulls tickets, issues, conversations and related metadata into NocoDB, allowing teams to centralize reporting, automate workflows, and unlock insights across tools.
+Current release introduces support for the **Ticketing** category, enabling you to connect with platforms such as **GitHub, GitLab, Bitbucket, Zendesk, Linear, Freshdesk, and Chatwoot**. Once connected, NocoSync pulls tickets, issues, conversations and related metadata into NocoDB, allowing teams to centralize reporting, automate workflows, and unlock insights across tools.
 
-Additional sync categories—such as **CRM** and **File Storage**—will be added in future releases, expanding the types of systems you can bring into NocoDB.
+Additional sync categories—such as **CRM** (Customer Relationship Management), **HRIS** (Human Resources Information System, Accounting), **Accounting**, **ATS** (Application Tracking System) and **File Storage**—will be added in future releases, expanding the types of systems you can bring into NocoDB.
 
 NocoSync runs on a simple setup, supports scheduled syncs, and ensures high reliability, so your workspace always reflects the most recent data from your external sources. It is designed to be flexible, scalable, and accessible to both technical and non-technical users.
 
@@ -20,13 +22,13 @@ NocoSync runs on a simple setup, supports scheduled syncs, and ensures high reli
 
 ## How Sync Works
 
-NocoSync is designed around **predefined schemas** for each category, such as Ticketing, ensuring a consistent structure across all supported sources. When a sync is configured, NocoSync automatically creates multiple tables—such as Ticket, User, Comment, and Team. Essential tables are included by default and optional ones can be added based on need. All required relationships between these tables are generated automatically, mirroring the hierarchy and linkages of the connected source system.
+NocoSync is designed around **predefined schemas** for each category, such as Ticketing, ensuring a consistent structure across all supported sources. When a sync is configured, NocoSync automatically creates multiple tables (such as _Ticket_, _User_, _Comment_, and _Team_ in case of Ticketing). All required relationships between these tables are generated automatically, mirroring the hierarchy and linkages of the connected source system.
 
-Sync table fields created by NocoSync are **read-only**, as the sync operates strictly one-way—from the source system into NocoDB. Fields that originate from the external source are marked with a flash icon and cannot be removed, and sync tables themselves cannot be deleted. While schemas for each sync category are predefined, the actual fields available may vary by source. Different platforms use different naming conventions or may not expose all fields. NocoSync intelligently maps available fields from the source to the predefined schema to maintain consistency.
+Sync table fields created by NocoSync are **read-only**, as the sync operates strictly one-way—from the source system into NocoDB. Fields that originate from the external source are marked with a flash icon (⚡) and cannot be removed, and sync tables themselves cannot be deleted. While schemas for each sync category are predefined, the actual fields available may vary by source. Different platforms use different naming conventions or may not expose all fields. NocoSync intelligently maps available fields from the source to the predefined schema to maintain consistency.
 
-Users can extend sync tables by adding their own **custom fields** or modifying non-sync fields as needed. Beyond the read-only limitations on synced fields, sync tables behave like regular NocoDB tables. They can be shared with collaborators, used in views, and linked to other tables—allowing you to connect synced data with non-sync data for richer workflows and insights.
+Users can extend sync tables by adding their own **custom fields** as needed. Beyond the read-only limitations on synced fields, sync tables behave like regular NocoDB tables. They can be shared with collaborators, used in views, and linked to other tables.
 
-Currently, each sync category supports one external source at a time. When multi-source support is introduced, NocoDB will act as a **unified API** layer across all connected systems, allowing you to query, analyze, and build on top of data coming from multiple platforms through a single, consistent interface. This will significantly simplify integrations and expand the power of NocoSync across complex environments.
+Currently, each sync category supports one external source at a time. When multi-source support is introduced, NocoDB will act as a **Unified API** layer across all connected systems, allowing you to query, analyze, and build on top of data coming from multiple platforms through a single, consistent interface. This will significantly simplify integrations and expand the power of NocoSync across complex environments.
 
 Standard operations on Sync fields such as filtering, sorting, grouping, and searching are fully supported. You can create views, dashboards, and reports using synced data just like with any other NocoDB table.
 
@@ -42,7 +44,7 @@ Incremental sync fetches only the records that have been created or updated sinc
 
 ### **Full Sync**
 
-Full sync re-imports the entire dataset from the external source during each run. This mode is helpful in scenarios where the underlying data model has changed, historical data needs correction, or the source system does not reliably provide incremental change information. While full sync ensures complete data accuracy, it requires more time and can be resource-intensive—especially for large datasets. It is best used occasionally or in combination with incremental sync after significant schema updates or structural changes in the source system.
+Full sync re-imports the entire dataset from the external source during each run. This mode is helpful in scenarios where historical data needs correction, or the source system does not reliably provide incremental change information. While full sync ensures complete data accuracy, it requires more time and can be resource-intensive—especially for large datasets. It is best used occasionally or in combination with incremental sync.
 
 
 ## Sync Trigger
@@ -62,9 +64,9 @@ Scheduled sync automates data updates at regular intervals, ensuring your NocoDB
 
 ---
 
-## Source Delete Handling
+## Source Record Delete Handling
 
-NocoSync provides control over how deletions from the external source are reflected inside NocoDB. This setting helps you decide whether to maintain historical visibility or keep your tables strictly aligned with the source system.
+NocoSync provides control over how record deletions from the external source are reflected inside NocoDB. This setting helps you decide whether to maintain records for historical visibility or keep your tables strictly aligned with the source system.
 
 ### **Ignore**
 
@@ -72,7 +74,7 @@ When set to *Ignore*, NocoDB **retains the record** even if it is deleted at the
 
 ### **Delete**
 
-When set to *Delete*, NocoDB removes records when they are deleted at the source. This option keeps your NocoDB tables fully synchronized and consistent with the external platform.
+When set to *Delete*, NocoDB removes records in sync tables when they are deleted at the source. This option keeps your NocoDB tables fully synchronized and consistent with the external platform.
 
 ---
 
