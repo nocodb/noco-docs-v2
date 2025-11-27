@@ -6,51 +6,126 @@ keywords: ['Roles overview', 'Permissions overview', 'NocoDB roles', 'NocoDB per
 icon: "userCreator"
 ---
 
+In NocoDB, roles define what users or teams can do within a **Workspace** or a **Base**.
+They govern access control, ensuring that members and teams have appropriate privileges based on their responsibilities.
 
-In NocoDB, we have roles that determine what people can do in a Workspace or Base. 
+<Callout type="info">Teams feature availability: **Business** plan onwards in cloud and On-premise **Enterprise** edition</Callout>
 
-You can give a member one of these roles: 
+You can assign the following roles:
 * Owner
-* Creator 
+* Creator
 * Editor
-* Commenter 
+* Commenter
 * Viewer
 * No Access
 
-<Callout type="info">
-If a role is assigned to a member at the base level, it takes precedence over a role assigned at the workspace level.
-</Callout>
+& a special role "Inherit" discussed below.
 
-When inviting a user, their role designation is initially assigned but can be modified later. Our role system 
-operates incrementally, with higher-level roles encompassing all privileges of lower-level roles. 
-This hierarchy offers flexibility in permissions and fosters a transparent organizational structure 
-in workspace or base management.
+If a role is assigned at the base level, it takes precedence over the workspace-level role. Roles are hierarchical — higher roles include all permissions of the roles below them, allowing flexibility and clarity in managing access across your workspace and bases. Details about each role and their permissions are provided below.
+
 
 ## Roles
-Roles serve as the basis for user privileges in NocoDB. They are associated with members at two levels: 
-Workspace and Base. When a member is invited to a Workspace with a specific role, like an "Editor," they 
-automatically have that role in all Bases within that Workspace. However, base owners or creators can customize 
-permissions at the base level to align with specific needs. This dual-level role assignment system 
-ensures adaptable user permissions and access management in NocoDB.
+Roles define access privileges in NocoDB and can be assigned at two levels — **Workspace** and **Base**.
 
-**Owner**: When a member creates a new Workspace or Base, they automatically become the Workspace or Base "Owner." 
-This role grants exclusive privileges, including the authority to delete the Workspace or Base.
+When a member or team is invited to a workspace with a specific role (for example, **Editor**), they automatically receive that level of access across all bases within the workspace, unless overridden at the base level.
+Base owners or creators can further refine permissions at the base level to meet specific collaboration needs.
 
-**Creator**: The "Creator" role shares all privileges with an "Owner," except for deleting the workspace or base. 
-"Creators" have full administrative rights, except for deletion authority, which remains exclusive to the "Owner." 
-This ensures balanced workspace or base management.
+This dual-level role structure provides granular control, balancing workspace-wide consistency with base-specific customization.
 
-**Editor**: An "Editor" can create and edit records but cannot modify the base schema, 
-like adding tables or fields. They strike a balance between data input and schema management.
+Workspace-level roles do not automatically grant access to **Private Bases**. Members must be explicitly invited to a Private Base to gain access, regardless of their workspace role. Learn more about Priavte Bases in the [Private Bases documentation](/docs/product-docs/bases/private-base).
 
-**Commenter**: The "Commenter" role cannot add or edit records but can provide comments on existing records
-, facilitating communication and feedback.
+The following sections detail each role and its associated permissions.
 
-**Viewer**: "Viewers" can only access records and associated comments, without the ability to contribute
-or make changes, ensuring controlled access for informational purposes.
+### **Owner**
+- Assigned automatically to the person who creates a workspace or base.
+- Has full administrative privileges, including the ability to delete the workspace or base.
+- Only **individual members** can be assigned the Owner role. **Teams** cannot be assigned this role.
 
-**No Access**: This role, applied at the base level, revokes base access for the designated user. When applied at the workspace level, it gives the user no default access to any base within the workspace.
+### **Creator**
+- Has full control over the workspace or base except for deletion privileges, which are exclusive to the Owner.
+- Can manage users, schema, automations, and all data operations.
+- Suitable for administrators and key project leads.
 
+### **Editor**
+- Can add, edit, and delete records within tables.
+- Cannot modify the schema, such as adding or removing tables, fields, or relationships.
+- Has access to toolbar features like **Filter**, **Sort**, and **Group By** for managing data views.
+- Ideal for contributors responsible for day-to-day data management.
+
+### **Commenter**
+- Can view records and leave comments on existing entries.
+- Cannot edit, delete, or add records.
+- **Toolbar access** (Filter, Sort, Group By) is not available.
+- Best suited for reviewers or collaborators providing feedback.
+
+### **Viewer**
+- Has read-only access to records and comments.
+- Cannot make any data changes or leave comments.
+- **Toolbar access** (Filter, Sort, Group By) is not available.
+- Ideal for external stakeholders who need view-only access.
+
+### **No Access**
+- Revokes access entirely to a workspace or base.
+- When applied at the workspace level, the user or team cannot access any bases within it.
+- When applied at the base level, it restricts access to that base only.
+
+### **Inherit**
+"Inherit" is a special role that allows users to derive their permissions based on team assignments within a workspace. It functions as follows:
+
+- At the **workspace** level, allows users to derive their role from team assignments within the workspace.
+- At the **base** level, adopts the role defined at the workspace level.
+- Offers flexibility in managing roles across multiple bases within a workspace.
+- Note: The Inherit role cannot be directly assigned at the workspace level.
+
+If a user is invited to a workspace with the **Inherit** role and then added to a team with the **Viewer** role, the user will have **Viewer** access across all bases within that workspace.
+If the user is invited to the workspace with the **No Access** role and later added to a team with the **Editor** role, the user will still have **No Access** in all bases within that workspace.
+
+The **Inherit** role is the only explicit role that allows role derivation from team assignments. For all other roles, explicit workspace roles take precedence over corresponding team roles.
+
+At base level, if a user is assigned the **Inherit** role, their effective role will be determined by their workspace-level role or team-derived role, following the effective role resolution rules outlined below.
+
+
+## Effective Role Resolution
+
+Effective permissions for a user at base level are determined by combining explicit (individual) assignments and team-derived assignments using the following precedence rules:
+
+1. Explicit individual role at Base (highest precedence)
+2. Best (most permissive) role among Team roles assigned at Base
+3. Explicit individual role at Workspace level other than "Inherit"
+4. Best (most permissive) role among Team roles assigned at Workspace
+5. No-access (default)
+
+**Notes**
+- An explicit individual assignment always overrides any team-derived role at the same level.
+- Lower-level roles (Base) override higher-level roles (Workspace) when an explicit assignment exists at the lower level.
+- When multiple team roles apply, the system chooses the most permissive role (for example, between Viewer and Editor it will choose Editor).
+
+**Base hierarchy**:
+
+`Individual Base role` > `Team Base role` > `Individual Workspace role` > `Team Workspace role` > `No Access`
+
+**Workspace hierarchy**:
+
+`Individual Workspace role` > `Team Workspace role` > `No Access`
+
+When a user belongs to multiple teams, their Team role is determined by the highest (most permissive) role among all their team assignments.
+
+## Roles for Teams
+Teams function as a collective access unit for easier management. When a team is assigned a workspace or base role:
+- All team members inherit that role automatically.
+- Individual user roles can override team-assigned roles if explicitly set.
+- A team can be invited at both workspace and base levels for broader or limited access.
+- Teams **cannot** be assigned the **Owner** role.
+- Teams **cannot** be assigned the **Inherit** role at the workspace level.
+
+<Callout type="info">If a team is invited at the workspace level, all its members receive that workspace role unless an individual or base-level role provides different access.</Callout>
+
+Learn more about Teams & Collaboration here
+- [Teams documentation](/docs/product-docs/collaboration/teams)
+- [Workspace collaboration](/docs/product-docs/workspaces/workspace-collaboration)
+- [Base collaboration](/docs/product-docs/bases/base-collaboration)
+
+---
 
 ### Workspace level permissions
 The individual who creates the workspace is automatically designated as a Workspace owner. 
@@ -59,40 +134,52 @@ within the parent workspace. When a member becomes part of a workspace, the role
 automatically applied to them for all bases in that workspace, unless a specific exception is configured 
 to override at base level.
 
-| Task                                    | Owner | Creator | Editor | Commenter | Viewer |
-|-----------------------------------------|:-----:|:-------:|:------:|:---------:|:------:|
-| Invite member to workspace              |  ✔️   |   ✔️    |        |           |        |
-| Manage member access to workspace       |  ✔️   |   ✔️    |        |           |        |
-| Remove member access from workspace     |  ✔️   |   ✔️    |        |           |        |
-| View members in workspace               |  ✔️   |   ✔️    |        |           |        |
-| Delete Workspace                        |  ✔️   |    ️    |        |           |        |
-| Billing & upgrade options               |  ✔️   |    ️    |        |           |        |
-| Create a new base                       |  ✔️   |   ✔️    |   ✔️   |    ✔️     |   ✔️   |
-| Access existing bases at assigned roles |  ✔️   |   ✔️    |   ✔️   |    ✔️     |   ✔️   |
+| Task                                          | Owner | Creator | Editor | Commenter | Viewer |
+|-----------------------------------------------|:-----:|:-------:|:------:|:---------:|:------:|
+| Invite member to workspace (***1**)           |  ✔️   |   ✔️    |   ✔️   |    ✔️     |   ✔️   |
+| Manage member access to workspace  (***2**)   |  ✔️   |   ✔️    |   ✔️   |    ✔️     |   ✔️   |
+| Remove member access from workspace  (***3**) |  ✔️   |   ✔️    |   ✔️   |    ✔️     |   ✔️   |
+| View members in workspace                     |  ✔️   |   ✔️    |   ✔️   |    ✔️     |   ✔️   |
+| Create a new base                             |  ✔️   |   ✔️    |   ✔️   |    ✔️     |   ✔️   |
+| Access existing bases at assigned roles       |  ✔️   |   ✔️    |   ✔️   |    ✔️     |   ✔️   |
+| Delete Workspace                              |  ✔️   |    ️    |        |           |        |
+| Billing & upgrade options                     |  ✔️   |    ️    |        |           |        |
 
+(***1**) Members can invite others at or below their own role.
+
+(***2**) Members can manage access for others at or below their own role.
+
+(***3**) Members can remove others at or below their own role.
 
 ### Base level permissions
 
 #### Collaboration
-| Task                                         | Owner | Creator | Editor | Commenter | Viewer |
-|----------------------------------------------|:-----:|:-------:|:------:|:---------:|:------:|
-| Invite members to base at or below your role |  ✔️   |   ✔️    |        |           |        |
-| Manage members access to base                |  ✔️   |   ✔️    |        |           |        |
-| Remove member access from a base             |  ✔️   |   ✔️    |        |           |        |
-| View members in a base                       |  ✔️   |   ✔️    |        |           |        |
-| Share base                                   |  ✔️   |   ✔️    |        |           |        |
-| Share view                                   |  ✔️   |   ✔️    |        |           |        |
+| Task                                     | Owner | Creator | Editor | Commenter | Viewer |
+|------------------------------------------|:-----:|:-------:|:------:|:---------:|:------:|
+| Invite member to base (***1**)           |  ✔️   |   ✔️    |   ✔️   |    ✔️     |   ✔️   |
+| Manage member access to base  (***2**)   |  ✔️   |   ✔️    |   ✔️   |    ✔️     |   ✔️   |
+| Remove member access from base  (***3**) |  ✔️   |   ✔️    |   ✔️   |    ✔️     |   ✔️   |
+| View members in a base                   |  ✔️   |   ✔️    |   ✔️   |    ✔️     |   ✔️   |
+| Share base                               |  ✔️   |   ✔️    |        |           |        |
+| Share view                               |  ✔️   |   ✔️    |        |           |        |
+
+(***1**) Members can invite others at or below their own role.
+
+(***2**) Members can manage access for others at or below their own role.
+
+(***3**) Members can remove others at or below their own role.
 
 #### Table & view operations
-| Task                            | Owner | Creator | Editor | Commenter | Viewer |
-|---------------------------------|:-----:|:-------:|:------:|:---------:|:------:|
-| Add / modify / delete table     |  ✔️   |   ✔️    |        |           |        |
-| Add / modify / delete fields    |  ✔️   |   ✔️    |        |           |        |
-| Add / modify / delete views     |  ✔️   |   ✔️    |        |           |        |
-| Hide / un-hide / reorder fields |  ✔️   |   ✔️    |   ✔️   |    ✔️     |   ✔️   |
-| Add / modify / delete sort      |  ✔️   |   ✔️    |   ✔️   |    ✔️     |   ✔️   |
-| Add / modify / delete filters   |  ✔️   |   ✔️    |   ✔️   |    ✔️     |   ✔️   |
-| Add / modify / delete group-by  |  ✔️   |   ✔️    |   ✔️   |    ✔️     |   ✔️   |
+| Task                             | Owner | Creator | Editor | Commenter | Viewer |
+|----------------------------------|:-----:|:-------:|:------:|:---------:|:------:|
+| Add / modify / delete table      |  ✔️   |   ✔️    |        |           |        |
+| Add / modify / delete fields     |  ✔️   |   ✔️    |        |           |        |
+| Add / modify / delete views      |  ✔️   |   ✔️    |        |           |        |
+| Hide / un-hide / reorder fields  |  ✔️   |   ✔️    |   ✔️   |     ️     |   ️    |
+| Add / modify / delete sort       |  ✔️   |   ✔️    |   ✔️   |     ️     |   ️    |
+| Add / modify / delete filters    |  ✔️   |   ✔️    |   ✔️   |     ️     |   ️    |
+| Add / modify / delete group-by   |  ✔️   |   ✔️    |   ✔️   |     ️     |   ️    |
+| Add / modify / delete row colour |  ✔️   |   ✔️    |   ✔️   |     ️     |   ️    |
 
 #### Record operations
 | Task                            | Owner | Creator | Editor | Commenter | Viewer |
