@@ -1,0 +1,128 @@
+---
+title: '2025.11.0'
+description: 'Feature release : Introducing Teams & NocoSync'
+---
+
+![Image](/img/changelog/20251100/release.png)
+
+## 🚀 Introducing Teams — Smart, Scalable Access Control for Modern Workspaces
+
+> Our engineering team changed structure, and now I’m manually updating access for every single person across multiple projects.
+
+> Someone joins or leaves the company, and suddenly I’m hunting through dozens of bases to update their permissions individually.
+
+<img src="/img/changelog/20251100/teams-slide.png" alt="Image" width="80%"></img>
+
+You've finally set up the perfect permission model for one project—carefully assigning roles to every individual user. Then a new teammate joins, or someone switches departments, and suddenly **you're repeating the same permission updates** across multiple bases. Add Viewer here. Editor there. Remove access somewhere else. Each change is manual, repetitive, and easy to get wrong. Your workspace grows, and so does the permission chaos.
+
+
+Introducing **Teams**. Group your users once, assign a role to the team, and every member instantly inherits the right access. New people join? Add them to the team. Someone moves? Switch their team. Access updates everywhere—automatically. No more chasing individual permissions or fixing inconsistent setups.
+
+
+Organise your workspace the way your organisation actually works. Let Teams handle the rest.
+
+
+### Why This Changes Everything
+
+**Before:**
+
+❌ Assign the same role 15 times for every teammate
+
+❌ Reconfigure access every time someone joins or leaves
+
+❌ No clean way to reflect your org structure
+
+❌ Hard to audit who has access to what
+
+**After:**
+
+✅ **Group people into Teams**—Engineering, Design, Sales, Ops, anything
+
+✅ **Assign one role to the team**, and everyone inherits it
+
+✅ Onboard / off-board with a single action
+
+✅ **Crystal-clear permission logic** with smart inheritance
+
+✅ Clean, consistent, enterprise-ready access management
+
+---
+
+**Create Team**
+![Image](/img/changelog/20251100/team-add-member.png)
+
+
+**Invite Teams to Workspace**
+![Image](/img/changelog/20251100/team-invite.png)
+
+
+**Team List**
+![Image](/img/changelog/20251100/team-list.png)
+
+
+**Table permissions using Teams**
+![Image](/img/changelog/20251100/team-table-permission.png)
+
+
+Teams are built for speed and scale—your workspace grows without the chaos. Say goodbye to repetitive permission management and adopt structured, scalable access control that evolves with your organisation. [Learn more →](https://nocodb.com/docs/product-docs/collaboration/teams)
+
+## 🚀 Introducing NocoSync  — Effortless, Automated Data Sync from Your Favorite Tools
+
+> I update tickets in GitHub, but my NocoDB tables stay outdated. I keep exporting and importing CSVs just to stay in sync.
+
+> Every time a ticket is updated, I have to repeat the entire import process. I just want my data in NocoDB to stay up to date automatically.
+
+> I plan dashboards in NocoDB, but the real activity happens in GitHub or Zendesk. Without a way to sync them, our data stays fragmented across tools.
+
+Data lives everywhere—**GitHub, Gitlab, Zendesk, Freshdesk**—while your reports and dashboards live in NocoDB. Every time you need a single view, you export CSVs, run scripts, normalise fields, and stitch everything together. And the moment something changes, you repeat the whole process.
+
+Introducing **NocoSync**. Connect your external tools and bring data directly into NocoDB. With predefined schemas, automatic relationships, and scheduled updates, your tables stay up to date—no manual imports, scripts, or patchwork workarounds.
+
+Say goodbye to silos. Focus on insights, not syncing. [Learn more →](https://nocodb.com/docs/product-docs/noco-sync)
+
+<img src="/img/changelog/20251100/sync-slide.png" alt="Image" width="80%"></img>
+
+### How Sync Works?
+
+**General configurations**
+![Image](/img/changelog/20251100/sync-setup.png)
+
+**Select Sources**
+![Image](/img/changelog/20251100/sync-sources.png)
+
+**Review**
+![Image](/img/changelog/20251100/sync-review.png)
+
+
+**Monitor Progress**
+![Image](/img/changelog/20251100/sync-progress.png)
+
+
+**Sync Data in NocoDB Tables**
+![Image](/img/changelog/20251100/sync-table.png)
+
+
+### **What Next?**
+
+Phase-2 (expected in Jan 2026) will expand NocoSync's capabilities significantly. You will be able to sync additional categories such as **CRM, File Storage, HRIS, ATS, Accounting**, and more, covering the full spectrum of tools your teams rely on. Each category will support multiple integration sources, allowing you to consolidate data from several platforms into a **single schema**, eliminating silos entirely.
+
+
+With **Unified APIs**, you'll be able to query, analyze, and build workflows across all connected sources from one place, without worrying about field mismatches, inconsistent naming, or manual data normalisation. This means you can create cross-tool dashboards, generate reports combining data from multiple systems, and automate processes that span several platforms—all directly in NocoDB. Phase-2 will make NocoSync not just a sync tool, but a **centralised integration layer** for your entire workspace.
+
+---
+
+## Other updates
+
+### Performance Improvements
+We introduced a series of performance optimisations across the API layer to deliver faster, more responsive interactions throughout the product. These improvements include more efficient query execution paths, smarter caching at critical junctions, and streamlined permission checks. Together, these enhancements significantly lower API response times—especially for complex operations—resulting in a smoother, more predictable experience as your data grows.
+
+### UTF-8-BOM Support for CSV Exports
+CSV exports now support the **UTF-8-BOM (utf-8-sig)** encoding option, ensuring special characters are preserved accurately across tools that require a byte-order mark for proper rendering. This enhancement improves compatibility with spreadsheet applications—especially those that previously misread accented characters, non-Latin scripts, or symbols—so your exported data opens reliably without encoding issues.
+
+---
+
+
+
+
+
+
