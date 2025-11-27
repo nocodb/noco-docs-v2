@@ -1,0 +1,136 @@
+---
+title: 'NocoSync ☁'
+description: 'Bring external data into NocoDB effortlessly with automated syncs from tools your teams already use.'
+tags: ['NocoSync', 'Overview']
+icon: "code"
+keywords: ['NocoSync overview', 'NocoDB data sync', 'no-code data integration', 'NocoDB external data']
+---
+
+<Callout type="info">Available on NocoDB Cloud Business plan onwards and Self-Hosted Enterprise Edition.</Callout>
+
+![NocoSync Banner](/img/v2/noco-sync/sync-banner.png)
+
+**NocoSync** is a built-in integration layer in NocoDB that allows you to bring data from external systems directly into your workspace. It keeps your NocoDB tables continuously updated by syncing records from third-party platforms, eliminating the need for manual imports or custom scripts.
+
+Current release introduces support for the **Ticketing** category, enabling you to connect with platforms such as **GitHub, GitLab, Bitbucket, Zendesk, Linear, Freshdesk, and Chatwoot**. Once connected, NocoSync pulls tickets, issues, conversations and related metadata into NocoDB, allowing teams to centralize reporting, automate workflows, and unlock insights across tools.
+
+Additional sync categories—such as **CRM** (Customer Relationship Management), **HRIS** (Human Resources Information System, Accounting), **Accounting**, **ATS** (Application Tracking System) and **File Storage**—will be added in future releases, expanding the types of systems you can bring into NocoDB.
+
+NocoSync runs on a simple setup, supports scheduled syncs, and ensures high reliability, so your workspace always reflects the most recent data from your external sources. It is designed to be flexible, scalable, and accessible to both technical and non-technical users.
+
+---
+
+## How Sync Works
+
+NocoSync is designed around **predefined schemas** for each category, such as Ticketing, ensuring a consistent structure across all supported sources. When a sync is configured, NocoSync automatically creates multiple tables (such as _Ticket_, _User_, _Comment_, and _Team_ in case of Ticketing). All required relationships between these tables are generated automatically, mirroring the hierarchy and linkages of the connected source system.
+
+Sync table fields created by NocoSync are **read-only**, as the sync operates strictly one-way—from the source system into NocoDB. Fields that originate from the external source are marked with a flash icon (⚡) and cannot be removed, and sync tables themselves cannot be deleted. While schemas for each sync category are predefined, the actual fields available may vary by source. Different platforms use different naming conventions or may not expose all fields. NocoSync intelligently maps available fields from the source to the predefined schema to maintain consistency.
+
+Users can extend sync tables by adding their own **custom fields** as needed. Beyond the read-only limitations on synced fields, sync tables behave like regular NocoDB tables. They can be shared with collaborators, used in views, and linked to other tables.
+
+Currently, each sync category supports one external source at a time. When multi-source support is introduced, NocoDB will act as a **Unified API** layer across all connected systems, allowing you to query, analyze, and build on top of data coming from multiple platforms through a single, consistent interface. This will significantly simplify integrations and expand the power of NocoSync across complex environments.
+
+Standard operations on Sync fields such as filtering, sorting, grouping, and searching are fully supported. You can create views, dashboards, and reports using synced data just like with any other NocoDB table.
+
+---
+
+## Sync Types
+
+NocoSync provides two sync modes to **manage how data is fetched** from external platforms. These modes help you balance performance, accuracy, and API usage based on your operational needs.
+
+### **Incremental Sync**
+
+Incremental sync fetches only the records that have been created or updated since the last successful sync. This ensures faster sync cycles, minimal load on the external source, and reduced API consumption—making it the recommended option for routine, scheduled syncs. Incremental sync works by tracking timestamps or version markers provided by the source system.
+
+### **Full Sync**
+
+Full sync re-imports the entire dataset from the external source during each run. This mode is helpful in scenarios where historical data needs correction, or the source system does not reliably provide incremental change information. While full sync ensures complete data accuracy, it requires more time and can be resource-intensive—especially for large datasets. It is best used occasionally or in combination with incremental sync.
+
+
+## Sync Trigger
+
+NocoSync allows you to control when data synchronization should occur through two trigger modes: **manual** and **scheduled**.
+
+### **Manual Sync**
+
+Manual sync lets you trigger the synchronization process on demand. This option is useful when you want immediate updates—such as after making configuration changes, testing a new integration, or verifying data after modifying fields or relationships. Manual sync gives you full control without waiting for the next scheduled run.
+
+### **Scheduled Sync**
+
+Scheduled sync automates data updates at regular intervals, ensuring your NocoDB tables stay current without manual intervention. Scheduled sync currently supports two frequencies:
+
+* **Hourly** – Runs once every hour, suitable for active systems where data changes frequently.
+* **Daily** – Runs once every 24 hours, ideal for less dynamic datasets or reporting-focused use cases.
+
+---
+
+## Source Record Delete Handling
+
+NocoSync provides control over how record deletions from the external source are reflected inside NocoDB. This setting helps you decide whether to maintain records for historical visibility or keep your tables strictly aligned with the source system.
+
+### **Ignore**
+
+When set to *Ignore*, NocoDB **retains the record** even if it is deleted at the source. Instead of removing it, NocoSync marks the record to indicate that it has been deleted in the external system. This mode is useful when you want to preserve full history, maintain reporting continuity, or avoid breaking dependencies with linked records.
+
+### **Delete**
+
+When set to *Delete*, NocoDB removes records in sync tables when they are deleted at the source. This option keeps your NocoDB tables fully synchronized and consistent with the external platform.
+
+---
+
+## Add new Sync
+
+To add a new NocoSync integration to your base, follow these steps:
+1. Open `Sync` tab from base overview page.
+2. Click on the `+ New Sync` button.
+![New Sync](/img/v2/noco-sync/new-sync-button.png)
+3. Sync **Setup** : General configurations
+    - Sync name: Provide a name for your sync integration.
+    - [Sync type](/docs/product-docs/noco-sync#sync-types): Choose between **Incremental** or **Full** sync modes.
+    - [Sync trigger](/docs/product-docs/noco-sync#sync-trigger): Select either **Manual** or **Scheduled** sync. If scheduled, choose the desired frequency.
+    - [On delete](/docs/product-docs/noco-sync#source-record-delete-handling): Choose between **Ignore** or **Delete** to define how deletions from the source are managed.
+4. Sync **Setup** : Category & Sync scope
+    - Select the **Ticketing** category.
+    - Choose to sync **All Tables** or **Select Tables** from the predefined schema. For Ticketing, essential tables like Ticket and User are always included.
+5. Click on the `Next` button.
+![Sync Setup](/img/v2/noco-sync/sync-setup.png)
+6. Sync **Source**
+    - Select the external platform you want to connect with.
+    - Optionally, provide a suitable name for the integration.
+    - Authenticate and authorize NocoDB to access your data on the selected platform. This involves creating a new connection or selecting an existing one for the integration source. Generate API tokens or OAuth credentials as required by the platform.
+    - Additional configuration options may appear based on the selected source, such as specifying repositories for Git-based platforms or selecting specific projects for ticketing systems.
+7. Click on the `Next` button.
+![Sync Source](/img/v2/noco-sync/sync-sources.png)
+8. Sync **Review**
+    - Review all configurations made in the previous steps.
+    - If everything looks good, click on the `Create Sync` button to finalize the setup.
+![Sync Review](/img/v2/noco-sync/sync-review.png)
+9. Logs appear displaying progress of the initial sync. Once complete, the sync tables will be available in your base.
+![Sync Logs](/img/v2/noco-sync/sync-logs.png)
+![Sync Table](/img/v2/noco-sync/sync-table.png)
+
+<Callout type="info">The initial sync may take some time depending on the volume of data being imported. Subsequent syncs will be faster, especially when using incremental mode.</Callout>
+
+<Callout type="info">Currently, NocoSync supports adding one sync integration per category in a base. Multi-source support will be introduced in future releases.</Callout>
+
+---
+
+## Edit Sync
+
+To edit an existing NocoSync integration, open sync tab from base overview page and follow these steps:
+1. Click on the sync you want to edit.
+2. Modify the desired configurations in the sync setup or sync source steps. Note that, some fields like Sync category & Sync scope cannot be changed after creation.
+3. Click on the `Update Sync` button to apply the changes.
+
+## Delete Sync
+To delete an existing NocoSync integration, open sync tab from base overview page and follow these steps:
+1. Click on `Actions` button corresponding to the sync you want to delete.
+2. Select `Delete Sync` from the dropdown menu.
+3. Confirm the deletion in the prompt. This will remove the sync integration and all associated sync tables from your base.
+
+![Delete Sync](/img/v2/noco-sync/sync-delete-1.png)
+![Delete Sync](/img/v2/noco-sync/sync-delete-2.png)
+
+<Callout type="warning">Deleting a sync integration is irreversible and will permanently remove all associated sync tables and data from your base. Ensure you have backed up any important information before proceeding.</Callout>
+
+---

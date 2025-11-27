@@ -13,6 +13,7 @@
     "integrations",
     "data-sources",
     "noco-ai",
+    "noco-sync",
     "extensions",
     "dashboards",
     "mcp",
