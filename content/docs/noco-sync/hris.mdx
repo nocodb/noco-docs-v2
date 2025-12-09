@@ -1,0 +1,83 @@
+---
+title: 'HRIS Integration with Noco Sync'
+description: 'Bring HRIS data from popular platforms into NocoDB with automated sync.'
+tags: ['NocoSync', 'HRIS']
+keywords: ['NocoSync HRIS', 'HRIS data sync', 'NocoDB HRIS integration', 'Automated HR sync', 'BambooHR NocoDB']
+---
+
+<Callout type="info">Available on NocoDB Cloud Business plan onwards and Self-Hosted Enterprise Edition.</Callout>
+
+HRIS Sync enables you to import employees data from external platforms. It follows a predefined schema that standardizes HRIS data across systems, ensuring consistency even when naming conventions or field availability differ between sources.
+
+Current supported sources include:
+
+* BambooHR
+
+You may choose to sync **all tables** in the HRIS schema or **only specific tables**. Syncing all tables provides full context and complete relationships, while syncing selected tables helps reduce sync time and resource usage based on your workflow needs.
+
+---
+
+## Available Tables
+
+Each table is mapped to a well-defined set of fields to maintain a unified structure. NocoSync also includes relational fields that connect these tables as required. Employee table are essential and always included, while Employment and Location tables are optional.
+
+### **Employee**
+Represents an employee from the source platform.
+
+**Key fields include:**
+
+* **Description** – Summary or full content of the ticket.
+- **Employee Number** – Unique identifier assigned to an employee.
+- **First Name** – Employee’s given name.
+- **Last Name** – Employee’s family or surname.
+- **Preferred Name** – Name the employee prefers to be called.
+- **Display Full** – Full display name used in systems or directories.
+- **Username** – Login or system username for the employee.
+- **Work Email** – Official company email address.
+- **Personal Email** – Employee’s non-work email address.
+- **Mobile Phone** – Employee’s mobile contact number.
+- **Team** – Team or group the employee belongs to.
+- **Pay Group** – Payroll group that determines pay schedule or rules.
+- **SSN** – Employee’s Social Security Number.
+- **Gender** – Employee’s self-identified gender.
+- **Manager** – The employee’s direct supervisor.
+- **Ethnicity** – Employee’s self-reported ethnic background.
+- **Marital Status** – Declared marital status for HR records.
+- **Department** – Organizational department the employee works in.
+- **Date Of** – General date field (context-dependent).
+- **Start Date** – Date the employee began employment.
+- **Employment Status** – Current work status (active, leave, terminated, etc.).
+- **Termination Date** – Date employment ended, if applicable.
+- **Avatar** – Employee’s profile photo or image.
+
+
+### **Employment**
+Represents status of employment of employee.
+
+**Key fields include:**
+
+- **Job Title** – The employee’s official role or position.
+- **Pay Rate** – The amount the employee is paid per period or hour.
+- **Pay Period** – The time span that each paycheck covers.
+- **Pay Frequency** – How often the employee is paid (e.g., weekly, biweekly).
+- **Pay Currency** – The currency in which wages are paid.
+- **Pay Group** – Payroll group that determines pay schedule or rules.
+- **FLSA Status** – Classification under the Fair Labor Standards Act (exempt/non-exempt).
+- **Effective Date** – The date when the compensation or job change takes effect.
+- **Employment Type** – Category of employment (full-time, part-time, contract, etc.).
+
+
+### **Location**
+Represents detailed home location of employee.
+
+**Key fields include:**
+
+- **Name** – Name of the location or contact.
+- **Phone Number** – Primary phone number for the location or contact.
+- **Street 1** – Main street address line.
+- **Street 2** – Additional address line (apt, suite, etc.).
+- **City** – City where the location is situated.
+- **State** – State or region of the address.
+- **Zip Code** – Postal or ZIP code for the address.
+- **Country** – Country of the location.
+- **Location Type** – Category of location (office, warehouse, remote, etc.).
