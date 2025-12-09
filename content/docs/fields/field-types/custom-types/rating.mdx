@@ -5,7 +5,6 @@ tags: ['Fields', 'Field types', 'Custom types', 'Rating']
 keywords: ['Fields', 'Field types', 'Custom types', 'Rating', 'Create rating field']
 ---
 
-
 The `Rating field` allows you to capture and display ratings using a visual scale. The scale can be customized with different icons, colors, and maximum values. This makes it ideal for collecting feedback or evaluations in a visually intuitive way.
 
 ## Create a checkbox field
@@ -18,24 +17,27 @@ The `Rating field` allows you to capture and display ratings using a visual scal
 7. Set default value for the field (Optional).
 8. Click on `Save Field` button.
 
+Refer to the general guidelines on [creating a field](/docs/product-docs/fields#create-a-field).
 
 ### Cell display
-Cell displays the ratings in the color & icon selected for the field.    
-![image](/img/v2/fields/rating-cell.png)
 
-### Setting value for the field
-- Click on the `nth` rating icon to set the rating value for the field as `n`.
-- Key in the rating value in the cell to set the rating value for the field.
-- Paste the rating value in the cell to set the rating value for the field.
+Each cell displays its rating using the icon style and color configured for the field.
+![image](/img/v2/fields/types/rating/cell-display.png)
 
-### Unsetting value for the field
-- Click on the `nth` rating icon again to set the rating value for the field as `0`.
-- Key in `0` in the cell to set the rating value for the field as `0`.
-- Key in `Delete` to set the rating value for the field as `0`.
+### Setting a value
 
-### Supported icons
-NocoDB supports the following icons for the rating field type.  
-![image](/img/v2/fields/rating-icon.png)
+You can set a rating value in any of the following ways:
 
-## Related fields
-- [Checkbox](/docs/product-docs/fields/field-types/custom-types/checkbox)
+* Click the desired rating icon (`n-th` icon) to set the value to `n`.
+* Type a rating value directly into the cell.
+* Paste a rating value into the cell.
+
+### Clearing a value
+
+You can clear the rating value using any of the following methods:
+
+* Click the selected rating icon again to reset the value to `0`.
+* Type `0` in the cell.
+* Press `Delete` to reset the value to `0`.
+
+---
