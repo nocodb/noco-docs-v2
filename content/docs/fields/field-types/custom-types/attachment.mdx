@@ -9,18 +9,18 @@ keywords: ['Fields', 'Field types', 'Custom types', 'Attachment', 'Create attach
 `Attachment` fields allow you to upload files to your records. You can upload any file type, and the file will be linked to the record. You can also upload multiple files to a single `Attachment` field record.
 
 ## Create an Attachment field
-1. Click on `+` icon to the right of `Fields header`
-2. On the dropdown modal, enter the field name (Optional).
-3. Select the field type as `Attachment` from the dropdown.
+1. Click the `+` icon next to the last field in your table.
+2. Enter a name for the field.
+3. Select **Attachment** from the list of field types.
 4. Click on `Save Field` button.
 
-![image](/img/v2/fields/types/attachment.png)
-
-<Callout type="info">Max size for an attachment file is currently limited to 5 MB</Callout>
+Note:
+- You can configure the maximum file size and number of attachments allowed per cell using environment variables in self-hosted version. Refer to [Environment variables](#environment-variables) section for more details.
+- In Cloud version, the maximum file size allowed is 128 MiB and maximum number of attachments allowed per cell is 1000.
 
 ### Cell display
 The cell display for `Attachment` field is either a clickable preview if file is an image in recognizable format or a file-type icon.  
-![image](/img/v2/fields/attachment-cell.png)
+![image](/img/v2/fields/types/attachment/cell-display.png)
 
 ### Upload files
 To upload files to an `Attachment` field, 
