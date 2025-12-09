@@ -14,11 +14,12 @@ keywords: ['Fields', 'Field types', 'Links based types', 'Lookup', 'Create looku
 1. Click on `+` icon to the right of `Fields header`
 2. On the dropdown modal, enter the field name (Optional).
 3. Select the field type as `Lookup` from the dropdown.
-4. Select the link field from the dropdown. This is the field that links the current table to the related table.
-5. Select the field for display from the dropdown. This is the field that will be displayed in the current table.
-6. Click on `Save Field` button.
+4. Select the **Link Field** from the dropdown. This is the field that links the current table to the related table.
+5. Select the **Lookup Field** rom the dropdown. This is the field whose value will be displayed in the current table.
+6. **Only include records that meet specific conditions**: (Optional) Enable this option to filter the linked records based on criteria defined from fields in the related table. [Read more](#conditional-lookup)
+7. Click on `Save Field` button.
 
-![image](/img/v2/fields/types/lookup.png)
+![image](/img/v2/fields/types/links/add-field-lookup.png)
 
 
 ## Conditional Lookup
@@ -32,14 +33,4 @@ To achieve this, you can enable the option:
 
 This option allows you to filter the linked records based on criteria defined from fields in the related table. It helps tailor the Lookup field to show only the data that’s most relevant to your use case.
 
-### Applying filters
-
-1. Toggle ON **Only include linked records that meet specific conditions**.
-2. Click **Add filter** to define one or more conditions using fields from the related table.
-3. Use **Add filter group** to combine filters with AND/OR logic.
-4. Click **Save Field** to apply.
-
-## Similar links-based fields
-
-- [Links](/docs/product-docs/fields/field-types/links-based/links)
-- [Rollup](/docs/product-docs/fields/field-types/links-based/rollup)
+---

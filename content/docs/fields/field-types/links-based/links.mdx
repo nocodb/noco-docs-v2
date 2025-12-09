@@ -9,11 +9,13 @@ keywords: ['Fields', 'Field types', 'Links based types', 'Links', 'Create links 
 `Links` field type is used to establish relationship between tables & create links to other records.
 NocoDB supports following types of relations:
 - `Has-Many` - A record in one table can have multiple records in another table.
-  - Example: A `Country` can have multiple `Cities`.
+  - Example: **Country** has-many **Cities**.
 - `Belongs-to` - Multiple records in one table can have a single record in another table.
-  - Example: A `City` `Belongs-to` a `Country`.
+  - Example: A **City** belongs-to a **Country**.
 - `Many-to-Many` - Multiple records in one table can have multiple records in another table.
-  - Example: A `Student` can have multiple `Subjects` & a `Subject` can have multiple `Students`.
+  - Example: A **Student** can have multiple **Subjects** & a **Subject** can have multiple **Students**.
+- `One-to-One` - A record in one table can have only a single record in another table.
+  - Example: A **Person** has-one **Passport**.
 
 <Callout type="note">
 - Links can be created only between tables in the same database.
@@ -25,19 +27,21 @@ NocoDB supports following types of relations:
 1. Click on `+` icon to the right of `Fields header`
 2. On the dropdown modal, enter the field name (Optional).
 3. Select the field type as `Links` from the dropdown.
-4. Select the relation type : `One-to-one`, `Has-Many`, OR `Many-to-Many`.
+4. Select the relation type : `Many-to-Many`, `Has-Many`, OR `One-to-one`.
 5. Select the table to which the relation is to be established with.
-6. Advance settings: Configure label to be used for display in the cell. Defaults to `Link`, `Links` (Optional).
-7. Click on `Save Field` button.
+6. **Limit Record Selection to a vScreenshot 2025-12-09 at 3.47.25 PMiew**: (Optional) Enable this option to restrict the records available for selection in the `Link records` modal to a specific view in the related table. [Read more](#limit-record-selection)
+7. **Limit Record Selection to filters**: (Optional, Cloud only) Enable this option to restrict the records available for selection in the `Link records` modal based on specific filter conditions. [Read more](#limit-record-selection)
+8. **Advance settings**: Configure label to be used for display in the cell. Defaults to `Link`, `Links` (Optional).
+9. Click on `Save Field` button.
 
-![image](/img/v2/fields/types/links.png)
+![image](/img/v2/fields/types/links/add-field.png)
 
 You can control record visibility in the `Link records` modal by limiting the records available for selection. [Read more](#limit-record-selection)
 
 ### Cell display
 The cell will display number of links for a record to the related table.
 
-![image](/img/v2/fields/links-cell-display.png)
+![image](/img/v2/fields/types/links/cell-display.png)
 
 Clicking on the link-text will open a `Linked Records` modal with the list of links & associated additional information.
 
@@ -137,6 +141,4 @@ Use the ⚙️ icon to the right of the filter to toggle between static & dynami
 
 Note that, it's allowed to have a mix of static & dynamic conditions in the filter.
 
-## Related fields
-- [Lookup](/docs/product-docs/fields/field-types/links-based/lookup)
-- [Rollup](/docs/product-docs/fields/field-types/links-based/rollup)
+---

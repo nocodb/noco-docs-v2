@@ -12,12 +12,14 @@ keywords: ['Fields', 'Field types', 'Links based types', 'Rollup', 'Create rollu
 1. Click on `+` icon to the right of `Fields header`
 2. On the dropdown modal, enter the field name (Optional).
 3. Select the field type as `Rollup` from the dropdown.
-4. Select the link field from the dropdown. This is the field that links the current table to the related table.
-5. Select the field for display from the dropdown. This is the field that will be displayed in the current table.
-6. Select the aggregation function from the dropdown. This is the function that will be used to aggregate the data.
-7. Click on `Save Field` button.
+4. Select the **Link Field** from the dropdown. This is the field that links the current table to the related table.
+5. Select the **Rollup Field** from the dropdown. This is the field whose values will be aggregated.
+6. Select the **Aggregation function** from the dropdown. This is the function that will be used to aggregate the data.
+7. Configure any additional options like `Precision` for numerical aggregations.
+8. **Only include linked records that meet specific conditions**: (Optional) Enable this option to filter the linked records based on criteria defined from fields in the related table. [Read more](#conditional-rollup)
+9. Click on `Save Field` button.
 
-![image](/img/v2/fields/types/rollup.png)
+![image](/img/v2/fields/types/links/add-field-rollup.png)
 
 ### Aggregation Functions
 Here's a table with brief descriptions for each of the aggregation functions supported by NocoDB:
@@ -46,13 +48,4 @@ To do this, enable the option:
 
 This option allows you to apply filters to the linked records before the rollup calculation is performed. It’s particularly useful when you want to aggregate values conditionally—like summing revenue for a specific period or counting items that meet a threshold.
 
-### Applying filters
-
-1. Toggle ON **Only include linked records that meet specific conditions**.
-2. Click **Add filter** to define the condition(s) using fields from the related table.
-3. Use **Add filter group** to combine filters using AND/OR logic.
-4. Click **Save Field** to apply.
-
-## Similar links-based fields
-- [Links](/docs/product-docs/fields/field-types/links-based/links)
-- [Lookup](/docs/product-docs/fields/field-types/links-based/lookup)
+---
