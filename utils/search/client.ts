@@ -10,42 +10,86 @@ export function groupResults(
   hits: SearchResponseHit<object>[]
 ): SortedResult[] {
   const grouped: SortedResult[] = [];
-  const scannedUrls = new Set<string>();
-  const scannedIds = new Set<string>();
+  const scannedPageIds = new Set<string>();
+  const scannedDocIds = new Set<string>();
+  const pageResults: Map<string, { 
+    headings: SortedResult[], 
+    content: SortedResult[],
+    bestFieldWeight: number,
+    bestScore: number 
+  }> = new Map();
 
+  // First pass: collect all results grouped by page
   for (const hit of hits) {
     const document = hit.document as BaseIndex;
+    const textMatchScore = hit.text_match as number || 0;
+    const textMatchInfo = hit.text_match_info as { best_field_weight?: number } | undefined;
+    const fieldWeight = textMatchInfo?.best_field_weight || 0;
 
-    if (scannedIds.has(document.id)) {
+    // Skip if already processed this exact document
+    if (scannedDocIds.has(document.id)) {
       continue;
     }
-    if (!scannedUrls.has(document.url)) {
-      scannedUrls.add(document.url);
-      scannedIds.add(document.id);
+    scannedDocIds.add(document.id);
+    
+    // Initialize page results if not exists
+    if (!pageResults.has(document.url)) {
+      pageResults.set(document.url, { headings: [], content: [], bestFieldWeight: 0, bestScore: 0 });
+    }
 
-      grouped.push({
-        id: document.id,
+    const pageItems = pageResults.get(document.url)!;
+    
+    // Track best field weight and score for this page (title=6, section=4, content=1)
+    if (fieldWeight > pageItems.bestFieldWeight) {
+      pageItems.bestFieldWeight = fieldWeight;
+    }
+    if (textMatchScore > pageItems.bestScore) {
+      pageItems.bestScore = textMatchScore;
+    }
+
+    // Add page title first (only once per page)
+    if (!scannedPageIds.has(document.page_id)) {
+      scannedPageIds.add(document.page_id);
+      pageItems.headings.unshift({
+        id: document.page_id,
         type: "page",
         url: document.url,
         content: document.title,
       });
     }
 
-    const sectionId = document.section_id
-      ? `${document.id}-${document.section_id}`
-      : document.id;
-    if (!scannedIds.has(sectionId)) {
-      scannedIds.add(sectionId);
+    // Determine if this is a heading based on heading_level
+    const isHeading = typeof document.heading_level === 'number';
+    const result: SortedResult = {
+      id: document.id,
+      type: isHeading ? "heading" : "text",
+      url: document.section_id
+        ? `${document.url}#${document.section_id}`
+        : document.url,
+      content: document.content,
+    };
 
-      grouped.push({
-        id: sectionId,
-        type: document.content === document.section ? "heading" : "text",
-        url: document.section_id
-          ? `${document.url}#${document.section_id}`
-          : document.url,
-        content: document.content,
-      });
+    // Add headings to headings array, content to content array
+    if (isHeading) {
+      pageItems.headings.push(result);
+    } else {
+      pageItems.content.push(result);
     }
+  }
+
+  // Sort pages by best field weight first (title > section > content), then by score
+  const sortedPages = Array.from(pageResults.entries())
+    .sort((a, b) => {
+      // First sort by field weight (higher = better, title=6, section=4, content=1)
+      if (b[1].bestFieldWeight !== a[1].bestFieldWeight) {
+        return b[1].bestFieldWeight - a[1].bestFieldWeight;
+      }
+      // Then by text match score
+      return b[1].bestScore - a[1].bestScore;
+    });
+
+  for (const [, items] of sortedPages) {
+    grouped.push(...items.headings, ...items.content.slice(0, 2));
   }
 
   return grouped;
