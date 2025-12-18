@@ -23,6 +23,18 @@ const selfHostedRecords = JSON.parse(
   selfHostedContent.toString()
 ) as DocumentRecord[];
 
+// Add path-based tags to documents
+const addPathTags = (records: DocumentRecord[], pathPrefix: string, tag: string) => {
+  return records.map(record => ({
+    ...record,
+    tag: record.tag ? `${record.tag},${tag}` : tag
+  }));
+};
+
+const taggedProductRecords = addPathTags(productRecords, '/docs/product-docs', 'product-docs');
+const taggedScriptsRecords = addPathTags(scriptsRecords, '/docs/scripts', 'scripts');
+const taggedSelfHostedRecords = addPathTags(selfHostedRecords, '/docs/self-hosting', 'self-hosting');
+
 if (!process.env?.TYPE_SENSE_ADMIN_API) {
   console.error(
     "No Typesense API key found. Please set the TYPE_SENSE_ADMIN_API environment variable."
@@ -45,5 +57,5 @@ const collectionName = "noco-docs-v2";
 
 sync(client, {
   collection: collectionName,
-  documents: [...productRecords, ...selfHostedRecords, ...scriptsRecords],
+  documents: [...taggedProductRecords, ...taggedSelfHostedRecords, ...taggedScriptsRecords],
 });
