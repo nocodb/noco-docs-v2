@@ -24,7 +24,8 @@ To add a new field to your table:
     * Enter the field name (optional at first).
     * Select the appropriate **field type** from the list (e.g., Single line text, Number, Lookup, etc.).
 3. Configure additional settings such as default value and description as needed.
-4. Click **Save Field** to finalize the creation.
+4. Unique constraints can be enabled for supported field types by checking the **Unique values only** option. More details can be found in the [Unique Fields](#unique-fields-) section below.
+5. Click **Save Field** to finalize the creation.
 
 <div style={{ textAlign: 'center' }}>
     <img src="/img/v2/fields/create-field-1.png" alt="Create new field - select type" style={{ width: '90%', maxWidth: '800px' }} />
@@ -87,6 +88,40 @@ NocoDB offers a wide range of field types to help you structure your data effect
 | **Formula**      | [Formula](https://nocodb.com/docs/product-docs/fields/field-types/formula/formula)                        | Computes values using expressions based on other fields. |
 
 ---
+
+## Unique Fields ☁
+
+<Callout type="info">Feature available in Business and Enterprise plans.</Callout>
+
+Certain field types in NocoDB can be configured to enforce uniqueness, ensuring that no two records contain the same non-empty value for that field. This is especially useful for fields such as email addresses, usernames, or other identifiers that must remain distinct across records. When enabled, empty cells are permitted, while duplicate non-empty values are prevented. You can enable this behavior by selecting the **Unique values only** option in the field settings during field creation or editing. Once configured, NocoDB validates all new entries and updates to enforce the uniqueness constraint.
+
+
+![Unique field setting](/img/v2/fields/unique/field-setting.png)
+
+When a user attempts to enter a duplicate value in a unique field, NocoDB will display an error message and prevent the record from being saved until a unique value is provided.
+
+Supported field types for uniqueness enforcement include:
+* Single line text
+* Email
+* Phone number
+* URL
+* Number
+* Decimal
+* Currency
+* Percent
+* DateTime
+* Date
+* Time
+
+<Callout type="note">
+    - Enforcing uniqueness can impact performance on large datasets. Enable this option only when required by your application.
+    - Uniqueness constraints are supported only for tables created within NocoDB (NC-DB). Fields from external database tables do not support uniqueness constraints via NocoDB.
+    - When converting an existing field to a unique field, all existing values must already be unique; otherwise, the conversion will fail.
+    - Default values and uniqueness constraints are mutually exclusive. A field marked as unique cannot have a default value.
+    - Empty values are allowed in unique fields and do not violate the uniqueness constraint.
+</Callout>
+
+
 
 ## Field Actions
 
