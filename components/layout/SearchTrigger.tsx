@@ -1,5 +1,5 @@
 "use client";
-import { useSearchContext } from "fumadocs-ui/provider";
+import { useSearchContext } from "fumadocs-ui/contexts/search";
 import { SearchIcon } from "lucide-react";
 
 export function SearchTrigger() {

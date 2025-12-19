@@ -1,6 +1,6 @@
 "use client";
 import type * as PageTree from "fumadocs-core/page-tree";
-import { TreeContextProvider as FumadocsTreeProvider } from "fumadocs-ui/provider";
+import { TreeContextProvider as FumadocsTreeProvider } from "fumadocs-ui/contexts/tree";
 import type { ReactNode } from "react";
 
 type TreeProviderProps = {

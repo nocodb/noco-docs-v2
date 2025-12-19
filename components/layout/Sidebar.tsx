@@ -1,7 +1,8 @@
 "use client";
 import type * as PageTree from "fumadocs-core/page-tree";
 import { useOnChange } from "fumadocs-core/utils/use-on-change";
-import { useSidebar, useTreeContext, useTreePath } from "fumadocs-ui/provider";
+import { useTreeContext, useTreePath } from "fumadocs-ui/contexts/tree";
+import { useSidebar } from "fumadocs-ui/components/sidebar/base"
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

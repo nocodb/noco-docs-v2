@@ -1,6 +1,6 @@
 "use client";
-import { TOCScrollArea } from "fumadocs-ui/components/layout/toc";
-import ClerkTOCItems from "fumadocs-ui/components/layout/toc-clerk";
+import { TOCScrollArea } from "fumadocs-ui/components/toc/index";
+import { TOCItems as ClerkTOCItems } from "fumadocs-ui/components/toc/clerk";
 import {
   PageTOCPopover,
   PageTOCPopoverContent,
