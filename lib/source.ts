@@ -1,5 +1,4 @@
 import { loader } from "fumadocs-core/source";
-import { createMDXSource } from "fumadocs-mdx/runtime/next";
 import { createElement } from "react";
 import {
   blog,
@@ -10,6 +9,7 @@ import {
   selfHosting,
 } from "@/.source";
 import { type IconNameType, iconMap } from "@/lib/iconMap";
+import { toFumadocsSource } from 'fumadocs-mdx/runtime/server';
 
 // See https://fumadocs.vercel.app/docs/headless/source-api for more info
 export const source = loader({
@@ -31,9 +31,9 @@ export const source = loader({
   },
 });
 
-export const blogSource = loader({
-  baseUrl: "/blog",
-  source: createMDXSource(blog),
+
+export const blogSource = loader(toFumadocsSource(blog, []), {
+  baseUrl: '/blog',
 });
 
 export const scriptsSource = loader({

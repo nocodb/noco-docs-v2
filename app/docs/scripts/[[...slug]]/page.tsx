@@ -1,8 +1,8 @@
 import { getPageTreePeers } from "fumadocs-core/page-tree";
 import { AnchorProvider } from "fumadocs-core/toc";
 import { Card, Cards } from "fumadocs-ui/components/card";
-import { TOCProvider, TOCScrollArea } from "fumadocs-ui/components/layout/toc";
-import ClerkTOCItems from "fumadocs-ui/components/layout/toc-clerk";
+import { TOCProvider, TOCScrollArea } from "fumadocs-ui/components/toc/index";
+import { TOCItems as ClerkTOCItems } from "fumadocs-ui/components/toc/clerk";
 import { PageTOC } from "fumadocs-ui/layouts/docs/page";
 import { DocsBody, DocsDescription, DocsTitle } from "fumadocs-ui/page";
 import { notFound } from "next/navigation";
