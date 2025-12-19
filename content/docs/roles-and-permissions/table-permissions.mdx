@@ -5,13 +5,61 @@ tags: ['Table', 'Permissions']
 keywords: ['Table permissions', 'NocoDB table permissions', 'NocoDB roles', 'NocoDB permissions', 'NocoDB table permissions overview']
 ---
 
-Table permissions in NocoDB allow you to control who can create or delete records in each table. This feature helps maintain data integrity while supporting flexible and collaborative workflows.
+Table permissions in NocoDB allow you to control **what users can see** and **what actions they can perform** within a table. Visibility determines whether a table exists for a user, while record permissions allow you to define who can create or delete records in that table.
 
-<Callout type="info">Available on NocoDB Cloud from the **Team** plan onwards, and in **Self-hosted Enterprise** editions.</Callout>
+<Callout type="info">Table Permissions are available on NocoDB Cloud from the **Team** plan onwards, and on self-hosted **Enterprise** editions.</Callout>
 
-## Enabling Table Permissions
+## Table Visibility
 
-To configure permissions for a specific table:
+Table Visibility determines whether a table and its views are discoverable and accessible to a user within a base. When a table is visible, the user can access and interact with it according to their assigned roles & permissions. When a table is not visible, it is treated as non-existent for that user.
+
+<Callout type="note">Only **Base Owners** can configure table visibility settings.</Callout>
+
+Information below lists down various visibility options:
+
+| Option                      | Who can see the table                                             |
+|-----------------------------|-------------------------------------------------------------------|
+| **Creators & up**           | Members with **Creator** or **Owner** roles                       |
+| **Editors & up**            | Members with **Editor**, **Creator**, or **Owner** roles          |
+| **Specific users or teams** | Only selected members or teams                                    |
+| **Everyone**                | All members of the base *(default)*                               |
+
+<Callout type="note">
+    Note:
+    - By default, all tables are visible to everyone in the base.
+    - Table visibility is evaluated before checking record permissions. If a table is not visible to a user, they cannot access it or perform any actions within it, regardless of their record permissions.
+    - Hidden tables will be excluded from APIs, Automations, Scripts & Extensions that list or access tables.
+</Callout>
+
+### Configuring Visibility
+To configure the visibility of a specific table:
+1. Click the `⋯` icon next to the table name in the sidebar.
+2. Select **Edit table permissions**.
+3. Use the dropdown menus against **Who can see this table?** to define visibility.
+4. If you select **Specific users or teams**, choose the members or teams who should have access to the table.
+
+[//]: # (![Table visibility]&#40;/img/v2/permissions/table-visibility-1.png&#41;)
+
+Note that, only Base Owners can modify table visibility settings. Other members will not see this option in the menu.
+
+### Visibility Notes
+
+**Shared bases and shared views**
+Table visibility affects shared access. Only tables with the visibility option set to **Everyone** are accessible in a shared base or shared view.
+
+**Relational fields**
+When a table is hidden from a user, relational fields linking to that table will list only the **display values** of the linked records. Based on their role (Editor+), the user may still link or unlink records from the source table, but cannot open or access the linked records themselves. Lookup and Rollup fields continue to function and display values from the hidden table, without granting visibility or access to that table.
+
+**Duplicating bases**
+When duplicating a base, only the tables visible to the duplicating user are copied to the new base. Tables hidden from that user are excluded from the duplicated base. Hence, relational fields linking to hidden tables will also be excluded. Formula fields referencing such relational fields may display errors due to missing references.
+
+## Table Record Permissions
+
+Table Record Permissions determine what actions a user can perform on records within a table. When permissions are granted, users can create or delete records according to their assigned roles and configured access levels. When permissions are restricted, those actions are disabled, while the table and its records may still remain visible to the user.
+
+### Configuring Record Permissions
+
+To configure record access permissions for a specific table:
 
 1. Click the `⋯` icon next to the table name in the sidebar.
 2. Select **Edit table permissions**.
@@ -23,7 +71,7 @@ To configure permissions for a specific table:
 
 ![Table permissions](/img/v2/permissions/table-permissions-2.png)
 
-## Permission Levels
+#### Permission Levels
 
 You can assign different access levels for each action (create or delete record). The available options are:
 
@@ -45,7 +93,7 @@ By default, members with the **Editor** role and above can create and delete rec
 ![Table permissions](/img/v2/permissions/table-permissions-3.png)
 
 
-### Additional Notes on Table Permissions
+### Record Permission Notes
 
 * Table permissions **do not control record visibility** — users with access can still view all records. However, their ability to create or delete records depends on the configured permissions.
 * Permissions are applied at the **table level** and affect all records within that table. They cannot be defined for individual records or specific subsets.
