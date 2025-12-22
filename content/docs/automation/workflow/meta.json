@@ -1,4 +1,4 @@
 {
-  "title": "Webhook",
-  "pages": []
+  "title": "Workflow",
+  "pages": ["create-workflow", "actions-on-workflow", "nodes"]
 }

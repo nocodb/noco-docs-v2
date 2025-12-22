@@ -1,0 +1,35 @@
+---
+title: 'Record updated'
+description: 'Trigger workflows when records are updated in NocoDB.'
+tags: ['Workflow', 'Trigger', 'Record']
+keywords: ['record updated trigger', 'after update workflow']
+---
+
+### When record updated
+
+Triggers a workflow when an existing record is modified.
+
+---
+
+### Configuration
+
+- **Table**: Select target table
+- **Event**: After Update
+- **Conditions**: Optional
+- **Field-level filter**: Optional (trigger only when specific fields change)
+
+---
+
+### How it works
+
+- Trigger fires after record update
+- Conditions must transition from false → true
+- Field filters limit execution to relevant changes
+
+---
+
+### Use cases
+
+- React to status changes
+- Sync updates across tables
+- Notify stakeholders on critical field changes

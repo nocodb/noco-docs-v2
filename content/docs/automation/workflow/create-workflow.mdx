@@ -1,0 +1,100 @@
+---
+title: 'Create workflow'
+description: 'Learn how to create a workflow in NocoDB.'
+tags: ['Workflow', 'Create', 'Automation']
+keywords: ['NocoDB workflow', 'create workflow', 'workflow automation', 'NocoDB automations']
+---
+
+### Accessing workflow page
+
+1. Open the required **Base**
+2. Click **Automations** from the left sidebar
+3. Navigate to the **Workflows** tab
+4. Click **Create Workflow**
+
+[//]: # (![Accessing workflow]&#40;/img/v2/workflows/create-workflow-1.png&#41;)
+
+---
+
+### Configuring workflow
+
+[//]: # (![Configuring workflow]&#40;/img/v2/workflows/create-workflow-2.png&#41;)
+
+1. **Name the workflow**
+Provide a clear and descriptive name to identify the workflow easily.
+
+2. **Select Trigger**
+Choose how the workflow should be initiated. Supported trigger types include:
+- **Record trigger** – Runs when a record is created, updated, or deleted
+- **Manual trigger** – Runs when triggered manually by a user
+- **Button trigger** – Runs when a button field is clicked
+- **Webhook trigger** – Runs when an external webhook is invoked
+
+<Callout type="info">Available trigger types may vary by plan.</Callout>
+
+3. **Configure trigger settings**
+Based on the selected trigger, configure:
+- Trigger event (After Insert, After Update, After Delete, etc.)
+- Optional conditions to restrict when the workflow should run
+- Optional field-level filtering for update events
+
+4. **Add Action nodes**
+Define what happens when the workflow is triggered. Supported actions include:
+- **HTTP Request** – Call an external API
+- **Run Script** – Execute a JavaScript script
+- **Create / Update Record** – Modify data in a table
+- **Send Notification** – Notify users via supported channels
+
+5. **Connect nodes**
+Use connectors to define the execution order between trigger, action, and flow-control nodes.
+
+6. **Test workflow**
+[Optional] Click **Test Workflow** to validate trigger configuration and node execution using sample data.
+
+7. **Create workflow**
+Click **Create Workflow** to save the workflow.
+
+---
+
+### Workflow nodes overview
+
+#### Trigger node
+Defines when the workflow starts. Each workflow can have only one trigger node.
+
+#### Action node
+Performs an operation when executed. You can add multiple action nodes in a workflow.
+
+#### Flow node
+Controls execution logic, such as conditional branching or parallel execution paths.
+
+---
+
+### Workflow with conditions
+
+Workflows can be configured to run only when specific conditions are met.
+For example, trigger the workflow only when:
+- `Status` changes to `Complete`
+- `Priority` equals `High`
+
+A workflow runs only when the condition transitions from **not met** to **met**.
+
+<Callout type="note">Conditions are applicable only for record-based triggers.</Callout>
+
+---
+
+### Enable or disable workflow
+
+Once created, workflows can be toggled on or off:
+- **Enabled** – Workflow runs automatically when trigger conditions are met
+- **Disabled** – Workflow does not execute, even if triggered
+
+---
+
+### View workflow runs
+
+Monitor workflow executions for debugging and auditing:
+1. Open the workflow
+2. Navigate to the **Runs** tab
+3. Select a run to inspect inputs, node execution status, and outputs
+
+---

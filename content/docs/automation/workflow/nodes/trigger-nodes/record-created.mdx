@@ -1,0 +1,35 @@
+---
+title: 'Record created'
+description: 'Trigger workflows when new records are created in NocoDB.'
+tags: ['Workflow', 'Trigger', 'Record']
+keywords: ['record created trigger', 'after insert workflow']
+---
+
+### When record created
+
+Triggers a workflow when a new record is added to a selected table.
+
+---
+
+### Configuration
+
+- **Table**: Select target table
+- **Event**: After Insert
+- **Conditions**: Optional
+- **Form filter**: Optional (trigger only from specific forms)
+
+---
+
+### How it works
+
+- Trigger fires immediately after record creation
+- Supports conditional execution
+- Multiple records inserted together trigger once per batch
+
+---
+
+### Use cases
+
+- Send notifications for new records
+- Auto-create related records
+- Initialize default values

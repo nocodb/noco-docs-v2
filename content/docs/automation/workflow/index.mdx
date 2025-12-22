@@ -31,7 +31,6 @@ A **Trigger** determines when an automation starts. Each automation must have ex
 Runs the automation only when triggered manually by a user.
 Useful for testing workflows or running one-off operations.
 
----
 
 ### At scheduled time
 
@@ -43,7 +42,6 @@ Runs the automation on a fixed schedule.
 * Periodic data cleanup
 * Scheduled reminders
 
----
 
 ### When record created
 
@@ -55,7 +53,6 @@ Triggers when a new record is added to a selected table.
 * Auto-create related records
 * Initialize default values
 
----
 
 ### When record updated
 
@@ -67,7 +64,6 @@ Triggers when an existing record is modified.
 * Sync updates across tables
 * Notify stakeholders on field changes
 
----
 
 ### When record deleted
 
@@ -79,7 +75,6 @@ Triggers when a record is removed from a table.
 * Log deletions
 * Notify administrators
 
----
 
 ### When form submitted
 
@@ -91,7 +86,6 @@ Triggers when a form connected to a table is submitted.
 * Support request handling
 * Form-based automation without table access
 
----
 
 ### When record enters a view
 
@@ -105,7 +99,6 @@ Triggers when a record appears in a specific view for the first time.
 * Approval pipelines
 * Task readiness detection
 
----
 
 ### When record matches conditions
 
@@ -117,14 +110,12 @@ Triggers when a record meets defined conditions.
 * SLA breaches
 * Conditional alerts
 
----
 
 ## Action Nodes
 
 Actions define what the automation does after the trigger fires.
 Multiple actions can be chained together.
 
----
 
 ### Record Actions
 
@@ -138,7 +129,6 @@ Creates a new record in a specified table.
 * Insert audit logs
 * Sync data across tables
 
----
 
 #### Update record
 
@@ -150,7 +140,6 @@ Updates one or more fields in an existing record.
 * Set computed values
 * Mark records as processed
 
----
 
 #### Find record
 
@@ -161,7 +150,6 @@ Finds a single record matching specified criteria.
 * Locate related records
 * Fetch data for later actions
 
----
 
 #### List records
 
@@ -172,7 +160,6 @@ Retrieves multiple records that match defined filters.
 * Batch operations
 * Iteration using flow nodes
 
----
 
 #### Delete record
 
@@ -183,7 +170,6 @@ Deletes a record from a table.
 * Data cleanup
 * Lifecycle enforcement
 
----
 
 ### Communication Actions
 
@@ -197,7 +183,6 @@ Sends an email using configured email settings.
 * Alerts
 * User confirmations
 
----
 
 #### Send message
 
@@ -209,13 +194,11 @@ Sends a message to an external messaging service (for example, Slack).
 * Operational alerts
 * Workflow updates
 
----
 
 ## Flow Nodes
 
 Flow nodes control how actions are executed within an automation.
 
----
 
 ### If / else
 
@@ -233,7 +216,6 @@ Adds conditional branching to the workflow.
 * Conditional notifications
 * Business rule enforcement
 
----
 
 ### Iterate
 
@@ -250,7 +232,6 @@ Repeats a set of actions for each item in a list of records.
 * Batch notifications
 * Record-by-record processing
 
----
 
 ## Execution Order
 
@@ -259,7 +240,6 @@ Repeats a set of actions for each item in a list of records.
 3. Flow nodes control branching or repetition
 4. Automation completes once all paths finish execution
 
----
 
 ## Testing and Publishing
 
@@ -267,7 +247,6 @@ Repeats a set of actions for each item in a list of records.
 * Manual triggers are useful for validation
 * Only published automations respond to real events
 
----
 
 ## Best Practices
 
