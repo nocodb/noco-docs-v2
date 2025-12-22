@@ -38,7 +38,11 @@ To configure the visibility of a specific table:
 3. Use the dropdown menus against **Who can see this table?** to define visibility.
 4. If you select **Specific users or teams**, choose the members or teams who should have access to the table.
 
-[//]: # (![Table visibility]&#40;/img/v2/permissions/table-visibility-1.png&#41;)
+![Table visibility](/img/v2/permissions/visibility/table-visibility-1.png)
+
+![Table visibility](/img/v2/permissions/visibility/table-visibility-2.png)
+
+![Table visibility](/img/v2/permissions/visibility/table-visibility-3.png)
 
 Note that, only Base Owners can modify table visibility settings. Other members will not see this option in the menu.
 
@@ -49,6 +53,10 @@ Table visibility affects shared access. Only tables with the visibility option s
 
 **Relational fields**
 When a table is hidden from a user, relational fields linking to that table will list only the **display values** of the linked records. Based on their role (Editor+), the user may still link or unlink records from the source table, but cannot open or access the linked records themselves. Lookup and Rollup fields continue to function and display values from the hidden table, without granting visibility or access to that table.
+
+Edit modal for relational fields linking to hidden tables would display table & view names as "Private Table" and "Private View" respectively.
+
+![Relational field visibility](/img/v2/permissions/visibility/relational-field-visibility.png)
 
 **Duplicating bases**
 When duplicating a base, only the tables visible to the duplicating user are copied to the new base. Tables hidden from that user are excluded from the duplicated base. Hence, relational fields linking to hidden tables will also be excluded. Formula fields referencing such relational fields may display errors due to missing references.
@@ -113,7 +121,7 @@ To access the permissions overview:
 
 ![Permissions overview](/img/v2/permissions/permissions-overview-1.png)
 
-Select the table you want to review. The overview displays both table and field permissions, showing which members or teams can create or delete records and which fields are editable by whom.
+Select the table you want to review. The overview displays both table and field permissions, showing who can see the table, create records, delete records, and the visibility of each field within that table.
 
 ![Permissions overview](/img/v2/permissions/permissions-overview-2.png)
 
