@@ -8,6 +8,7 @@ import {
   legalDocs,
   scripts,
   selfHosting,
+  workflowDocs,
 } from "@/.source";
 import { type IconNameType, iconMap } from "@/lib/iconMap";
 
@@ -54,4 +55,9 @@ export const changelogSource = loader({
 export const legalDocsSource = loader({
   baseUrl: "/docs/legal",
   source: legalDocs.toFumadocsSource(),
+});
+
+export const workflowDocsSource = loader({
+  baseUrl: "/docs/workflows",
+  source: workflowDocs.toFumadocsSource(),
 });

@@ -19,6 +19,10 @@ const tabs = [
     href: "/docs/scripts",
   },
   {
+    title: "Workflows ☁",
+    href: "/docs/workflows",
+  },
+  {
     title: "Changelog (EE)",
     href: "/docs/changelog",
   },
@@ -31,7 +35,7 @@ const tabs = [
 export default function TopBarNaigation() {
   const pathname = usePathname();
 
-  if(pathname.startsWith("/docs/tags")) {
+  if (pathname.startsWith("/docs/tags")) {
     return null;
   }
 

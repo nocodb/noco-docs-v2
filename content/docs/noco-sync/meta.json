@@ -1,7 +1,4 @@
 {
   "title": "NocoSync",
-  "pages": [
-    "ticketing",
-    "on-premise-oauth"
-  ]
+  "pages": ["ticketing", "on-premise-oauth"]
 }

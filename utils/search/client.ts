@@ -12,18 +12,23 @@ export function groupResults(
   const grouped: SortedResult[] = [];
   const scannedPageIds = new Set<string>();
   const scannedDocIds = new Set<string>();
-  const pageResults: Map<string, { 
-    headings: SortedResult[], 
-    content: SortedResult[],
-    bestFieldWeight: number,
-    bestScore: number 
-  }> = new Map();
+  const pageResults: Map<
+    string,
+    {
+      headings: SortedResult[];
+      content: SortedResult[];
+      bestFieldWeight: number;
+      bestScore: number;
+    }
+  > = new Map();
 
   // First pass: collect all results grouped by page
   for (const hit of hits) {
     const document = hit.document as BaseIndex;
-    const textMatchScore = hit.text_match as number || 0;
-    const textMatchInfo = hit.text_match_info as { best_field_weight?: number } | undefined;
+    const textMatchScore = (hit.text_match as number) || 0;
+    const textMatchInfo = hit.text_match_info as
+      | { best_field_weight?: number }
+      | undefined;
     const fieldWeight = textMatchInfo?.best_field_weight || 0;
 
     // Skip if already processed this exact document
@@ -31,14 +36,19 @@ export function groupResults(
       continue;
     }
     scannedDocIds.add(document.id);
-    
+
     // Initialize page results if not exists
     if (!pageResults.has(document.url)) {
-      pageResults.set(document.url, { headings: [], content: [], bestFieldWeight: 0, bestScore: 0 });
+      pageResults.set(document.url, {
+        headings: [],
+        content: [],
+        bestFieldWeight: 0,
+        bestScore: 0,
+      });
     }
 
     const pageItems = pageResults.get(document.url)!;
-    
+
     // Track best field weight and score for this page (title=6, section=4, content=1)
     if (fieldWeight > pageItems.bestFieldWeight) {
       pageItems.bestFieldWeight = fieldWeight;
@@ -59,7 +69,7 @@ export function groupResults(
     }
 
     // Determine if this is a heading based on heading_level
-    const isHeading = typeof document.heading_level === 'number';
+    const isHeading = typeof document.heading_level === "number";
     const result: SortedResult = {
       id: document.id,
       type: isHeading ? "heading" : "text",
@@ -78,15 +88,14 @@ export function groupResults(
   }
 
   // Sort pages by best field weight first (title > section > content), then by score
-  const sortedPages = Array.from(pageResults.entries())
-    .sort((a, b) => {
-      // First sort by field weight (higher = better, title=6, section=4, content=1)
-      if (b[1].bestFieldWeight !== a[1].bestFieldWeight) {
-        return b[1].bestFieldWeight - a[1].bestFieldWeight;
-      }
-      // Then by text match score
-      return b[1].bestScore - a[1].bestScore;
-    });
+  const sortedPages = Array.from(pageResults.entries()).sort((a, b) => {
+    // First sort by field weight (higher = better, title=6, section=4, content=1)
+    if (b[1].bestFieldWeight !== a[1].bestFieldWeight) {
+      return b[1].bestFieldWeight - a[1].bestFieldWeight;
+    }
+    // Then by text match score
+    return b[1].bestScore - a[1].bestScore;
+  });
 
   for (const [, items] of sortedPages) {
     grouped.push(...items.headings, ...items.content.slice(0, 2));

@@ -12,6 +12,7 @@
     "generate-llm-content": "tsx scripts/generate-llm-content.ts",
     "validate-links": "tsx -C import scripts/validateLinks.ts",
     "lint": "ultracite check . && npm run validate-links",
+    "lint:fix": "ultracite fix .",
     "postbuild": "next-sitemap && npm run generate-blog-sitemap && npm run generate-llm-content"
   },
   "dependencies": {

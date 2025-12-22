@@ -1,4 +1,10 @@
 {
   "title": "Trigger",
-  "pages": ["manual", "scheduled", "record-created", "record-updated", "record-deleted"]
+  "pages": [
+    "manual",
+    "scheduled",
+    "record-created",
+    "record-updated",
+    "record-deleted"
+  ]
 }

@@ -1,9 +1,4 @@
 {
   "title": "On Premise Auth Integration",
-  "pages": [
-    "bitbucket",
-    "github",
-    "gitlab",
-    "linear"
-  ]
+  "pages": ["bitbucket", "github", "gitlab", "linear"]
 }

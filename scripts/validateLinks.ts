@@ -28,6 +28,8 @@ async function checkLinks() {
 
   const legalDocsFiles = await readFiles("content/legal/**/*.{md,mdx}");
 
+  const workflowsFiles = await readFiles("content/workflows/**/*.{md,mdx}");
+
   const scanned = await scanURLs({
     populate: {
       // Blog routes
@@ -100,6 +102,18 @@ async function checkLinks() {
           ),
         };
       }),
+
+      // Workflow Routes
+      "docs/workflows/[slug]": workflowsFiles.map((file) => {
+        const relativePath = path.relative("content/workflows", file.path);
+
+        return {
+          value: getSlugs(relativePath)[0],
+          hashes: getTableOfContents(file.content).map((item) =>
+            item.url.slice(1)
+          ),
+        };
+      }),
     },
   });
 
@@ -110,6 +124,7 @@ async function checkLinks() {
       ...selfHostingFiles,
       ...scriptsFiles,
       ...changelogFiles,
+      ...workflowsFiles,
     ],
     {
       scanned,
