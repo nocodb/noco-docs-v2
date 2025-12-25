@@ -7,21 +7,12 @@ keywords: ['NocoDB manual trigger', 'run workflow manually']
 
 ### Manual trigger
 
-The **Manual Trigger** starts a workflow only when a user explicitly runs it.
+The **Manual Trigger** starts a workflow only when a user explicitly runs it. This trigger does not rely on data changes or schedules and is commonly used for testing or one-time operations.
 
-This trigger does not rely on data changes or schedules and is commonly used for testing or one-time operations.
-
----
+![Manual Trigger Node](/img/v2/workflow/nodes/trigger/manual.png)
 
 ### Configuration
-
-- **Trigger type**: Manual
-- **Input source**: User-initiated
-- **Table selection**: Optional (depends on actions used)
-
 No additional configuration is required.
-
----
 
 ### How it works
 
@@ -29,7 +20,7 @@ No additional configuration is required.
 - User clicks **Run** to start execution
 - Workflow runs once per manual invocation
 
----
+![Manual Trigger Execution](/img/v2/workflow/nodes/trigger/manual-execution.png)
 
 ### Use cases
 
