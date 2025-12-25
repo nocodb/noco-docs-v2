@@ -9,50 +9,58 @@ keywords: ['Workflow overview', 'NocoDB workflows', 'rename workflow', 'duplicat
 
 To rename a workflow:
 - Use `...` actions button next to the workflow name in the Workflows list
-- Select `Rename`
+- Select `Rename workflow`
 - Enter a new name and confirm
 
----
+![Rename Workflow](/img/v2/workflow/context-menu.png)
+
 
 ### Duplicate Workflow
 
 To duplicate a workflow:
 - Use `...` actions button next to the workflow name in the Workflows list
-- Select `Duplicate`
+- Select `Duplicate workflow`
 
-A copy of the workflow is created with a suffix ` - Copy`.
+A copy of the workflow is created with a prefix `Copy of`.
 
----
+![Duplicate Workflow](/img/v2/workflow/context-menu.png)
+
 
 ### Delete Workflow
 
 To delete a workflow:
 - Use `...` actions button next to the workflow name in the Workflows list
-- Select `Delete`
+- Select `Delete workflow`
 - Confirm deletion
 
 > Deleted workflows cannot be restored.
 
----
+![Delete Workflow](/img/v2/workflow/context-menu.png)
 
 ### Enable or Disable Workflow
 
-Control whether a workflow runs automatically.
+A workflow when enabled will execute its triggers and actions as configured. Workflow can be enabled or disabled as needed using the toggle button in the workflow toolbar.
 
-To enable or disable a workflow:
-- Use the toggle switch next to the workflow name
-- When disabled, triggers will not execute any actions
+![Enable Disable Workflow](/img/v2/workflow/toggle.png)
 
----
 
-### View Workflow Execution Logs
+### Execution Logs
 
-Review workflow runs to debug or audit executions.
+NocoDB provides detailed logs for each workflow execution to help monitor and debug workflows.
 
 To view logs:
-- Open the workflow
-- Navigate to the **Runs** or **Logs** section
-- Select a run to view trigger input, node execution status, and outputs
+    - Open the workflow
+    - On the toolbar, click on the **Logs** tab
+    - Select a run to view trigger input, node execution status, and outputs
+
+**Execution list**: View all workflow runs with status and timestamps.
+![Workflow Logs](/img/v2/workflow/logs-1.png)
+
+**Execution summary**: Overview of selected run with trigger details and overall status.
+![Workflow Logs](/img/v2/workflow/logs-2.png)
+
+**Node execution details**: View input, output, and status for each node in the workflow. Select a node to see detailed information.
+![Workflow Logs](/img/v2/workflow/logs-3.png)
 
 ---
 
