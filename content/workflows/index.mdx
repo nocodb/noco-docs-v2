@@ -6,4 +6,90 @@ icon: 'code'
 
 ## Overview
 
-Workflows allow you to automate tasks and processes in NocoDB.
+NocoDB **Workflows** enable you to automate processes by connecting triggers and actions in a visual, no-code interface. Workflows help you react to data changes, schedule tasks, and orchestrate multi-step operations across your NocoDB bases and external systems — without writing custom code.
+
+Workflows are ideal for building repeatable business processes such as notifications, approvals, data synchronization, and periodic maintenance.
+
+<Callout type="info">Workflows are available from the NocoDB Plus plan on the cloud, and with the Enterprise license in self-hosted environments.</Callout>
+
+## Key Features
+
+* **Visual Automation Builder**: Design workflows using trigger and action nodes
+* **Event-Based Triggers**: Run workflows based on record events or schedules
+* **Multi-Step Actions**: Chain multiple actions with clear execution order
+* **Conditional Logic**: Control execution flow using conditions and filters
+* **Database Operations**: Create, update, delete, and query records
+* **Audit Trails**: Track workflow executions and outcomes
+* **Error Visibility**: Monitor execution status and troubleshoot failures
+
+## Getting Started
+
+To create your first workflow:
+
+1. Click on **+ Create New** in the left sidebar
+2. Select **Workflow** from the dropdown menu
+3. Enter a name and description to define the purpose of the workflow
+4. Add a **Trigger** node to determine when the workflow starts
+5. Connect one or more **Action** nodes to define what happens next
+6. Save and enable the workflow to make it active
+
+## Workflow Structure
+
+A typical NocoDB workflow consists of:
+
+### Trigger
+
+A **Trigger** defines when the workflow runs. Each workflow must have exactly one trigger.
+
+Trigger types include:
+
+* **When manually triggered**
+* **At scheduled time**
+* **On record create**
+* **On record update**
+* **On record delete**
+* **On form submission**
+* **On record match (conditions-based)**
+* **ON record entering view**
+
+### Actions
+
+**Actions** define the operations performed after the trigger fires. Actions execute sequentially in the order they are connected.
+
+Examples:
+
+* Create, update or delete records
+* Send emails
+* Send notifications
+* Call external APIs _< coming soon >_
+* Run scripts _< coming soon >_
+
+### Flow Control
+
+Flow control nodes allow you to control execution flow by evaluating field values or runtime data before proceeding to the next action.
+
+## Core Concepts
+
+* **Workflow**: A container that defines automation logic
+* **Trigger Node**: Starting point of the workflow
+* **Action Node**: An operation executed as part of the workflow
+* **Execution Context**: Runtime data passed between nodes
+* **Sequential Execution**: Actions run in a defined order
+* **Manual vs Automated Runs**: Support for both on-demand and event-based execution
+* **Status & Logs**: Visibility into workflow runs and failures
+
+## When to Use Workflows
+
+Use workflows when you need to:
+
+* Automate repetitive data operations
+* React to changes in table records
+* Schedule routine jobs
+* Integrate NocoDB with external tools
+* Enforce business processes consistently
+
+For complex logic, custom data processing, or advanced integrations, workflows can be combined with **Scripts** to extend automation capabilities.
+
+---
+
+
