@@ -1,0 +1,26 @@
+---
+title: 'Record matches condition'
+description: 'Trigger workflows when records meet specific conditions in NocoDB.'
+tags: ['Workflow', 'Trigger', 'Record']
+keywords: ['record matches condition trigger', 'conditional workflow']
+---
+
+Triggers a workflow when a record (created or updated) meets defined conditions in a selected table. This allows for automated actions based on specific data criteria being fulfilled. The matched record data is available in the workflow context for further processing.
+
+### Configuration
+- **Table**: Select the target table to monitor
+- **Filter**: Define the criteria that records must meet to trigger the workflow. You can set multiple conditions using logical operators (AND/OR). You can also create filter-groups for complex conditions.
+
+![Record Matches Condition Trigger Configuration](/img/v2/workflow/nodes/trigger/record-matches-condition.png)
+
+### How it works
+- Trigger evaluates records against defined conditions
+- Fires when a record meets all specified criteria
+- Works for both newly created and updated records
+
+### Use cases
+- Send notifications for high-priority records
+- Auto-assign tasks based on status or priority
+- Update related records when specific conditions are met
+
+---

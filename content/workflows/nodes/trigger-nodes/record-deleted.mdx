@@ -5,31 +5,27 @@ tags: ['Workflow', 'Trigger', 'Record']
 keywords: ['record deleted trigger', 'after delete workflow']
 ---
 
-### When record deleted
-
 Triggers a workflow when one or more records are deleted from a table.
 
----
 
 ### Configuration
 
 - **Table**: Select target table
-- **Event**: After Delete
 
-No conditions are supported.
+![Record Deleted Trigger Configuration](/img/v2/workflow/nodes/trigger/record-deleted.png)
 
----
 
 ### How it works
 
 - Trigger fires after deletion
 - Deleted record data is available in workflow context
-- Batch deletes trigger once per operation
+- Batch deletes trigger individually for each record
 
----
 
 ### Use cases
 
 - Cleanup dependent records
 - Log deletions
 - Notify administrators
+
+---

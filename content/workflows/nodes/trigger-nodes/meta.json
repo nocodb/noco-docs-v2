@@ -5,6 +5,9 @@
     "scheduled",
     "record-created",
     "record-updated",
-    "record-deleted"
+    "record-deleted",
+    "record-matches-condition",
+    "record-created-form",
+    "record-enters-view"
   ]
 }

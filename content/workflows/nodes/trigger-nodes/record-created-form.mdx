@@ -1,0 +1,33 @@
+---
+title: 'Record created via specific form'
+description: 'Trigger workflows when new records are created via a specific form in NocoDB.'
+tags: ['Workflow', 'Trigger', 'Record']
+keywords: ['record created trigger', 'after insert workflow']
+---
+
+Triggers a workflow when a new record is added to a selected table via a specific form in the current base. Inserted record data is available in the workflow context for further processing.
+
+### Configuration
+
+- **Table**: Select table in which the form submits records
+- **Form**: Select the specific form to monitor for new records
+
+![Record Created Form Configuration](/img/v2/workflow/nodes/trigger/record-created-form.png)
+
+
+**Additional options**
+
+To monitor all the records created in the table regardless of the form used, use the [Record created](./record-created) trigger node.
+
+To monitor all the records that enter a specific view after creation, use the [Record enters view](./record-enters-view) trigger node.
+
+### How it works
+
+- Trigger fires immediately after record creation via the selected form
+
+### Use cases
+- Send notifications for new records submitted via a form
+- Auto-create related records based on form submissions
+- Initialize default values for records created through a form
+
+---

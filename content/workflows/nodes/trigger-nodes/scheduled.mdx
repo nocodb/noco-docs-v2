@@ -7,17 +7,22 @@ keywords: ['NocoDB scheduled workflow', 'cron workflow']
 
 ### Scheduled trigger
 
-The **Scheduled Trigger** runs a workflow automatically at defined intervals.
+The **Scheduled Trigger** runs a workflow automatically at defined intervals. It is ideal for tasks that need to occur regularly, regardless of data changes.
 
----
 
 ### Configuration
 
-- **Frequency**: Hourly, Daily, Weekly, or Custom
-- **Time**: Execution time based on workspace timezone
-- **Repeat interval**: Optional (for recurring schedules)
+- **Interval**:
+    - **Every specified minutes** : Run every X minutes (e.g., every 15 minutes)
+    - **Every hour** : Run hourly at a specific minute (e.g., at minute 30)
+    - **Every day** : Run daily at a specific time (e.g., at 2:00 AM)
+    - **Every week** : Run weekly on a specific day and time (e.g., every Monday at 9:00 AM)
+    - **Every month** : Run monthly on a specific date and time (e.g., on the 4th at 12:00 PM)
+- **Time**: Execution time, defaults to browser timezone. Can be set to specific timezone.
+- **Timezone**: Optional (defaults to browser timezone). Not applicable for "Every specified minutes" option.
 
----
+![Scheduled Trigger Configuration](/img/v2/workflow/nodes/trigger/scheduled-config.png)
+
 
 ### How it works
 
@@ -25,10 +30,12 @@ The **Scheduled Trigger** runs a workflow automatically at defined intervals.
 - Runs independently of record changes
 - Executes even if no data has changed
 
----
 
 ### Use cases
 
 - Daily or weekly reports
 - Periodic cleanup tasks
 - Scheduled reminders or checks
+- Build agents that perform regular tasks
+
+---

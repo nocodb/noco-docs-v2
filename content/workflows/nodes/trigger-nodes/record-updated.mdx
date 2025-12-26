@@ -5,31 +5,31 @@ tags: ['Workflow', 'Trigger', 'Record']
 keywords: ['record updated trigger', 'after update workflow']
 ---
 
-### When record updated
+Triggers a workflow when an existing record is modified. The updated record data is available in the workflow context for further processing. You can configure the trigger to respond only to specific field changes.
 
-Triggers a workflow when an existing record is modified.
-
----
 
 ### Configuration
 
 - **Table**: Select target table
-- **Event**: After Update
-- **Conditions**: Optional
-- **Field-level filter**: Optional (trigger only when specific fields change)
+- **Fields to monitor**: Optional; trigger only when specific fields change.
 
----
+![Record Updated Trigger Configuration](/img/v2/workflow/nodes/trigger/record-updated.png)
+
+**Additional options**
+- To add a condition for updates, use trigger [when record matches condition](./record-matches-condition) node.
+- To monitor records that enter a specific view after update, use trigger [when record enters a view](./record-enters-view) node.
+
 
 ### How it works
 
 - Trigger fires after record update
-- Conditions must transition from false → true
 - Field filters limit execution to relevant changes
 
----
 
 ### Use cases
 
 - React to status changes
 - Sync updates across tables
 - Notify stakeholders on critical field changes
+
+---
