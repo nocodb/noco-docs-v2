@@ -1,0 +1,30 @@
+---
+title: 'Send Email'
+description: 'Send emails as part of NocoDB workflows.'
+tags: ['Workflow', 'Action', 'Communication']
+keywords: ['send email action', 'email notification workflow']
+---
+
+The **Send Email** action node in NocoDB workflows enables you to send email notifications as part of an automated process. This node is commonly used to notify users, trigger alerts, or communicate important updates based on workflow events.
+
+<Callout type="info">Email will be sent from `noreply@nocopod.com`.</Callout>
+
+![Send Email Node](/img/v2/workflow/nodes/action/send-email.png)
+
+### Configuration
+- **To**: Specify one or more recipient email addresses. You can use static values or map emails from previous nodes.
+- **Subject**: Define the email subject. Static text and dynamic values from the workflow context are supported.
+- **Body**: Compose the email content. You can include dynamic data by mapping fields from earlier nodes.
+- **CC / BCC**: Optionally add recipients in CC or BCC.
+
+### How it works
+- When the workflow reaches the Send Email node, it composes the email using the configured subject and body.
+- The email is sent to the specified recipients using the configured email service.
+- The workflow continues execution after the email is sent.
+
+### Use cases
+- Notify users when records are created, updated, or deleted.
+- Send approval requests or status updates.
+- Trigger alerts for failures, thresholds, or time-based events.
+
+---

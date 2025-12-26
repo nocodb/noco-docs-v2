@@ -1,86 +1,21 @@
 ---
 title: 'Action'
-description: 'Learn about different node types used to build workflows in NocoDB.'
-tags: ['Workflow', 'Nodes', 'Automation']
-keywords: ['NocoDB workflow nodes', 'trigger node', 'action node', 'flow node']
+description: 'Explore the Action nodes available in NocoDB workflows to perform various operations.'
+tags: ['Workflow', 'Action', 'Node']
+keywords: ['NocoDB workflow action nodes', 'perform actions in workflows']
 ---
 
-### What are nodes?
+In NocoDB workflows, **Action Nodes** are crucial components that perform specific operations or tasks as part of the workflow execution. These nodes enable you to manipulate data, send notifications, and integrate with other services, allowing for robust automation capabilities.
 
-Nodes are the building blocks of a workflow in NocoDB. Each node represents a specific step in the automation—such as starting the workflow, performing an action, or controlling the execution flow. Nodes are connected together to define how data moves and how actions are executed.
+## Types of Action Nodes
+NocoDB provides several Action Nodes to facilitate different operations within your workflows:
+- **Create Record**: This node allows you to create a new record in a specified table. You can map data from previous nodes to the fields of the new record.
+- **Update Record**: This node enables you to update an existing record in a specified table. You can select the record to update based on its ID and map new values to its fields.
+- **Delete Record**: This node allows you to delete a record from a specified table based on its ID.
+- **Find Record**: This node lets you search for records in a specified table based on defined criteria. You can use filters to narrow down the search results and retrieve specific records.
+- **List Records**: This node retrieves one or more records from a specified table. You can apply filters to get a subset of records that meet certain conditions.
+- **Send Email**: This node enables you to send email notifications as part of your workflow. You can configure the recipient, subject, and body of the email, and include dynamic data from previous nodes.
 
-Every workflow is created by combining different node types in a logical sequence.
-
----
-
-### Types of nodes
-
-NocoDB workflows support the following node categories:
-
----
-
-### Trigger node
-
-The **Trigger node** defines **when** a workflow starts.
-Every workflow must have exactly one trigger node.
-
-Common trigger types include:
-- **Record trigger** – Runs on record insert, update, or delete
-- **Manual trigger** – Runs when triggered manually by a user
-- **Button trigger** – Runs when a button field is clicked
-- **Webhook trigger** – Runs when an external system calls a webhook
-
-The trigger node produces the initial input data that is passed to subsequent nodes.
+These Action Nodes empower you to build complex workflows that automate various tasks and processes within NocoDB, enhancing productivity and efficiency.
 
 ---
-
-### Action node
-
-The **Action node** defines **what** the workflow does after it is triggered.
-A workflow can contain one or more action nodes.
-
-Common action nodes include:
-- **HTTP Request** – Call external APIs
-- **Run Script** – Execute custom JavaScript
-- **Create Record** – Insert a new record into a table
-- **Update Record** – Update existing records
-- **Send Notification** – Notify users or systems
-
-Each action node receives input from the previous node and can pass its output to the next node.
-
----
-
-### Flow node
-
-The **Flow node** controls **how** the workflow executes.
-It is used to introduce logic and branching into workflows.
-
-Typical use cases:
-- Conditional execution (if / else)
-- Multiple execution paths
-- Controlling order of execution
-
-Flow nodes do not perform actions themselves; they decide which path the workflow should follow.
-
----
-
-### Connecting nodes
-
-Nodes are connected using directional connectors:
-- Data flows from the trigger node to action and flow nodes
-- Each connection defines execution order
-- Outputs from one node become inputs to the next node
-
-Well-connected nodes ensure predictable and maintainable workflows.
-
----
-
-### Node execution order
-
-1. Workflow starts at the **Trigger node**
-2. Nodes execute sequentially based on connections
-3. Flow nodes determine branching, if configured
-4. Workflow completes after the last connected node finishes execution
-
----
-

@@ -1,0 +1,27 @@
+---
+title: 'Update Record'
+description: 'Update existing records in NocoDB tables as part of your workflows.'
+tags: ['Workflow', 'Action', 'Record']
+keywords: ['update record action', 'modify record workflow']
+---
+
+The **Update Record** action node in NocoDB workflows enables you to modify existing records in a selected table as part of an automated workflow. This node is useful when workflows need to change data based on conditions, inputs, or outputs from earlier steps.
+
+![Update Record Node](/img/v2/workflow/nodes/action/update-record.png)
+
+### Configuration
+- **Table**: Select the table that contains the record to be updated.
+- **Record ID**: Specify ID of the record to update. You can reference a record ID from a previous node or dynamically map it from the workflow context.
+- **Fields**: Use **Add Field** to define the fields and their new values. Values can be static or mapped from outputs of earlier nodes.
+
+### How it works
+- When the workflow reaches the Update Record node, it identifies the target record in the selected table.
+- The specified fields are updated with the provided values.
+- Updated record data is made available for use in subsequent workflow nodes.
+
+### Use cases
+- Update record status based on workflow conditions or approvals.
+- Modify records using data fetched from external systems or APIs.
+- Keep records in sync across related tables during multi-step workflows.
+
+---
