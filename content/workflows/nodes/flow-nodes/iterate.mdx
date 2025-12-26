@@ -1,0 +1,26 @@
+---
+title: 'Iterate'
+description: 'Learn how to use the Iterate node in NocoDB workflows to process multiple items individually.'
+tags: ['Workflow', 'Node', 'Iterator']
+keywords: ['NocoDB iterate node', 'workflow iterator', 'process multiple items']
+---
+
+The **Iterate** node in NocoDB workflows allows you to loop through a list of items (array) and execute a set of actions for each item individually. This is particularly useful for processing multiple records or data entries in a batch.
+
+![Iterate Node](/img/v2/workflow/nodes/flow/iterate.png)
+
+### Configuration
+- **List**: Specify the array of items you want to iterate over. This can be sourced from previous nodes in the workflow.
+
+### How It Works
+- Iterate node accepts an input array and processes each item sequentially.
+- For every item in the array, the workflow runs the actions defined in the **For each item** branch, enabling item-level handling.
+- Once the **For each item** branch has completed execution for all items, the workflow proceeds through the **After iterate** branch.
+
+
+### Use cases
+- Sending personalized emails to a list of contacts
+- Updating multiple records in a database
+- Generating reports for each item in a dataset
+
+---

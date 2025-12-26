@@ -1,0 +1,25 @@
+---
+title: 'If-else'
+description: 'Use the If-else node to create conditional branches in your NocoDB workflows.'
+tags: ['Workflow', 'Nodes', 'Flow']
+keywords: ['NocoDB if-else node', 'conditional workflow', 'workflow branching']
+---
+
+The **If-else** node in NocoDB workflows allows you to create conditional branches based on specified criteria. This node evaluates a condition and directs the workflow to different paths depending on whether the condition is met (true) or not (false).
+
+![If-else Node](/img/v2/workflow/nodes/flow/if-else.png)
+
+### Configuration
+- **Conditions**: Define the criteria that will be evaluated. You can use one or more conditions combined with logical operators (AND/OR). You can also create filter-groups for complex conditions. The conditions can be based on data from previous nodes in the workflow.
+
+### How it works
+- The If-else node evaluates the defined conditions.
+- If the conditions are met (true), the workflow follows the if "True" branch.
+- If the conditions are not met (false), the workflow follows the if "False" branch.
+
+### Use cases
+- Send different notifications based on record status
+- Update records differently based on specific criteria
+- Route tasks to different teams based on priority levels
+
+---
