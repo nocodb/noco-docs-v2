@@ -10,8 +10,8 @@ import {
   SearchDialogOverlay,
   type SharedProps,
 } from "fumadocs-ui/components/dialog/search";
-import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import type { Client } from "typesense";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { useTypesenseSearch } from "@/utils/search/use-typesense-search";
@@ -39,14 +39,19 @@ function TypesenseSearchDialog({
 
   // Determine filter based on current path
   const getPathBasedTag = (path: string) => {
-    if (path.startsWith('/docs/product-docs')) {
-      return 'product-docs';
-    } else if (path.startsWith('/docs/scripts')) {
-      return 'scripts';
-    } else if (path.startsWith('/docs/self-hosting')) {
-      return 'self-hosting';
+    if (path.startsWith("/docs/product-docs")) {
+      return "product-docs";
     }
-    return undefined;
+    if (path.startsWith("/docs/scripts")) {
+      return "scripts";
+    }
+    if (path.startsWith("/docs/self-hosting")) {
+      return "self-hosting";
+    }
+    if (path.startsWith("/docs/workflows")) {
+      return "workflows";
+    }
+    return;
   };
 
   const { search, setSearch, query } = useTypesenseSearch(
@@ -124,56 +129,72 @@ function TypesenseSearchDialog({
             />
             <SearchDialogClose />
           </SearchDialogHeader>
-          <div className="px-4 py-3 border-b-1 border-nc-border-grey-medium">
+          <div className="border-nc-border-grey-medium border-b-1 px-4 py-3">
             <div className="flex flex-wrap gap-2">
               <button
-                onClick={() => setTag(undefined)}
-                className={`px-3 py-1 text-sm rounded-full transition-colors ${
-                  !tag
-                    ? 'bg-nc-background-brand text-nc-content-brand-default border border-nc-border-brand'
-                    : 'bg-nc-background-grey-light text-nc-content-grey-subtle hover:bg-nc-background-grey-medium'
+                className={`rounded-full px-3 py-1 text-sm transition-colors ${
+                  tag
+                    ? "bg-nc-background-grey-light text-nc-content-grey-subtle hover:bg-nc-background-grey-medium"
+                    : "border border-nc-border-brand bg-nc-background-brand text-nc-content-brand-default"
                 }`}
+                onClick={() => setTag(undefined)}
+                type="button"
               >
                 All
               </button>
               <button
-                onClick={() => setTag('product-docs')}
-                className={`px-3 py-1 text-sm rounded-full transition-colors ${
-                  tag === 'product-docs'
-                    ? 'bg-nc-background-brand text-nc-content-brand-default border border-nc-border-brand'
-                    : 'bg-nc-background-grey-light text-nc-content-grey-subtle hover:bg-nc-background-grey-medium'
+                className={`rounded-full px-3 py-1 text-sm transition-colors ${
+                  tag === "product-docs"
+                    ? "border border-nc-border-brand bg-nc-background-brand text-nc-content-brand-default"
+                    : "bg-nc-background-grey-light text-nc-content-grey-subtle hover:bg-nc-background-grey-medium"
                 }`}
+                onClick={() => setTag("product-docs")}
               >
                 Product Docs
               </button>
               <button
-                onClick={() => setTag('scripts')}
-                className={`px-3 py-1 text-sm rounded-full transition-colors ${
-                  tag === 'scripts'
-                    ? 'bg-nc-background-brand text-nc-content-brand-default border border-nc-border-brand'
-                    : 'bg-nc-background-grey-light text-nc-content-grey-subtle hover:bg-nc-background-grey-medium'
+                className={`rounded-full px-3 py-1 text-sm transition-colors ${
+                  tag === "scripts"
+                    ? "border border-nc-border-brand bg-nc-background-brand text-nc-content-brand-default"
+                    : "bg-nc-background-grey-light text-nc-content-grey-subtle hover:bg-nc-background-grey-medium"
                 }`}
+                onClick={() => setTag("scripts")}
+                type="button"
               >
                 Scripts
               </button>
               <button
-                onClick={() => setTag('self-hosting')}
-                className={`px-3 py-1 text-sm rounded-full transition-colors ${
-                  tag === 'self-hosting'
-                    ? 'bg-nc-background-brand text-nc-content-brand-default border border-nc-border-brand'
-                    : 'bg-nc-background-grey-light text-nc-content-grey-subtle hover:bg-nc-background-grey-medium'
+                className={`rounded-full px-3 py-1 text-sm transition-colors ${
+                  tag === "workflows"
+                    ? "border border-nc-border-brand bg-nc-background-brand text-nc-content-brand-default"
+                    : "bg-nc-background-grey-light text-nc-content-grey-subtle hover:bg-nc-background-grey-medium"
                 }`}
+                onClick={() => setTag("workflows")}
+                type="button"
+              >
+                Workflows
+              </button>
+              <button
+                className={`rounded-full px-3 py-1 text-sm transition-colors ${
+                  tag === "self-hosting"
+                    ? "border border-nc-border-brand bg-nc-background-brand text-nc-content-brand-default"
+                    : "bg-nc-background-grey-light text-nc-content-grey-subtle hover:bg-nc-background-grey-medium"
+                }`}
+                onClick={() => setTag("self-hosting")}
+                type="button"
               >
                 Self-Hosting
               </button>
             </div>
           </div>
           {tag && (
-            <div className="px-4 py-2 text-sm text-nc-content-grey-muted border-b-1 border-x-1 border-nc-border-grey-medium">
-              Searching about: <span className="font-medium text-nc-content-grey-default">
-                {tag === 'product-docs' && 'Product'}
-                {tag === 'scripts' && 'Scripts'}
-                {tag === 'self-hosting' && 'Self-Hosting'}
+            <div className="border-nc-border-grey-medium border-x-1 border-b-1 px-4 py-2 text-nc-content-grey-muted text-sm">
+              Searching about:{" "}
+              <span className="font-medium text-nc-content-grey-default">
+                {tag === "product-docs" && "Product"}
+                {tag === "scripts" && "Scripts"}
+                {tag === "workflows" && "Workflows"}
+                {tag === "self-hosting" && "Self-Hosting"}
               </span>
             </div>
           )}

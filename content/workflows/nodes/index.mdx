@@ -1,0 +1,86 @@
+---
+title: 'Nodes'
+description: 'Learn about different node types used to build workflows in NocoDB.'
+tags: ['Workflow', 'Nodes', 'Automation']
+keywords: ['NocoDB workflow nodes', 'trigger node', 'action node', 'flow node']
+---
+
+### What are nodes?
+
+Nodes are the building blocks of a workflow in NocoDB. Each node represents a specific step in the automation—such as starting the workflow, performing an action, or controlling the execution flow. Nodes are connected together to define how data moves and how actions are executed.
+
+Every workflow is created by combining different node types in a logical sequence.
+
+---
+
+### Types of nodes
+
+NocoDB workflows support the following node categories:
+
+---
+
+### Trigger node
+
+The **Trigger node** defines **when** a workflow starts.
+Every workflow must have exactly one trigger node.
+
+Common trigger types include:
+- **Record trigger** – Runs on record insert, update, or delete
+- **Manual trigger** – Runs when triggered manually by a user
+- **Button trigger** – Runs when a button field is clicked
+- **Webhook trigger** – Runs when an external system calls a webhook
+
+The trigger node produces the initial input data that is passed to subsequent nodes.
+
+---
+
+### Action node
+
+The **Action node** defines **what** the workflow does after it is triggered.
+A workflow can contain one or more action nodes.
+
+Common action nodes include:
+- **HTTP Request** – Call external APIs
+- **Run Script** – Execute custom JavaScript
+- **Create Record** – Insert a new record into a table
+- **Update Record** – Update existing records
+- **Send Notification** – Notify users or systems
+
+Each action node receives input from the previous node and can pass its output to the next node.
+
+---
+
+### Flow node
+
+The **Flow node** controls **how** the workflow executes.
+It is used to introduce logic and branching into workflows.
+
+Typical use cases:
+- Conditional execution (if / else)
+- Multiple execution paths
+- Controlling order of execution
+
+Flow nodes do not perform actions themselves; they decide which path the workflow should follow.
+
+---
+
+### Connecting nodes
+
+Nodes are connected using directional connectors:
+- Data flows from the trigger node to action and flow nodes
+- Each connection defines execution order
+- Outputs from one node become inputs to the next node
+
+Well-connected nodes ensure predictable and maintainable workflows.
+
+---
+
+### Node execution order
+
+1. Workflow starts at the **Trigger node**
+2. Nodes execute sequentially based on connections
+3. Flow nodes determine branching, if configured
+4. Workflow completes after the last connected node finishes execution
+
+---
+

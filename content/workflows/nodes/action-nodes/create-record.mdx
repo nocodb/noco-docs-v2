@@ -1,0 +1,25 @@
+---
+title: 'Create Record'
+description: 'Create new records in NocoDB tables as part of your workflows.'
+tags: ['Workflow', 'Action', 'Record']
+keywords: ['create record action', 'insert record workflow']
+---
+
+The **Create Record** action node in NocoDB workflows allows you to create new records in a specified table as part of your automated processes. This node is essential for adding data dynamically based on the workflow's logic and inputs.
+
+![Create Record Node](/img/v2/workflow/nodes/action/create-record.png)
+
+### Configuration
+- **Table**: Select the target table where the new record will be created.
+- **Fields**: Use **Add Field** to specify the fields and their corresponding values for the new record. You can use static values or map data from previous nodes in the workflow.
+
+### How it works
+- When the workflow reaches the Create Record node, it generates a new record in the selected table using the defined field values.
+- The newly created record's data can be used in subsequent nodes within the workflow.
+
+### Use cases
+- Automatically add new entries based on user input or external data sources.
+- Create related records in different tables as part of a multi-step process.
+- Populate logs or audit trails with new records whenever specific actions occur in the workflow.
+
+---

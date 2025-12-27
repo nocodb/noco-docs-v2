@@ -13,6 +13,10 @@ const selfHostedContent = fs.readFileSync(
   ".next/server/app/docs/self-hosting/static.json.body"
 );
 
+const workflowsContent = fs.readFileSync(
+  ".next/server/app/docs/workflows/static.json.body"
+);
+
 const productRecords = JSON.parse(
   productContent.toString()
 ) as DocumentRecord[];
@@ -22,18 +26,41 @@ const scriptsRecords = JSON.parse(
 const selfHostedRecords = JSON.parse(
   selfHostedContent.toString()
 ) as DocumentRecord[];
+const workflowsRecords = JSON.parse(
+  workflowsContent.toString()
+) as DocumentRecord[];
 
 // Add path-based tags to documents
-const addPathTags = (records: DocumentRecord[], pathPrefix: string, tag: string) => {
-  return records.map(record => ({
+const addPathTags = (
+  records: DocumentRecord[],
+  pathPrefix: string,
+  tag: string
+) =>
+  records.map((record) => ({
     ...record,
-    tag: record.tag ? `${record.tag},${tag}` : tag
+    tag: record.tag ? `${record.tag},${tag}` : tag,
   }));
-};
 
-const taggedProductRecords = addPathTags(productRecords, '/docs/product-docs', 'product-docs');
-const taggedScriptsRecords = addPathTags(scriptsRecords, '/docs/scripts', 'scripts');
-const taggedSelfHostedRecords = addPathTags(selfHostedRecords, '/docs/self-hosting', 'self-hosting');
+const taggedProductRecords = addPathTags(
+  productRecords,
+  "/docs/product-docs",
+  "product-docs"
+);
+const taggedScriptsRecords = addPathTags(
+  scriptsRecords,
+  "/docs/scripts",
+  "scripts"
+);
+const taggedSelfHostedRecords = addPathTags(
+  selfHostedRecords,
+  "/docs/self-hosting",
+  "self-hosting"
+);
+const taggedWorkflowsRecords = addPathTags(
+  workflowsRecords,
+  "/docs/workflows",
+  "workflows"
+);
 
 if (!process.env?.TYPE_SENSE_ADMIN_API) {
   console.error(
@@ -57,5 +84,10 @@ const collectionName = "noco-docs-v2";
 
 sync(client, {
   collection: collectionName,
-  documents: [...taggedProductRecords, ...taggedSelfHostedRecords, ...taggedScriptsRecords],
+  documents: [
+    ...taggedProductRecords,
+    ...taggedSelfHostedRecords,
+    ...taggedScriptsRecords,
+    ...taggedWorkflowsRecords,
+  ],
 });

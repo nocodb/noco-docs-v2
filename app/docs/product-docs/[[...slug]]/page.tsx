@@ -5,9 +5,9 @@ import { TOCProvider, TOCScrollArea } from "fumadocs-ui/components/layout/toc";
 import ClerkTOCItems from "fumadocs-ui/components/layout/toc-clerk";
 import { PageTOC } from "fumadocs-ui/layouts/docs/page";
 import { DocsBody, DocsDescription, DocsTitle } from "fumadocs-ui/page";
-import { notFound } from "next/navigation";
-import Link from "next/link";
 import { Tag } from "lucide-react";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 import TOCMobile from "@/components/layout/TOCMobile";
 import MdxLink from "@/components/mdx/MdxLink";
 import { source } from "@/lib/source";
@@ -46,23 +46,23 @@ export default async function Page(props: {
               })}
             />
           </DocsBody>
-          
+
           {tags && tags.length > 0 && (
             <div className="flex flex-wrap items-center gap-2 pt-2">
               <Tag className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">Tags:</span>
+              <span className="text-muted-foreground text-sm">Tags:</span>
               {tags.map((tag) => (
                 <Link
-                  key={tag}
+                  className="inline-flex items-center rounded-md border border-nc-border-grey-light bg-nc-background-default px-2.5 py-0.5 font-medium text-sm transition-colors hover:border-nc-border-grey hover:bg-nc-background-grey-light hover:text-nc-content-brand"
                   href={`/docs/tags/${tag.toLowerCase().replace(/\s+/g, "-")}`}
-                  className="inline-flex items-center rounded-md border border-nc-border-grey-light bg-nc-background-default px-2.5 py-0.5 text-sm font-medium transition-colors hover:border-nc-border-grey hover:bg-nc-background-grey-light hover:text-nc-content-brand"
+                  key={tag}
                 >
                   {tag}
                 </Link>
               ))}
             </div>
           )}
-          
+
           <Cards>
             {getPageTreePeers(source.pageTree, page.url)
               .slice(0, 2)

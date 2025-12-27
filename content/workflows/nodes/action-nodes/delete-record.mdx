@@ -1,0 +1,26 @@
+---
+title: 'Delete Record'
+description: 'Delete existing records in NocoDB tables as part of your workflows.'
+tags: ['Workflow', 'Action', 'Record']
+keywords: ['delete record action', 'remove record workflow']
+---
+
+The **Delete Record** action node in NocoDB workflows allows you to permanently remove existing records from a selected table as part of an automated workflow. This node is useful for cleanup operations, enforcing data retention policies, or removing records that no longer meet defined conditions.
+
+![Delete Record Node](/img/v2/workflow/nodes/action/delete-record.png)
+
+### Configuration
+- **Table**: Select the table that contains the record to be deleted.
+- **Record ID**: Specify the record to delete. You can reference a record ID from a previous node or dynamically map it from the workflow context.
+
+### How it works
+- When the workflow reaches the Delete Record node, it identifies the specified record in the selected table.
+- The record is permanently deleted from the table.
+- The workflow then continues execution to subsequent nodes.
+
+### Use cases
+- Automatically remove obsolete or expired records.
+- Delete records that fail validation or business rules.
+- Enforce data lifecycle and retention policies through automated workflows.
+
+---

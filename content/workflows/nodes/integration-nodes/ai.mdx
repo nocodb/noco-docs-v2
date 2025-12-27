@@ -1,0 +1,55 @@
+---
+title: 'AI'
+description: 'Use AI to generate text or structured data within NocoDB workflows.'
+tags: ['Workflow', 'Integration', 'AI']
+keywords: ['AI integration node', 'generate text workflow', 'generate structured data workflow']
+---
+
+The **AI Integration** node in NocoDB workflows allows you to leverage AI models to generate content or structured outputs as part of an automated process. This node is commonly used to enrich records, transform inputs, summarize data, or generate field-ready outputs using context from previous workflow steps.
+
+AI Integration nodes are available under **Integrations → Generate with AI** and support both free-form text generation and structured data generation.
+
+![AI Integration Node](/img/v2/workflow/nodes/integration/generate-with-text.png)
+
+## Generate text
+The **Generate text** option produces unstructured textual output based on a prompt and inputs provided from earlier nodes.
+
+### Configuration
+- **Prompt**: Define the instruction for the AI. You can reference dynamic values such as record fields or outputs from previous nodes.
+- **AI Integration**: Select the AI provider used for generation. Refer to [Integrations](/docs/product-docs/integrations/create-connection) for setup instructions. You will be required to add at least one AI integration to use this feature.
+- **Model**: Choose the model used to generate the response. List of available models depends on the selected AI provider when you set up the integration.
+- **Temperature (Randomness)**: Optional. Control creativity of the output. Lower values produce more deterministic responses; higher values generate more varied results.
+
+### How it works
+- When the workflow reaches this node, the prompt is constructed using the configured text and dynamic inputs.
+- The AI model generates a textual response based on the prompt.
+- The generated text can be mapped to subsequent nodes, stored in fields, or used in notifications.
+
+### Use cases
+- Generate summaries, descriptions, or notes for records.
+- Create personalized messages or explanations.
+- Transform raw input into readable text.
+
+---
+
+## Generate structured data
+The **Generate structured data** option generates AI output in a structured format, making it suitable for direct mapping to table fields or further processing in workflows.
+
+### Configuration
+- **Prompt**: Specify instructions describing the required output structure.
+- **Output schema**: Define the expected fields and data types for the AI-generated output.
+- **AI Integration**: Select the AI provider used for generation. Refer to [Integrations](/docs/product-docs/integrations/create-connection) for setup instructions. You will be required to add at least one AI integration to use this feature.
+- **Model**: Choose the model used to generate the structured response.
+- **Temperature (Randomness)**: Optional. Control consistency versus variability of the generated data.
+
+### How it works
+- The workflow provides context and instructions to the AI along with the defined output schema.
+- The AI generates data that conforms to the specified structure.
+- Each generated field can be mapped directly to table columns or used by subsequent workflow nodes.
+
+### Use cases
+- Extract structured information from unstructured text.
+- Auto-fill multiple fields based on a single input.
+- Classify, categorize, or normalize incoming data.
+
+---

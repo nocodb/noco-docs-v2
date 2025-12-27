@@ -1,0 +1,4 @@
+{
+  "title": "Action",
+  "pages": ["create-record", "update-record", "delete-record", "send-email"]
+}

@@ -1,0 +1,29 @@
+---
+title: 'Gmail'
+description: 'Send emails using Gmail as part of NocoDB workflows.'
+tags: ['Workflow', 'Integration', 'Communication']
+keywords: ['gmail integration workflow', 'send email via gmail']
+---
+
+The **Gmail** integration node in NocoDB workflows enables you to send emails through a connected Gmail account. This node is ideal for personalized communication, confirmations, and automated follow-ups using workflow data.
+
+![Gmail Send Email Node](/img/v2/workflow/nodes/integration/gmail-send-email.png)
+
+### Configuration
+- **Gmail Account**: Select the connected Gmail account used to send emails. Refer to [Integrations](/docs/product-docs/integrations/create-connection) for setup instructions. You will be required to add at least one Gmail integration to use this feature.
+- **To**: Specify one or more recipient email addresses. Multiple addresses can be separated using commas.
+- **Subject**: Define the email subject. Supports static text and dynamic values from the workflow context.
+- **Message**: Compose the email body. You can insert dynamic fields from previous nodes.
+
+### How it works
+- When the workflow reaches the Gmail node, it composes the email using the configured subject and message.
+- Dynamic values are resolved before sending.
+- The email is sent via the selected Gmail account.
+- The workflow continues execution after the email is sent.
+
+### Use cases
+- Send welcome or onboarding emails.
+- Notify users about workflow-driven events or updates.
+- Deliver personalized messages based on record data or AI-generated content.
+
+---

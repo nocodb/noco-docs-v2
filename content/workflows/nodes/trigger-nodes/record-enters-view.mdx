@@ -1,0 +1,29 @@
+---
+title: 'Record enters a view'
+description: 'Trigger workflows when records enter a specific view in NocoDB.'
+tags: ['Workflow', 'Trigger', 'Record']
+keywords: ['record enters view trigger', 'after update workflow']
+---
+
+Triggers a workflow when a record enters a specified view after being created or updated. The record data is available in the workflow context for further processing. The filters in the view determine which records trigger the workflow.
+
+### Configuration
+- **Table**: Select target table
+- **View**: Select the specific view to monitor for records entering
+
+![Record Enters View Configuration](/img/v2/workflow/nodes/trigger/record-enters-view.png)
+
+**Additional options**
+- To monitor all records created in a table, use the [Record created](./record-created) trigger node.
+- To monitor all records updated in a table, use the [Record updated](./record-updated) trigger node.
+
+### How it works
+- Trigger fires after record creation or update
+- View filters determine which records trigger the workflow
+
+### Use cases
+- Send notifications when records meet specific criteria
+- Auto-update related records based on view conditions
+- Generate reports for records entering a view
+
+---

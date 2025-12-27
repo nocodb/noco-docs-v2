@@ -68,6 +68,15 @@ export const legalDocs = defineDocs({
   },
 });
 
+export const workflowDocs = defineDocs({
+  dir: "content/workflows",
+  docs: {
+    postprocess: {
+      includeProcessedMarkdown: true,
+    },
+  },
+});
+
 export default defineConfig({
   mdxOptions: {
     remarkPlugins: [remarkAdmonition],

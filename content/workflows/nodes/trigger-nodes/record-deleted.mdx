@@ -1,0 +1,31 @@
+---
+title: 'Record deleted'
+description: 'Trigger workflows when records are deleted in NocoDB.'
+tags: ['Workflow', 'Trigger', 'Record']
+keywords: ['record deleted trigger', 'after delete workflow']
+---
+
+Triggers a workflow when one or more records are deleted from a table.
+
+
+### Configuration
+
+- **Table**: Select target table
+
+![Record Deleted Trigger Configuration](/img/v2/workflow/nodes/trigger/record-deleted.png)
+
+
+### How it works
+
+- Trigger fires after deletion
+- Deleted record data is available in workflow context
+- Batch deletes trigger individually for each record
+
+
+### Use cases
+
+- Cleanup dependent records
+- Log deletions
+- Notify administrators
+
+---

@@ -1,0 +1,13 @@
+{
+  "title": "Trigger",
+  "pages": [
+    "manual",
+    "scheduled",
+    "record-created",
+    "record-updated",
+    "record-deleted",
+    "record-matches-condition",
+    "record-created-form",
+    "record-enters-view"
+  ]
+}
