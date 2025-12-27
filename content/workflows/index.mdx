@@ -1,95 +1,238 @@
 ---
-title: 'Workflows'
-description: 'NocoDB Workflows Documentation'
-icon: 'code'
+title: 'Workflow ☁'
+description: 'Learn about automation workflows in NocoDB.'
+tags: ['Automation', 'Workflow']
+keywords: ['NocoDB workflow', 'NocoDB automation', 'NocoDB workflow guide', 'NocoDB automation features']
 ---
 
-## Overview
+**Workflows** in NocoDB enable you to automate repetitive tasks and streamline your processes. By setting up workflows, you can trigger actions based on specific events or conditions within your base. Each automation starts with a trigger and executes one or more actions, optionally controlled by flow logic such as if / else condition or an iteration.
 
-NocoDB **Workflows** enable you to automate processes by connecting triggers and actions in a visual, no-code interface. Workflows help you react to data changes, schedule tasks, and orchestrate multi-step operations across your NocoDB bases and external systems — without writing custom code.
+<Callout type="note">Workflows are currently in **beta** release & are available on NocoDB Cloud and on-premise licensed deployments.</Callout>
 
-Workflows are ideal for building repeatable business processes such as notifications, approvals, data synchronization, and periodic maintenance.
+![Example flow](/img/v2/workflow/example-1.png)
 
-<Callout type="info">Workflows are available from the NocoDB Plus plan on the cloud, and with the Enterprise license in self-hosted environments.</Callout>
+A workflow consists of the following building blocks:
 
-## Key Features
+1. **Trigger node** – Defines `when` the automation runs
+2. **Action nodes** – Defines `what` happens when the automation runs
+3. **Flow nodes** – Defines `how` actions are executed (conditional logic, iteration)
 
-* **Visual Automation Builder**: Design workflows using trigger and action nodes
-* **Event-Based Triggers**: Run workflows based on record events or schedules
-* **Multi-Step Actions**: Chain multiple actions with clear execution order
-* **Conditional Logic**: Control execution flow using conditions and filters
-* **Database Operations**: Create, update, delete, and query records
-* **Audit Trails**: Track workflow executions and outcomes
-* **Error Visibility**: Monitor execution status and troubleshoot failures
+## Trigger Node
 
-## Getting Started
+A **Trigger** determines when an automation starts. Each automation must have exactly one trigger.
 
-To create your first workflow:
 
-1. Click on **+ Create New** in the left sidebar
-2. Select **Workflow** from the dropdown menu
-3. Enter a name and description to define the purpose of the workflow
-4. Add a **Trigger** node to determine when the workflow starts
-5. Connect one or more **Action** nodes to define what happens next
-6. Save and enable the workflow to make it active
+### When manually triggered
 
-## Workflow Structure
+Runs the automation only when triggered manually by a user.
+Useful for testing workflows or running one-off operations.
 
-A typical NocoDB workflow consists of:
 
-### Trigger
+### At scheduled time
 
-A **Trigger** defines when the workflow runs. Each workflow must have exactly one trigger.
+Runs the automation on a fixed schedule.
 
-Trigger types include:
+**Use cases**
 
-* **When manually triggered**
-* **At scheduled time**
-* **On record create**
-* **On record update**
-* **On record delete**
-* **On form submission**
-* **On record match (conditions-based)**
-* **ON record entering view**
+* Daily or weekly reports
+* Periodic data cleanup
+* Scheduled reminders
 
-### Actions
 
-**Actions** define the operations performed after the trigger fires. Actions execute sequentially in the order they are connected.
+### When record created
 
-Examples:
+Triggers when a new record is added to a selected table.
 
-* Create, update or delete records
-* Send emails
-* Send notifications
-* Call external APIs _< coming soon >_
-* Run scripts _< coming soon >_
+**Use cases**
 
-### Flow Control
+* Send notifications for new entries
+* Auto-create related records
+* Initialize default values
 
-Flow control nodes allow you to control execution flow by evaluating field values or runtime data before proceeding to the next action.
 
-## Core Concepts
+### When record updated
 
-* **Workflow**: A container that defines automation logic
-* **Trigger Node**: Starting point of the workflow
-* **Action Node**: An operation executed as part of the workflow
-* **Execution Context**: Runtime data passed between nodes
-* **Sequential Execution**: Actions run in a defined order
-* **Manual vs Automated Runs**: Support for both on-demand and event-based execution
-* **Status & Logs**: Visibility into workflow runs and failures
+Triggers when an existing record is modified.
 
-## When to Use Workflows
+**Use cases**
 
-Use workflows when you need to:
+* React to status changes
+* Sync updates across tables
+* Notify stakeholders on field changes
 
-* Automate repetitive data operations
-* React to changes in table records
-* Schedule routine jobs
-* Integrate NocoDB with external tools
-* Enforce business processes consistently
 
-For complex logic, custom data processing, or advanced integrations, workflows can be combined with **Scripts** to extend automation capabilities.
+### When record deleted
+
+Triggers when a record is removed from a table.
+
+**Use cases**
+
+* Cleanup dependent records
+* Log deletions
+* Notify administrators
+
+
+### When form submitted
+
+Triggers when a form view connected to a table is submitted.
+
+**Use cases**
+
+* Lead capture workflows
+* Support request handling
+* Survey response processing
+
+
+### When record enters a view
+
+Triggers when a record appears in a specific view for the first time. The view’s filters define the trigger condition.
+
+**Use cases**
+
+* Workflow stages
+* Approval pipelines
+* Task readiness detection
+
+
+### When record matches conditions
+
+Triggers when a record meets defined conditions. The conditions can be based on any field values in the record.
+
+**Use cases**
+
+* Rule-based automations
+* SLA breaches
+* Conditional alerts
+
+
+## Action Nodes
+
+Actions define what the automation does after the trigger fires. Multiple actions can be chained together. Actions execute sequentially in the order they are connected.
+
+
+### Record Actions
+
+#### Create record
+
+Creates a new record in a specified table. The fields of the new record can be set using static values or data from previous actions.
+
+**Use cases**
+
+* Create follow-up tasks
+* Insert audit logs
+* Sync data across tables
+
+
+#### Update record
+
+Updates one or more fields in an existing record. The fields to update can be set using static values or data from previous actions.
+
+**Use cases**
+
+* Change status fields
+* Set computed values
+* Mark records as processed
+
+
+#### Find record
+
+Finds a single record matching specified criteria. The found record or its ID can be used in subsequent actions.
+
+**Use cases**
+
+* Locate related records
+* Fetch data for later actions
+
+#### List records
+
+Retrieves multiple records that match defined filters. The resulting list can be used in flow nodes like **Iterate**.
+
+**Use cases**
+
+* Batch operations
+* Iteration using flow nodes
+
+
+#### Delete record
+
+Deletes a record from a table. ID of the record to delete can be specified using static values or data from previous actions.
+
+**Use cases**
+
+* Data cleanup
+* Lifecycle enforcement
+
+
+## Communication Actions
+
+### Send an email
+
+Sends an email using configured email settings.
+
+**Use cases**
+
+* Notifications
+* Alerts
+* User confirmations
+
+
+### Send message
+
+Sends a message to an external messaging service (for example, Slack).
+
+**Use cases**
+
+* Team notifications
+* Operational alerts
+* Workflow updates
+
+
+## Flow Nodes
+
+Flow nodes control how actions are executed within an automation. They enable conditional branching and iteration over records.
+
+
+### If / else
+
+Adds conditional branching to the workflow. Based on the evaluation of a condition, it directs execution to either the **If** branch or the **Else** branch. The condition can be based on data from previous actions.
+
+**Behavior**
+
+* Evaluates a condition
+* Executes actions in the **If** branch when condition is true
+* Executes actions in the **Else** branch when condition is false
+
+**Use cases**
+
+* Approval logic
+* Conditional notifications
+* Business rule enforcement
+
+
+### Iterate
+
+Repeats a set of actions for each item in specified list data (for example, records from **List records** action).
+
+**Behavior**
+
+* Accepts array output from previous action
+* Executes child actions once per array item
+
+**Use cases**
+
+* Bulk updates
+* Batch notifications
+* Record-by-record processing
+
+
+## Execution Order
+
+1. Trigger fires
+2. Actions execute top-to-bottom
+3. Flow nodes control branching or repetition
+4. Automation completes once all paths finish execution
+5. Logs are recorded for auditing
+
 
 ---
-
 

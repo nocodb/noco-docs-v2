@@ -1,0 +1,47 @@
+---
+title: 'Execution Logs'
+description: 'Learn how to view, understand, and debug workflow executions using logs in NocoDB.'
+tags: ['Workflow', 'Logs', 'Execution']
+keywords: ['NocoDB workflow logs', 'workflow execution logs', 'debug workflows', 'workflow monitoring']
+---
+
+**Execution Logs** provide complete visibility into how a workflow runs in NocoDB. Every time a workflow is triggered, NocoDB records detailed execution data—making it easy to monitor progress, verify outcomes, and troubleshoot failures.
+
+Execution logs help you understand **what triggered the workflow**, **how each node executed**, and **where issues occurred**, all in a single, structured view. This is especially useful when building complex workflows with multiple actions, integrations, or conditional logic.
+
+---
+
+## Accessing execution logs
+
+To view workflow execution logs:
+
+- Open the workflow
+- In the top toolbar, click the **Logs** tab
+- Select an execution run to inspect its details
+
+Each run represents a single execution of the workflow, captured from trigger to completion.
+
+---
+
+## Log views
+
+### Execution list
+View all workflow runs along with their execution status and timestamps. This view helps you quickly identify successful runs, failures, and recent activity.
+
+![Workflow Logs](/img/v2/workflow/logs-1.png)
+
+---
+
+### Execution summary
+Get a high-level overview of the selected execution, including trigger information and overall workflow status. This summary provides quick context before diving into individual node details.
+
+![Workflow Logs](/img/v2/workflow/logs-2.png)
+
+---
+
+### Node execution details
+Inspect execution details for each node in the workflow. Selecting a node displays its inputs, outputs, and execution status, making it easy to trace data flow and pinpoint errors.
+
+![Workflow Logs](/img/v2/workflow/logs-3.png)
+
+---

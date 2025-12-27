@@ -1,4 +1,5 @@
 {
   "title": "Nodes",
+  "defaultOpen": true,
   "pages": ["trigger-nodes", "flow-nodes", "action-nodes", "integration-nodes"]
 }
