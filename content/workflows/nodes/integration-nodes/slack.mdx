@@ -1,0 +1,30 @@
+---
+title: 'Slack'
+description: 'Send Slack messages as part of NocoDB workflows.'
+tags: ['Workflow', 'Integration', 'Communication']
+keywords: ['slack integration workflow', 'send slack message node']
+---
+
+The **Slack** integration node in NocoDB workflows allows you to send messages to Slack channels or users as part of an automated process. This node is commonly used to notify teams, post updates, or share alerts triggered by workflow events.
+
+![Slack Send Message Node](/img/v2/workflow/nodes/integration/slack-send-message.png)
+
+### Configuration
+- **Slack Account**: Select the connected Slack workspace used to send messages. Refer to [Integrations](/docs/product-docs/integrations/create-connection) for setup instructions. You will be required to add at least one Slack integration to use this feature.
+- **Channel / User**: Choose whether the message should be sent to a Slack channel or an individual user.
+- **Channel**: Select the target Slack channel (for example, `#noco-ai`).
+- **Message**: Define the message content. Static text and dynamic values from previous workflow nodes are supported.
+
+Additionally, you can also configure bot-name & bot-icon to customize the appearance of the Slack message sender.
+
+### How it works
+- When the workflow reaches the Slack node, it posts the configured message to the selected channel or user.
+- Dynamic data from earlier nodes is resolved before sending.
+- The workflow continues execution after the message is sent.
+
+### Use cases
+- Notify teams when records are created, updated, or deleted.
+- Post alerts for failures, approvals, or threshold breaches.
+- Share AI-generated summaries or workflow outcomes in Slack.
+
+---

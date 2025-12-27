@@ -1,4 +1,4 @@
 {
   "title": "Nodes",
-  "pages": ["trigger-nodes", "flow-nodes", "action-nodes"]
+  "pages": ["trigger-nodes", "flow-nodes", "action-nodes", "integration-nodes"]
 }
